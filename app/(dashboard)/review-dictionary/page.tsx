@@ -13,6 +13,10 @@ import {
   CheckCircle,
   Trophy,
   RotateCcw,
+  BookOpen,
+  Puzzle,
+  GraduationCap,
+  Layers,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -35,6 +39,78 @@ interface LevelInfo {
 const STAGE_SIZE_PRESETS = [10, 20, 30, 50]
 const DEFAULT_STAGE_SIZE = 50
 const ITEMS_PER_ROUND = 6
+
+// Small circular progress indicator used on each level card — a quick "at a glance"
+// read on how far along a level is, complementing the linear bar underneath it.
+function ProgressRing({ percent, size = 52, stroke = 5 }: { percent: number; size?: number; stroke?: number }) {
+  const radius = (size - stroke) / 2
+  const circumference = 2 * Math.PI * radius
+  const offset = circumference - (Math.min(100, Math.max(0, percent)) / 100) * circumference
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={radius} stroke="#eef0f3" strokeWidth={stroke} fill="none" />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#34d399"
+          strokeWidth={stroke}
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          className="transition-all duration-500"
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-[11px] font-black text-slate-600">{Math.round(percent)}%</span>
+      </div>
+    </div>
+  )
+}
+
+// Horizontal stepper shown at the top of the flashcard/matching/complete screens so
+// it's always visually clear where you are in the "học thẻ → nối từ → hoàn thành"
+// pipeline for the current stage, instead of just a bare "Đợt X/Y" label.
+function StepTracker({ current }: { current: 1 | 2 | 3 }) {
+  const steps: { n: 1 | 2 | 3; label: string; icon: typeof BookOpen }[] = [
+    { n: 1, label: 'Flashcards', icon: BookOpen },
+    { n: 2, label: 'Nối Từ', icon: Puzzle },
+    { n: 3, label: 'Hoàn Thành', icon: Trophy },
+  ]
+  return (
+    <div className="flex items-center justify-center gap-1.5 sm:gap-2 py-1">
+      {steps.map((s, i) => {
+        const Icon = s.icon
+        const state = s.n < current ? 'done' : s.n === current ? 'active' : 'upcoming'
+        return (
+          <React.Fragment key={s.n}>
+            <div className="flex flex-col items-center gap-1">
+              <div
+                className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all ${
+                  state === 'done'
+                    ? 'bg-emerald-400 border-emerald-500 text-white'
+                    : state === 'active'
+                    ? 'bg-[#1877f2] border-blue-600 text-white shadow-md scale-110'
+                    : 'bg-white border-slate-200 text-slate-300'
+                }`}
+              >
+                {state === 'done' ? <CheckCircle className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+              </div>
+              <span className={`text-[10px] font-black uppercase tracking-wide ${state === 'upcoming' ? 'text-slate-300' : 'text-slate-600'}`}>
+                {s.label}
+              </span>
+            </div>
+            {i < steps.length - 1 && (
+              <div className={`h-0.5 w-8 sm:w-16 rounded-full mb-4 transition-all ${s.n < current ? 'bg-emerald-400' : 'bg-slate-200'}`} />
+            )}
+          </React.Fragment>
+        )
+      })}
+    </div>
+  )
+}
 
 export default function ReviewDictionaryPage() {
   const supabase = createClient()
@@ -347,58 +423,69 @@ export default function ReviewDictionaryPage() {
     <div className="space-y-6">
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
         <span>📔</span> Ôn Tập Theo Từ Điển
+        <span className="text-[#1877f2] animate-sparkle">✦</span>
       </h2>
 
       {step === 'select' ? (
         <div className="space-y-6">
           {!pendingLevel ? (
             <>
-              <div className="bg-gradient-to-r from-blue-400 to-sky-500 text-white p-6 rounded-[24px] shadow-sm space-y-2">
-                <h3 className="text-xl font-extrabold flex items-center gap-2">
+              <div className="relative overflow-hidden bg-gradient-to-r from-blue-400 to-sky-500 text-white p-6 rounded-[24px] shadow-sm space-y-2">
+                <GraduationCap className="w-28 h-28 absolute -right-4 -bottom-6 text-white/15 rotate-[-12deg] pointer-events-none" />
+                <h3 className="text-xl font-extrabold flex items-center gap-2 relative">
                   <Sparkles className="w-6 h-6 animate-pulse" /> Chọn Cấp Độ Để Ôn Tập
                 </h3>
-                <p className="font-semibold text-sm text-white/90">
+                <p className="font-semibold text-sm text-white/90 relative max-w-lg">
                   Mỗi cấp độ được chia thành nhiều đợt (bạn chọn số từ mỗi đợt). Học hết đợt này sẽ chuyển sang
                   đợt tiếp theo, không lặp lại từ đã học cho đến khi hoàn thành toàn bộ cấp độ.
                 </p>
               </div>
 
-              <div className="cartoon-card p-6 bg-white space-y-3">
-                {loading ? (
-                  <div className="p-8 text-center">
-                    <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                    <p className="text-xs text-slate-400 font-bold">Đang tải dữ liệu từ điển...</p>
-                  </div>
-                ) : levelInfos.length === 0 ? (
-                  <p className="text-slate-400 font-semibold text-center py-6">
-                    Chưa có dữ liệu từ điển. Vui lòng import từ điển trước.
-                  </p>
-                ) : (
-                  levelInfos.map((info) => {
+              {loading ? (
+                <div className="cartoon-card p-8 bg-white text-center">
+                  <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                  <p className="text-xs text-slate-400 font-bold">Đang tải dữ liệu từ điển...</p>
+                </div>
+              ) : levelInfos.length === 0 ? (
+                <div className="cartoon-card p-8 bg-white text-center space-y-2">
+                  <span className="text-5xl inline-block">📭</span>
+                  <p className="text-slate-400 font-semibold">Chưa có dữ liệu từ điển. Vui lòng import từ điển trước.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {levelInfos.map((info) => {
                     const isDone = info.learned >= info.total
+                    const pct = info.total ? (info.learned / info.total) * 100 : 0
                     return (
                       <button
                         key={info.level}
                         onClick={() => { setPendingLevel(info.level); setStageSizeChoice(DEFAULT_STAGE_SIZE); setCustomStageSize('') }}
-                        className="w-full flex items-center justify-between p-4 rounded-2xl border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-left"
+                        className="cartoon-card p-5 bg-white text-left flex items-center gap-4"
                       >
-                        <div>
-                          <span className="font-black text-slate-800 text-lg">{info.level}</span>
-                          <p className="text-xs font-bold text-slate-400">
-                            {info.learned}/{info.total} từ đã học {isDone && '🎉'}
-                          </p>
+                        <ProgressRing percent={pct} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-black text-slate-800 text-xl">{info.level}</span>
+                            {isDone && (
+                              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-100 text-amber-600 whitespace-nowrap">
+                                🎉 Hoàn thành
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs font-bold text-slate-400 mt-0.5">{info.learned}/{info.total} từ đã học</p>
+                          <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden mt-2">
+                            <div
+                              className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full transition-all"
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
                         </div>
-                        <div className="w-24 h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-emerald-400 rounded-full transition-all"
-                            style={{ width: `${info.total ? (info.learned / info.total) * 100 : 0}%` }}
-                          />
-                        </div>
+                        <ArrowRight className="w-5 h-5 text-slate-300 shrink-0" />
                       </button>
                     )
-                  })
-                )}
-              </div>
+                  })}
+                </div>
+              )}
             </>
           ) : (
             <div className="cartoon-card p-6 bg-white space-y-4">
@@ -409,25 +496,42 @@ export default function ReviewDictionaryPage() {
                 <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn cấp độ
               </button>
 
-              <h4 className="font-black text-slate-800 text-lg">{pendingLevel} — Số từ mỗi đợt ôn</h4>
-              <p className="text-xs text-slate-500 font-semibold">
-                Học xong flashcard của một đợt xong sẽ chuyển sang bài tập nối từ, rồi mới đến đợt tiếp theo.
-              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 shrink-0">
+                  <Layers className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-black text-slate-800 text-lg">{pendingLevel} — Số từ mỗi đợt ôn</h4>
+                  <p className="text-xs text-slate-500 font-semibold">
+                    Học xong flashcard của một đợt sẽ chuyển sang bài tập nối từ, rồi mới đến đợt tiếp theo.
+                  </p>
+                </div>
+              </div>
 
               <div className="flex flex-wrap gap-2">
-                {STAGE_SIZE_PRESETS.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => { setStageSizeChoice(n); setCustomStageSize('') }}
-                    className={`px-4 py-2 rounded-xl font-black text-sm transition-all ${
-                      !customStageSize && stageSizeChoice === n
-                        ? 'bg-[#1877f2] text-white shadow-sm'
-                        : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
-                    }`}
-                  >
-                    {n} từ
-                  </button>
-                ))}
+                {STAGE_SIZE_PRESETS.map((n) => {
+                  const total = levelInfos.find((l) => l.level === pendingLevel)?.total ?? 0
+                  const stages = total ? Math.ceil(total / n) : 0
+                  const active = !customStageSize && stageSizeChoice === n
+                  return (
+                    <button
+                      key={n}
+                      onClick={() => { setStageSizeChoice(n); setCustomStageSize('') }}
+                      className={`px-4 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${
+                        active
+                          ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
+                          : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-blue-200'
+                      }`}
+                    >
+                      <span className="block">{n} từ</span>
+                      {stages > 0 && (
+                        <span className={`block text-[10px] font-bold normal-case ${active ? 'text-white/80' : 'text-slate-400'}`}>
+                          ≈ {stages} đợt
+                        </span>
+                      )}
+                    </button>
+                  )
+                })}
               </div>
 
               <div>
@@ -462,13 +566,20 @@ export default function ReviewDictionaryPage() {
       ) : step === 'flashcard' ? (
         <div className="space-y-6">
           <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
-            <span className="font-extrabold text-sm text-slate-500 uppercase">
-              {activeLevel} · Đợt {stageNumber}/{totalStages} · Học Flashcards
-            </span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <span className="font-extrabold text-sm text-slate-500 uppercase">
+                {activeLevel} · Đợt {stageNumber}/{totalStages} · Học Flashcards
+              </span>
+            </div>
             <button onClick={() => setStep('select')} className="font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
+
+          <StepTracker current={1} />
 
           <div className="space-y-2">
             <div className="flex justify-between text-xs font-black text-slate-500">
@@ -477,7 +588,7 @@ export default function ReviewDictionaryPage() {
             </div>
             <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-400 rounded-full transition-all duration-300"
+                className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full transition-all duration-300"
                 style={{ width: `${(flashIdx / stageWords.length) * 100}%` }}
               />
             </div>
@@ -519,21 +630,31 @@ export default function ReviewDictionaryPage() {
       ) : step === 'matching' ? (
         <div className="space-y-6">
           <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
-            <div>
-              <span className="font-black text-slate-800 block text-sm">{getMatchingTitle()}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase">
-                {activeLevel} · Đợt {stageNumber}/{totalStages} · Vòng {matchingRound + 1}/{Math.ceil(stageWords.length / ITEMS_PER_ROUND)}
-              </span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 shrink-0">
+                <Puzzle className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-black text-slate-800 block text-sm">{getMatchingTitle()}</span>
+                <span className="text-[10px] text-slate-500 font-bold uppercase">
+                  {activeLevel} · Đợt {stageNumber}/{totalStages} · Vòng {matchingRound + 1}/{Math.ceil(stageWords.length / ITEMS_PER_ROUND)}
+                </span>
+              </div>
             </div>
             <button onClick={() => setStep('select')} className="font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
 
+          <StepTracker current={2} />
+
           <MatchingExercise vocabs={roundVocabs} matchType={matchingType} onComplete={handleRoundComplete} />
         </div>
       ) : (
-        <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
+        <div className="space-y-6">
+          <StepTracker current={3} />
+
+          <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
           <div className="w-20 h-20 bg-emerald-100 rounded-full shadow-md flex items-center justify-center text-emerald-500 mx-auto">
             {levelFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
           </div>
@@ -547,6 +668,9 @@ export default function ReviewDictionaryPage() {
                 ? `Chúc mừng! Bạn đã học hết toàn bộ từ vựng cấp độ ${activeLevel}.`
                 : `Còn ${totalStages - stageNumber} đợt nữa để hoàn thành cấp độ ${activeLevel}.`}
             </p>
+            <span className="inline-block text-xs font-black px-3 py-1 rounded-full bg-blue-50 text-blue-600">
+              +{stageWords.length} từ đã ôn trong đợt này
+            </span>
           </div>
 
           {levelFullyComplete ? (
@@ -574,6 +698,7 @@ export default function ReviewDictionaryPage() {
               </button>
             </div>
           )}
+          </div>
         </div>
       )}
     </div>

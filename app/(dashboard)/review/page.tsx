@@ -26,6 +26,9 @@ interface VocabItem {
   hanzi: string
   pinyin: string
   vietnamese: string
+  example_hanzi?: string | null
+  example_pinyin?: string | null
+  example_vietnamese?: string | null
 }
 
 export default function ReviewPage() {
@@ -134,7 +137,7 @@ export default function ReviewPage() {
       const setIds = sets.map(s => s.id)
       const { data: list } = await supabase
         .from('vocabularies')
-        .select('id, hanzi, pinyin, vietnamese')
+        .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
         .in('set_id', setIds)
 
       if (list && list.length > 0) {
@@ -321,7 +324,7 @@ export default function ReviewPage() {
                       onClick={() => toggleDateSelection(d)}
                       className={`px-4 py-2 rounded-xl border-2 font-bold text-sm transition-all flex items-center justify-between ${
                         isSelected
-                          ? 'bg-blue-500 border-slate-800 text-white shadow-[2px_2px_0px_0px_#1e293b]'
+                          ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
                           : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                       }`}
                     >
@@ -345,11 +348,16 @@ export default function ReviewPage() {
       ) : step === 'flashcard' ? (
         /* FLASHCARD MERGED STUDY */
         <div className="space-y-6">
-          <div className="flex justify-between items-center bg-slate-100 p-3 rounded-2xl border-3 border-slate-800">
-            <span className="font-extrabold text-sm text-slate-500 uppercase">
-              Phần 1: Học Thẻ Flashcards
-            </span>
-            <button 
+          <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <span className="font-extrabold text-sm text-slate-500 uppercase">
+                Phần 1: Học Thẻ Flashcards
+              </span>
+            </div>
+            <button
               onClick={() => setStep('select')}
               className="font-extrabold text-xs text-red-500 hover:underline"
             >
@@ -362,20 +370,29 @@ export default function ReviewPage() {
               <span>TIẾN ĐỘ: {flashIdx} / {mergedVocabs.length} TỪ</span>
               <span>{Math.round((flashIdx / mergedVocabs.length) * 100)}%</span>
             </div>
-            <div className="h-4 w-full bg-slate-200 border-3 border-slate-800 rounded-full overflow-hidden p-0.5">
-              <div 
-                className="h-full bg-emerald-400 rounded-full border-r-3 border-slate-800 transition-all duration-300"
+            <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full transition-all duration-300"
                 style={{ width: `${(flashIdx / mergedVocabs.length) * 100}%` }}
               ></div>
             </div>
           </div>
 
-          <Flashcard 
+          <Flashcard
             hanzi={mergedVocabs[flashIdx].hanzi}
             pinyin={mergedVocabs[flashIdx].pinyin}
             vietnamese={mergedVocabs[flashIdx].vietnamese}
             isFlipped={isFlipped}
             onFlip={() => setIsFlipped(!isFlipped)}
+            example={
+              mergedVocabs[flashIdx].example_hanzi
+                ? {
+                    sentence: mergedVocabs[flashIdx].example_hanzi!,
+                    pinyin: mergedVocabs[flashIdx].example_pinyin || '',
+                    translation: mergedVocabs[flashIdx].example_vietnamese || '',
+                  }
+                : undefined
+            }
           />
 
           <div className="flex justify-between items-center gap-4 max-w-md mx-auto">
@@ -405,14 +422,19 @@ export default function ReviewPage() {
       ) : step === 'matching' ? (
         /* MATCHING GAME (BATCHED BY ITEMS_PER_ROUND) */
         <div className="space-y-6">
-          <div className="flex justify-between items-center bg-slate-100 p-3 rounded-2xl border-3 border-slate-800">
-            <div>
-              <span className="font-black text-slate-800 block text-sm">{getReviewTitle()}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase">
-                Vòng {matchingRound + 1} / {Math.ceil(mergedVocabs.length / ITEMS_PER_ROUND)}
-              </span>
+          <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 shrink-0">
+                <Dumbbell className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-black text-slate-800 block text-sm">{getReviewTitle()}</span>
+                <span className="text-[10px] text-slate-500 font-bold uppercase">
+                  Vòng {matchingRound + 1} / {Math.ceil(mergedVocabs.length / ITEMS_PER_ROUND)}
+                </span>
+              </div>
             </div>
-            <button 
+            <button
               onClick={() => setStep('select')}
               className="font-extrabold text-xs text-red-500 hover:underline"
             >
@@ -429,7 +451,7 @@ export default function ReviewPage() {
       ) : (
         /* COMPLETE SCREEN */
         <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
-          <div className="w-20 h-20 bg-emerald-100 rounded-full border-4 border-slate-800 shadow-[3px_3px_0px_0px_#1e293b] flex items-center justify-center text-emerald-500 mx-auto">
+          <div className="w-20 h-20 bg-emerald-100 rounded-full shadow-md flex items-center justify-center text-emerald-500 mx-auto">
             <CheckCircle className="w-12 h-12" />
           </div>
           

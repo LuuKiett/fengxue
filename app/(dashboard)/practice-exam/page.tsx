@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
 import {
-  generatePracticeQuestions,
   LISTENING_TYPES,
+  FULL_MOCK_READING_TYPES,
   type PracticeQuestion,
   type PracticeWord,
 } from '@/lib/utils/practiceGenerator'
+import { buildPassageBlocks, buildMockSection, buildQuickSet, type ComprehensionPassageData } from '@/lib/utils/examGenerator'
+import { speak } from '@/lib/utils/speak'
 import {
   Sparkles,
   Volume2,
@@ -33,13 +35,17 @@ const LISTENING_COUNT = 50
 const READING_COUNT = 50
 const SECTION_TIME = 60 * 60
 
-function speak(text: string) {
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'zh-TW'
-    utterance.rate = 0.85
-    window.speechSynthesis.speak(utterance)
-  }
+// Speaks a two-speaker dialogue line by line ("A：…\nB：…"), stripping the speaker
+// label before speaking it and alternating pitch per speaker so the two voices are
+// easier to tell apart by ear — there's no real multi-voice TTS available here.
+function speakDialogue(passageHanzi: string) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+  window.speechSynthesis.cancel()
+  const lines = passageHanzi.split('\n').filter((l) => l.trim().length > 0)
+  lines.forEach((line, i) => {
+    const spoken = line.replace(/^\s*[^\s:：]{1,2}[:：]\s*/, '')
+    speak(spoken, { pitch: i % 2 === 0 ? 1 : 1.3 })
+  })
 }
 
 function formatTime(totalSeconds: number) {
@@ -72,6 +78,9 @@ export default function PracticeExamPage() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [score, setScore] = useState(0)
   const [sectionScores, setSectionScores] = useState({ listening: 0, reading: 0 })
+  // Listening passages hide their hanzi transcript by default (revealing it would let
+  // you read the answer instead of listening for it) — this toggles a manual reveal.
+  const [showTranscript, setShowTranscript] = useState(false)
 
   useEffect(() => {
     async function loadLevels() {
@@ -92,6 +101,13 @@ export default function PracticeExamPage() {
   const currentQuestion = questions[currentIndex]
   const isListeningQuestion =
     examMode === 'full' && section === 'listening' && currentQuestion?.type === 'mcq' && currentQuestion.promptIsHanzi
+  const isListeningPassage = currentQuestion?.type === 'passage' && currentQuestion.mode === 'listening'
+  const isPictureQuestion = currentQuestion?.type === 'picture'
+  // Real exams never reveal per-question correctness — only the final score. Quick
+  // practice is the opposite: instant right/wrong feedback is the point, so you learn
+  // as you go. `answered` still gates advancing to the next question in both modes;
+  // this only controls whether the answer is actually *shown*.
+  const showFeedback = answered && examMode === 'quick'
 
   // Countdown for the "full mock exam" mode, matching real per-section time limits.
   useEffect(() => {
@@ -113,26 +129,56 @@ export default function PracticeExamPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, isListeningQuestion])
 
+  // Auto-play the word for picture-choice (看圖辨義) questions — same idea as the plain
+  // listening MCQ above, just a separate question type since the options are emoji.
+  useEffect(() => {
+    if (isPictureQuestion && currentQuestion?.type === 'picture') {
+      speak(currentQuestion.prompt)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, isPictureQuestion])
+
+  // Auto-play listening-dialogue passages every time their question comes up (a
+  // passage spans multiple consecutive sub-questions, and since each is its own
+  // screen, replaying on every one of them means you never land on a sub-question
+  // without having just heard the audio for it).
+  useEffect(() => {
+    if (isListeningPassage && currentQuestion?.type === 'passage') {
+      speakDialogue(currentQuestion.passageHanzi)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, isListeningPassage])
+
   const startQuiz = async (lvl: string) => {
     setLevel(lvl)
     setLoadingQuiz(true)
     try {
-      const { data } = await supabase
-        .from('dictionary_words')
-        .select('id, hanzi, pinyin, vietnamese, pos, example_hanzi, example_pinyin, example_vietnamese')
-        .eq('level', lvl)
+      const [{ data }, { data: passageData }] = await Promise.all([
+        supabase
+          .from('dictionary_words')
+          .select('id, hanzi, pinyin, vietnamese, pos, example_hanzi, example_pinyin, example_vietnamese')
+          .eq('level', lvl),
+        supabase
+          .from('comprehension_passages')
+          .select('id, mode, passage_hanzi, passage_pinyin, passage_vietnamese, comprehension_questions(id, order_index, question_hanzi, options, correct_index)')
+          .eq('level', lvl),
+      ])
 
       const words = (data || []) as PracticeWord[]
+      const passages = (passageData || []) as ComprehensionPassageData[]
 
       let generated: PracticeQuestion[]
       if (examMode === 'full') {
-        const listeningQs = generatePracticeQuestions(words, LISTENING_COUNT, LISTENING_TYPES)
-        const readingQs = generatePracticeQuestions(words, READING_COUNT)
+        const listeningBlocks = buildPassageBlocks(passages.filter((p) => p.mode === 'listening'))
+        const readingBlocks = buildPassageBlocks(passages.filter((p) => p.mode === 'reading'))
+        const listeningQs = buildMockSection(words, listeningBlocks, LISTENING_COUNT, LISTENING_TYPES)
+        const readingQs = buildMockSection(words, readingBlocks, READING_COUNT, FULL_MOCK_READING_TYPES)
         generated = [...listeningQs, ...readingQs]
         setSection('listening')
         setTimeRemaining(SECTION_TIME)
       } else {
-        generated = generatePracticeQuestions(words, questionCount)
+        const allBlocks = buildPassageBlocks(passages)
+        generated = buildQuickSet(words, allBlocks, questionCount)
         setSection(null)
       }
 
@@ -153,6 +199,7 @@ export default function PracticeExamPage() {
     setSelectedIndex(null)
     setAnswered(false)
     setIsCorrect(null)
+    setShowTranscript(false)
     if (q?.type === 'reorder') {
       setReorderBank(q.segments)
       setReorderAnswer([])
@@ -170,7 +217,7 @@ export default function PracticeExamPage() {
 
   const handleSelectOption = (optionIndex: number) => {
     if (answered || !currentQuestion) return
-    if (currentQuestion.type !== 'mcq' && currentQuestion.type !== 'cloze') return
+    if (currentQuestion.type !== 'mcq' && currentQuestion.type !== 'cloze' && currentQuestion.type !== 'passage' && currentQuestion.type !== 'picture') return
 
     const correct = optionIndex === currentQuestion.correctIndex
     setSelectedIndex(optionIndex)
@@ -268,7 +315,7 @@ export default function PracticeExamPage() {
             </h3>
             <p className="font-semibold text-sm text-white/90">
               Đề được tự động sinh ra từ bộ từ điển TOCFL đã import (trắc nghiệm, điền từ vào câu, sắp xếp câu),
-              xáo trộn khác nhau mỗi lần làm để luyện tập hiệu quả cho kỳ thi A1/A2.
+              kèm đoạn hội thoại nghe và đoạn văn đọc hiểu, xáo trộn khác nhau mỗi lần làm để luyện tập hiệu quả cho kỳ thi A1/A2.
             </p>
           </div>
 
@@ -389,6 +436,10 @@ export default function PracticeExamPage() {
               </span>
               <span className="text-[10px] text-slate-400 font-bold uppercase">
                 Câu {sectionQuestionNumber}/{sectionQuestionTotal}
+                {examMode === 'full' &&
+                  (currentQuestion.type === 'passage'
+                    ? ` · Phần 2: ${currentQuestion.mode === 'listening' ? 'Hội thoại' : 'Đoạn văn'} (câu ${currentQuestion.subIndex}/${currentQuestion.subTotal})`
+                    : ' · Phần 1: Câu rời rạc')}
               </span>
             </div>
             <div className="flex items-center gap-3">
@@ -444,8 +495,9 @@ export default function PracticeExamPage() {
                     const isSelected = selectedIndex === i
                     const isCorrectOption = i === currentQuestion.correctIndex
                     let cls = 'bg-white border-slate-200 hover:bg-slate-50'
-                    if (answered && isCorrectOption) cls = 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                    else if (answered && isSelected && !isCorrectOption) cls = 'bg-red-50 border-red-300 text-red-600 animate-shake'
+                    if (showFeedback && isCorrectOption) cls = 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                    else if (showFeedback && isSelected && !isCorrectOption) cls = 'bg-red-50 border-red-300 text-red-600 animate-shake'
+                    else if (answered && isSelected) cls = 'bg-blue-50 border-blue-300 text-blue-700'
                     return (
                       <button
                         key={i}
@@ -465,13 +517,49 @@ export default function PracticeExamPage() {
               </>
             )}
 
+            {currentQuestion.type === 'picture' && (
+              <>
+                <div className="flex flex-col items-center gap-3 py-2">
+                  <button
+                    onClick={() => speak(currentQuestion.prompt)}
+                    className="w-20 h-20 rounded-full bg-blue-50 border-2 border-blue-200 flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all"
+                    title="Nghe lại"
+                  >
+                    <Volume2 className="w-9 h-9" />
+                  </button>
+                  <span className="text-xs font-bold text-slate-400">Nghe và chọn hình đúng</span>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {currentQuestion.options.map((opt, i) => {
+                    const isSelected = selectedIndex === i
+                    const isCorrectOption = i === currentQuestion.correctIndex
+                    let cls = 'bg-white border-slate-200 hover:bg-slate-50'
+                    if (showFeedback && isCorrectOption) cls = 'bg-emerald-50 border-emerald-300'
+                    else if (showFeedback && isSelected && !isCorrectOption) cls = 'bg-red-50 border-red-300 animate-shake'
+                    else if (answered && isSelected) cls = 'bg-blue-50 border-blue-300'
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => handleSelectOption(i)}
+                        disabled={answered}
+                        className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-1.5 ${cls}`}
+                      >
+                        <span className="text-[10px] font-black text-slate-400">{String.fromCharCode(65 + i)}</span>
+                        <span className="text-6xl leading-none">{opt}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </>
+            )}
+
             {currentQuestion.type === 'cloze' && (
               <>
                 <div className="text-center space-y-2">
                   <p className="font-chinese text-4xl font-bold text-slate-800 leading-relaxed">
                     {currentQuestion.before}
                     <span className="inline-block min-w-[2.5rem] border-b-4 border-dashed border-blue-400 mx-1 text-blue-400">
-                      {answered ? currentQuestion.answer : '   '}
+                      {showFeedback ? currentQuestion.answer : '   '}
                     </span>
                     {currentQuestion.after}
                   </p>
@@ -483,8 +571,9 @@ export default function PracticeExamPage() {
                     const isSelected = selectedIndex === i
                     const isCorrectOption = i === currentQuestion.correctIndex
                     let cls = 'bg-white border-slate-200 hover:bg-slate-50'
-                    if (answered && isCorrectOption) cls = 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                    else if (answered && isSelected && !isCorrectOption) cls = 'bg-red-50 border-red-300 text-red-600 animate-shake'
+                    if (showFeedback && isCorrectOption) cls = 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                    else if (showFeedback && isSelected && !isCorrectOption) cls = 'bg-red-50 border-red-300 text-red-600 animate-shake'
+                    else if (answered && isSelected) cls = 'bg-blue-50 border-blue-300 text-blue-700'
                     return (
                       <button
                         key={i}
@@ -530,7 +619,7 @@ export default function PracticeExamPage() {
                     </button>
                   ))}
                 </div>
-                {answered && isCorrect === false && (
+                {showFeedback && isCorrect === false && (
                   <p className="text-center text-sm font-bold text-red-500">
                     Đáp án đúng: <span className="font-chinese text-4xl">{currentQuestion.correctOrder.join('')}</span>
                   </p>
@@ -547,10 +636,77 @@ export default function PracticeExamPage() {
               </>
             )}
 
-            {answered && (
+            {currentQuestion.type === 'passage' && (
+              <>
+                {currentQuestion.mode === 'reading' ? (
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2 text-left">
+                    <p className="font-chinese text-2xl font-bold text-slate-800 leading-relaxed whitespace-pre-line">
+                      {currentQuestion.passageHanzi}
+                    </p>
+                    <p className="text-xs text-blue-500 italic">{currentQuestion.passagePinyin}</p>
+                    <p className="text-xs text-slate-500 font-semibold">{currentQuestion.passageVietnamese}</p>
+                  </div>
+                ) : (
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 text-center">
+                    <button
+                      onClick={() => speakDialogue(currentQuestion.passageHanzi)}
+                      className="w-16 h-16 rounded-full bg-blue-50 border-2 border-blue-200 flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all mx-auto"
+                      title="Nghe lại hội thoại"
+                    >
+                      <Volume2 className="w-7 h-7" />
+                    </button>
+                    <button
+                      onClick={() => setShowTranscript((s) => !s)}
+                      className="text-xs font-bold text-blue-500 hover:underline block mx-auto"
+                    >
+                      {showTranscript ? 'Ẩn lời thoại' : 'Hiện lời thoại'}
+                    </button>
+                    {showTranscript && (
+                      <div className="text-left space-y-1 pt-2 border-t border-slate-200">
+                        <p className="font-chinese text-xl font-bold text-slate-800 whitespace-pre-line">
+                          {currentQuestion.passageHanzi}
+                        </p>
+                        <p className="text-xs text-blue-500 italic whitespace-pre-line">{currentQuestion.passagePinyin}</p>
+                        <p className="text-xs text-slate-500 font-semibold">{currentQuestion.passageVietnamese}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <p className="font-chinese text-3xl font-bold text-slate-800 text-center">{currentQuestion.prompt}</p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {currentQuestion.options.map((opt, i) => {
+                    const isSelected = selectedIndex === i
+                    const isCorrectOption = i === currentQuestion.correctIndex
+                    let cls = 'bg-white border-slate-200 hover:bg-slate-50'
+                    if (showFeedback && isCorrectOption) cls = 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                    else if (showFeedback && isSelected && !isCorrectOption) cls = 'bg-red-50 border-red-300 text-red-600 animate-shake'
+                    else if (answered && isSelected) cls = 'bg-blue-50 border-blue-300 text-blue-700'
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => handleSelectOption(i)}
+                        disabled={answered}
+                        className={`p-3 rounded-2xl border-2 font-chinese font-bold text-2xl transition-all ${cls}`}
+                      >
+                        {opt}
+                      </button>
+                    )
+                  })}
+                </div>
+              </>
+            )}
+
+            {showFeedback && (
               <div className={`flex items-center justify-center gap-2 font-black text-sm ${isCorrect ? 'text-emerald-600' : 'text-red-500'}`}>
                 {isCorrect ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                 {isCorrect ? 'Chính xác!' : 'Chưa đúng'}
+              </div>
+            )}
+            {answered && examMode === 'full' && (
+              <div className="flex items-center justify-center gap-2 font-black text-sm text-blue-500">
+                <CheckCircle className="w-5 h-5" /> Đã ghi nhận đáp án
               </div>
             )}
           </div>

@@ -226,7 +226,7 @@ export default function ExercisesPage() {
                     <span className="self-start">{day.getDate()}</span>
                     {vocabCount > 0 && (
                       <span
-                        className="absolute top-10 right-11 min-w-[15px] px-1 text-lg font-black rounded-full bg-white/90 text-green-600 border border-green-100 text-center leading-tight"
+                        className="absolute right-0 top-0 md:top-10 md:right-11 min-w-[px] px-1 md:text-lg text-xs font-black rounded-full bg-white/90 text-green-600 border border-green-100 text-center leading-tight"
                         title={`${vocabCount} từ vựng`}
                       >
                         {vocabCount}

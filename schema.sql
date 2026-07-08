@@ -50,6 +50,10 @@ CREATE TABLE IF NOT EXISTS public.vocabularies (
     pinyin TEXT NOT NULL,
     vietnamese TEXT NOT NULL,
     order_index INTEGER DEFAULT 0,
+    -- Backfilled at Excel-import time when the word matches dictionary_words
+    example_hanzi TEXT,
+    example_pinyin TEXT,
+    example_vietnamese TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -156,6 +160,45 @@ CREATE POLICY "Users can manage own practice sessions"
     ON public.practice_sessions FOR ALL
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id);
+
+-- Create comprehension_passages / comprehension_questions tables
+-- Shared, read-only reading/listening comprehension content for the practice-exam
+-- feature (short passages and two-speaker dialogues), modeled on TOCFL Band A's
+-- 短文閱讀 (reading passage) and 問答/言談理解 (listening dialogue) question types.
+-- Rows are written only by scripts/build-comprehension-seed.js, never by end users.
+CREATE TABLE IF NOT EXISTS public.comprehension_passages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    level TEXT NOT NULL,             -- 'A1' | 'A2'
+    mode TEXT NOT NULL,              -- 'reading' | 'listening'
+    passage_hanzi TEXT NOT NULL,     -- đoạn văn, hoặc hội thoại dạng "A：...\nB：..."
+    passage_pinyin TEXT NOT NULL,
+    passage_vietnamese TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.comprehension_passages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone authenticated can read comprehension passages"
+    ON public.comprehension_passages FOR SELECT
+    TO authenticated
+    USING (true);
+
+CREATE TABLE IF NOT EXISTS public.comprehension_questions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    passage_id UUID NOT NULL REFERENCES public.comprehension_passages(id) ON DELETE CASCADE,
+    order_index INTEGER NOT NULL DEFAULT 0,
+    question_hanzi TEXT NOT NULL,
+    options TEXT[] NOT NULL,
+    correct_index INTEGER NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.comprehension_questions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone authenticated can read comprehension questions"
+    ON public.comprehension_questions FOR SELECT
+    TO authenticated
+    USING (true);
 
 -- ============================================================
 -- TRIGGER: Auto-create profile on user signup

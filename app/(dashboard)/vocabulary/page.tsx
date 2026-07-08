@@ -24,6 +24,9 @@ interface VocabItem {
   hanzi: string
   pinyin: string
   vietnamese: string
+  example_hanzi?: string | null
+  example_pinyin?: string | null
+  example_vietnamese?: string | null
 }
 
 export default function VocabularyPage() {
@@ -41,6 +44,11 @@ export default function VocabularyPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editItem, setEditItem] = useState<VocabItem | null>(null)
+  // Import date picker — defaults to whatever date is currently selected on the page,
+  // so importing "just works" for the common case, but is still overridable via the
+  // calendar before you pick a file.
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false)
+  const [importDate, setImportDate] = useState(date)
 
   // Multi-row add form state
   const [newRows, setNewRows] = useState<Omit<VocabItem, 'id'>[]>([
@@ -79,7 +87,7 @@ export default function VocabularyPage() {
       // Fetch all vocab for this set
       const { data: vocabs, error: fetchErr } = await supabase
         .from('vocabularies')
-        .select('id, hanzi, pinyin, vietnamese')
+        .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
         .eq('set_id', vocabSet.id)
         .order('order_index', { ascending: true })
 
@@ -351,12 +359,70 @@ export default function VocabularyPage() {
     setComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
   }
 
+  // ── Edit-modal pinyin autocomplete — same TOCFL suggestion engine as the Add form
+  // (loadTocflIndex/prefixSearchKeys/segmentPinyin above), just single-row since the
+  // edit modal only ever edits one word at a time instead of an array of rows.
+  const [editComposingBuffer, setEditComposingBuffer] = useState('')
+  const [editSuggestions, setEditSuggestions] = useState<SuggestionEntry[]>([])
+  const editDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const lookupEditSuggestions = (query: string) => {
+    if (editDebounceRef.current) clearTimeout(editDebounceRef.current)
+
+    const normalizedQuery = stripTones(query)
+    if (!normalizedQuery) {
+      setEditSuggestions([])
+      return
+    }
+
+    editDebounceRef.current = setTimeout(async () => {
+      if (!tocflIndexRef.current) await loadTocflIndex()
+      const idx = tocflIndexRef.current
+      if (!idx) return
+
+      let results: TocflEntry[] = idx[normalizedQuery] || []
+      if (results.length === 0) {
+        const keys = sortedKeysRef.current ?? Object.keys(idx).sort()
+        sortedKeysRef.current = keys
+        const matchingKeys = prefixSearchKeys(keys, normalizedQuery).filter(k => k !== normalizedQuery)
+        results = matchingKeys
+          .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
+          .flatMap(k => idx[k])
+          .slice(0, 8)
+      }
+
+      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
+      setEditSuggestions(finalResults)
+    }, 150)
+  }
+
+  const updateEditComposingBuffer = (value: string) => {
+    setEditComposingBuffer(value)
+    lookupEditSuggestions(value)
+  }
+
+  const selectEditSuggestion = (item: SuggestionEntry) => {
+    setEditHanzi(prev => prev + item.t)
+    setEditPinyin(prev => (prev ? `${prev} ${item.p}` : item.p))
+    setEditComposingBuffer('')
+    setEditSuggestions([])
+  }
+
+  const clearEditComposition = () => {
+    setEditHanzi('')
+    setEditPinyin('')
+    setEditComposingBuffer('')
+  }
+
   // EDIT VOCABULARY
   const openEditModal = (item: VocabItem) => {
     setEditItem(item)
     setEditHanzi(item.hanzi)
     setEditPinyin(item.pinyin)
     setEditVietnamese(item.vietnamese)
+    setEditComposingBuffer('')
+    setEditSuggestions([])
     setIsEditModalOpen(true)
   }
 
@@ -426,8 +492,15 @@ export default function VocabularyPage() {
     window.open(`/api/vocabulary/export?date=${date}`, '_blank')
   }
 
-  // EXCEL IMPORT
+  // EXCEL IMPORT — opens a date-picker modal (defaulting to the currently-viewed date)
+  // before the file dialog, so every row in the file lands on exactly the date you mean
+  // instead of having to name Excel sheet tabs "YYYY-MM-DD" to control the target date.
   const handleImportClick = () => {
+    setImportDate(date)
+    setIsImportModalOpen(true)
+  }
+
+  const handleImportPickFile = () => {
     fileInputRef.current?.click()
   }
 
@@ -435,12 +508,14 @@ export default function VocabularyPage() {
     const file = e.target.files?.[0]
     if (!file) return
 
+    setIsImportModalOpen(false)
     setActionLoading(true)
     setError('')
     setSuccess('')
 
     const formData = new FormData()
     formData.append('file', file)
+    formData.append('date', importDate)
 
     try {
       const res = await fetch('/api/vocabulary/import', {
@@ -454,7 +529,8 @@ export default function VocabularyPage() {
       } else {
         const dates: { date: string; count: number }[] = result.dates || []
         const breakdown = dates.map(d => `${formatDate(d.date)}: ${d.count} từ`).join(', ')
-        setSuccess(`Đã import thành công ${result.importedCount} từ vựng! 🎉${breakdown ? ` (${breakdown})` : ''}`)
+        const matchedNote = result.matchedCount > 0 ? ` — ${result.matchedCount} từ lấy được câu ví dụ chuẩn từ từ điển 📖` : ''
+        setSuccess(`Đã import thành công ${result.importedCount} từ vựng! 🎉${breakdown ? ` (${breakdown})` : ''}${matchedNote}`)
 
         const importedDateStrs = dates.map(d => d.date)
         if (importedDateStrs.length > 0 && !importedDateStrs.includes(date)) {
@@ -772,6 +848,49 @@ export default function VocabularyPage() {
         </div>
       )}
 
+      {/* IMPORT DATE PICKER MODAL */}
+      {isImportModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+            <button
+              onClick={() => setIsImportModalOpen(false)}
+              className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-2xl font-extrabold text-slate-800 mb-2 flex items-center gap-2">
+              <span>📥</span> Nhập Excel
+            </h3>
+            <p className="text-xs text-slate-500 font-semibold mb-4">
+              Chọn ngày muốn nhập từ vựng vào, rồi chọn file Excel. Toàn bộ từ trong file sẽ được thêm vào đúng ngày này.
+            </p>
+
+            <label className="block text-sm font-bold text-slate-700 mb-1">Ngày nhập vào</label>
+            <div className="cartoon-panel p-2.5 bg-white flex items-center mb-5 w-fit">
+              <DatePicker value={importDate} onChange={setImportDate} />
+            </div>
+
+            <div className="flex justify-end gap-2 border-t border-slate-100 pt-4">
+              <button
+                type="button"
+                onClick={() => setIsImportModalOpen(false)}
+                className="cartoon-btn cartoon-btn-secondary px-4 py-2 text-sm"
+              >
+                Hủy
+              </button>
+              <button
+                type="button"
+                onClick={handleImportPickFile}
+                className="cartoon-btn px-5 py-2 text-sm flex items-center gap-2"
+              >
+                <Upload className="w-4 h-4" /> Chọn File Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* SINGLE-ROW EDIT MODAL */}
       {isEditModalOpen && editItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
@@ -798,14 +917,61 @@ export default function VocabularyPage() {
                 />
               </div>
 
-              <div>
+              <div style={{ position: 'relative' }}>
                 <label className="block text-sm font-bold text-slate-700 mb-1">Pinyin</label>
                 <input
                   type="text"
-                  value={editPinyin}
-                  onChange={(e) => setEditPinyin(e.target.value)}
+                  placeholder="Gõ không dấu để gợi ý (ni, hao...)"
+                  value={editComposingBuffer}
+                  onFocus={() => loadTocflIndex()}
+                  onChange={(e) => updateEditComposingBuffer(e.target.value)}
                   className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold"
                 />
+                <div className="flex items-center gap-1.5 mt-1 px-0.5">
+                  <span className="text-[10px] font-bold text-slate-400 truncate">
+                    Pinyin hiện tại: <span className="font-semibold text-slate-600">{editPinyin || '—'}</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={clearEditComposition}
+                    className="text-[10px] font-black text-red-400 hover:text-red-600 flex-shrink-0"
+                  >
+                    Xóa
+                  </button>
+                </div>
+                {/* Autocomplete Suggestion Panel — same TOCFL suggestion engine as Add Word */}
+                {editSuggestions.length > 0 && (
+                  <div
+                    className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 max-h-52 overflow-y-auto"
+                    style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, zIndex: 20000 }}
+                  >
+                    <div className="flex items-center gap-1.5 px-2 py-1">
+                      <span className="text-[9px] font-black text-blue-500 uppercase tracking-wider">⌨️ TOCFL 繁體 — {editSuggestions.length} gợi ý</span>
+                    </div>
+                    {editSuggestions.map((item, sugIdx) => (
+                      <button
+                        key={sugIdx}
+                        type="button"
+                        onMouseDown={(e) => { e.preventDefault(); selectEditSuggestion(item) }}
+                        className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-blue-50 rounded-xl transition-colors"
+                        title="Ghép vào từ đang gõ"
+                      >
+                        <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
+                        <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
+                        {'composed' in item ? (
+                          <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
+                        ) : item.l === null ? (
+                          <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
+                        ) : (
+                          <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' :
+                            item.l <= 4 ? 'bg-amber-100 text-amber-700' :
+                              'bg-red-100 text-red-700'
+                            }`}>L{item.l}</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div>

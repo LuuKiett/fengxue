@@ -1,0 +1,242 @@
+[
+  {
+    "level": "A1",
+    "mode": "reading",
+    "hanzi": "我叫美玲，今年十八歲。我家有四個人：爸爸、媽媽、姐姐和我。我爸爸是老師，我媽媽在醫院工作。我姐姐是大學生，她喜歡看書。我們的家不大，可是很溫暖。",
+    "vietnamese": "Tôi tên là Mỹ Linh, năm nay mười tám tuổi. Nhà tôi có bốn người: bố, mẹ, chị gái và tôi. Bố tôi là giáo viên, mẹ tôi làm việc ở bệnh viện. Chị tôi là sinh viên đại học, chị thích đọc sách. Nhà chúng tôi không lớn, nhưng rất ấm áp.",
+    "questions": [
+      { "hanzi": "美玲的爸爸做什麼工作？", "options": ["醫生", "老師", "學生", "老闆"], "correctIndex": 1 },
+      { "hanzi": "美玲家有幾個人？", "options": ["三個", "四個", "五個", "六個"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "reading",
+    "hanzi": "我的學校很大，學校裡有很多學生和老師。我每天八點上課，中午十二點吃午飯。我最喜歡的科目是中文，因為老師教得很有意思。下課以後，我常常跟朋友一起打球。",
+    "vietnamese": "Trường tôi rất lớn, trong trường có rất nhiều học sinh và giáo viên. Mỗi ngày tôi vào học lúc tám giờ, giữa trưa mười hai giờ ăn cơm trưa. Môn tôi thích nhất là tiếng Trung, vì thầy cô dạy rất thú vị. Sau giờ học, tôi thường cùng bạn chơi bóng.",
+    "questions": [
+      { "hanzi": "我最喜歡的科目是什麼？", "options": ["英文", "中文", "體育", "數學"], "correctIndex": 1 },
+      { "hanzi": "我幾點上課？", "options": ["七點", "八點", "九點", "十點"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "reading",
+    "hanzi": "今天天氣很好，太陽很大，可是不太熱。媽媽說明天會下雨，所以我今天要跟朋友去公園玩。公園裡有很多花，也有很多人在散步。",
+    "vietnamese": "Hôm nay thời tiết rất đẹp, nắng to nhưng không quá nóng. Mẹ nói ngày mai sẽ mưa, nên hôm nay tôi định cùng bạn đi công viên chơi. Trong công viên có rất nhiều hoa, cũng có nhiều người đang đi dạo.",
+    "questions": [
+      { "hanzi": "明天天氣怎麼樣？", "options": ["很熱", "會下雨", "很冷", "有風"], "correctIndex": 1 },
+      { "hanzi": "我今天要去哪裡？", "options": ["學校", "公園", "醫院", "家裡"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "reading",
+    "hanzi": "我每天早上七點起床，先刷牙洗臉，然後吃早飯。我通常吃麵包，喝牛奶。八點半我出門去學校。下午三點半放學以後，我回家做功課。晚上九點我就去睡覺了。",
+    "vietnamese": "Mỗi sáng tôi dậy lúc bảy giờ, trước tiên đánh răng rửa mặt, sau đó ăn sáng. Tôi thường ăn bánh mì, uống sữa. Tám giờ rưỡi tôi ra khỏi nhà đi học. Ba giờ rưỡi chiều tan học xong, tôi về nhà làm bài tập. Chín giờ tối tôi đi ngủ.",
+    "questions": [
+      { "hanzi": "我通常早餐吃什麼？", "options": ["麵條", "麵包", "米飯", "餃子"], "correctIndex": 1 },
+      { "hanzi": "我幾點出門去學校？", "options": ["七點", "七點半", "八點半", "九點"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "reading",
+    "hanzi": "我最喜歡吃的食物是餃子。媽媽常常在星期天做餃子給我們吃。餃子裡面有肉和青菜，非常好吃。我也喜歡喝熱茶，尤其是天氣冷的時候。",
+    "vietnamese": "Món ăn tôi thích nhất là sủi cảo. Mẹ thường làm sủi cảo cho chúng tôi ăn vào Chủ nhật. Trong sủi cảo có thịt và rau, rất ngon. Tôi cũng thích uống trà nóng, nhất là khi trời lạnh.",
+    "questions": [
+      { "hanzi": "誰常常做餃子？", "options": ["爸爸", "媽媽", "姐姐", "我"], "correctIndex": 1 },
+      { "hanzi": "媽媽通常什麼時候做餃子？", "options": ["星期一", "星期三", "星期五", "星期天"], "correctIndex": 3 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "reading",
+    "hanzi": "我家在市中心，附近有一家小小的書店和一個公園。書店的老闆是一位很親切的爺爺。我常常星期六去書店看書，然後去公園散步。",
+    "vietnamese": "Nhà tôi ở trung tâm thành phố, gần đó có một hiệu sách nhỏ và một công viên. Chủ hiệu sách là một ông cụ rất thân thiện. Tôi thường vào thứ Bảy đến hiệu sách đọc sách, sau đó đi dạo công viên.",
+    "questions": [
+      { "hanzi": "書店的老闆是誰？", "options": ["一位爺爺", "一位奶奶", "一位叔叔", "一位阿姨"], "correctIndex": 0 },
+      { "hanzi": "我常常星期幾去書店？", "options": ["星期三", "星期五", "星期六", "星期日"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "listening",
+    "hanzi": "A：你好！我叫小華，你叫什麼名字？\nB：你好，我叫美英。很高興認識你。\nA：我也很高興認識你。你是學生嗎？\nB：對，我是大學生。",
+    "vietnamese": "A: Chào bạn! Mình tên là Tiểu Hoa, bạn tên gì? B: Chào bạn, mình tên Mỹ Anh. Rất vui được quen bạn. A: Mình cũng rất vui được quen bạn. Bạn là sinh viên phải không? B: Đúng vậy, mình là sinh viên đại học.",
+    "questions": [
+      { "hanzi": "美英是做什麼的？", "options": ["老師", "大學生", "醫生", "老闆"], "correctIndex": 1 },
+      { "hanzi": "誰先跟誰打招呼？", "options": ["小華先跟美英打招呼", "美英先跟小華打招呼", "他們同時打招呼", "沒有人打招呼"], "correctIndex": 0 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "listening",
+    "hanzi": "A：對不起，請問現在幾點？\nB：現在是三點半。\nA：謝謝你！我四點有課，快遲到了。\nB：不客氣，你快去吧！",
+    "vietnamese": "A: Xin lỗi, cho hỏi bây giờ mấy giờ rồi? B: Bây giờ là ba giờ rưỡi. A: Cảm ơn bạn! Bốn giờ mình có tiết học, sắp trễ rồi. B: Không có gì, bạn đi nhanh đi!",
+    "questions": [
+      { "hanzi": "現在是幾點？", "options": ["兩點半", "三點半", "四點", "四點半"], "correctIndex": 1 },
+      { "hanzi": "A為什麼很著急？", "options": ["他肚子餓", "他四點有課", "他要回家", "他找不到書"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "listening",
+    "hanzi": "A：老闆，我要買兩個麵包。\nB：好的，一共是六十塊。\nA：這是一百塊。\nB：找你四十塊，謝謝光臨！",
+    "vietnamese": "A: Chủ tiệm ơi, tôi muốn mua hai cái bánh mì. B: Được ạ, tổng cộng sáu mươi đồng. A: Đây là một trăm đồng. B: Trả lại bạn bốn mươi đồng, cảm ơn đã ghé mua!",
+    "questions": [
+      { "hanzi": "顧客買了幾個麵包？", "options": ["一個", "兩個", "三個", "四個"], "correctIndex": 1 },
+      { "hanzi": "老闆找了多少錢？", "options": ["二十塊", "三十塊", "四十塊", "五十塊"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "listening",
+    "hanzi": "A：請問，圖書館怎麼走？\nB：你往前走，然後在第二個路口右轉，圖書館就在你左邊。\nA：要走很久嗎？\nB：不會，大概五分鐘就到了。",
+    "vietnamese": "A: Xin hỏi, thư viện đi thế nào ạ? B: Bạn đi thẳng, sau đó ở ngã tư thứ hai rẽ phải, thư viện sẽ ở bên trái bạn. A: Có phải đi lâu không ạ? B: Không đâu, khoảng năm phút là tới.",
+    "questions": [
+      { "hanzi": "到圖書館大概要走多久？", "options": ["兩分鐘", "五分鐘", "十分鐘", "半小時"], "correctIndex": 1 },
+      { "hanzi": "圖書館在哪一邊？", "options": ["右邊", "左邊", "對面", "後面"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "listening",
+    "hanzi": "A：喂，小明，你在做什麼？\nB：我在家看書，你呢？\nA：我在公園。你要不要一起來運動？\nB：好啊，我馬上就去。",
+    "vietnamese": "A: Alo, Tiểu Minh, cậu đang làm gì thế? B: Mình đang ở nhà đọc sách, còn cậu? A: Mình đang ở công viên. Cậu có muốn đến cùng tập thể dục không? B: Được đấy, mình đi ngay đây.",
+    "questions": [
+      { "hanzi": "小明在做什麼？", "options": ["看電視", "看書", "睡覺", "運動"], "correctIndex": 1 },
+      { "hanzi": "A打電話約小明去哪裡？", "options": ["圖書館", "公園", "學校", "餐廳"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A1",
+    "mode": "listening",
+    "hanzi": "A：媽媽，今天很冷嗎？\nB：對啊，外面只有十度，你要穿外套。\nA：好，那我也要戴帽子嗎？\nB：對，風很大，戴帽子比較好。",
+    "vietnamese": "A: Mẹ ơi, hôm nay có lạnh không ạ? B: Đúng vậy, ngoài trời chỉ có mười độ thôi, con phải mặc áo khoác. A: Vâng, vậy con có cần đội mũ không ạ? B: Có, gió to lắm, đội mũ thì tốt hơn.",
+    "questions": [
+      { "hanzi": "外面現在幾度？", "options": ["五度", "十度", "二十度", "三十度"], "correctIndex": 1 },
+      { "hanzi": "媽媽叫孩子戴帽子的原因是什麼？", "options": ["太陽很大", "風很大", "要下雨", "天氣很熱"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "reading",
+    "hanzi": "這個週末我打算跟朋友一起去爬山。我們早上七點在捷運站集合，然後坐公車到山腳下。因為天氣預報說週末會出太陽，所以我們決定不改時間。爬完山以後，我們打算去附近的餐廳吃晚飯，慶祝朋友的生日。",
+    "vietnamese": "Cuối tuần này tôi dự định cùng bạn bè đi leo núi. Chúng tôi sẽ tập trung ở ga tàu điện ngầm lúc bảy giờ sáng, sau đó đi xe buýt đến chân núi. Vì dự báo thời tiết nói cuối tuần sẽ có nắng, nên chúng tôi quyết định không đổi thời gian. Sau khi leo núi xong, chúng tôi định đi ăn tối ở nhà hàng gần đó để chúc mừng sinh nhật của một người bạn.",
+    "questions": [
+      { "hanzi": "他們打算怎麼去山腳下？", "options": ["走路", "坐公車", "騎腳踏車", "開車"], "correctIndex": 1 },
+      { "hanzi": "爬山以後他們要做什麼？", "options": ["回家睡覺", "去看電影", "去餐廳吃晚飯", "去買東西"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "reading",
+    "hanzi": "我在一家貿易公司工作已經兩年了。我的工作是跟外國客戶聯絡，有時候要用英文寫信，有時候要打電話。雖然工作有點忙，但是我覺得很有意思，因為我可以認識很多不同國家的人。",
+    "vietnamese": "Tôi làm việc tại một công ty thương mại đã hai năm rồi. Công việc của tôi là liên lạc với khách hàng nước ngoài, có lúc phải viết thư bằng tiếng Anh, có lúc phải gọi điện thoại. Mặc dù công việc hơi bận, nhưng tôi thấy rất thú vị, vì tôi có thể quen biết nhiều người đến từ các quốc gia khác nhau.",
+    "questions": [
+      { "hanzi": "這個人在哪一種公司工作？", "options": ["貿易公司", "醫院", "學校", "銀行"], "correctIndex": 0 },
+      { "hanzi": "他覺得工作有意思的原因是什麼？", "options": ["薪水很高", "可以認識不同國家的人", "工作很輕鬆", "可以常常出國"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "reading",
+    "hanzi": "去年夏天我跟家人去台灣旅行了一個星期。我們去了台北和台南，吃了很多好吃的小吃，也參觀了幾個有名的博物館。台灣的夜市讓我印象最深刻，因為東西又便宜又好吃。",
+    "vietnamese": "Mùa hè năm ngoái tôi cùng gia đình đi du lịch Đài Loan một tuần. Chúng tôi đã đến Đài Bắc và Đài Nam, ăn rất nhiều món ăn vặt ngon, cũng đã tham quan vài bảo tàng nổi tiếng. Chợ đêm ở Đài Loan để lại ấn tượng sâu sắc nhất với tôi, vì đồ ăn vừa rẻ vừa ngon.",
+    "questions": [
+      { "hanzi": "這次旅行去了幾個星期？", "options": ["一個星期", "兩個星期", "三個星期", "一個月"], "correctIndex": 0 },
+      { "hanzi": "什麼讓這個人印象最深刻？", "options": ["博物館", "飛機場", "夜市", "飯店"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "reading",
+    "hanzi": "昨天我開始頭痛、發燒，所以今天早上去看醫生了。醫生說我感冒了，叫我多休息、多喝水，還開了三天的藥。醫生說如果三天以後還是不舒服，就要再回去檢查。",
+    "vietnamese": "Hôm qua tôi bắt đầu đau đầu, sốt, nên sáng nay đã đi khám bác sĩ. Bác sĩ nói tôi bị cảm, bảo tôi nghỉ ngơi nhiều, uống nhiều nước, còn kê thuốc uống trong ba ngày. Bác sĩ nói nếu sau ba ngày vẫn khó chịu thì phải quay lại khám lại.",
+    "questions": [
+      { "hanzi": "醫生說這個人得了什麼病？", "options": ["感冒", "肚子痛", "牙痛", "咳嗽"], "correctIndex": 0 },
+      { "hanzi": "醫生開了幾天的藥？", "options": ["一天", "兩天", "三天", "一個星期"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "reading",
+    "hanzi": "我從小就喜歡看書，尤其是關於歷史的書。我每個星期都會去圖書館借兩三本書，週末的時候常常一個人在家安靜地看一整天。除了看書以外，我也喜歡聽音樂，特別是古典音樂。",
+    "vietnamese": "Từ nhỏ tôi đã thích đọc sách, đặc biệt là sách về lịch sử. Mỗi tuần tôi đều đến thư viện mượn hai ba cuốn sách, cuối tuần thường một mình ở nhà đọc yên tĩnh cả ngày. Ngoài đọc sách ra, tôi cũng thích nghe nhạc, đặc biệt là nhạc cổ điển.",
+    "questions": [
+      { "hanzi": "這個人最喜歡看哪一種書？", "options": ["歷史書", "小說", "漫畫", "雜誌"], "correctIndex": 0 },
+      { "hanzi": "這個人每星期去圖書館借幾本書？", "options": ["一本", "兩三本", "四五本", "很多本"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "reading",
+    "hanzi": "這個星期百貨公司在辦週年慶，很多東西都打折。媽媽打算去買一台新的電視，因為家裡的電視已經用了十年了。妹妹想買衣服和鞋子，我則想買一些書。我們打算星期六一起去逛。",
+    "vietnamese": "Tuần này trung tâm thương mại đang có đợt khuyến mãi kỷ niệm, rất nhiều thứ được giảm giá. Mẹ dự định mua một chiếc tivi mới, vì tivi ở nhà đã dùng mười năm rồi. Em gái muốn mua quần áo và giày, còn tôi thì muốn mua vài cuốn sách. Chúng tôi định cùng nhau đi dạo phố vào thứ Bảy.",
+    "questions": [
+      { "hanzi": "媽媽為什麼想買新電視？", "options": ["舊電視壞了", "舊電視用了十年", "電視在打折", "妹妹想要"], "correctIndex": 1 },
+      { "hanzi": "他們打算星期幾去百貨公司？", "options": ["星期四", "星期五", "星期六", "星期日"], "correctIndex": 2 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "listening",
+    "hanzi": "A：這個星期五你有空嗎？我們一起吃晚飯吧。\nB：星期五我要加班，可能要八點才能到。\nA：沒關係，那我們約八點半，在公司附近那家餐廳。\nB：好，到時候見！",
+    "vietnamese": "A: Thứ Sáu tuần này bạn có rảnh không? Chúng ta cùng ăn tối nhé. B: Thứ Sáu mình phải làm thêm giờ, có lẽ tám giờ mới đến được. A: Không sao, vậy chúng ta hẹn tám giờ rưỡi, ở nhà hàng gần công ty đó. B: Được, lúc đó gặp nhau nhé!",
+    "questions": [
+      { "hanzi": "他們約在星期幾見面？", "options": ["星期三", "星期四", "星期五", "星期六"], "correctIndex": 2 },
+      { "hanzi": "B為什麼可能會晚到？", "options": ["塞車", "要加班", "要接小孩", "身體不舒服"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "listening",
+    "hanzi": "A：請問去火車站要坐哪一班公車？\nB：你可以坐二十三號，大概二十分鐘會到。\nA：那我在哪一站下車呢？\nB：到「中山路口」那一站下車就到了，司機會廣播的。",
+    "vietnamese": "A: Xin hỏi đi nhà ga xe lửa phải đi tuyến xe buýt nào? B: Bạn có thể đi tuyến hai mươi ba, khoảng hai mươi phút sẽ tới. A: Vậy tôi xuống ở trạm nào ạ? B: Xuống ở trạm 'Ngã tư đường Trung Sơn' là tới, tài xế sẽ thông báo mà.",
+    "questions": [
+      { "hanzi": "去火車站要坐幾號公車？", "options": ["十三號", "二十號", "二十三號", "三十號"], "correctIndex": 2 },
+      { "hanzi": "大概要坐多久？", "options": ["十分鐘", "二十分鐘", "三十分鐘", "一小時"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "listening",
+    "hanzi": "A：您好，我想預約明天上午看牙醫。\nB：好的，明天上午九點半還有一個時段，可以嗎？\nA：可以，麻煩你了。\nB：好，請問您貴姓大名？",
+    "vietnamese": "A: Xin chào, tôi muốn đặt hẹn khám răng vào sáng mai. B: Vâng, sáng mai lúc chín giờ rưỡi vẫn còn một khung giờ trống, được không ạ? A: Được ạ, phiền bạn giúp tôi. B: Vâng, xin hỏi quý danh của anh chị là gì ạ?",
+    "questions": [
+      { "hanzi": "這通電話是要預約什麼？", "options": ["看眼科", "看牙醫", "剪頭髮", "看內科"], "correctIndex": 1 },
+      { "hanzi": "明天的時段是幾點？", "options": ["八點半", "九點半", "十點半", "十一點半"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "listening",
+    "hanzi": "A：老闆，這件外套多少錢？\nB：這件原價一千五，現在打八折，一千二就好。\nA：可以再便宜一點嗎？\nB：那我算你一千，不能再少了。",
+    "vietnamese": "A: Chủ tiệm ơi, chiếc áo khoác này giá bao nhiêu? B: Chiếc này giá gốc một nghìn năm trăm, hiện đang giảm hai mươi phần trăm, một nghìn hai trăm thôi. A: Có thể rẻ hơn chút nữa không? B: Vậy tôi tính bạn một nghìn, không thể bớt thêm được nữa.",
+    "questions": [
+      { "hanzi": "外套的原價是多少？", "options": ["一千", "一千二", "一千五", "兩千"], "correctIndex": 2 },
+      { "hanzi": "最後老闆算顧客多少錢？", "options": ["八百", "一千", "一千二", "一千五"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "listening",
+    "hanzi": "A：暑假你有什麼計劃嗎？\nB：我打算跟家人去日本玩十天，你呢？\nA：我要留在家裡準備考試，沒辦法出去玩。\nB：真可惜，等你考完試我們再一起出去玩吧。",
+    "vietnamese": "A: Nghỉ hè bạn có kế hoạch gì không? B: Mình định cùng gia đình đi Nhật Bản chơi mười ngày, còn cậu? A: Mình phải ở nhà chuẩn bị thi, không thể đi chơi được. B: Tiếc thật, đợi cậu thi xong chúng ta lại cùng nhau đi chơi nhé.",
+    "questions": [
+      { "hanzi": "B暑假打算去哪裡？", "options": ["韓國", "日本", "泰國", "台灣"], "correctIndex": 1 },
+      { "hanzi": "A為什麼不能出去玩？", "options": ["沒有錢", "要準備考試", "要工作", "身體不舒服"], "correctIndex": 1 }
+    ]
+  },
+  {
+    "level": "A2",
+    "mode": "listening",
+    "hanzi": "A：你平常幾點下班？\nB：通常六點下班，可是這個月比較忙，常常要加班到八點。\nA：那你回家以後還有時間運動嗎？\nB：有時候有，我會去附近的公園跑步半個小時。",
+    "vietnamese": "A: Bình thường cậu mấy giờ tan làm? B: Thường thì sáu giờ tan làm, nhưng tháng này khá bận, hay phải làm thêm đến tám giờ. A: Vậy về nhà rồi cậu còn thời gian tập thể dục không? B: Thỉnh thoảng có, mình sẽ đi chạy bộ nửa tiếng ở công viên gần nhà.",
+    "questions": [
+      { "hanzi": "這個月B通常加班到幾點？", "options": ["七點", "八點", "九點", "十點"], "correctIndex": 1 },
+      { "hanzi": "B運動的方式是什麼？", "options": ["游泳", "跑步", "打球", "騎腳踏車"], "correctIndex": 1 }
+    ]
+  }
+]

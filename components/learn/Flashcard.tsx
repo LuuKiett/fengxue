@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Volume2, BookOpen, Loader2 } from 'lucide-react'
+import { speak } from '@/lib/utils/speak'
 
 interface ExampleSentence {
   sentence: string
@@ -62,12 +63,7 @@ export default function Flashcard({
   // TTS capability for Chinese characters
   const speakHanzi = (e: React.MouseEvent, text?: string) => {
     e.stopPropagation()
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text || hanzi)
-      utterance.lang = 'zh-TW' // Traditional Chinese TTS
-      utterance.rate = 0.85
-      window.speechSynthesis.speak(utterance)
-    }
+    speak(text || hanzi)
   }
 
   return (
@@ -161,7 +157,7 @@ export default function Flashcard({
                 {examples.map((ex, i) => (
                   <div key={i} className="bg-white/70 border border-blue-100 rounded-xl p-3 space-y-1 text-left">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="font-chinese font-bold text-slate-800 text-xl leading-snug flex-1">
+                      <p className="font-chinese font-bold text-slate-800 md:text-2xl leading-snug flex-1">
                         {ex.sentence}
                       </p>
                       <button

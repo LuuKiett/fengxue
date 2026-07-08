@@ -1,7 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
+import { stripTones } from '@/lib/utils/pinyin'
 import * as XLSX from 'xlsx'
+
+interface ParsedRow {
+  hanzi: string
+  pinyin: string
+  vietnamese: string
+  order_index: number
+}
+
+interface DictMatch {
+  hanzi: string
+  pinyin: string
+  example_hanzi: string | null
+  example_pinyin: string | null
+  example_vietnamese: string | null
+}
+
+function parseSheetRows(worksheet: XLSX.WorkSheet): Omit<ParsedRow, 'order_index'>[] {
+  const jsonData = XLSX.utils.sheet_to_json(worksheet) as any[]
+  return jsonData
+    .map((row) => {
+      const hanzi = row['Chữ Hoa'] || row['hanzi'] || ''
+      const pinyin = row['Pinyin'] || row['pinyin'] || ''
+      const vietnamese = row['Tiếng Việt'] || row['vietnamese'] || row['viet'] || ''
+      return {
+        hanzi: String(hanzi).trim(),
+        pinyin: String(pinyin).trim(),
+        vietnamese: String(vietnamese).trim(),
+      }
+    })
+    .filter((r) => r.hanzi && r.pinyin && r.vietnamese)
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,47 +51,81 @@ export async function POST(request: NextRequest) {
     if (!file) {
       return NextResponse.json({ error: 'Không tìm thấy file upload' }, { status: 400 })
     }
+    // The date the caller currently has selected in the UI (or picked via the import
+    // date picker) — when present, every row from every sheet in the file is imported
+    // into this single date, regardless of what the sheet tabs are named. This is the
+    // common case (one file = one day's word list). Sheet-name-as-date is kept as a
+    // fallback for files that don't specify a target date, so bulk multi-day exports
+    // (produced via /api/vocabulary/export?dates=...) can still round-trip.
+    const targetDateRaw = formData.get('date')
+    const targetDate = typeof targetDateRaw === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(targetDateRaw)
+      ? targetDateRaw
+      : null
 
     const bytes = await file.arrayBuffer()
     const workbook = XLSX.read(bytes, { type: 'array' })
 
-    const results: { [date: string]: any[] } = {}
+    const results: { [date: string]: ParsedRow[] } = {}
 
-    for (const sheetName of workbook.SheetNames) {
-      // Validate date format YYYY-MM-DD
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(sheetName)) {
-        continue
+    if (targetDate) {
+      const allRows = workbook.SheetNames.flatMap((sheetName) => parseSheetRows(workbook.Sheets[sheetName]))
+      if (allRows.length > 0) {
+        results[targetDate] = allRows.map((r, index) => ({ ...r, order_index: index }))
       }
-
-      const worksheet = workbook.Sheets[sheetName]
-      const jsonData = XLSX.utils.sheet_to_json(worksheet) as any[]
-      
-      const parsedRows = jsonData
-        .map((row, index) => {
-          const hanzi = row['Chữ Hoa'] || row['hanzi'] || '';
-          const pinyin = row['Pinyin'] || row['pinyin'] || '';
-          const vietnamese = row['Tiếng Việt'] || row['vietnamese'] || row['viet'] || '';
-          return {
-            hanzi: String(hanzi).trim(),
-            pinyin: String(pinyin).trim(),
-            vietnamese: String(vietnamese).trim(),
-            order_index: index,
-          }
-        })
-        .filter(r => r.hanzi && r.pinyin && r.vietnamese)
-
-      if (parsedRows.length > 0) {
-        results[sheetName] = parsedRows
+    } else {
+      for (const sheetName of workbook.SheetNames) {
+        // Validate date format YYYY-MM-DD
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(sheetName)) {
+          continue
+        }
+        const parsedRows = parseSheetRows(workbook.Sheets[sheetName]).map((r, index) => ({ ...r, order_index: index }))
+        if (parsedRows.length > 0) {
+          results[sheetName] = parsedRows
+        }
       }
     }
 
     if (Object.keys(results).length === 0) {
       return NextResponse.json({
-        error: 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra: tên sheet phải đúng định dạng YYYY-MM-DD, và các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt".',
+        error: targetDate
+          ? 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt".'
+          : 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra: tên sheet phải đúng định dạng YYYY-MM-DD, và các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt".',
       }, { status: 400 })
     }
 
+    // Backfill accurate example sentences from dictionary_words for any imported word
+    // that matches an entry there, so Flashcard shows the same real example used on
+    // /dictionary and /review-dictionary instead of falling back to a generic one.
+    const allHanzi = Array.from(new Set(Object.values(results).flatMap((rows) => rows.map((r) => r.hanzi))))
+    const dictByHanzi = new Map<string, DictMatch[]>()
+    if (allHanzi.length > 0) {
+      const { data: dictMatches } = await supabase
+        .from('dictionary_words')
+        .select('hanzi, pinyin, example_hanzi, example_pinyin, example_vietnamese')
+        .in('hanzi', allHanzi)
+
+      for (const d of (dictMatches || []) as DictMatch[]) {
+        if (!dictByHanzi.has(d.hanzi)) dictByHanzi.set(d.hanzi, [])
+        dictByHanzi.get(d.hanzi)!.push(d)
+      }
+    }
+
+    const findExample = (hanzi: string, pinyin: string) => {
+      const candidates = dictByHanzi.get(hanzi)
+      if (!candidates || candidates.length === 0) return null
+      // Prefer the entry whose pinyin also matches (handles multiple dictionary
+      // entries sharing the same hanzi with different readings), else take the first.
+      const best = candidates.find((c) => stripTones(c.pinyin) === stripTones(pinyin)) || candidates[0]
+      if (!best.example_hanzi) return null
+      return {
+        example_hanzi: best.example_hanzi,
+        example_pinyin: best.example_pinyin,
+        example_vietnamese: best.example_vietnamese,
+      }
+    }
+
     let importedCount = 0
+    let matchedCount = 0
     const perDate: { date: string; count: number }[] = []
     const failures: { date: string; message: string }[] = []
 
@@ -100,13 +166,20 @@ export async function POST(request: NextRequest) {
         const { error: insertError } = await supabase
           .from('vocabularies')
           .insert(
-            rows.map(r => ({
-              set_id: set.id,
-              hanzi: r.hanzi,
-              pinyin: r.pinyin,
-              vietnamese: r.vietnamese,
-              order_index: r.order_index,
-            }))
+            rows.map((r) => {
+              const example = findExample(r.hanzi, r.pinyin)
+              if (example) matchedCount++
+              return {
+                set_id: set.id,
+                hanzi: r.hanzi,
+                pinyin: r.pinyin,
+                vietnamese: r.vietnamese,
+                order_index: r.order_index,
+                example_hanzi: example?.example_hanzi ?? null,
+                example_pinyin: example?.example_pinyin ?? null,
+                example_vietnamese: example?.example_vietnamese ?? null,
+              }
+            })
           )
 
         if (insertError) {
@@ -127,7 +200,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    return NextResponse.json({ success: true, importedCount, dates: perDate, failures })
+    return NextResponse.json({ success: true, importedCount, matchedCount, dates: perDate, failures })
   } catch (err: any) {
     console.error('Import error:', err)
     return NextResponse.json({ error: err?.message || 'Lỗi hệ thống khi import' }, { status: 500 })

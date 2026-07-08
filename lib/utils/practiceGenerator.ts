@@ -1,4 +1,5 @@
 import { shuffleArray } from '@/lib/utils/shuffle'
+import { EMOJI_VOCAB } from '@/lib/utils/emojiVocab'
 
 export interface PracticeWord {
   id: string
@@ -38,6 +39,27 @@ export type PracticeQuestion =
       segments: string[]
       correctOrder: string[]
       vietnameseHint: string
+    }
+  | {
+      id: string
+      type: 'passage'
+      mode: 'reading' | 'listening'
+      passageId: string
+      passageHanzi: string
+      passagePinyin: string
+      passageVietnamese: string
+      subIndex: number
+      subTotal: number
+      prompt: string
+      options: string[]
+      correctIndex: number
+    }
+  | {
+      id: string
+      type: 'picture'
+      prompt: string // the hanzi word to speak aloud — never rendered as text
+      options: string[] // emoji, standing in for the real photos TOCFL Part 1 uses
+      correctIndex: number
     }
 
 // Connector phrases from scripts/generate-dictionary-examples.js's templates (minus the
@@ -122,6 +144,40 @@ function makeListeningMcq(word: PracticeWord, pool: PracticeWord[]): PracticeQue
   }
 }
 
+// Real TOCFL Part 1 (看圖辨義): you hear a word spoken and pick the matching PICTURE
+// from 3 options (A/B/C, not 4 like the other MCQ types here) — see practiceGenerator's
+// EMOJI_VOCAB note for why an emoji stands in for the real photograph. Only words with
+// a curated emoji, and with at least 2 other emoji-mapped words in the pool to use as
+// distractors, can generate this question type — everything else falls back to the
+// other listening type.
+function makePictureMcq(word: PracticeWord, pool: PracticeWord[]): PracticeQuestion | null {
+  const correct = EMOJI_VOCAB[word.hanzi]
+  if (!correct) return null
+
+  const candidates = shuffleArray(
+    pool.filter((w) => w.id !== word.id && EMOJI_VOCAB[w.hanzi] && EMOJI_VOCAB[w.hanzi] !== correct)
+  )
+  const seen = new Set<string>()
+  const distractors: string[] = []
+  for (const c of candidates) {
+    const emoji = EMOJI_VOCAB[c.hanzi]
+    if (seen.has(emoji)) continue
+    seen.add(emoji)
+    distractors.push(emoji)
+    if (distractors.length >= 2) break
+  }
+  if (distractors.length < 2) return null
+
+  const options = shuffleArray([correct, ...distractors])
+  return {
+    id: `picture-${word.id}`,
+    type: 'picture',
+    prompt: word.hanzi,
+    options,
+    correctIndex: options.indexOf(correct),
+  }
+}
+
 function makeCloze(word: PracticeWord, pool: PracticeWord[]): PracticeQuestion | null {
   if (!word.example_hanzi || !word.example_hanzi.includes(word.hanzi)) return null
 
@@ -166,11 +222,20 @@ function makeReorder(word: PracticeWord, vocabHanzi: string[]): PracticeQuestion
   }
 }
 
-export type QuestionKind = 'mcq_hp' | 'mcq_hv' | 'mcq_vh' | 'mcq_listen' | 'cloze' | 'reorder'
+export type QuestionKind = 'mcq_hp' | 'mcq_hv' | 'mcq_vh' | 'mcq_listen' | 'mcq_picture' | 'cloze' | 'reorder'
 const ALL_TYPES: QuestionKind[] = ['mcq_hp', 'mcq_hv', 'mcq_vh', 'cloze', 'reorder']
-// Real TOCFL listening sections are pure audio comprehension: you hear the word spoken
-// and pick the matching HANZI (not pinyin, not the Vietnamese meaning) from the options.
-export const LISTENING_TYPES: QuestionKind[] = ['mcq_listen']
+// Real TOCFL listening sections are pure audio comprehension: Part 1 shows pictures
+// (mcq_picture — see makePictureMcq), later parts hear a word and pick the matching
+// HANZI (mcq_listen) from text options. Alternating the two here means every word gets
+// a shot at mcq_picture, but words without a curated emoji simply produce no question
+// on that attempt — the generator's retry loop below fills the gap with mcq_listen
+// (which works for any word) on a later pass, so the section still reaches `count`.
+export const LISTENING_TYPES: QuestionKind[] = ['mcq_picture', 'mcq_listen']
+// Real TOCFL reading sections only ever use 詞語替換-style fill-in-context questions as
+// their discrete (non-passage) item type — the direct hanzi<->pinyin/meaning matching
+// and sentence-reorder types are drill formats useful for Quick Practice, but aren't an
+// actual TOCFL question format, so the Full Mock exam excludes them from its Reading part.
+export const FULL_MOCK_READING_TYPES: QuestionKind[] = ['cloze']
 
 /** Builds a shuffled, varied set of practice questions for a level's word pool. */
 export function generatePracticeQuestions(
@@ -202,6 +267,7 @@ export function generatePracticeQuestions(
     else if (type === 'mcq_hv') q = makeMcq(word, words, 'hanzi_viet')
     else if (type === 'mcq_vh') q = makeMcq(word, words, 'viet_hanzi')
     else if (type === 'mcq_listen') q = makeListeningMcq(word, words)
+    else if (type === 'mcq_picture') q = makePictureMcq(word, words)
     else if (type === 'cloze') q = makeCloze(word, words)
     else q = makeReorder(word, vocabHanzi)
 

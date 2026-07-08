@@ -46,7 +46,13 @@ export default function MatchingExercise({
   const [disappearingIds, setDisappearingIds] = useState<Set<string>>(new Set())
   const [removedIds, setRemovedIds] = useState<Set<string>>(new Set())
   const [shakeId, setShakeId] = useState<string | null>(null)
-  
+  // Guards against onComplete firing more than once for the same round. `onComplete`
+  // is a fresh function reference on every parent re-render (it isn't memoized), so
+  // without this guard the completion-trigger effect below would re-fire whenever the
+  // parent re-rendered after a round finished (but before `vocabs` actually changed),
+  // silently skipping the next round of words.
+  const completionFiredRef = useRef(false)
+
   // Track coordinates for rendering lines
   const [lines, setLines] = useState<{
     id: string
@@ -81,6 +87,7 @@ export default function MatchingExercise({
     setSelectedLeft(null)
     setSelectedRight(null)
     setLines([])
+    completionFiredRef.current = false
   }, [vocabs, matchType])
 
   // Recalculate line coordinates whenever connections change or on resize
@@ -181,7 +188,8 @@ export default function MatchingExercise({
 
   // Handle completion trigger
   useEffect(() => {
-    if (leftItems.length > 0 && matchedIds.size === leftItems.length) {
+    if (leftItems.length > 0 && matchedIds.size === leftItems.length && !completionFiredRef.current) {
+      completionFiredRef.current = true
       // Calculate score (simple 100 base)
       setTimeout(() => {
         onComplete(100)
@@ -265,7 +273,7 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`left-${item.id}`] = el }}
                 onClick={() => handleLeftClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-4xl transition-all duration-300 w-[500px] ${
+                className={`py-3 px-4 text-center rounded-2xl border font-extrabold md:text-4xl text-md transition-all duration-300 md:w-[500px] ${
                   isDisappearing
                     ? 'opacity-0 scale-75'
                     : isMatched
@@ -275,7 +283,7 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 } ${isShaking ? 'animate-shake bg-red-50 border-red-200 text-red-600' : ''}`}
               >
-                <span className="font-chinese font-bold text-4xl">{item.text}</span>
+                <span className="font-chinese font-bold text-xl md:text-4xl">{item.text}</span>
               </button>
             )
           })}
@@ -294,7 +302,7 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`right-${item.id}`] = el }}
                 onClick={() => handleRightClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-4xl transition-all duration-300 w-[500px] ${
+                className={`py-3 px-4 text-center rounded-2xl border font-extrabold md:text-4xl text-md transition-all duration-300 md:w-[500px] ${
                   isDisappearing
                     ? 'opacity-0 scale-75'
                     : isMatched
@@ -304,7 +312,7 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 }`}
               >
-                <span className="font-chinese font-bold text-4xl">{item.text}</span>
+                <span className="font-chinese font-bold text-xl md:text-4xl">{item.text}</span>
               </button>
             )
           })}

@@ -21,6 +21,9 @@ interface VocabItem {
   hanzi: string
   pinyin: string
   vietnamese: string
+  example_hanzi?: string | null
+  example_pinyin?: string | null
+  example_vietnamese?: string | null
 }
 
 export default function LearnPage() {
@@ -58,7 +61,7 @@ export default function LearnPage() {
 
       const { data: list } = await supabase
         .from('vocabularies')
-        .select('id, hanzi, pinyin, vietnamese')
+        .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
         .eq('set_id', set.id)
 
       if (list) {
@@ -210,6 +213,15 @@ export default function LearnPage() {
             vietnamese={vocabs[currentIdx].vietnamese}
             isFlipped={isFlipped}
             onFlip={() => setIsFlipped(!isFlipped)}
+            example={
+              vocabs[currentIdx].example_hanzi
+                ? {
+                    sentence: vocabs[currentIdx].example_hanzi!,
+                    pinyin: vocabs[currentIdx].example_pinyin || '',
+                    translation: vocabs[currentIdx].example_vietnamese || '',
+                  }
+                : undefined
+            }
           />
 
           {/* Navigation Controls */}

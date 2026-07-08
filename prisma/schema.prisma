@@ -53,6 +53,12 @@ model Vocabulary {
   pinyin     String
   vietnamese String
   orderIndex Int           @default(0) @map("order_index")
+  // Backfilled at Excel-import time when the word matches an entry in dictionary_words,
+  // so Flashcard can show the same accurate example used on /dictionary and
+  // /review-dictionary instead of the generic /api/examples fallback.
+  exampleHanzi      String? @map("example_hanzi")
+  examplePinyin     String? @map("example_pinyin")
+  exampleVietnamese String? @map("example_vietnamese")
   createdAt  DateTime      @default(now()) @map("created_at")
   updatedAt  DateTime      @default(now()) @updatedAt @map("updated_at")
   set        VocabularySet @relation(fields: [setId], references: [id], onDelete: Cascade)
@@ -121,4 +127,34 @@ model PracticeSession {
   user           Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("practice_sessions")
+}
+
+// Shared, read-only reading/listening comprehension content for the practice-exam
+// feature (short passages and two-speaker dialogues), modeled on TOCFL Band A's
+// 短文閱讀 (reading passage) and 問答/言談理解 (listening dialogue) question types.
+// Rows are written only by scripts/build-comprehension-seed.js, never by end users.
+model ComprehensionPassage {
+  id                String                  @id @default(uuid()) @db.Uuid
+  level             String
+  mode              String                  // 'reading' | 'listening'
+  passageHanzi      String                  @map("passage_hanzi")
+  passagePinyin     String                  @map("passage_pinyin")
+  passageVietnamese String                  @map("passage_vietnamese")
+  createdAt         DateTime                @default(now()) @map("created_at")
+  questions         ComprehensionQuestion[]
+
+  @@map("comprehension_passages")
+}
+
+model ComprehensionQuestion {
+  id            String               @id @default(uuid()) @db.Uuid
+  passageId     String               @map("passage_id") @db.Uuid
+  orderIndex    Int                  @default(0) @map("order_index")
+  questionHanzi String               @map("question_hanzi")
+  options       String[]
+  correctIndex  Int                  @map("correct_index")
+  createdAt     DateTime             @default(now()) @map("created_at")
+  passage       ComprehensionPassage @relation(fields: [passageId], references: [id], onDelete: Cascade)
+
+  @@map("comprehension_questions")
 }

@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { stripTones } from '@/lib/utils/pinyin'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
 import Pagination from '@/components/ui/Pagination'
+import { speak } from '@/lib/utils/speak'
 import { Search, BookMarked, Volume2 } from 'lucide-react'
 
 interface DictWord {
@@ -18,15 +19,6 @@ interface DictWord {
   example_hanzi: string | null
   example_pinyin: string | null
   example_vietnamese: string | null
-}
-
-function speak(text: string) {
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'zh-TW'
-    utterance.rate = 0.85
-    window.speechSynthesis.speak(utterance)
-  }
 }
 
 const PAGE_SIZE = 24
@@ -92,6 +84,14 @@ export default function DictionaryPage() {
   useEffect(() => {
     setPage(1)
   }, [activeLevel, search])
+
+  // The scrollable area is the dashboard layout's <main>, not the window (it's the
+  // overflow-y-auto container in app/(dashboard)/layout.tsx) — so switching pages needs
+  // to scroll that element back to top, otherwise the list changes underneath you while
+  // you're still scrolled halfway down the previous page.
+  useEffect(() => {
+    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [page])
 
   const totalPages = Math.max(1, Math.ceil(filteredWords.length / PAGE_SIZE))
   const pageWords = filteredWords.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
