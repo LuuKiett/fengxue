@@ -1,0 +1,107 @@
+// Prisma Schema for FengXue Chinese Learning Platform
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// -------------------------------------------------------
+// NOTE: profiles.id references auth.users(id) in Supabase.
+// Prisma cannot model cross-schema FK directly, so we
+// define id as String and handle the FK via raw SQL in
+// the custom migration (prisma/migrations/0001_init/).
+// -------------------------------------------------------
+
+model Profile {
+  id              String          @id @db.Uuid
+  fullName        String          @default("") @map("full_name")
+  phone           String          @unique @default("")
+  avatarUrl       String?         @map("avatar_url")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @default(now()) @updatedAt @map("updated_at")
+  vocabularySets     VocabularySet[]
+  exerciseRecords    ExerciseRecord[]
+  dictionaryProgress DictionaryProgress[]
+
+  @@map("profiles")
+}
+
+model VocabularySet {
+  id           String       @id @default(uuid()) @db.Uuid
+  userId       String       @map("user_id") @db.Uuid
+  date         DateTime     @db.Date
+  createdAt    DateTime     @default(now()) @map("created_at")
+  user         Profile      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabularies Vocabulary[]
+
+  @@unique([userId, date]) 
+  @@map("vocabulary_sets")
+}
+
+model Vocabulary {
+  id         String        @id @default(uuid()) @db.Uuid
+  setId      String        @map("set_id") @db.Uuid
+  hanzi      String
+  pinyin     String
+  vietnamese String
+  orderIndex Int           @default(0) @map("order_index")
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @default(now()) @updatedAt @map("updated_at")
+  set        VocabularySet @relation(fields: [setId], references: [id], onDelete: Cascade)
+
+  @@map("vocabularies")
+}
+
+model ExerciseRecord {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  date         DateTime  @db.Date
+  exerciseType String    @map("exercise_type")
+  isCompleted  Boolean   @default(false) @map("is_completed")
+  score        Int?
+  completedAt  DateTime? @map("completed_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  user         Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, exerciseType])
+  @@map("exercise_records")
+}
+
+// Shared, read-only reference dictionary imported from vocabulary PDFs (e.g. TOCFL Band A/B/C).
+// Rows are written only by scripts/import-dictionary-pdf.js, never by end users.
+model DictionaryWord {
+  id         String   @id @default(uuid()) @db.Uuid
+  band       String
+  level      String
+  hanzi      String
+  pinyin     String
+  vietnamese String
+  pos        String?
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([level, hanzi, pinyin, vietnamese])
+  @@map("dictionary_words")
+}
+
+// Tracks, per user + level, which dictionary words have already been studied so that
+// "Ôn tập theo từ điển" stages never repeat a word until the whole level has been covered.
+model DictionaryProgress {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  level        String
+  wordOrder    String[] @map("word_order") @db.Uuid
+  currentIndex Int      @default(0) @map("current_index")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, level])
+  @@map("dictionary_progress")
+}
