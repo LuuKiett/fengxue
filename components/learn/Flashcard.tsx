@@ -72,8 +72,7 @@ export default function Flashcard({
 
   return (
     <div
-      className="w-full max-w-2xl relative cursor-pointer perspective-1000 mx-auto"
-      style={{ height: '480px' }}
+      className="w-full max-w-2xl relative cursor-pointer perspective-1000 mx-auto md:h[480px] h-[400px]"
       onClick={onFlip}
     >
       <div className={`w-full h-full relative duration-500 transform-style-3d flashcard-inner ${isFlipped ? 'flashcard-flipped' : ''}`}>
@@ -94,7 +93,7 @@ export default function Flashcard({
           </div>
 
           <div className="flex-1 flex items-center justify-center">
-            <span className="font-chinese font-bold text-9xl text-slate-800 leading-normal select-none">
+            <span className="font-chinese font-bold md:text-8xl text-6xl text-slate-800 leading-normal select-none">
               {hanzi}
             </span>
           </div>
@@ -162,7 +161,7 @@ export default function Flashcard({
                 {examples.map((ex, i) => (
                   <div key={i} className="bg-white/70 border border-blue-100 rounded-xl p-3 space-y-1 text-left">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="font-chinese font-bold text-slate-800 text-4xl leading-snug flex-1">
+                      <p className="font-chinese font-bold text-slate-800 text-xl leading-snug flex-1">
                         {ex.sentence}
                       </p>
                       <button
@@ -173,8 +172,8 @@ export default function Flashcard({
                         <Volume2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                    <p className="text-lg font-semibold text-blue-500 italic">{ex.pinyin}</p>
-                    <p className="text-lg font-semibold text-slate-500">{ex.translation}</p>
+                    <p className="text-md font-semibold text-blue-500 italic">{ex.pinyin}</p>
+                    <p className="text-md font-semibold text-slate-500">{ex.translation}</p>
                   </div>
                 ))}
               </div>

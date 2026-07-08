@@ -163,7 +163,7 @@ export default function DateExercisesPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto">
+    <div className="space-y-6">
       {/* Navigation and Title */}
       <div className="flex items-center gap-3">
         {mode === 'playing' ? (

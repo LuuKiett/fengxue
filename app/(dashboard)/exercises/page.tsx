@@ -131,7 +131,7 @@ export default function ExercisesPage() {
   const weekdayHeaders = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-4xl mx-auto">
       {/* Title */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
@@ -226,7 +226,7 @@ export default function ExercisesPage() {
                     <span className="self-start">{day.getDate()}</span>
                     {vocabCount > 0 && (
                       <span
-                        className="absolute top-1 right-1 min-w-[15px] px-1 text-[9px] font-black rounded-full bg-white/90 text-blue-600 border border-blue-100 text-center leading-tight"
+                        className="absolute top-10 right-11 min-w-[15px] px-1 text-lg font-black rounded-full bg-white/90 text-green-600 border border-green-100 text-center leading-tight"
                         title={`${vocabCount} từ vựng`}
                       >
                         {vocabCount}

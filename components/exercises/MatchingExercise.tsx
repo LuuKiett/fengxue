@@ -252,7 +252,7 @@ export default function MatchingExercise({
         </svg>
 
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-3 z-20">
+        <div className="flex flex-col gap-3 z-20 mx-auto">
           {leftItems.filter(item => !removedIds.has(item.id)).map((item) => {
             const isSelected = selectedLeft === item.id
             const isMatched = matchedIds.has(item.id)
@@ -265,7 +265,7 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`left-${item.id}`] = el }}
                 onClick={() => handleLeftClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-lg transition-all duration-300 ${
+                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-4xl transition-all duration-300 w-[500px] ${
                   isDisappearing
                     ? 'opacity-0 scale-75'
                     : isMatched
@@ -275,14 +275,14 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 } ${isShaking ? 'animate-shake bg-red-50 border-red-200 text-red-600' : ''}`}
               >
-                <span className="font-chinese font-bold text-xl">{item.text}</span>
+                <span className="font-chinese font-bold text-4xl">{item.text}</span>
               </button>
             )
           })}
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="flex flex-col gap-3 z-20">
+        <div className="flex flex-col gap-3 z-20 mx-auto">
           {rightItems.filter(item => !removedIds.has(item.id)).map((item) => {
             const isSelected = selectedRight === item.id
             const isMatched = matchedIds.has(item.id)
@@ -294,7 +294,7 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`right-${item.id}`] = el }}
                 onClick={() => handleRightClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-lg transition-all duration-300 ${
+                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-4xl transition-all duration-300 w-[500px] ${
                   isDisappearing
                     ? 'opacity-0 scale-75'
                     : isMatched
@@ -304,7 +304,7 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 }`}
               >
-                <span>{item.text}</span>
+                <span className="font-chinese font-bold text-4xl">{item.text}</span>
               </button>
             )
           })}
