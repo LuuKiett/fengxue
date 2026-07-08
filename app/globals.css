@@ -58,6 +58,17 @@ body {
   border-bottom-width: 2px;
 }
 
+/* Same look as .cartoon-card but without the hover/active lift — for large static
+   containers (modals, panels) where a click on a child input/button shouldn't make
+   the whole container jump (CSS :active bubbles to ancestors of the pressed element). */
+.cartoon-panel {
+  background: var(--card-bg);
+  border: 2px solid #e5e5e5;
+  border-bottom: 6px solid #e5e5e5;
+  border-radius: 24px;
+  position: relative;
+}
+
 /* ============================================================
    CUTE 3D FLAT CARTOON BUTTONS (Duolingo Style)
    ============================================================ */

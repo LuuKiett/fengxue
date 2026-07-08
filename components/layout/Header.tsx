@@ -3,14 +3,18 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Bell, Sparkles, Phone, LogOut, CheckCircle, HelpCircle } from 'lucide-react'
+import { Bell, Sparkles, Phone, LogOut, HelpCircle, Menu } from 'lucide-react'
 
 interface UserInfo {
   name: string
   phone: string
 }
 
-export default function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void
+}
+
+export default function Header({ onMenuClick }: HeaderProps) {
   const router = useRouter()
   const supabase = createClient()
   const [userInfo, setUserInfo] = useState<UserInfo>({ name: 'Học viên', phone: '' })
@@ -135,6 +139,13 @@ export default function Header() {
     >
       {/* Greeting */}
       <div className="flex items-center gap-2.5">
+        <button
+          onClick={onMenuClick}
+          className="md:hidden -ml-1 p-1.5 rounded-xl hover:bg-slate-50 text-slate-500 flex-shrink-0"
+          aria-label="Mở menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
         <Sparkles className="w-5 h-5 text-amber-400 animate-sparkle flex-shrink-0" />
         <div className="leading-tight">
           <span className="text-xs font-bold text-slate-400 block">{greeting},</span>

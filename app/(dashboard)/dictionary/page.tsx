@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { stripTones } from '@/lib/utils/pinyin'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
 import Pagination from '@/components/ui/Pagination'
-import { Search, BookMarked } from 'lucide-react'
+import { Search, BookMarked, Volume2 } from 'lucide-react'
 
 interface DictWord {
   id: string
@@ -15,6 +15,18 @@ interface DictWord {
   pinyin: string
   vietnamese: string
   pos: string | null
+  example_hanzi: string | null
+  example_pinyin: string | null
+  example_vietnamese: string | null
+}
+
+function speak(text: string) {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'zh-TW'
+    utterance.rate = 0.85
+    window.speechSynthesis.speak(utterance)
+  }
 }
 
 const PAGE_SIZE = 24
@@ -34,7 +46,7 @@ export default function DictionaryPage() {
       try {
         const { data, error } = await supabase
           .from('dictionary_words')
-          .select('id, band, level, hanzi, pinyin, vietnamese, pos')
+          .select('id, band, level, hanzi, pinyin, vietnamese, pos, example_hanzi, example_pinyin, example_vietnamese')
           .order('level', { ascending: true })
           .order('order_index', { ascending: true })
 
@@ -71,7 +83,8 @@ export default function DictionaryPage() {
       (w) =>
         w.hanzi.includes(search.trim()) ||
         w.vietnamese.toLowerCase().includes(q) ||
-        stripTones(w.pinyin).includes(qToneless)
+        stripTones(w.pinyin).includes(qToneless) ||
+        (w.example_vietnamese?.toLowerCase().includes(q) ?? false)
     )
   }, [words, activeLevel, search, isSearching])
 
@@ -98,7 +111,7 @@ export default function DictionaryPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Tra cứu theo Hán tự, Pinyin hoặc nghĩa tiếng Việt..."
-          className="flex-1 outline-none font-bold text-sm bg-transparent"
+          className="flex-1 outline-none font-bold text-base bg-transparent"
         />
       </div>
 
@@ -144,30 +157,62 @@ export default function DictionaryPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse text-nowrap sm:text-wrap">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="p-4 font-black text-slate-700 text-sm">Hán Tự</th>
-                  <th className="p-4 font-black text-slate-700 text-sm">Pinyin</th>
-                  <th className="p-4 font-black text-slate-700 text-sm">Nghĩa Tiếng Việt</th>
-                  <th className="p-4 font-black text-slate-700 text-sm text-center">Cấp Độ</th>
+                  <th className="p-4 font-black text-slate-700 text-base">Hán Tự</th>
+                  <th className="p-4 font-black text-slate-700 text-base">Pinyin</th>
+                  <th className="p-4 font-black text-slate-700 text-base">Nghĩa Tiếng Việt</th>
+                  <th className="p-4 font-black text-slate-700 text-base">Ví Dụ</th>
+                  <th className="p-4 font-black text-slate-700 text-base text-center">Cấp Độ</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
+              <tbody className="divide-y divide-slate-100 font-semibold text-slate-700 text-base">
                 {pageWords.map((w) => (
-                  <tr key={w.id} className="hover:bg-slate-50">
-                    <td className="p-4 font-chinese text-2xl font-bold text-slate-900">{w.hanzi}</td>
-                    <td className="p-4 text-blue-600 font-bold">
+                  <tr key={w.id} className="hover:bg-slate-50 align-top">
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <span className="font-chinese text-3xl font-bold text-slate-900">{w.hanzi}</span>
+                        <button
+                          onClick={() => speak(w.hanzi)}
+                          className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors"
+                          title="Phát âm"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="p-4 text-blue-600 font-bold text-lg">
                       {w.pinyin}
                       {w.pos && (
-                        <span className="ml-2 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
+                        <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
                           {w.pos}
                         </span>
                       )}
                     </td>
                     <td className="p-4 text-slate-800">{w.vietnamese || '—'}</td>
+                    <td className="p-4 min-w-[240px]">
+                      {w.example_hanzi ? (
+                        <div className="flex items-start gap-1.5">
+                          <div className="space-y-1">
+                            <p className="font-chinese font-bold text-3xl text-slate-800 leading-snug">{w.example_hanzi}</p>
+                            <p className="text-sm text-blue-500 italic">{w.example_pinyin}</p>
+                            <p className="text-sm text-slate-500">{w.example_vietnamese}</p>
+                          </div>
+                          <button
+                            onClick={() => speak(w.example_hanzi!)}
+                            className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors flex-shrink-0"
+                            title="Nghe câu ví dụ"
+                          >
+                            <Volume2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-slate-300 italic">Chưa có ví dụ</span>
+                      )}
+                    </td>
                     <td className="p-4 text-center">
-                      <span className="text-[10px] font-black px-2 py-1 rounded-full bg-blue-50 text-blue-600">
+                      <span className="text-xs font-black px-2 py-1 rounded-full bg-blue-50 text-blue-600">
                         {w.level}
                       </span>
                     </td>

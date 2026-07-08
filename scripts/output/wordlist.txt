@@ -1,0 +1,876 @@
+0|A1|啊|ā|a, à, á|P
+1|A1|愛|ài|yêu, thích|VS
+2|A1|安靜|ānjìng|yên tĩnh|VS
+3|A1|吧|ba|nhé, hả?|P
+4|A1|八|bā|tám|Det
+5|A1|把|bǎ|trợ từ xử lý, cái ( dao, dù…)|Prep
+6|A1|爸爸|bàba|cha|N
+7|A1|百|bǎi|trăm|Det
+8|A1|百貨公司|bǎihuògōngsī|Công ty bách hóa, TTTM|N
+9|A1|白色|báisè|màu trắng|N
+10|A1|班|bān|Chuyến ( xe, máy bay )|M
+11|A1|班|bān|lớp|N
+12|A1|搬|bān|dời|VA
+13|A1|半|bàn|nửa,rưỡi|Det
+14|A1|幫|bāng|giúp|VA
+15|A1|辦公室|bàngōngshì|văn phòng|N
+16|A1|棒球|bàngqiú|bóng chày|N
+17|A1|包子|bāozi|bánh bao|N
+18|A1|報紙|bàozhǐ|báo|N
+19|A1|杯|bēi|ly|M
+20|A1|被|bèi|bị, được|Prep
+21|A1|北邊|běi biān|hướng Bắc|N
+22|A1|杯子|bēizi|cái ly|N
+23|A1|本|běn|cuốn|M
+24|A1|本子|běnzi|tập|N
+25|A1|比|bǐ|so sánh|Prep
+26|A1|筆|bǐ|bút, viết|N
+27|A1|別的|biéde|cái khác|Det
+28|A1|比較|bǐjiào|khá là, …hơn|Adv
+29|A1|比賽|bǐsài|trận đấu|N
+30|A1|比賽|bǐsài|thi đấu|VA
+31|A1|不客氣|búkèqì|đừng khách sáo|
+32|A1|不|bù|đừng|Adv
+33|A1|不好意思|bùhǎoyìsi|ngại|
+34|A1|才|cái|mới ( sớm )|Adv
+35|A1|菜|cài|món ăn, rau|N
+36|A1|參加|cānjiā|tham gia|VA
+37|A1|餐廳|cāntīng|nhà hàng|N
+38|A1|茶|chá|trà|N
+39|A1|長|cháng|dài|VS
+40|A1|常常|chángcháng|thường|Adv
+41|A1|唱歌|chànggē|ca hát|VA
+42|A1|吵|chǎo|ồn, làm ồn|VS
+43|A1|車(子)|chē(zi)|xe|N
+44|A1|車站|chēzhàn|trạm xe|N
+45|A1|成績|chéngjī|thành tích|N
+46|A1|吃|chī|ăn|VA
+47|A1|吃飽|chībǎo|ăn no|VS
+48|A1|吃飯|chīfàn|ăn cơm|VA
+49|A1|穿|chuān|mặc|VA
+50|A1|船|chuán|thuyền|N
+51|A1|窗|chuāng|cửa sổ|N
+52|A1|床|chuáng|giường|N
+53|A1|廚房|chúfáng|nhà bếp; đi nước ngoài; ra; đi ra|N
+54|A1|春天|chūntiān|mùa xuân|N
+55|A1|次|cì|lần|M
+56|A1|從|cóng|từ|Prep
+57|A1|錯|cuò|sai, nhầm|VS
+58|A1|打|dǎ|đánh|VA
+59|A1|打電話|dǎdiànhuà|gọi điện thoại|VA
+60|A1|打開|dǎkāi|mở ra|VA
+61|A1|大|dà|lớn|VS
+62|A1|大家|dàjiā|mọi người|N
+63|A1|大樓|dàlóu|nhà lầu|N
+64|A1|大樓|dàngāo|bánh kem|N
+65|A1|當然|dāngrán|đương nhiên|Adv
+66|A1|到|dào|đến, tới|VA
+67|A1|大學|dàxué|đại học|N
+68|A1|的|de|trợ từ sở hữu, nhấn mạnh|P
+69|A1|得|de|trợ từ bổ ngữ trình độ|P
+70|A1|等|děng|chờ, đợi|VA
+71|A1|第|dì|thứ tự|Det
+72|A1|點(鐘)|diǎn(zhōng)||M
+73|A1|電話|diànhuà|điện thoại|N
+74|A1|電腦|diànnǎo|máy vi tính|N
+75|A1|電視(機)|diànshì(jī)|Tivi|N
+76|A1|電影|diànyǐng|phim|N
+77|A1|電影院|diànyǐngyuàn|rạp chiếu phim|N
+78|A1|弟弟|dìdi|em trai|N
+79|A1|地方|dìfāng|nơi|N
+80|A1|地上|dìshàng|dưới đất, trên mặt đất|N
+81|A1|地圖|dìtú|bản đồ|N
+82|A1|東邊|dōngbiān|hướng Đông|N
+83|A1|冬天|dōngtiān|mùa đông|N
+84|A1|東西|dōngxī|đồ|N
+85|A1|懂|dǒng|hiểu|VS
+86|A1|都|dōu|đều|Adv
+87|A1|對|duì|đúng, đối với|VS
+88|A1|對不起|duìbùqǐ|xin lỗi|
+89|A1|對面|duìmiàn|đối diện|N
+90|A1|多|duō|nhiều lên|Adv
+91|A1|多|duō|nhiều|VS
+92|A1|多少|duōshǎo|bao nhiêu|Adv
+93|A1|肚子|dùzǐ|bụng|N
+94|A1|餓|è|đói|VS
+95|A1|二|èr|hai|Det
+96|A1|兒子|érzi|con trai ( của ai )|N
+97|A1|飯|fàn|cơm, bữa ăn|N
+98|A1|放|fàng|để, đặt|VA
+99|A1|方便|fāngbiàn|tiện lợi|VS
+100|A1|房間|fángjiān|phòng|N
+101|A1|房子|fángzi|nhà|N
+102|A1|非常|fēicháng|vô cùng|Adv
+103|A1|飛機|fēijī|máy bay|N
+104|A1|機場|jīchǎng|sân bay|N
+105|A1|分鐘|fēnzhōng|phút|M
+106|A1|封|fēng|bức ( thư )|M
+107|A1|風|fēng|gió|N
+108|A1|風景|fēngjǐng|phong cảnh|N
+109|A1|附近|fùjìn|gần đây, ở gần|N
+110|A1|乾淨|gānjìng|sạch sẽ|VS
+111|A1|感冒|gǎnmào|cảm|VS
+112|A1|高|gāo|cao|VS
+113|A1|高興|gāoxìng|vui|VS
+114|A1|告訴|gàosù|nói cho biết|VA
+115|A1|個|gè|lượng từ: cái, người…|M
+116|A1|哥哥|gēge|anh trai|N
+117|A1|給|gěi|cho|VA
+118|A1|跟|gēn|cùng, và|Conj
+119|A1|更|gèng|còn…hơn nữa|Adv
+120|A1|公共汽車|gōnggòng qìchē|xe buýt|N
+121|A1|功課|gōngkè|bài tập về nhà, học hành|N
+122|A1|公司|gōngsī|công ty|N
+123|A1|公寓|gōngyù|chung cư|N
+124|A1|公園|gōngyuán|công viên|N
+125|A1|工作|gōngzuò|công việc|N
+126|A1|狗|gǒu|chó|N
+127|A1|關|guān|đóng|VA
+128|A1|貴|guì|mắc tiền|VS
+129|A1|過|guò|…qua|P
+130|A1|過|guò|đi qua|VA
+131|A1|國家|guójiā|nước, đất  nước|N
+132|A1|孩子|háizi|con, trẻ|N
+133|A1|海邊|hǎibiān|bãi biển|N
+134|A1|還是|háishì|hay là|Conj
+135|A1|寒假|hánjià|nghỉ đông|N
+136|A1|好|hǎo|rất|Adv
+137|A1|好|hǎo|tốt|VS
+138|A1|好吃|hǎochī|ăn ngon|VS
+139|A1|好像|hǎoxiàng|hình như|Adv
+140|A1|好玩|hǎowán|chơi vui|VS
+141|A1|號|hào|số, ngày|M
+142|A1|號碼|hàomǎ|số|N
+143|A1|喝|hē|uống|VA
+144|A1|和|hé|và|Conj
+145|A1|很|hěn|rất|Adv
+146|A1|紅色|hóngsè|màu đỏ|N
+147|A1|後面|hòumiàn|phía sau|N
+148|A1|花(兒)|huā(er)|bông hoa|N
+149|A1|畫|huà|tranh|N
+150|A1|畫畫|Huà huà|vẽ tranh|VA
+151|A1|壞|huài|xấu, hư|VS
+152|A1|換|huàn|đổi|VA
+153|A1|黃色|huángsè|màu vàng|N
+154|A1|歡迎|huānyíng|hoan nghênh|VS
+155|A1|華語|/華文  huáyǔ / huáwén|tiếng Hoa|N
+156|A1|回家|huíjiā|về nhà|VA
+157|A1|回來|huílái|quay lại|VA
+158|A1|回去|huíqù|đi về|VA
+159|A1|會|huì|biết, sẽ|VS
+160|A1|活動|huódòng|hoạt động, chương trình|N
+161|A1|火車|huǒchē|xe lửa|N
+162|A1|幾|jǐ|mấy, vài|Det
+163|A1|寄|jì|gửi|VA
+164|A1|加|jiā|thêm, cộng|VA
+165|A1|家|jiā|nhà, gia đình|N
+166|A1|家人|jiārén|người nhà|N
+167|A1|間|jiān|căn ( phòng )|M
+168|A1|件|jiàn|chiếc ( áo )|M
+169|A1|健康|jiànkāng|khỏe mạnh|VS
+170|A1|見面|jiànmiàn|gặp mặt|VA
+171|A1|腳|jiǎo|chân|N
+172|A1|腳踏車|jiǎotàchē|xe đạp|N
+173|A1|叫|jiào|tên là, được gọi là|VA
+174|A1|教室|jiàoshì|phòng học|N
+175|A1|記得|jìdé|nhớ|VS
+176|A1|接|jiē|đón|VA
+177|A1|結束|jiéshù|kết thúc|VS
+178|A1|介紹|jièshào|giới thiệu|VA
+179|A1|今年|jīnnián|năm nay|N
+180|A1|今天|jīntiān|hôm nay|N
+181|A1|近|jìn|gần|VS
+182|A1|進步|jìnbù|tiến bộ|VS
+183|A1|進來|jìnlái|đi vào|VA
+184|A1|進去|jìnqù|đi vô|VA
+185|A1|九|jiǔ|chín|Det
+186|A1|久|jiǔ|lâu|VS
+187|A1|酒|jiǔ|rượu|N
+188|A1|就|jiù|thì|Adv
+189|A1|舊|jiù|cũ|VS
+190|A1|覺得|juédé|cảm thấy|VS
+191|A1|咖啡|kāfēi|cà phê|N
+192|A1|開|kāi|lái, mở|VA
+193|A1|開車|kāichē|lái xe|VA
+194|A1|開始|kāishǐ|bắt đầu|VS
+195|A1|看|kàn|xem|VA
+196|A1|考試|kǎoshì|kì thi|N
+197|A1|考試|kǎoshì|thi|VA
+198|A1|卡片|kǎpiàn|thiệp|N
+199|A1|可樂|kělè|coca|N
+200|A1|可能|kěnéng|có thể, có lẽ|Adv
+201|A1|可是|kěshì|nhưng|Conj
+202|A1|可以|kěyǐ|có thể, được|Adv
+203|A1|課|kè|bài, khóa học|N
+204|A1|客廳|kètīng|phòng khách|N
+205|A1|褲子|kùzi|quần|N
+206|A1|快|kuài|mau|Adv
+207|A1|快|kuài|nhanh|VS
+208|A1|塊|kuài|đồng, cục, viên, miếng|M
+209|A1|快樂|kuàilè|vui vẻ|VS
+210|A1|來|lái|đến|VA
+211|A1|籃球|lánqiú|bóng rổ|N
+212|A1|老師|lǎoshī|giáo viên|N
+213|A1|了|le|…rồi|P
+214|A1|了|le|đã…|P
+215|A1|累|lèi|mệt|VS
+216|A1|冷|lěng|lạnh|VS
+217|A1|冷氣(機)|lěngqì(jī)|máy lạnh|N
+218|A1|離|lí|cách|VA
+219|A1|離開|líkāi|rời xa|VA
+220|A1|裡面|lǐmiàn|bên trong|N
+221|A1|兩|liǎng|hai|Det
+222|A1|六|liù|sáu|Det
+223|A1|樓|lóu|lầu|M
+224|A1|樓上|lóushàng|trên lầu|N
+225|A1|樓下|lóuxià|dưới lầu|N
+226|A1|路|lù|đường, lộ|N
+227|A1|路口|lùkǒu|giao lộ|N
+228|A1|旅行|lǚxíng|du lịch|VA
+229|A1|綠色|lǜsè|màu xanh lá|N
+230|A1|嗎|ma|trợ từ   nghi  vấn|P
+231|A1|媽媽|māma|mẹ|N
+232|A1|買|mǎi|mua|VA
+233|A1|賣|mài|bán|VA
+234|A1|忙|máng|bận|VS
+235|A1|貓|māo|mèo|N
+236|A1|毛|máo|lông|M
+237|A1|每|měi|mỗi|Det
+238|A1|美國|měiguó|nước Mỹ|N
+239|A1|沒|méi|đã không, không có|Adv
+240|A1|沒(有)|méi(yǒu)|không, không có|P
+241|A1|沒關係|méiguānxì|không sao|VS
+242|A1|沒問題|méiwèntí|không vấn đề|VS
+243|A1|妹妹|mèimei|em gái|N
+244|A1|門|mén|cửa|N
+245|A1|門口|ménkǒu|ngoài cửa|N
+246|A1|面|miàn|mì|N
+247|A1|麵包|miànbāo|bánh mì|N
+248|A1|明年|míngnián|năm tới|N
+249|A1|明天|míngtiān|ngày mai|N
+250|A1|名字|míngzì|tên|N
+251|A1|拿|ná|lấy|VA
+252|A1|哪裡|/兒  nǎlǐ/er|đâu|N
+253|A1|那裡|/兒  nàlǐ/er|chỗ đó|N
+254|A1|那些|nàxiē|những thứ đó|Det
+255|A1|難|nán|khó|VS
+256|A1|南(邊)|nán(biān)|phía nam|N
+257|A1|男孩|nánhái|con trai, cậu bé|N
+258|A1|男生|nánshēng|con trai|N
+259|A1|呢|ne|trợ từ ngữ khí: thì  sao?  Nè?|P
+260|A1|能|néng|có thể|Adv
+261|A1|你|nǐ|bạn|N
+262|A1|你們|nǐmen|các bạn|N
+263|A1|年|nián|năm|N
+264|A1|您|nín|ngài, ông, bà, anh, chị|N
+265|A1|牛奶|niúnǎi|sữa bò|N
+266|A1|女兒|nǚér|con gái ( của ai )|N
+267|A1|女孩|nǚhái|con gái, cô bé|N
+268|A1|女生|nǚshēng|con gái|N
+269|A1|跑步|pǎobù|chạy bộ|VA
+270|A1|朋友|péngyǒu|bạn bè|N
+271|A1|便宜|piányi|rẻ tiền|VS
+272|A1|票|piào|vé|N
+273|A1|漂亮|piāoliàng|xinh đẹp|VS
+274|A1|皮包|píbāo|túi xách|N
+275|A1|瓶|píng|chai|M
+276|A1|七|qī|7|Det
+277|A1|騎|qí|chạy xe 2 bánh|VA
+278|A1|千|qiān|ngàn|Det
+279|A1|錢|qián|tiền|N
+280|A1|前面|qiánmiàn|phía trước|N
+281|A1|錢包|qiánbāo|ví tiền|N
+282|A1|起床|qǐchuáng|thức dậy|VA
+283|A1|請|qǐng|mời, xin|VA
+284|A1|請問|qǐngwèn|xin hỏi|
+285|A1|球|qiú|bóng,banh|N
+286|A1|秋天|qiūtiān|mùa thu|N
+287|A1|去|qù|đi|VA
+288|A1|去年|qùnián|năm ngoái|N
+289|A1|熱|rè|nóng|VS
+290|A1|熱狗|règǒu|hotdog|N
+291|A1|熱鬧|rènào|náo nhiệt|VS
+292|A1|人|rén|người|N
+293|A1|認識|rènshi|quen biết, nhận ra|VS
+294|A1|日本|rìběn|Nhật bản|N
+295|A1|容易|róngyì|dễ|VS
+296|A1|肉|ròu|thịt|N
+297|A1|三|sān|3|Det
+298|A1|傘|sǎn|dù|N
+299|A1|山|shān|núi|N
+300|A1|上|shàng|lên, trên|VA
+301|A1|上面|shàng miàn|phía trên|N
+302|A1|上班|shàngbān|vào làm, đi  làm|VA
+303|A1|商店|shāngdiàn|cửa hàng|N
+304|A1|上課|shàngkè|lên lớp|VA
+305|A1|上網|shàngwǎng|lên mạng|VA
+306|A1|上午|shàngwǔ|buổi sáng|N
+307|A1|少|shǎo|ít|VS
+308|A1|誰|shéi|ai|N
+309|A1|生病|shēngbìng|bị bệnh|VS
+310|A1|生日|shēngrì|sinh nhật|N
+311|A1|身體|shēntǐ|cơ thể, sức khỏe|N
+312|A1|什麼|shénme|gì, cái gì|Det
+313|A1|十|shí|10|Det
+314|A1|時候|shíhòu|lúc, khi|N
+315|A1|時間|shíjiān|thời gian|N
+316|A1|時鐘|shízhōng|đồng hồ|N
+317|A1|是|shì|là, phải|VA
+318|A1|收到|shōudào|nhận được|VA
+319|A1|手|shǒu|tay|N
+320|A1|手機|shǒujī|điện thoại di động|N
+321|A1|書|shū|sách|N
+322|A1|書包|shūbāo|cặp đựng sách|N
+323|A1|舒服|shūfú|dễ chịu|VS
+324|A1|暑假|shǔjià|nghỉ hè|N
+325|A1|樹|shù|cây|N
+326|A1|雙|shuāng|đôi( giày, tay )|M
+327|A1|水|shuǐ|nước|N
+328|A1|水果|shuǐguǒ|trái cây|N
+329|A1|睡覺|shuìjiào|ngủ|VA
+330|A1|說|shuō|nói|VA
+331|A1|說話|shuōhuà|nói chuyện|VA
+332|A1|四|sì|4|Det
+333|A1|宿舍|sùshè|ký túc xá|N
+334|A1|歲|suì|tuổi|M
+335|A1|算|suàn|tính|VA
+336|A1|送|sòng|tặng, đưa tiễn|VA
+337|A1|所以|suǒyǐ|cho nên|Conj
+338|A1|他|/她    tā/tā|anh ấy, cô ấy|N
+339|A1|他們|/她們  tāmen/tāmen|bọn họ|N
+340|A1|太|tài|quá|Adv
+341|A1|太太|tàitài|bà, vợ|N
+342|A1|糖|táng|kẹo, đường|N
+343|A1|特別|tèbié|đặc biệt|VS
+344|A1|踢|tī|đá|VA
+345|A1|天|tiān|ngày|M
+346|A1|天|tiān|ngày, trời|N
+347|A1|天氣|tiānqì|thời tiết|N
+348|A1|跳舞|tiàowǔ|nhảy múa|VA
+349|A1|聽|tīng|nghe|VA
+350|A1|痛|tòng|đau|VS
+351|A1|同學|tóngxué|bạn học|N
+352|A1|頭|tóu|đầu|N
+353|A1|圖片|túpiàn|hình|N
+354|A1|圖書館|túshūguǎn|thư viện|N
+355|A1|外面|wàimiàn|bên ngoài|N
+356|A1|完|wán|hết, xong|VS
+357|A1|玩(兒)|wán(er)|chơi|VA
+358|A1|碗|wǎn|cái chén, cái tô|N
+359|A1|碗|wǎn|chén, tô|M
+360|A1|晚安|wǎnān|ngủ ngon|VS
+361|A1|晚餐|/晚飯  wǎncān/wǎnfàn|cơm tối|N
+362|A1|晚上|wǎnshàng|buổi tối|N
+363|A1|往|wǎng|về phía, hướng về|Prep
+364|A1|網球|wǎngqiú|tennis|N
+365|A1|網站|wǎngzhàn|website, trang web|N
+366|A1|忘|wàng|quên|VS
+367|A1|喂|wéi|alo|VS
+368|A1|位|wèi|Vị (anh, chị, ông, bà)|M
+369|A1|為什麼|wèishénme|tại sao|Adv
+370|A1|問|wèn|hỏi|VA
+371|A1|問題|wèntí|vấn đề, câu hỏi|N
+372|A1|我|wǒ|tôi|N
+373|A1|我們|wǒmen|chúng ta, chúng tôi|N
+374|A1|五|wǔ|5|Det
+375|A1|午餐|/午飯  wǔcān/wǔfàn|cơm trưa|N
+376|A1|洗|xǐ|rửa, tắm|VA
+377|A1|下|xià|xuống|VA
+378|A1|西邊|xībiān|phía tây|N
+379|A1|下麵|xiàmiàn|phía dưới|N
+380|A1|下班|xiàbān|tan ca|VA
+381|A1|下課|xiàkè|tan học|VS
+382|A1|夏天|xiàtiān|mùa hè|N
+383|A1|下午|xiàwǔ|buổi chiều|N
+384|A1|下雨|xiàyǔ|trời mưa|VA
+385|A1|先|xiān|trước|Adv
+386|A1|先生|xiānshēng|ông, anh, mr|N
+387|A1|現在|xiànzài|bây giờ|N
+388|A1|想|xiǎng|nghĩ, nhớ|VA
+389|A1|像|xiàng|giống|VA
+390|A1|小|xiǎo|nhỏ|VS
+391|A1|小孩|xiǎohái|con, con nít|N
+392|A1|小姐|xiǎojiě|cô, miss|N
+393|A1|小時|xiǎoshí|giờ, tiếng đồnghồ|N
+394|A1|小心|xiǎoxīn|cẩn thận|VS
+395|A1|鞋子|xiézi|giày|N
+396|A1|寫|xiě|viết|VA
+397|A1|寫字|xiězì|viết chữ|VA
+398|A1|謝謝|xièxie|cảm ơn|VS
+399|A1|喜歡|xǐhuān|thích; nhà vệ sinh|VS
+400|A1|洗衣機|xǐyījī|máy giặt|N
+401|A1|洗澡|xǐzǎo|tắm|VA
+402|A1|新|xīn|mới|VS
+403|A1|新年|xīnnián|năm mới|N
+404|A1|信|xìn|thư|N
+405|A1|信封|xìnfēng|bìa thư|N
+406|A1|星期|xīngqí|tuần|N
+407|A1|星期日|xīngqírì|chủ nhật|N
+408|A1|行|xíng|ok, được|VS
+409|A1|姓|xìng|họ|VA
+410|A1|休息|xiūxí|nghỉ ngơi|VA
+411|A1|學|xué|học|VA
+412|A1|學生|xuéshēng|học sinh|N
+413|A1|學校|xuéxiào|trường học|N
+414|A1|眼睛|yǎnjīng|mắt|N
+415|A1|要|yào|muốn, cần, phải, sẽ|VA
+416|A1|藥|yào|thuốc|N
+417|A1|也|yě|cũng; 1|Adv
+418|A1|醫生|yīshēng|bác sỹ|N
+419|A1|一點兒|yìdiǎnr|một ít|Det
+420|A1|一定|yídìng|nhất định|Adv
+421|A1|衣服|yīfú|quần áo|N
+422|A1|醫院|yīyuàn|bệnh viện|N
+423|A1|一共|yígòng|tổng cộng|Adv
+424|A1|以後|yǐhòu|sau này, sau khi|N
+425|A1|已經|yǐjīng|đã|Adv
+426|A1|以前|yǐqián|trước đây, trướckhi|N
+427|A1|椅子|yǐzi|ghế|N
+428|A1|一起|yìqǐ|cùng nhau|Adv
+429|A1|一些|yìxiē|một vài|Det
+430|A1|一樣|yíyàng|giống nhau|VS
+431|A1|一直|yìzhí|cứ, hoài, mãi|Adv
+432|A1|意思|yìsī|ý nghĩa|N
+433|A1|銀行|yínháng|ngân hàng|N
+434|A1|因為|yīnwèi|bởi vì|Conj
+435|A1|音樂|yīnyuè|âm nhạc|N
+436|A1|英國|yīngguó|Anh Quốc|N
+437|A1|英文|yīngwén|tiếng Anh|N
+438|A1|郵局|yóujú|bưu điện|N
+439|A1|郵票|yóupiào|tem thư|N
+440|A1|游泳|yóuyǒng|bơi|VA
+441|A1|游泳池|yóuyǒngchí|hồ bơi|N
+442|A1|有|yǒu|có|VA
+443|A1|有點(兒)|yǒudiǎn(er)|hơi hơi|Adv
+444|A1|有空|yǒukòng|rảnh|VS
+445|A1|有時候|yǒushíhòu|có khi, có lúc|Adv
+446|A1|有意思|yǒuyìsī|thú vị|VS
+447|A1|又|yòu|lại, nữa|Adv
+448|A1|右邊)|yòubiān|bên phải|N
+449|A1|用|yòng|dùng, xài|VA
+450|A1|魚|yú|cá|N
+451|A1|元|yuán|đồng ( đơn vị tiền TQ )|M
+452|A1|遠|yuǎn|xa|VS
+453|A1|月|yuè|tháng|N
+454|A1|運動|yùndòng|vận động, thể thao|N
+455|A1|運動|yùndòng|vận động, tập thể dục|VA
+456|A1|雨天|yǔtiān|ngày mưa|N
+457|A1|再|zài|thêm, tiếp|Adv
+458|A1|在|zài|đang|Adv
+459|A1|在|zài|ở, lúc|Prep
+460|A1|再見|zàijiàn|tạm biệt|VA
+461|A1|早|zǎo|sớm|VS
+462|A1|早飯|zǎofàn|cơm sáng|N
+463|A1|早上|zǎoshàng|buổi sáng|N
+464|A1|怎麼|zěnme|sao?|Adv
+465|A1|怎麼辦|zěnme bàn|làm sao? Tính sao?|
+466|A1|怎麼了|zěnme le|bị sao rồi?|
+467|A1|怎麼樣|zěnmeyàng|như thế nào?|
+468|A1|站|zhàn|trạm, bến|N
+469|A1|站|zhàn|đứng|VA
+470|A1|張|zhāng|tờ, tấm|M
+471|A1|找|zhǎo|tìm|VA
+472|A1|找到|zhǎodào|tìm được|VA
+473|A1|照片|zhàopiàn|hình chụp|N
+474|A1|照相|zhàoxiàng|chụp hình|VA
+475|A1|照相機|zhàoxiàngjī|máy ảnh|N
+476|A1|這裡|/兒  zhèlǐ/er|chỗ này|N
+477|A1|這些|zhèxiē|những thứ này|Det
+478|A1|紙|zhǐ|giấy|N
+479|A1|枝|zhī|cây ( viết )|M
+480|A1|只|zhī|con ( chó, mèo )|M
+481|A1|知道|zhīdào|biết|VS
+482|A1|中國|zhōngguó|Trung Quốc|N
+483|A1|中文|zhōngwén|tiếng Trung|N
+484|A1|中午|zhōngwǔ|buổi trưa|N
+485|A1|重要|zhòngyào|quan trọng|VS
+486|A1|週末|zhōumò|cuối tuần|N
+487|A1|住|zhù|sống, ở|VA
+488|A1|桌子|zhuōzi|cái bàn|N
+489|A1|自己|zìjǐ|tự mình|N
+490|A1|姊姊|/姐姐  jiějie|chị gái|N
+491|A1|走|zǒu|đi|VA
+492|A1|走路|zǒulù|đi bộ|VA
+493|A1|足球|zúqiú|bóng đá|N
+494|A1|最|zuì|nhất|Adv
+495|A1|最近|zuìjìn|dạo này,gần nhất|Adv
+496|A1|昨天|zuótiān|hôm qua|N
+497|A1|左(邊)|zuǒbiān|bên trái|N
+498|A1|坐|zuò|ngồi|VA
+499|A1|做|zuò|làm|VA
+500|A1|做飯|zuòfàn|làm cơm|VA
+501|A1|做完|zuòwán|làm xong|VA
+502|A2|阿姨|āyí|dì|N
+503|A2|矮|ǎi|thấp|VS
+504|A2|安全|ānquán|an toàn|VS
+505|A2|白|bái|trắng|VS
+506|A2|辦法|bànfǎ|biện pháp, cách|N
+507|A2|棒|bàng|giỏi, tuyệt|VS
+508|A2|幫忙|bāngmáng|giúp đỡ|VA
+509|A2|包|bāo|gói, bao|M
+510|A2|抱|bào|ôm, bòng|VA
+511|A2|必須|bìxū|cần phải|Adv
+512|A2|邊(兒)|biān(er)|bên, cạnh|N
+513|A2|遍|biàn|lần, bận|M
+514|A2|表|biǎo|đồng hồ|N
+515|A2|別|bié|đừng|Adv
+516|A2|別人|biérén|người khác|N
+517|A2|餅乾|bǐnggān|bánh quy|N
+518|A2|冰箱|bīngxiāng|tủ lạnh|N
+519|A2|病|bìng|bệnh|N
+520|A2|病人|bìngrén|người bệnh|N
+521|A2|不錯|búcuò|khá, không tệ|VS
+522|A2|不但|búdàn|không những|Conj
+523|A2|不一定|bùyídìng|không nhất định|Adv
+524|A2|不用|búyòng|không cần|Adv
+525|A2|擦|cā|lau, chùi|VA
+526|A2|猜|cāi|đoán|VA
+527|A2|才|cái|mới, vừa mới|Adv
+528|A2|菜單|càidān|menu, thực đơn|N
+529|A2|餐桌|cānzhuō|bàn ăn|N
+530|A2|草|cǎo|cỏ|N
+531|A2|草地|cǎodì|bãi cỏ|N
+532|A2|叉(子)|chā(zi)|cái nĩa|N
+533|A2|超級市場|chāojí shìchǎng|siêu thị|N
+534|A2|城市|chéngshì|thành phố|N
+535|A2|襯衫|chènshān|áo sơ mi|N
+536|A2|遲到|chídào|đến muộn|VS
+537|A2|窗戶|chuānghù|cửa sổ|N
+538|A2|吹|chuī|thổi|VA
+539|A2|聰明|cōngmíng|thông minh|VS
+540|A2|從前|cóngqián|hồi trước|N
+541|A2|帶|dài|mang, dắt|VA
+542|A2|戴|dài|đeo, đội|VA
+543|A2|袋子|dàizi|túi, bọc|N
+544|A2|蛋|dàn|trứng|N
+545|A2|但是|dànshì|nhưng mà|Conj
+546|A2|刀(子)|dāo(zi)|con dao|N
+547|A2|倒|dào|rót, đổ|VA
+548|A2|打掃|dǎsǎo|quét|VA
+549|A2|打算|dǎsuàn|dự tính, định|VA
+550|A2|大聲|dàshēng|lớn tiếng|VS
+551|A2|大衣|dàyī|áo choàng|N
+552|A2|德國|déguó|nước Đức|N
+553|A2|低|dī|thấp|VS
+554|A2|店|diàn|tiệm, quán|N
+555|A2|電燈|diàndēng|đèn điện|N
+556|A2|點(兒)|diǎn (er)|ít, tý|M
+557|A2|點(兒)|diǎn (er)|chấm|N
+558|A2|點菜|diǎncài|chọn món|VA
+559|A2|點心|diǎnxīn|điểm tâm|N
+560|A2|掉|diào|rớt|VS
+561|A2|動|dòng|động|VA
+562|A2|動物|dòngwù|động vật|N
+563|A2|動物園|dòngwùyuán|sở thú|N
+564|A2|讀|dú|đọc, học ở trường|VA
+565|A2|讀書|dúshū|học, đọc sách|VA
+566|A2|短|duǎn|ngắn|VS
+567|A2|朵|duǒ|đóa ( hoa, mây )|M
+568|A2|耳朵|ěrduō|lỗ tai|N
+569|A2|法國|fǎguó|nước Pháp|N
+570|A2|飯店|fàndiàn|khách sạn, nhà hàng|N
+571|A2|方法|fāngfǎ|phương pháp|N
+572|A2|放假|fàngjià|được nghỉ|VS
+573|A2|放下|fàngxià|bỏ xuống|VA
+574|A2|發生|fāshēng|xảy ra, phát sinh|VS
+575|A2|發現|fāxiàn|phát hiện|VA
+576|A2|飛|fēi|bay|VA
+577|A2|父親|fùqīn|cha|N
+578|A2|服務生|fúwùshēng|phục vụ viên|N
+579|A2|幹|gān|khô|VS
+580|A2|剛剛|gānggāng|mới vừa|Adv
+581|A2|給|gěi|cho|Prep
+582|A2|跟|gēn|cùng với|Prep
+583|A2|恭喜|gōngxǐ|chúc mừng|VS
+584|A2|工作|gōngzuò|làm việc|VA
+585|A2|夠|gòu|đủ|VS
+586|A2|掛|guà|treo|VA
+587|A2|乖|guāi|ngoan|VS
+588|A2|關上|guānshàng|đóng lại|VA
+589|A2|果汁|guǒzhī|nước trái cây|N
+590|A2|過來|guòlái|qua đây|VA
+591|A2|過年|guònián|ăn tết|VA
+592|A2|過去|guòqù|quá khứ|N
+593|A2|過去|guòqù|đi qua ( bên kia )|VA
+594|A2|故事|gùshì|câu chuyện|N
+595|A2|還|hái|vẫn, còn|Adv
+596|A2|海|hǎi|biển|N
+597|A2|害怕|hàipà|e sợ|VS
+598|A2|漢堡|hànbǎo|hamburger|N
+599|A2|韓國|hánguó|Hàn Quốc|N
+600|A2|漢語|hànyǔ|tiếng Hán|N
+601|A2|漢字|hànzì|chữ Hán|N
+602|A2|好看|hǎokàn|xinh đẹp|VS
+603|A2|河|hé|sông|N
+604|A2|盒子|hézi|cái hộp|N
+605|A2|黑|hēi|đen|VS
+606|A2|黑色|hēisè|màu đen|N
+607|A2|紅|hóng|đỏ|VS
+608|A2|紅包|hóngbāo|bao lì xì|N
+609|A2|紅茶|hóngchá|hồng trà|N
+610|A2|紅綠燈|hónglǜdēng|đèn xanh đỏ|N
+611|A2|後來|hòulái|về sau|N
+612|A2|護士|hùshì|y tá|N
+613|A2|畫家|huàjiā|họa sỹ|N
+614|A2|黃|huáng|vàng|VS
+615|A2|花園|huāyuán|vườn hoa|N
+616|A2|滑雪|huáxuě|trượt tuyết|VA
+617|A2|會|huì|sẽ|Adv
+618|A2|回答|huídá|trả lời|VA
+619|A2|活|huó|sống|VS
+620|A2|或|huò|hoặc|Conj
+621|A2|或是|huòshì|hoặc là|Conj
+622|A2|機會|jīhuì|cơ hội|N
+623|A2|記|jì|ghi chép, nhớ|VA
+624|A2|計程車|jìchéngchē|taxi|N
+625|A2|計畫|jìhuà|kế hoạch|N
+626|A2|計畫|jìhuà|dự định, lặp kế hoạch|VA
+627|A2|家庭|jiātíng|gia đình|N
+628|A2|簡單|jiǎndān|đơn giản|VS
+629|A2|件|jiàn|cái ( áo, quần, việc,  quà  )|M
+630|A2|講話|jiǎnghuà|nói chuyện|VA
+631|A2|教|jiāo|dạy|VA
+632|A2|交|jiāo|giao, nộp|VA
+633|A2|餃子|jiǎozi|há cảo|N
+634|A2|結婚|jiéhūn|kết hôn|VA
+635|A2|節目|jiémù|tiết mục|N
+636|A2|解決|jiějué|giải quyết|VA
+637|A2|借|jiè|mượn, cho mượn|VA
+638|A2|斤|jīn|cân ( 500gr )|M
+639|A2|經過|jīngguò|trãi qua|VA
+640|A2|員警|jǐngchá|cảnh sát|N
+641|A2|緊張|jǐnzhāng|căng thẳng|VS
+642|A2|就要|jiùyào|sắp sửa|Adv
+643|A2|決定|juédìng|quyết định|VA
+644|A2|句子|jùzi|câu|N
+645|A2|開始|kāishǐ|bắt đầu|VA
+646|A2|開水|kāishuǐ|nước chín|N
+647|A2|開心|kāixīn|vui vẻ|VS
+648|A2|開學|kāixué|vào học|VS
+649|A2|看到|kàndào|nhìn được|VA
+650|A2|看見|kànjiàn|nhìn thấy|VA
+651|A2|烤|kǎo|nướng, quay|VA
+652|A2|棵|kē|cây ( thông, táo, lê  )|M
+653|A2|科學|kēxué|khoa học|N
+654|A2|渴|kě|khát|VS
+655|A2|可愛|kěài|dễ thương|VS
+656|A2|課本|kèběn|sách giáo khoa|N
+657|A2|客氣|kèqì|khách sáo|VS
+658|A2|客人|kèrén|khách|N
+659|A2|課文|kèwén|bài học|N
+660|A2|空氣|kōngqì|không khí; miệng, ngụm|N
+661|A2|哭|kū|khóc|VA
+662|A2|苦|kǔ|khổ|VS
+663|A2|塊|kuài|đồng, miếng, cục|M
+664|A2|筷子|kuàizi|đũa|N
+665|A2|拉|lā|kéo|VA
+666|A2|藍|lán|xanh lam|VS
+667|A2|藍色|lánsè|màu xanh lam|N
+668|A2|老|lǎo|già, cũ|VS
+669|A2|老人|lǎorén|người già|N
+670|A2|裡|lǐ|trong, bên trong|N
+671|A2|裡邊|lǐbiān|bên trong|N
+672|A2|禮物|lǐwù|quà|N
+673|A2|臉|liǎn|mặt|N
+674|A2|練習|liànxí|luyện tập|VA
+675|A2|涼|liáng|lạnh, nguội|VS
+676|A2|涼快|liángkuài|mát mẻ|VS
+677|A2|亮|liàng|sáng|VS
+678|A2|輛|liàng|chiếc ( xe )|M
+679|A2|聊天|liáotiān|trò chuyện|VA
+680|A2|零|líng|0, lẻ|Det
+681|A2|留|liú|lưu, để lại, ở lại|VA
+682|A2|樓|lóu|lầu, tầng lầu|N
+683|A2|旅遊|lǚyóu|du lịch|VA
+684|A2|綠|lǜ|xanh lục|VS
+685|A2|亂|luàn|loạn, bậy|VS
+686|A2|路上|lùshàng|trên đường|N
+687|A2|麻煩|máfán|phiền phức|N
+688|A2|麻煩|máfán|làm phiền|VS
+689|A2|馬|mǎ|ngựa|N
+690|A2|馬上|mǎshàng|lặp tức|Adv
+691|A2|慢|màn|chậm|VS
+692|A2|毛衣|máoyī|áo len|N
+693|A2|帽子|màozi|nón|N
+694|A2|美|měi|đẹp|VS
+695|A2|美麗|měilì|xinh đẹp; xe máy|VS
+696|A2|年輕|niánqīng|trẻ tuổi|VS
+697|A2|念|niàn|đọc, học|VA
+698|A2|小鳥|xiăo niǎo|chim|N
+699|A2|努力|nǔlì|nổ lực, cố gắng|VS
+700|A2|暖和|nuǎnhuo|ấm áp|VS
+701|A2|爬|pá|leo, trèo|VA
+702|A2|爬山|páshān|leo núi|VA
+703|A2|怕|pà|sợ|VS
+704|A2|拍|pāi|chụp hình, vỗ|VA
+705|A2|盤|pán|dĩa, đĩa, mâm|M
+706|A2|盤子|pánzi|cái dĩa|N
+707|A2|旁邊|pángbiān|bênh cạnh|N
+708|A2|胖|pàng|mập|VS
+709|A2|跑|pǎo|chạy|VA
+710|A2|片|piàn|miếng, lát, mãnh|M
+711|A2|蘋果|píngguǒ|táo|N
+712|A2|瓶子|píngzi|cái chai,cái bình|N
+713|A2|破|pò|bễ, vỡ|VS
+714|A2|奇怪|qíguài|kì cục|VS
+715|A2|汽水|qìshuǐ|nước có ga|N
+716|A2|起|qǐ|dậy, lên|VA
+717|A2|起來|qǐlái|dậy, mọc|VA
+718|A2|汽車|qìchē|xe hơi|N
+719|A2|鉛筆|qiānbǐ|bút chì, viết chì|N
+720|A2|前天|qiántiān|hôm kia|N
+721|A2|牆|qiáng|tường|N
+722|A2|橋|qiáo|cầu|N
+723|A2|巧克力|qiǎokèlì|sô cô la|N
+724|A2|親|qīn|hôn, ruột thịt|VA
+725|A2|輕|qīng|nhẹ|VS
+726|A2|清楚|qīngchǔ|rõ ràng|VS
+727|A2|晴天|qíngtiān|trời nắng|N
+728|A2|請客|qǐngkè|mời khách, khao, bao|VA
+729|A2|慶祝|qìngzhù|chúc mừng, ăn mừng|VA
+730|A2|全部|quánbù|toàn bộ|Det
+731|A2|裙子|qúnzi|cái váy, đầm|N
+732|A2|然後|ránhòu|sau đó|Adv
+733|A2|讓|ràng|để, nhường,     kêu,bảo|Prep
+734|A2|認為|rènwéi|cho rằng|VA
+735|A2|認真|rènzhēn|nghiêm túc|VS
+736|A2|日|rì|ngày|N
+737|A2|日子|rìzi|ngày ( lễ )|N
+738|A2|如果|rúguǒ|nếu|Conj
+739|A2|森林|sēnlín|rừng rậm|N
+740|A2|沙發|shāfā|ghế salon|N
+741|A2|上來|shànglái|lên đây|VA
+742|A2|上去|shàngqù|đi lên đó|VA
+743|A2|上學|shàngxué|đi học ở trường|VA
+744|A2|生活|shēnghuó|cuộc sống|N
+745|A2|生活|shēnghuó|sinh sống|VA
+746|A2|生氣|shēngqì|giận|VS
+747|A2|聲音|shēngyīn|âm thanh|N
+748|A2|事|shì|việc|N
+749|A2|試|shì|thử|VA
+750|A2|市場|shìchǎng|chợ|N
+751|A2|世界|shìjiè|thế giới|N
+752|A2|事情|shìqíng|sự việc|N
+753|A2|石頭|shítóu|đá|N
+754|A2|食物|shíwù|thức ăn|N
+755|A2|手套|shǒutào|găng tay|N
+756|A2|瘦|shòu|ốm|VS
+757|A2|書桌|shūzhuō|bàn đọc sách|N
+758|A2|數|shǔ|đếm|VA
+759|A2|刷牙|shuāyá|đánh răng|VA
+760|A2|睡|shuì|ngủ|VA
+761|A2|酸|suān|chua|VS
+762|A2|雖然|suīrán|tuy|Conj
+763|A2|隨便|suíbiàn|tùy, tùy tiện|VS
+764|A2|所有|suǒyǒu|tất cả|Det
+765|A2|談|tán|trò chuyện|VA
+766|A2|湯|tāng|canh|N
+767|A2|湯匙|tāngchí|muỗng canh|N
+768|A2|討厭|tǎoyàn|ghét, thấy ghét|VS
+769|A2|套|tào|bộ ( tem, quần áo )|M
+770|A2|疼|téng|đau, nhức|VS
+771|A2|天天|tiāntiān|ngày ngày|Adv
+772|A2|甜|tián|ngọt|VS
+773|A2|條|tiáo|con (cá, rắn), cái (quần, váy)|M
+774|A2|跳|tiào|nhảy|VA
+775|A2|聽見|tīngjiàn|nghe thấy|VA
+776|A2|聽說|tīngshuō|nghe nói|VA
+777|A2|停|tíng|dừng|VS
+778|A2|停車|tíngchē|dừng xe|VA
+779|A2|通知|tōngzhī|thông báo|N
+780|A2|通知|tōngzhī|thông báo|VA
+781|A2|偷|tōu|trộm|VA
+782|A2|頭髮|tóufǎ|tóc|N
+783|A2|推|tuī|đẩy|VA
+784|A2|腿|tuǐ|chân, đùi|N
+785|A2|外套|wàitào|áo khoác|N
+786|A2|危險|wéixiǎn|nguy hiểm|VS
+787|A2|味道|wèidào|mùi vị|N
+788|A2|無聊|wúliáo|chán, buồn chán|VS
+789|A2|西瓜|xīguā|dưa hấu|N
+790|A2|希望|xīwàng|hi vọng|VS
+791|A2|習慣|xíguàn|thói quen, quen|N
+792|A2|需要|xūyào|cần thiết|VS
+793|A2|許多|xǔduō|rất nhiều|Det
+794|A2|下來|xiàlái|xuống đây|VA
+795|A2|下去|xiàqù|đi xuống|VA
+796|A2|下雪|xiàxuě|trời tuyết|VA
+797|A2|香|xiāng|thơm|VS
+798|A2|鄉下|xiāngxià|dưới quê|N
+799|A2|相信|xiāngxìn|tin tưởng|VS
+800|A2|箱子|xiāngzi|vali|N
+801|A2|向|xiàng|hướng về|Prep
+802|A2|消息|xiāoxí|tin tức|N
+803|A2|小說|xiǎoshuō|tiểu thuyết|N
+804|A2|小偷|xiǎotōu|kẻ trộm|N
+805|A2|小學|xiǎoxué|tiểu học|N
+806|A2|笑|xiào|cười|VA
+807|A2|笑話|xiàohuà|chuyện cười|N
+808|A2|校長|xiàozhǎng|hiệu trưởng|N
+809|A2|心|xīn|tim|N
+810|A2|辛苦|xīnkǔ|cực khổ|VS
+811|A2|新聞|xīnwén|tin tức, thời sự|N
+812|A2|星星|xīngxīng|ngôi sao|N
+813|A2|興趣|xìngqù|sở thích, hứng thú|N
+814|A2|學習|xuéxí|học tập|VA
+815|A2|雪|xuě|tuyết|N
+816|A2|牙刷|yáshuā|bàn chải đánh răng|N
+817|A2|顏色|yánsè|màu sắc|N
+818|A2|眼鏡|yǎnjìng|mắt kính|N
+819|A2|鑰匙|yàoshí|chìa khóa|N
+820|A2|要是|yàoshì|nếu như|Conj
+821|A2|羊|yáng|con dê|N
+822|A2|樣子|yàngzi|kiểu dáng, dáng vẻ|N
+823|A2|也許|yěxǔ|có lẻ|Adv
+824|A2|爺爺|yéye|ông nội|N
+825|A2|一半|yíbàn|1 nửa|Det
+826|A2|一邊|yìbiān|vừa…vừa…|Adv
+827|A2|一會兒|yíhuìér|một hồi, tý nữa|N
+828|A2|飲料|yǐnliào|thức uống|N
+829|A2|陰天|yīntiān|trời âm u|N
+830|A2|應該|yīnggāi|nên|Adv
+831|A2|永遠|yǒngyuǎn|mãi mãi|Adv
+832|A2|有趣|yǒuqù|thú vị|VS
+833|A2|有用|yǒuyòng|hữu dụng|VS
+834|A2|又|yòu|vừa…vừa…|Conj
+835|A2|雨|yǔ|mưa|N
+836|A2|圓|yuán|tròn|VS
+837|A2|原來|yuánlái|hóa ra, thì ra|Adv
+838|A2|院子|yuànzi|sân|N
+839|A2|願意|yuànyì|chịu|VS
+840|A2|約|yuē|hẹn|VA
+841|A2|越來越|yuèláiyuè|ngày càng|Adv
+842|A2|月亮|yuèliàng|mặt trăng|N
+843|A2|語法|yǔfǎ|ngữ pháp|N
+844|A2|語言|yǔyán|ngôn ngữ|N
+845|A2|雲|yún|mây|N
+846|A2|髒|zāng|dơ, bẩn|VS
+847|A2|炸雞|zhájī|gà rán|N
+848|A2|張|zhāng|tấm, tờ, miếng|M
+849|A2|著急|zhāojí|sốt ruột|VS
+850|A2|著|zhe|vẫn đang, có|P
+851|A2|這邊|zhèbiān|bên này; như vậy|N
+852|A2|真|zhēn|thật là|Adv
+853|A2|真|zhēn|thật|VS
+854|A2|正在|zhèngzài|đang|Adv
+855|A2|枝|zhī|cây ( bút )|M
+856|A2|只|zhī|con ( chó, mèo )|M
+857|A2|只|zhǐ|chỉ|Adv
+858|A2|只好|zhǐhǎo|chỉ đành, đành phải|Adv
+859|A2|中間|zhōngjiān|ở giữa|N
+860|A2|鐘頭|zhōngtóu|tiếng đồng hồ|N
+861|A2|中心|zhōngxīn|trung tâm|N
+862|A2|種|zhǒng|loại|M
+863|A2|種|zhòng|trồng|VA
+864|A2|豬|zhū|heo|N
+865|A2|煮|zhǔ|nấu|VA
+866|A2|祝|zhù|chúc|VA
+867|A2|裝|zhuāng|đựng, lắp ( máy )|VA
+868|A2|準備|zhǔnbèi|chuẩn bị|VA
+869|A2|注意|zhùyì|chú ý|VS
+870|A2|字|zì|chữ|N
+871|A2|總是|zǒngshì|luôn, cứ luôn|Adv
+872|A2|租|zū|thuê|VA
+873|A2|嘴巴|zuǐbā|cái miệng|N
+874|A2|做菜|zuòcài|làm đồ ăn|VA
+875|A2|作業|zuòyè|bài tập về nhà|N

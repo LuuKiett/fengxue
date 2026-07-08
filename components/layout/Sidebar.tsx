@@ -12,6 +12,7 @@ import {
   CalendarDays,
   Library,
   ListChecks,
+  ClipboardList,
   LogOut,
   Sparkles,
 } from 'lucide-react'
@@ -24,6 +25,7 @@ const navItems = [
   { href: '/review',             label: 'Ôn Tập Tổng Hợp',  icon: CalendarDays },
   { href: '/dictionary',         label: 'Từ Điển',          icon: Library },
   { href: '/review-dictionary',  label: 'Ôn Tập Từ Điển',   icon: ListChecks },
+  { href: '/practice-exam',      label: 'Luyện Đề TOCFL',   icon: ClipboardList },
 ]
 
 export default function Sidebar() {
@@ -41,7 +43,7 @@ export default function Sidebar() {
     <aside
       className="hidden md:flex flex-col w-64 h-screen sticky top-0 p-4 justify-between bg-white border-r-2 border-slate-200"
     >
-      <div className="space-y-6">
+      <div className="space-y-1">
         {/* Brand/Logo */}
         <div className="flex items-center gap-3 px-3 py-4">
           <div

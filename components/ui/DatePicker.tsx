@@ -56,7 +56,7 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
   }
 
   return (
-    <div className={`relative ${className || ''}`} ref={containerRef}>
+    <div className={`relative z-30 ${className || ''}`} ref={containerRef}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}

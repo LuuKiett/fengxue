@@ -29,6 +29,7 @@ model Profile {
   vocabularySets     VocabularySet[]
   exerciseRecords    ExerciseRecord[]
   dictionaryProgress DictionaryProgress[]
+  practiceSessions   PracticeSession[]
 
   @@map("profiles")
 }
@@ -85,6 +86,9 @@ model DictionaryWord {
   vietnamese String
   pos        String?
   orderIndex Int      @default(0) @map("order_index")
+  exampleHanzi      String? @map("example_hanzi")
+  examplePinyin     String? @map("example_pinyin")
+  exampleVietnamese String? @map("example_vietnamese")
   createdAt  DateTime @default(now()) @map("created_at")
 
   @@unique([level, hanzi, pinyin, vietnamese])
@@ -104,4 +108,17 @@ model DictionaryProgress {
 
   @@unique([userId, level])
   @@map("dictionary_progress")
+}
+
+// Attempt history for the auto-generated TOCFL practice-exam quizzes (MCQ/cloze/reorder).
+model PracticeSession {
+  id             String   @id @default(uuid()) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  level          String
+  totalQuestions Int      @map("total_questions")
+  correctCount   Int      @map("correct_count")
+  createdAt      DateTime @default(now()) @map("created_at")
+  user           Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("practice_sessions")
 }

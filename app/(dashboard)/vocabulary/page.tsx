@@ -228,8 +228,25 @@ export default function VocabularyPage() {
 
   // Active suggestions per row: { rowIndex: SuggestionEntry[] }
   const [suggestions, setSuggestions] = useState<{ [rowIndex: number]: SuggestionEntry[] }>({})
+  // What's currently being typed in the pinyin box per row — kept separate from
+  // row.pinyin (which is the accumulated/committed value) so that, like a phone
+  // Pinyin keyboard, picking a candidate clears the composing text and lets you
+  // keep typing the next character/word instead of finishing the row.
+  const [composingBuffer, setComposingBuffer] = useState<{ [rowIndex: number]: string }>({})
   // Debounce timers per row
   const debounceRefs = useRef<{ [rowIndex: number]: ReturnType<typeof setTimeout> }>({})
+
+  // Shifts index-keyed maps down by one after a row is removed, so suggestions/
+  // composing state for rows after the removed one stay attached to the right row.
+  function reindexAfterRemoval<T>(map: { [rowIndex: number]: T }, removedIndex: number) {
+    const next: { [rowIndex: number]: T } = {}
+    for (const [key, value] of Object.entries(map)) {
+      const k = Number(key)
+      if (k === removedIndex) continue
+      next[k > removedIndex ? k - 1 : k] = value
+    }
+    return next
+  }
 
   const addNewRow = () => {
     setNewRows([...newRows, { hanzi: '', pinyin: '', vietnamese: '' }])
@@ -238,74 +255,100 @@ export default function VocabularyPage() {
   const removeNewRow = (index: number) => {
     if (newRows.length === 1) return
     setNewRows(newRows.filter((_, i) => i !== index))
-    setSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
+    setSuggestions(prev => reindexAfterRemoval(prev, index))
+    setComposingBuffer(prev => reindexAfterRemoval(prev, index))
+    if (debounceRefs.current[index]) clearTimeout(debounceRefs.current[index])
+    debounceRefs.current = reindexAfterRemoval(debounceRefs.current, index)
   }
 
   const updateNewRowField = (index: number, field: 'hanzi' | 'pinyin' | 'vietnamese', value: string) => {
     const updated = [...newRows]
     updated[index][field] = value
     setNewRows(updated)
-
-    if (field === 'pinyin') {
-      // Clear existing debounce
-      if (debounceRefs.current[index]) clearTimeout(debounceRefs.current[index])
-
-      const normalizedQuery = stripTones(value)
-      if (!normalizedQuery) {
-        setSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
-        return
-      }
-
-      debounceRefs.current[index] = setTimeout(async () => {
-        // Ensure index is loaded
-        if (!tocflIndexRef.current) await loadTocflIndex()
-        const idx = tocflIndexRef.current
-        if (!idx) return
-
-        // Exact match first, then prefix match
-        let results: TocflEntry[] = idx[normalizedQuery] || []
-        if (results.length === 0) {
-          // Prefix search via binary search over the sorted key list
-          const keys = sortedKeysRef.current ?? Object.keys(idx).sort()
-          sortedKeysRef.current = keys
-          const matchingKeys = prefixSearchKeys(keys, normalizedQuery).filter(k => k !== normalizedQuery)
-          results = matchingKeys
-            .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
-            .flatMap(k => idx[k])
-            .slice(0, 8)
-        }
-
-        // IME-style composition fallback: when the typed pinyin spans more than one
-        // dictionary word (e.g. typing several characters continuously without spaces,
-        // like "nihaoma" for 你好嗎), decompose it into known segments and pin the
-        // composed multi-hanzi result at the top of the list.
-        const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
-        const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
-
-        if (finalResults.length > 0) {
-          setSuggestions(prev => ({ ...prev, [index]: finalResults }))
-        } else {
-          setSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
-        }
-      }, 150)
-    }
   }
 
+  // Runs the exact/prefix/composed suggestion lookup against whatever the user is
+  // currently typing in a row's composing buffer.
+  const lookupSuggestions = (index: number, query: string) => {
+    if (debounceRefs.current[index]) clearTimeout(debounceRefs.current[index])
+
+    const normalizedQuery = stripTones(query)
+    if (!normalizedQuery) {
+      setSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
+      return
+    }
+
+    debounceRefs.current[index] = setTimeout(async () => {
+      if (!tocflIndexRef.current) await loadTocflIndex()
+      const idx = tocflIndexRef.current
+      if (!idx) return
+
+      // Exact match first, then prefix match
+      let results: TocflEntry[] = idx[normalizedQuery] || []
+      if (results.length === 0) {
+        // Prefix search via binary search over the sorted key list
+        const keys = sortedKeysRef.current ?? Object.keys(idx).sort()
+        sortedKeysRef.current = keys
+        const matchingKeys = prefixSearchKeys(keys, normalizedQuery).filter(k => k !== normalizedQuery)
+        results = matchingKeys
+          .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
+          .flatMap(k => idx[k])
+          .slice(0, 8)
+      }
+
+      // IME-style composition fallback: when the typed pinyin spans more than one
+      // dictionary word (e.g. typing several characters continuously without spaces,
+      // like "nihaoma" for 你好嗎), decompose it into known segments and pin the
+      // composed multi-hanzi result at the top of the list.
+      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
+
+      if (finalResults.length > 0) {
+        setSuggestions(prev => ({ ...prev, [index]: finalResults }))
+      } else {
+        setSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
+      }
+    }, 150)
+  }
+
+  const updateComposingBuffer = (index: number, value: string) => {
+    setComposingBuffer(prev => ({ ...prev, [index]: value }))
+    lookupSuggestions(index, value)
+  }
+
+  // Picking a suggestion appends it to the row's committed hanzi/pinyin and clears
+  // the composing buffer — exactly like tapping a candidate on a phone Pinyin
+  // keyboard: the word gets committed and you keep typing the next one.
   const selectSuggestion = (rowIndex: number, item: SuggestionEntry) => {
     const updated = [...newRows]
+    const current = updated[rowIndex]
     updated[rowIndex] = {
-      hanzi: item.t,
-      pinyin: item.p,
-      vietnamese: updated[rowIndex].vietnamese // keep existing vietnamese for user to fill
+      hanzi: current.hanzi + item.t,
+      pinyin: current.pinyin ? `${current.pinyin} ${item.p}` : item.p,
+      vietnamese: current.vietnamese,
     }
     setNewRows(updated)
 
-    // Clear suggestions for this row
+    setComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
     setSuggestions(prev => {
       const next = { ...prev }
       delete next[rowIndex]
       return next
     })
+  }
+
+  // "1 nghĩa có 2 từ khác nhau": instead of appending to the row being composed,
+  // add this candidate as a brand-new row (copying the current Vietnamese meaning),
+  // so both variants can be kept side by side without retyping.
+  const addSuggestionAsNewRow = (item: SuggestionEntry, vietnamese: string) => {
+    setNewRows(prev => [...prev, { hanzi: item.t, pinyin: item.p, vietnamese }])
+  }
+
+  const clearComposition = (rowIndex: number) => {
+    const updated = [...newRows]
+    updated[rowIndex] = { ...updated[rowIndex], hanzi: '', pinyin: '' }
+    setNewRows(updated)
+    setComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
   }
 
   // EDIT VOCABULARY
@@ -409,8 +452,18 @@ export default function VocabularyPage() {
       if (result.error) {
         setError(result.error)
       } else {
-        setSuccess(`Đã import thành công ${result.importedCount} từ vựng! 🎉`)
-        loadVocab(date)
+        const dates: { date: string; count: number }[] = result.dates || []
+        const breakdown = dates.map(d => `${formatDate(d.date)}: ${d.count} từ`).join(', ')
+        setSuccess(`Đã import thành công ${result.importedCount} từ vựng! 🎉${breakdown ? ` (${breakdown})` : ''}`)
+
+        const importedDateStrs = dates.map(d => d.date)
+        if (importedDateStrs.length > 0 && !importedDateStrs.includes(date)) {
+          // Currently-viewed date has no relation to what was just imported — jump to it
+          // so the result is immediately visible instead of looking empty.
+          setDate(importedDateStrs[0])
+        } else {
+          loadVocab(date)
+        }
       }
     } catch (err: any) {
       setError('Lỗi khi tải file lên: ' + err.message)
@@ -440,7 +493,7 @@ export default function VocabularyPage() {
       {/* Date & Actions Bar */}
       <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
         {/* Date Selector */}
-        <div className="cartoon-card p-3 bg-white flex items-center justify-between sm:justify-start gap-2">
+        <div className="cartoon-panel p-3 bg-white flex items-center justify-between sm:justify-start gap-2 relative z-30">
           <button onClick={() => shiftDate(-1)} className="cartoon-btn-secondary px-3 py-1.5 text-xs font-black rounded-xl">
             ◀ Trước
           </button>
@@ -519,7 +572,7 @@ export default function VocabularyPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse text-nowrap sm:text-wrap">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   <th className="p-4 font-black text-slate-700 text-sm">#</th>
@@ -565,7 +618,7 @@ export default function VocabularyPage() {
       {/* MULTI-ROW ADD MODAL */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="cartoon-card bg-white w-full md:max-w-5xl p-6 relative flex flex-col min-h-[90vh]">
+          <div className="cartoon-panel bg-white w-full md:max-w-5xl p-6 relative flex flex-col min-h-[90vh]">
             <button
               onClick={() => setIsAddModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
@@ -581,7 +634,6 @@ export default function VocabularyPage() {
               <div className="flex-1 overflow-y-auto space-y-3 pr-2 mb-4" style={{ overflowX: 'visible' }}>
                 {newRows.map((row, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-slate-50 p-3 rounded-2xl border border-dashed border-slate-200">
-                    <span className="font-extrabold text-slate-400 mt-1 sm:mt-0">#{idx + 1}</span>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1 w-full relative">
                       {/* Hanzi Input */}
@@ -591,20 +643,34 @@ export default function VocabularyPage() {
                           placeholder="Chữ Hoa (Hán tự)"
                           value={row.hanzi}
                           onChange={(e) => updateNewRowField(idx, 'hanzi', e.target.value)}
-                          className="px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-sm bg-white"
+                          className="px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-2xl bg-white"
                         />
                       </div>
 
-                      {/* Pinyin Input + TOCFL Dropdown suggestion */}
+                      {/* Pinyin Input + TOCFL Dropdown suggestion (phone-IME style composing) */}
                       <div className="flex flex-col" style={{ position: 'relative' }}>
                         <input
                           type="text"
                           placeholder="Pinyin (gõ không dấu: ni, hao...)"
-                          value={row.pinyin}
+                          value={composingBuffer[idx] || ''}
                           onFocus={() => loadTocflIndex()}
-                          onChange={(e) => updateNewRowField(idx, 'pinyin', e.target.value)}
-                          className="px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-sm bg-white"
+                          onChange={(e) => updateComposingBuffer(idx, e.target.value)}
+                          className="px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-md bg-white"
                         />
+                        {row.hanzi && (
+                          <div className="flex items-center gap-1.5 mt-1 px-0.5">
+                            <span className="text-[10px] font-bold text-slate-400 truncate">
+                              Đã ghép: <span className="font-chinese text-slate-600">{row.hanzi}</span> ({row.pinyin})
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => clearComposition(idx)}
+                              className="text-[10px] font-black text-red-400 hover:text-red-600 flex-shrink-0"
+                            >
+                              Xóa
+                            </button>
+                          </div>
+                        )}
                         {/* Autocomplete Suggestion Panel — floats above everything */}
                         {suggestions[idx] && suggestions[idx].length > 0 && (
                           <div
@@ -615,25 +681,38 @@ export default function VocabularyPage() {
                               <span className="text-[9px] font-black text-blue-500 uppercase tracking-wider">⌨️ TOCFL 繁體 — {suggestions[idx].length} gợi ý</span>
                             </div>
                             {suggestions[idx].map((item, sugIdx) => (
-                              <button
+                              <div
                                 key={sugIdx}
-                                type="button"
-                                onMouseDown={(e) => { e.preventDefault(); selectSuggestion(idx, item) }}
-                                className="w-full text-left px-2.5 py-2 hover:bg-blue-50 rounded-xl transition-colors flex items-center gap-3 z-9999"
+                                className="w-full flex items-center gap-1.5 hover:bg-blue-50 rounded-xl transition-colors"
                               >
-                                <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
-                                <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
-                                {'composed' in item ? (
-                                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
-                                ) : item.l === null ? (
-                                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
-                                ) : (
-                                  <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' :
-                                    item.l <= 4 ? 'bg-amber-100 text-amber-700' :
-                                      'bg-red-100 text-red-700'
-                                    }`}>L{item.l}</span>
-                                )}
-                              </button>
+                                <button
+                                  type="button"
+                                  onMouseDown={(e) => { e.preventDefault(); selectSuggestion(idx, item) }}
+                                  className="flex-1 text-left px-2.5 py-2 flex items-center gap-3"
+                                  title="Ghép vào từ đang gõ"
+                                >
+                                  <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
+                                  <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
+                                  {'composed' in item ? (
+                                    <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
+                                  ) : item.l === null ? (
+                                    <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
+                                  ) : (
+                                    <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' :
+                                      item.l <= 4 ? 'bg-amber-100 text-amber-700' :
+                                        'bg-red-100 text-red-700'
+                                      }`}>L{item.l}</span>
+                                  )}
+                                </button>
+                                <button
+                                  type="button"
+                                  onMouseDown={(e) => { e.preventDefault(); addSuggestionAsNewRow(item, row.vietnamese) }}
+                                  className="px-2 py-2 mr-1 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-100 flex-shrink-0 font-black text-sm"
+                                  title="Thêm thành dòng riêng (cùng nghĩa, từ khác)"
+                                >
+                                  +
+                                </button>
+                              </div>
                             ))}
                           </div>
                         )}
@@ -696,7 +775,7 @@ export default function VocabularyPage() {
       {/* SINGLE-ROW EDIT MODAL */}
       {isEditModalOpen && editItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-card bg-white w-full max-w-md p-6 relative">
+          <div className="cartoon-panel bg-white w-full max-w-md p-6 relative">
             <button
               onClick={() => setIsEditModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"

@@ -105,6 +105,9 @@ CREATE TABLE IF NOT EXISTS public.dictionary_words (
     vietnamese TEXT NOT NULL,
     pos TEXT,                  -- part-of-speech tag from source (N, VA, VS, M, Det, Adv, Prep...)
     order_index INTEGER DEFAULT 0,
+    example_hanzi TEXT,        -- self-authored example sentence (scripts/generate-dictionary-examples.js)
+    example_pinyin TEXT,
+    example_vietnamese TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(level, hanzi, pinyin, vietnamese)
 );
@@ -133,6 +136,24 @@ ALTER TABLE public.dictionary_progress ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can manage own dictionary progress"
     ON public.dictionary_progress FOR ALL
+    USING (auth.uid() = user_id)
+    WITH CHECK (auth.uid() = user_id);
+
+-- Create practice_sessions table
+-- Attempt history for the auto-generated TOCFL practice-exam quizzes (MCQ/cloze/reorder).
+CREATE TABLE IF NOT EXISTS public.practice_sessions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    level TEXT NOT NULL,
+    total_questions INTEGER NOT NULL,
+    correct_count INTEGER NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.practice_sessions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own practice sessions"
+    ON public.practice_sessions FOR ALL
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id);
 

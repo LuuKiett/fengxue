@@ -56,13 +56,13 @@ export default function Flashcard({
   return (
     <div
       className="w-full max-w-lg relative cursor-pointer perspective-1000 mx-auto"
-      style={{ height: isFlipped ? 'auto' : '420px', minHeight: '420px' }}
+      style={{ height: '480px' }}
       onClick={onFlip}
     >
       <div className={`w-full h-full relative duration-500 transform-style-3d flashcard-inner ${isFlipped ? 'flashcard-flipped' : ''}`}>
 
         {/* FRONT SIDE (Hanzi) */}
-        <div className="absolute inset-0 w-full backface-hidden bg-white border border-indigo-100 rounded-3xl shadow-xl shadow-indigo-100/40 flex flex-col items-center justify-between p-6" style={{ minHeight: '320px' }}>
+        <div className="absolute inset-0 w-full backface-hidden bg-white border border-indigo-100 rounded-3xl shadow-xl shadow-indigo-100/40 flex flex-col items-center justify-between p-6">
           <div className="flex justify-between w-full items-center">
             <span className="text-xs font-black px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-blue-600 shadow-sm">
               繁體字
@@ -87,8 +87,10 @@ export default function Flashcard({
           </div>
         </div>
 
-        {/* BACK SIDE (Pinyin + Vietnamese + Examples) */}
-        <div className="w-full backface-hidden bg-blue-50/55 border border-blue-100 rounded-3xl shadow-xl shadow-blue-100/40 flex flex-col p-6 gap-5 flashcard-back" style={{ minHeight: '420px' }}>
+        {/* BACK SIDE (Pinyin + Vietnamese + Examples) — scrolls internally so longer
+            content (multiple example sentences) never overflows past the card and
+            overlaps whatever sits below it on the page. */}
+        <div className="w-full backface-hidden bg-blue-50/55 border border-blue-100 rounded-3xl shadow-xl shadow-blue-100/40 flex flex-col p-6 gap-5 flashcard-back overflow-y-auto">
           
           {/* Header */}
           <div className="flex justify-between w-full items-center">

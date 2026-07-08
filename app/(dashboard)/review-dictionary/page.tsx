@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { shuffleArray } from '@/lib/utils/shuffle'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
@@ -29,7 +29,8 @@ interface LevelInfo {
   learned: number
 }
 
-const STAGE_SIZE = 50
+const STAGE_SIZE_PRESETS = [10, 20, 30, 50]
+const DEFAULT_STAGE_SIZE = 50
 const ITEMS_PER_ROUND = 6
 
 export default function ReviewDictionaryPage() {
@@ -38,6 +39,13 @@ export default function ReviewDictionaryPage() {
   const [levelInfos, setLevelInfos] = useState<LevelInfo[]>([])
   const [loading, setLoading] = useState(true)
   const [activeLevel, setActiveLevel] = useState<string | null>(null)
+
+  // Level picked but not yet started — shows the "how many words per round?" chooser
+  const [pendingLevel, setPendingLevel] = useState<string | null>(null)
+  const [stageSizeChoice, setStageSizeChoice] = useState<number>(DEFAULT_STAGE_SIZE)
+  const [customStageSize, setCustomStageSize] = useState('')
+  // The size actually used for the level currently in progress (kept stable across its stages)
+  const [stageSize, setStageSize] = useState(DEFAULT_STAGE_SIZE)
 
   const [step, setStep] = useState<'select' | 'flashcard' | 'matching' | 'complete'>('select')
   const [stageWords, setStageWords] = useState<DictWord[]>([])
@@ -51,6 +59,11 @@ export default function ReviewDictionaryPage() {
   const [matchingRound, setMatchingRound] = useState(0)
   const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'pinyin_viet' | 'hanzi_viet'>('hanzi_pinyin')
   const [roundVocabs, setRoundVocabs] = useState<DictWord[]>([])
+
+  // Progress is persisted as soon as the flashcards for a stage are done (not only at
+  // the very end of matching), so exiting partway through the matching rounds never
+  // makes already-seen words reappear — this ref guards against double-advancing.
+  const progressAdvancedRef = useRef(false)
 
   async function loadLevelInfos() {
     setLoading(true)
@@ -89,8 +102,9 @@ export default function ReviewDictionaryPage() {
     loadLevelInfos()
   }, [])
 
-  async function startLevel(level: string) {
+  async function startLevel(level: string, size: number) {
     setLoading(true)
+    setStageSize(size)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
@@ -132,7 +146,7 @@ export default function ReviewDictionaryPage() {
 
       if (!progress) { setLoading(false); return }
 
-      await loadStage(level, progress.word_order, progress.current_index, allIds.length)
+      await loadStage(level, progress.word_order, progress.current_index, allIds.length, size)
     } catch (err) {
       console.error('Lỗi khi bắt đầu ôn tập:', err)
     } finally {
@@ -140,9 +154,9 @@ export default function ReviewDictionaryPage() {
     }
   }
 
-  async function loadStage(level: string, wordOrder: string[], currentIndex: number, total: number) {
+  async function loadStage(level: string, wordOrder: string[], currentIndex: number, total: number, size: number) {
     setActiveLevel(level)
-    const stageIds = wordOrder.slice(currentIndex, currentIndex + STAGE_SIZE)
+    const stageIds = wordOrder.slice(currentIndex, currentIndex + size)
 
     if (stageIds.length === 0) {
       setLevelFullyComplete(true)
@@ -157,15 +171,55 @@ export default function ReviewDictionaryPage() {
 
     const byId: Record<string, DictWord> = {}
     for (const w of wordsData || []) byId[w.id] = w
-    const ordered = stageIds.map((id) => byId[id]).filter(Boolean)
+    // Shuffle the presentation order each time a stage is (re-)entered, so flashcards
+    // and matching rounds never play out in the same fixed sequence twice — this is
+    // purely a display-order shuffle and doesn't affect which words belong to the stage.
+    const ordered = shuffleArray(stageIds.map((id) => byId[id]).filter(Boolean))
 
     setStageWords(ordered)
-    setStageNumber(Math.floor(currentIndex / STAGE_SIZE) + 1)
-    setTotalStages(Math.ceil(total / STAGE_SIZE))
+    setStageNumber(Math.floor(currentIndex / size) + 1)
+    setTotalStages(Math.ceil(total / size))
     setLevelFullyComplete(false)
     setFlashIdx(0)
     setIsFlipped(false)
+    progressAdvancedRef.current = false
     setStep('flashcard')
+  }
+
+  // Persists progress as soon as the flashcards for this stage are finished, so the
+  // words are marked "done" and won't repeat even if the user exits during matching.
+  const persistProgressAdvance = async () => {
+    if (!activeLevel || progressAdvancedRef.current) return
+    progressAdvancedRef.current = true
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data: progress } = await supabase
+        .from('dictionary_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('level', activeLevel)
+        .single()
+
+      if (!progress) return
+
+      const newIndex = Math.min(progress.current_index + stageWords.length, progress.word_order.length)
+      await supabase
+        .from('dictionary_progress')
+        .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('level', activeLevel)
+
+      const fullyComplete = newIndex >= progress.word_order.length
+      setLevelFullyComplete(fullyComplete)
+
+      setLevelInfos((prev) =>
+        prev.map((l) => (l.level === activeLevel ? { ...l, learned: newIndex } : l))
+      )
+    } catch (err) {
+      console.error('Lỗi khi lưu tiến độ:', err)
+    }
   }
 
   const handleFlashNext = () => {
@@ -173,6 +227,7 @@ export default function ReviewDictionaryPage() {
     if (flashIdx < stageWords.length - 1) {
       setFlashIdx(flashIdx + 1)
     } else {
+      persistProgressAdvance()
       setMatchingRound(0)
       setMatchingType('hanzi_pinyin')
       prepareMatchingRound(0)
@@ -217,38 +272,12 @@ export default function ReviewDictionaryPage() {
   }
 
   const finishStage = async () => {
-    if (!activeLevel) return
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      const { data: progress } = await supabase
-        .from('dictionary_progress')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('level', activeLevel)
-        .single()
-
-      if (!progress) return
-
-      const newIndex = Math.min(progress.current_index + stageWords.length, progress.word_order.length)
-      await supabase
-        .from('dictionary_progress')
-        .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-        .eq('user_id', user.id)
-        .eq('level', activeLevel)
-
-      const fullyComplete = newIndex >= progress.word_order.length
-      setLevelFullyComplete(fullyComplete)
-      setStep('complete')
-      if (fullyComplete) triggerGrandConfetti()
-
-      setLevelInfos((prev) =>
-        prev.map((l) => (l.level === activeLevel ? { ...l, learned: newIndex } : l))
-      )
-    } catch (err) {
-      console.error('Lỗi khi lưu tiến độ:', err)
-    }
+    // Progress was already persisted right after the flashcards finished (see
+    // persistProgressAdvance) — this just shows the results screen. Call it again
+    // defensively in case flashcards were somehow skipped (it's a no-op if already done).
+    await persistProgressAdvance()
+    setStep('complete')
+    if (levelFullyComplete) triggerGrandConfetti()
   }
 
   const continueNextStage = async () => {
@@ -264,7 +293,7 @@ export default function ReviewDictionaryPage() {
         .eq('level', activeLevel)
         .single()
       if (!progress) return
-      await loadStage(activeLevel, progress.word_order, progress.current_index, progress.word_order.length)
+      await loadStage(activeLevel, progress.word_order, progress.current_index, progress.word_order.length, stageSize)
     } finally {
       setLoading(false)
     }
@@ -324,56 +353,117 @@ export default function ReviewDictionaryPage() {
 
       {step === 'select' ? (
         <div className="space-y-6">
-          <div className="bg-gradient-to-r from-blue-400 to-sky-500 text-white p-6 rounded-[24px] shadow-sm space-y-2">
-            <h3 className="text-xl font-extrabold flex items-center gap-2">
-              <Sparkles className="w-6 h-6 animate-pulse" /> Chọn Cấp Độ Để Ôn Tập
-            </h3>
-            <p className="font-semibold text-sm text-white/90">
-              Mỗi cấp độ được chia thành các đợt tối đa 50 từ. Học hết đợt này sẽ chuyển sang đợt tiếp theo,
-              không lặp lại từ đã học cho đến khi hoàn thành toàn bộ cấp độ.
-            </p>
-          </div>
-
-          <div className="cartoon-card p-6 bg-white space-y-3">
-            {loading ? (
-              <div className="p-8 text-center">
-                <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-xs text-slate-400 font-bold">Đang tải dữ liệu từ điển...</p>
+          {!pendingLevel ? (
+            <>
+              <div className="bg-gradient-to-r from-blue-400 to-sky-500 text-white p-6 rounded-[24px] shadow-sm space-y-2">
+                <h3 className="text-xl font-extrabold flex items-center gap-2">
+                  <Sparkles className="w-6 h-6 animate-pulse" /> Chọn Cấp Độ Để Ôn Tập
+                </h3>
+                <p className="font-semibold text-sm text-white/90">
+                  Mỗi cấp độ được chia thành nhiều đợt (bạn chọn số từ mỗi đợt). Học hết đợt này sẽ chuyển sang
+                  đợt tiếp theo, không lặp lại từ đã học cho đến khi hoàn thành toàn bộ cấp độ.
+                </p>
               </div>
-            ) : levelInfos.length === 0 ? (
-              <p className="text-slate-400 font-semibold text-center py-6">
-                Chưa có dữ liệu từ điển. Vui lòng import từ điển trước.
+
+              <div className="cartoon-card p-6 bg-white space-y-3">
+                {loading ? (
+                  <div className="p-8 text-center">
+                    <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                    <p className="text-xs text-slate-400 font-bold">Đang tải dữ liệu từ điển...</p>
+                  </div>
+                ) : levelInfos.length === 0 ? (
+                  <p className="text-slate-400 font-semibold text-center py-6">
+                    Chưa có dữ liệu từ điển. Vui lòng import từ điển trước.
+                  </p>
+                ) : (
+                  levelInfos.map((info) => {
+                    const isDone = info.learned >= info.total
+                    return (
+                      <button
+                        key={info.level}
+                        onClick={() => { setPendingLevel(info.level); setStageSizeChoice(DEFAULT_STAGE_SIZE); setCustomStageSize('') }}
+                        className="w-full flex items-center justify-between p-4 rounded-2xl border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-left"
+                      >
+                        <div>
+                          <span className="font-black text-slate-800 text-lg">{info.level}</span>
+                          <p className="text-xs font-bold text-slate-400">
+                            {info.learned}/{info.total} từ đã học {isDone && '🎉'}
+                          </p>
+                        </div>
+                        <div className="w-24 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-emerald-400 rounded-full transition-all"
+                            style={{ width: `${info.total ? (info.learned / info.total) * 100 : 0}%` }}
+                          />
+                        </div>
+                      </button>
+                    )
+                  })
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="cartoon-card p-6 bg-white space-y-4">
+              <button
+                onClick={() => setPendingLevel(null)}
+                className="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn cấp độ
+              </button>
+
+              <h4 className="font-black text-slate-800 text-lg">{pendingLevel} — Số từ mỗi đợt ôn</h4>
+              <p className="text-xs text-slate-500 font-semibold">
+                Học xong flashcard của một đợt xong sẽ chuyển sang bài tập nối từ, rồi mới đến đợt tiếp theo.
               </p>
-            ) : (
-              levelInfos.map((info) => {
-                const isDone = info.learned >= info.total
-                return (
+
+              <div className="flex flex-wrap gap-2">
+                {STAGE_SIZE_PRESETS.map((n) => (
                   <button
-                    key={info.level}
-                    onClick={() => startLevel(info.level)}
-                    className="w-full flex items-center justify-between p-4 rounded-2xl border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-left"
+                    key={n}
+                    onClick={() => { setStageSizeChoice(n); setCustomStageSize('') }}
+                    className={`px-4 py-2 rounded-xl font-black text-sm transition-all ${
+                      !customStageSize && stageSizeChoice === n
+                        ? 'bg-[#1877f2] text-white shadow-sm'
+                        : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
                   >
-                    <div>
-                      <span className="font-black text-slate-800 text-lg">{info.level}</span>
-                      <p className="text-xs font-bold text-slate-400">
-                        {info.learned}/{info.total} từ đã học {isDone && '🎉'}
-                      </p>
-                    </div>
-                    <div className="w-24 h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-emerald-400 rounded-full transition-all"
-                        style={{ width: `${info.total ? (info.learned / info.total) * 100 : 0}%` }}
-                      />
-                    </div>
+                    {n} từ
                   </button>
-                )
-              })
-            )}
-          </div>
+                ))}
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-500 block mb-1">Hoặc nhập số tùy chỉnh:</label>
+                <input
+                  type="number"
+                  min={5}
+                  max={200}
+                  value={customStageSize}
+                  onChange={(e) => setCustomStageSize(e.target.value)}
+                  placeholder="VD: 25"
+                  className="w-32 px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-sm"
+                />
+              </div>
+
+              <button
+                onClick={() => {
+                  const size = customStageSize
+                    ? Math.max(5, Math.min(200, parseInt(customStageSize, 10) || DEFAULT_STAGE_SIZE))
+                    : stageSizeChoice
+                  const level = pendingLevel
+                  setPendingLevel(null)
+                  startLevel(level, size)
+                }}
+                className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
+              >
+                Bắt Đầu Ôn Tập <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       ) : step === 'flashcard' ? (
         <div className="space-y-6">
-          <div className="flex justify-between items-center bg-slate-100 p-3 rounded-2xl border-3 border-slate-800">
+          <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
             <span className="font-extrabold text-sm text-slate-500 uppercase">
               {activeLevel} · Đợt {stageNumber}/{totalStages} · Học Flashcards
             </span>
@@ -387,9 +477,9 @@ export default function ReviewDictionaryPage() {
               <span>TIẾN ĐỘ: {flashIdx} / {stageWords.length} TỪ</span>
               <span>{Math.round((flashIdx / stageWords.length) * 100)}%</span>
             </div>
-            <div className="h-4 w-full bg-slate-200 border-3 border-slate-800 rounded-full overflow-hidden p-0.5">
+            <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-400 rounded-full border-r-3 border-slate-800 transition-all duration-300"
+                className="h-full bg-emerald-400 rounded-full transition-all duration-300"
                 style={{ width: `${(flashIdx / stageWords.length) * 100}%` }}
               />
             </div>
@@ -403,7 +493,7 @@ export default function ReviewDictionaryPage() {
             onFlip={() => setIsFlipped(!isFlipped)}
           />
 
-          <div className="flex justify-between items-center gap-4 max-w-md mx-auto">
+          <div className="flex justify-between items-center gap-4 max-w-lg mx-auto">
             <button
               onClick={handleFlashPrev}
               disabled={flashIdx === 0}
@@ -412,7 +502,7 @@ export default function ReviewDictionaryPage() {
               <ArrowLeft className="w-4 h-4" /> Trước đó
             </button>
             <button onClick={() => setIsFlipped(!isFlipped)} className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm">
-              Lật Thẻ 🔄
+              Lật Thẻ
             </button>
             <button onClick={handleFlashNext} className="cartoon-btn px-5 py-3 text-sm flex items-center gap-2">
               {flashIdx === stageWords.length - 1 ? 'Chuyển Sang Bài Tập' : 'Tiếp theo'} <ArrowRight className="w-4 h-4" />
@@ -421,7 +511,7 @@ export default function ReviewDictionaryPage() {
         </div>
       ) : step === 'matching' ? (
         <div className="space-y-6">
-          <div className="flex justify-between items-center bg-slate-100 p-3 rounded-2xl border-3 border-slate-800">
+          <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
             <div>
               <span className="font-black text-slate-800 block text-sm">{getMatchingTitle()}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase">
@@ -437,7 +527,7 @@ export default function ReviewDictionaryPage() {
         </div>
       ) : (
         <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
-          <div className="w-20 h-20 bg-emerald-100 rounded-full border-4 border-slate-800 shadow-[3px_3px_0px_0px_#1e293b] flex items-center justify-center text-emerald-500 mx-auto">
+          <div className="w-20 h-20 bg-emerald-100 rounded-full shadow-md flex items-center justify-center text-emerald-500 mx-auto">
             {levelFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
           </div>
 

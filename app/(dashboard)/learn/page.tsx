@@ -137,7 +137,7 @@ export default function LearnPage() {
         </h2>
 
         {/* Date Selector */}
-        <div className="cartoon-card px-1 py-0.5 bg-white text-sm">
+        <div className="cartoon-panel px-1 py-0.5 bg-white text-sm relative z-30">
           <DatePicker value={date} onChange={setDate} />
         </div>
       </div>

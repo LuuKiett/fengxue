@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { shuffleArray } from '@/lib/utils/shuffle'
-import { Check, X, RotateCcw } from 'lucide-react'
+import { RotateCcw } from 'lucide-react'
 
 interface VocabItem {
   id: string
@@ -40,6 +40,11 @@ export default function MatchingExercise({
 
   const [connections, setConnections] = useState<Connection[]>([])
   const [matchedIds, setMatchedIds] = useState<Set<string>>(new Set())
+  // Matched pairs first play the success pulse, then fade out (disappearingIds),
+  // then are fully removed from the board (removedIds) so the screen doesn't stay
+  // cluttered with dimmed-out pairs as a round progresses.
+  const [disappearingIds, setDisappearingIds] = useState<Set<string>>(new Set())
+  const [removedIds, setRemovedIds] = useState<Set<string>>(new Set())
   const [shakeId, setShakeId] = useState<string | null>(null)
   
   // Track coordinates for rendering lines
@@ -77,6 +82,8 @@ export default function MatchingExercise({
     setRightItems(shuffleArray(right))
     setConnections([])
     setMatchedIds(new Set())
+    setDisappearingIds(new Set())
+    setRemovedIds(new Set())
     setSelectedLeft(null)
     setSelectedRight(null)
     setLines([])
@@ -121,7 +128,7 @@ export default function MatchingExercise({
     updateLines()
     window.addEventListener('resize', updateLines)
     return () => window.removeEventListener('resize', updateLines)
-  }, [connections, leftItems, rightItems])
+  }, [connections, leftItems, rightItems, removedIds])
 
   // Check matching logic
   useEffect(() => {
@@ -145,6 +152,16 @@ export default function MatchingExercise({
 
         setSelectedLeft(null)
         setSelectedRight(null)
+
+        // Let the success pulse play, then fade out, then remove the pair entirely
+        // so matched items don't clutter the board for the rest of the round.
+        const matchedId = selectedLeft
+        setTimeout(() => {
+          setDisappearingIds(prev => new Set(prev).add(matchedId))
+        }, 400)
+        setTimeout(() => {
+          setRemovedIds(prev => new Set(prev).add(matchedId))
+        }, 700)
       } else {
         // Incorrect match
         const tempConnection: Connection = {
@@ -191,6 +208,8 @@ export default function MatchingExercise({
   const handleReset = () => {
     setConnections([])
     setMatchedIds(new Set())
+    setDisappearingIds(new Set())
+    setRemovedIds(new Set())
     setSelectedLeft(null)
     setSelectedRight(null)
     setLines([])
@@ -240,9 +259,10 @@ export default function MatchingExercise({
 
         {/* LEFT COLUMN */}
         <div className="flex flex-col gap-3 z-20">
-          {leftItems.map((item) => {
+          {leftItems.filter(item => !removedIds.has(item.id)).map((item) => {
             const isSelected = selectedLeft === item.id
             const isMatched = matchedIds.has(item.id)
+            const isDisappearing = disappearingIds.has(item.id)
             const isShaking = shakeId === item.id
 
             return (
@@ -251,9 +271,11 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`left-${item.id}`] = el }}
                 onClick={() => handleLeftClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-lg transition-all ${
-                  isMatched
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 opacity-60'
+                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-lg transition-all duration-300 ${
+                  isDisappearing
+                    ? 'opacity-0 scale-75'
+                    : isMatched
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 animate-pulse'
                     : isSelected
                     ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white border-transparent shadow-lg shadow-indigo-100 scale-105'
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
@@ -267,9 +289,10 @@ export default function MatchingExercise({
 
         {/* RIGHT COLUMN */}
         <div className="flex flex-col gap-3 z-20">
-          {rightItems.map((item) => {
+          {rightItems.filter(item => !removedIds.has(item.id)).map((item) => {
             const isSelected = selectedRight === item.id
             const isMatched = matchedIds.has(item.id)
+            const isDisappearing = disappearingIds.has(item.id)
 
             return (
               <button
@@ -277,9 +300,11 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`right-${item.id}`] = el }}
                 onClick={() => handleRightClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-lg transition-all ${
-                  isMatched
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 opacity-60'
+                className={`py-3 px-4 text-center rounded-2xl border font-extrabold text-lg transition-all duration-300 ${
+                  isDisappearing
+                    ? 'opacity-0 scale-75'
+                    : isMatched
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 animate-pulse'
                     : isSelected
                     ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white border-transparent shadow-lg shadow-indigo-100 scale-105'
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'

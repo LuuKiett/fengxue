@@ -16,6 +16,7 @@ export default function ExercisesPage() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [loading, setLoading] = useState(true)
   const [completionMap, setCompletionMap] = useState<{ [dateStr: string]: DateStatus }>({})
+  const [vocabCountMap, setVocabCountMap] = useState<{ [dateStr: string]: number }>({})
 
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
@@ -62,6 +63,32 @@ export default function ExercisesPage() {
       }
 
       setCompletionMap(tempMap)
+
+      // Vocab count per day, so the calendar shows at a glance which days have words
+      const { data: sets } = await supabase
+        .from('vocabulary_sets')
+        .select('id, date')
+        .eq('user_id', user.id)
+        .gte('date', startOfMonth)
+        .lte('date', endOfMonth)
+
+      const setIdToDate: Record<string, string> = {}
+      for (const s of sets || []) setIdToDate[s.id] = s.date
+      const setIds = Object.keys(setIdToDate)
+
+      const vocabCountByDate: Record<string, number> = {}
+      if (setIds.length > 0) {
+        const { data: vocabRows } = await supabase
+          .from('vocabularies')
+          .select('set_id')
+          .in('set_id', setIds)
+
+        for (const v of vocabRows || []) {
+          const d = setIdToDate[v.set_id]
+          if (d) vocabCountByDate[d] = (vocabCountByDate[d] || 0) + 1
+        }
+      }
+      setVocabCountMap(vocabCountByDate)
     } catch (err) {
       console.error('Error fetching calendar records:', err)
     } finally {
@@ -188,6 +215,8 @@ export default function ExercisesPage() {
                   }
                 }
 
+                const vocabCount = vocabCountMap[dateStr]
+
                 return (
                   <Link
                     key={dateStr}
@@ -195,6 +224,14 @@ export default function ExercisesPage() {
                     className={`aspect-square border rounded-xl flex flex-col items-center justify-between p-1.5 transition-all font-black text-sm relative ${cellClass}`}
                   >
                     <span className="self-start">{day.getDate()}</span>
+                    {vocabCount > 0 && (
+                      <span
+                        className="absolute top-1 right-1 min-w-[15px] px-1 text-[9px] font-black rounded-full bg-white/90 text-blue-600 border border-blue-100 text-center leading-tight"
+                        title={`${vocabCount} từ vựng`}
+                      >
+                        {vocabCount}
+                      </span>
+                    )}
                     <div className="absolute bottom-1 right-1">
                       {labelIcon}
                     </div>

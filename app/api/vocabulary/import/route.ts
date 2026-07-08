@@ -53,7 +53,15 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    if (Object.keys(results).length === 0) {
+      return NextResponse.json({
+        error: 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra: tên sheet phải đúng định dạng YYYY-MM-DD, và các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt".',
+      }, { status: 400 })
+    }
+
     let importedCount = 0
+    const perDate: { date: string; count: number }[] = []
+    const failures: { date: string; message: string }[] = []
 
     for (const [dateStr, rows] of Object.entries(results)) {
       let { data: set } = await supabase
@@ -75,6 +83,7 @@ export async function POST(request: NextRequest) {
 
         if (setError) {
           console.error(`Error creating set for date ${dateStr}:`, setError)
+          failures.push({ date: dateStr, message: setError.message })
           continue
         }
         set = newSet
@@ -102,13 +111,23 @@ export async function POST(request: NextRequest) {
 
         if (insertError) {
           console.error(`Error inserting vocab for set ${set.id}:`, insertError)
+          failures.push({ date: dateStr, message: insertError.message })
         } else {
           importedCount += rows.length
+          perDate.push({ date: dateStr, count: rows.length })
         }
       }
     }
 
-    return NextResponse.json({ success: true, importedCount })
+    if (importedCount === 0) {
+      return NextResponse.json({
+        error: failures.length > 0
+          ? `Import thất bại cho tất cả các ngày: ${failures.map(f => `${f.date} (${f.message})`).join('; ')}`
+          : 'Không có từ vựng nào được nhập.',
+      }, { status: 400 })
+    }
+
+    return NextResponse.json({ success: true, importedCount, dates: perDate, failures })
   } catch (err: any) {
     console.error('Import error:', err)
     return NextResponse.json({ error: err?.message || 'Lỗi hệ thống khi import' }, { status: 500 })
