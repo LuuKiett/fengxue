@@ -48,7 +48,7 @@ export default function ReviewPage() {
 
   // Matching exercise batching
   const [matchingRound, setMatchingRound] = useState(0)
-  const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'pinyin_viet' | 'hanzi_viet'>('hanzi_pinyin')
+  const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'hanzi_viet'>('hanzi_pinyin')
   const [roundVocabs, setRoundVocabs] = useState<VocabItem[]>([])
   const ITEMS_PER_ROUND = 6
 
@@ -197,18 +197,11 @@ export default function ReviewPage() {
       setMatchingRound(nextRound)
       prepareMatchingRound(nextRound)
     } else {
-      // Completed all rounds for this type
       if (matchingType === 'hanzi_pinyin') {
-        // Next type
-        setMatchingType('pinyin_viet')
-        setMatchingRound(0)
-        prepareMatchingRound(0)
-      } else if (matchingType === 'pinyin_viet') {
         setMatchingType('hanzi_viet')
         setMatchingRound(0)
         prepareMatchingRound(0)
       } else {
-        // All types completed
         setStep('complete')
         triggerGrandConfetti()
         saveReviewRecord()
@@ -267,12 +260,11 @@ export default function ReviewPage() {
 
   const getReviewTitle = () => {
     if (matchingType === 'hanzi_pinyin') return 'Vòng 1: Chữ Hán ↔ Phiên âm'
-    if (matchingType === 'pinyin_viet') return 'Vòng 2: Phiên âm ↔ Nghĩa Việt'
-    return 'Vòng 3: Chữ Hán ↔ Nghĩa Việt'
+    return 'Vòng 2: Chữ Hán ↔ Nghĩa Việt'
   }
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6">
       {/* Title */}
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
         <span>🔥</span> Ôn Tập Tổng Hợp

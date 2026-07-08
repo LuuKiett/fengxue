@@ -255,7 +255,7 @@ export default function PracticeExamPage() {
     examMode === 'full' ? (section === 'listening' ? LISTENING_COUNT : READING_COUNT) : questions.length
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6">
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
         <span>📝</span> Luyện Đề TOCFL
       </h2>
@@ -414,7 +414,7 @@ export default function PracticeExamPage() {
             />
           </div>
 
-          <div className="cartoon-card bg-white p-6 space-y-5">
+          <div className="cartoon-card bg-white p-6 space-y-5 w-full">
             {currentQuestion.type === 'mcq' && (
               <>
                 {isListeningQuestion ? (
@@ -429,7 +429,7 @@ export default function PracticeExamPage() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-2">
-                    <span className={currentQuestion.promptIsHanzi ? 'font-chinese text-4xl font-bold text-slate-800' : 'text-xl font-extrabold text-slate-800 text-center'}>
+                    <span className={currentQuestion.promptIsHanzi ? 'font-chinese text-6xl font-bold text-slate-800' : 'text-4xl font-extrabold text-slate-800 text-center'}>
                       {currentQuestion.prompt}
                     </span>
                     {currentQuestion.promptIsHanzi && (
@@ -451,9 +451,9 @@ export default function PracticeExamPage() {
                         key={i}
                         onClick={() => handleSelectOption(i)}
                         disabled={answered}
-                        className={`p-3 rounded-2xl border-2 font-bold text-sm transition-all ${cls} ${
+                        className={`p-3 rounded-2xl border-2 font-bold text-4xl transition-all ${cls} ${
                           currentQuestion.kind === 'viet_hanzi' || currentQuestion.kind === 'listen_hanzi'
-                            ? 'font-chinese text-2xl'
+                            ? 'font-chinese text-4xl'
                             : ''
                         }`}
                       >
@@ -468,7 +468,7 @@ export default function PracticeExamPage() {
             {currentQuestion.type === 'cloze' && (
               <>
                 <div className="text-center space-y-2">
-                  <p className="font-chinese text-2xl font-bold text-slate-800 leading-relaxed">
+                  <p className="font-chinese text-4xl font-bold text-slate-800 leading-relaxed">
                     {currentQuestion.before}
                     <span className="inline-block min-w-[2.5rem] border-b-4 border-dashed border-blue-400 mx-1 text-blue-400">
                       {answered ? currentQuestion.answer : '   '}
@@ -490,7 +490,7 @@ export default function PracticeExamPage() {
                         key={i}
                         onClick={() => handleSelectOption(i)}
                         disabled={answered}
-                        className={`p-3 rounded-2xl border-2 font-chinese font-bold text-lg transition-all ${cls}`}
+                        className={`p-3 rounded-2xl border-2 font-chinese font-bold text-3xl transition-all ${cls}`}
                       >
                         {opt}
                       </button>
@@ -512,7 +512,7 @@ export default function PracticeExamPage() {
                       key={i}
                       onClick={() => handleReorderUndo(i)}
                       disabled={answered}
-                      className="font-chinese font-bold text-lg px-3 py-1.5 rounded-xl bg-blue-100 text-blue-700 border border-blue-200"
+                      className="font-chinese font-bold text-4xl px-3 py-1.5 rounded-xl bg-blue-100 text-blue-700 border border-blue-200"
                     >
                       {seg}
                     </button>
@@ -524,7 +524,7 @@ export default function PracticeExamPage() {
                       key={i}
                       onClick={() => handleReorderPick(seg, i)}
                       disabled={answered}
-                      className="font-chinese font-bold text-lg px-3 py-1.5 rounded-xl bg-white border-2 border-slate-200 hover:bg-slate-50"
+                      className="font-chinese font-bold text-4xl px-3 py-1.5 rounded-xl bg-white border-2 border-slate-200 hover:bg-slate-50"
                     >
                       {seg}
                     </button>
@@ -532,7 +532,7 @@ export default function PracticeExamPage() {
                 </div>
                 {answered && isCorrect === false && (
                   <p className="text-center text-sm font-bold text-red-500">
-                    Đáp án đúng: <span className="font-chinese text-lg">{currentQuestion.correctOrder.join('')}</span>
+                    Đáp án đúng: <span className="font-chinese text-4xl">{currentQuestion.correctOrder.join('')}</span>
                   </p>
                 )}
                 {!answered && (

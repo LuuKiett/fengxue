@@ -13,7 +13,7 @@ interface VocabItem {
 
 interface MatchingExerciseProps {
   vocabs: VocabItem[]
-  matchType: 'hanzi_pinyin' | 'pinyin_viet' | 'hanzi_viet'
+  matchType: 'hanzi_pinyin' | 'hanzi_viet'
   onComplete: (score: number) => void
 }
 
@@ -63,18 +63,12 @@ export default function MatchingExercise({
     if (!vocabs || vocabs.length === 0) return
 
     const left = vocabs.map(v => {
-      let text = ''
-      if (matchType === 'hanzi_pinyin') text = v.hanzi
-      if (matchType === 'pinyin_viet') text = v.pinyin
-      if (matchType === 'hanzi_viet') text = v.hanzi
+      const text = v.hanzi
       return { id: v.id, text }
     })
 
     const right = vocabs.map(v => {
-      let text = ''
-      if (matchType === 'hanzi_pinyin') text = v.pinyin
-      if (matchType === 'pinyin_viet') text = v.vietnamese
-      if (matchType === 'hanzi_viet') text = v.vietnamese
+      const text = matchType === 'hanzi_pinyin' ? v.pinyin : v.vietnamese
       return { id: v.id, text }
     })
 

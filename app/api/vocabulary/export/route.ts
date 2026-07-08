@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
     }
 
     const dates = datesParam.split(',').map(d => d.trim())
-    const workbook = XLSX.write(XLSX.utils.book_new(), { type: 'buffer', bookType: 'xlsx' })
     const wb = XLSX.utils.book_new()
 
     let addedSheets = 0

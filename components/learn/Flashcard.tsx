@@ -15,6 +15,14 @@ interface FlashcardProps {
   vietnamese: string
   isFlipped: boolean
   onFlip: () => void
+  // When the caller already has a real example sentence for this word (e.g. from
+  // dictionary_words), pass it here to use it directly instead of falling back to the
+  // generic /api/examples lookup (which only covers ~30 curated words and otherwise
+  // generates a formulaic "我在學習「X」這個詞" placeholder). Pass `null` explicitly to
+  // mean "confirmed no example available" without triggering a fetch; omit the prop
+  // entirely to keep the old fetch-based behavior (used by pages studying user-added
+  // vocab, which has no per-word example data of its own).
+  example?: ExampleSentence | null
 }
 
 export default function Flashcard({
@@ -22,14 +30,23 @@ export default function Flashcard({
   pinyin,
   vietnamese,
   isFlipped,
-  onFlip
+  onFlip,
+  example
 }: FlashcardProps) {
   const [examples, setExamples] = useState<ExampleSentence[]>([])
   const [examplesLoading, setExamplesLoading] = useState(false)
 
-  // Fetch example sentences when card changes
+  // Fetch example sentences when card changes (skipped entirely if the caller already
+  // supplied a real example via the `example` prop)
   useEffect(() => {
     if (!hanzi) return
+
+    if (example !== undefined) {
+      setExamples(example ? [example] : [])
+      setExamplesLoading(false)
+      return
+    }
+
     setExamples([])
     setExamplesLoading(true)
 
@@ -40,7 +57,7 @@ export default function Flashcard({
       })
       .catch(() => {})
       .finally(() => setExamplesLoading(false))
-  }, [hanzi])
+  }, [hanzi, example])
 
   // TTS capability for Chinese characters
   const speakHanzi = (e: React.MouseEvent, text?: string) => {
@@ -55,7 +72,7 @@ export default function Flashcard({
 
   return (
     <div
-      className="w-full max-w-lg relative cursor-pointer perspective-1000 mx-auto"
+      className="w-full max-w-2xl relative cursor-pointer perspective-1000 mx-auto"
       style={{ height: '480px' }}
       onClick={onFlip}
     >
@@ -77,7 +94,7 @@ export default function Flashcard({
           </div>
 
           <div className="flex-1 flex items-center justify-center">
-            <span className="font-chinese font-bold text-7xl text-slate-800 leading-normal select-none">
+            <span className="font-chinese font-bold text-9xl text-slate-800 leading-normal select-none">
               {hanzi}
             </span>
           </div>
@@ -110,7 +127,7 @@ export default function Flashcard({
           <div className="flex flex-col items-center gap-3">
             <div className="text-center">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Phiên âm</span>
-              <span className="text-2xl font-black text-blue-600 font-sans tracking-wide">
+              <span className="text-4xl font-black text-blue-600 font-sans tracking-wide">
                 {pinyin}
               </span>
             </div>
@@ -145,7 +162,7 @@ export default function Flashcard({
                 {examples.map((ex, i) => (
                   <div key={i} className="bg-white/70 border border-blue-100 rounded-xl p-3 space-y-1 text-left">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="font-chinese font-bold text-slate-800 text-sm leading-snug flex-1">
+                      <p className="font-chinese font-bold text-slate-800 text-4xl leading-snug flex-1">
                         {ex.sentence}
                       </p>
                       <button
@@ -156,8 +173,8 @@ export default function Flashcard({
                         <Volume2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                    <p className="text-[10px] font-semibold text-blue-500 italic">{ex.pinyin}</p>
-                    <p className="text-[11px] font-semibold text-slate-500">{ex.translation}</p>
+                    <p className="text-lg font-semibold text-blue-500 italic">{ex.pinyin}</p>
+                    <p className="text-lg font-semibold text-slate-500">{ex.translation}</p>
                   </div>
                 ))}
               </div>

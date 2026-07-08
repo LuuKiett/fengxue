@@ -21,7 +21,7 @@ export default function DashboardLayout({
       <div className="flex-1 flex flex-col min-w-0">
         <Header onMenuClick={() => setDrawerOpen(true)} />
 
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl w-full mx-auto">
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full mx-auto">
           {children}
         </main>
       </div>

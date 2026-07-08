@@ -27,12 +27,11 @@ export default function DateExercisesPage() {
   
   // Exercise states: 'list' | 'playing'
   const [mode, setMode] = useState<'list' | 'playing'>('list')
-  const [activeType, setActiveType] = useState<'hanzi_pinyin' | 'pinyin_viet' | 'hanzi_viet' | null>(null)
+  const [activeType, setActiveType] = useState<'hanzi_pinyin' | 'hanzi_viet' | null>(null)
   
   // Completion records
   const [records, setRecords] = useState<{ [key: string]: boolean }>({
     hanzi_pinyin: false,
-    pinyin_viet: false,
     hanzi_viet: false
   })
 
@@ -67,7 +66,6 @@ export default function DateExercisesPage() {
 
       const statusMap = {
         hanzi_pinyin: false,
-        pinyin_viet: false,
         hanzi_viet: false
       }
 
@@ -90,7 +88,7 @@ export default function DateExercisesPage() {
     loadData()
   }, [dateStr])
 
-  const startExercise = (type: 'hanzi_pinyin' | 'pinyin_viet' | 'hanzi_viet') => {
+  const startExercise = (type: 'hanzi_pinyin' | 'hanzi_viet') => {
     setActiveType(type)
     setMode('playing')
   }
@@ -136,7 +134,6 @@ export default function DateExercisesPage() {
 
   const getExerciseTitle = (type: string) => {
     if (type === 'hanzi_pinyin') return 'Chữ Hán ↔ Phiên âm (Pinyin)'
-    if (type === 'pinyin_viet') return 'Phiên âm (Pinyin) ↔ Nghĩa Việt'
     if (type === 'hanzi_viet') return 'Chữ Hán ↔ Nghĩa Việt'
     return ''
   }
@@ -201,14 +198,13 @@ export default function DateExercisesPage() {
                 <Award className="w-7 h-7" /> Thử Thách Nối Từ
               </h3>
               <p className="font-semibold text-amber-50 max-w-md">
-                Hoàn thành cả 3 bài tập nối từ để nhận dấu tích xanh hoàn tất trên lịch tiến độ tháng nhé! 🌟
+                Hoàn thành cả 2 bài tập nối từ để nhận dấu tích xanh hoàn tất trên lịch tiến độ tháng nhé! 🌟
               </p>
             </div>
             <div className="hidden sm:flex text-6xl animate-float">🎓</div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1: Hanzi - Pinyin */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="cartoon-card p-5 bg-white flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between items-start">
@@ -218,7 +214,7 @@ export default function DateExercisesPage() {
                   )}
                 </div>
                 <h4 className="font-extrabold text-slate-800 text-lg">Chữ Hán ↔ Pinyin</h4>
-                <p className="text-xs text-slate-500 font-semibold">Nối ký tự tiếng Trung cổ điển với cách viết phiên âm đúng.</p>
+                <p className="text-xs text-slate-500 font-semibold">Nối ký tự tiếng Trung với cách viết phiên âm đúng.</p>
               </div>
               <button 
                 onClick={() => startExercise('hanzi_pinyin')}
@@ -228,37 +224,16 @@ export default function DateExercisesPage() {
               </button>
             </div>
 
-            {/* Card 2: Pinyin - Viet */}
             <div className="cartoon-card p-5 bg-white flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between items-start">
                   <span className="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center font-bold text-blue-600">2</span>
-                  {records.pinyin_viet && (
-                    <span className="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-[10px] font-black text-emerald-700 rounded-full">XONG</span>
-                  )}
-                </div>
-                <h4 className="font-extrabold text-slate-800 text-lg">Pinyin ↔ Nghĩa Việt</h4>
-                <p className="text-xs text-slate-500 font-semibold">Nối phiên âm phát âm với ngữ nghĩa tiếng Việt tương ứng.</p>
-              </div>
-              <button 
-                onClick={() => startExercise('pinyin_viet')}
-                className="cartoon-btn w-full py-2.5 text-xs text-center"
-              >
-                {records.pinyin_viet ? 'Luyện Lại 🔄' : 'Bắt Đầu 🚀'}
-              </button>
-            </div>
-
-            {/* Card 3: Hanzi - Viet */}
-            <div className="cartoon-card p-5 bg-white flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between items-start">
-                  <span className="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center font-bold text-blue-600">3</span>
                   {records.hanzi_viet && (
                     <span className="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-[10px] font-black text-emerald-700 rounded-full">XONG</span>
                   )}
                 </div>
                 <h4 className="font-extrabold text-slate-800 text-lg">Chữ Hán ↔ Nghĩa Việt</h4>
-                <p className="text-xs text-slate-500 font-semibold">Thử thách khó nhất! Nhìn mặt chữ đoán thẳng nghĩa tiếng Việt.</p>
+                <p className="text-xs text-slate-500 font-semibold">Nối mặt chữ với nghĩa tiếng Việt tương ứng.</p>
               </div>
               <button 
                 onClick={() => startExercise('hanzi_viet')}

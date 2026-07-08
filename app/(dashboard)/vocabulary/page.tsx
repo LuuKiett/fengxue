@@ -617,8 +617,8 @@ export default function VocabularyPage() {
 
       {/* MULTI-ROW ADD MODAL */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="cartoon-panel bg-white w-full md:max-w-5xl p-6 relative flex flex-col min-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 py-8 overflow-y-auto">
+          <div className="cartoon-panel bg-white w-full md:max-w-5xl p-6 relative flex flex-col min-h-[90vh] overflow-y-auto max-h-[90vh]">
             <button
               onClick={() => setIsAddModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"

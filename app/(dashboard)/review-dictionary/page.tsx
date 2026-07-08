@@ -21,6 +21,9 @@ interface DictWord {
   hanzi: string
   pinyin: string
   vietnamese: string
+  example_hanzi: string | null
+  example_pinyin: string | null
+  example_vietnamese: string | null
 }
 
 interface LevelInfo {
@@ -57,7 +60,7 @@ export default function ReviewDictionaryPage() {
   const [isFlipped, setIsFlipped] = useState(false)
 
   const [matchingRound, setMatchingRound] = useState(0)
-  const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'pinyin_viet' | 'hanzi_viet'>('hanzi_pinyin')
+  const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'hanzi_viet'>('hanzi_pinyin')
   const [roundVocabs, setRoundVocabs] = useState<DictWord[]>([])
 
   // Progress is persisted as soon as the flashcards for a stage are done (not only at
@@ -166,7 +169,7 @@ export default function ReviewDictionaryPage() {
 
     const { data: wordsData } = await supabase
       .from('dictionary_words')
-      .select('id, hanzi, pinyin, vietnamese')
+      .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
       .in('id', stageIds)
 
     const byId: Record<string, DictWord> = {}
@@ -259,10 +262,6 @@ export default function ReviewDictionaryPage() {
     }
 
     if (matchingType === 'hanzi_pinyin') {
-      setMatchingType('pinyin_viet')
-      setMatchingRound(0)
-      prepareMatchingRound(0)
-    } else if (matchingType === 'pinyin_viet') {
       setMatchingType('hanzi_viet')
       setMatchingRound(0)
       prepareMatchingRound(0)
@@ -341,12 +340,11 @@ export default function ReviewDictionaryPage() {
 
   const getMatchingTitle = () => {
     if (matchingType === 'hanzi_pinyin') return 'Vòng 1: Chữ Hán ↔ Phiên âm'
-    if (matchingType === 'pinyin_viet') return 'Vòng 2: Phiên âm ↔ Nghĩa Việt'
-    return 'Vòng 3: Chữ Hán ↔ Nghĩa Việt'
+    return 'Vòng 2: Chữ Hán ↔ Nghĩa Việt'
   }
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6">
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
         <span>📔</span> Ôn Tập Theo Từ Điển
       </h2>
@@ -491,6 +489,15 @@ export default function ReviewDictionaryPage() {
             vietnamese={stageWords[flashIdx].vietnamese}
             isFlipped={isFlipped}
             onFlip={() => setIsFlipped(!isFlipped)}
+            example={
+              stageWords[flashIdx].example_hanzi
+                ? {
+                    sentence: stageWords[flashIdx].example_hanzi!,
+                    pinyin: stageWords[flashIdx].example_pinyin || '',
+                    translation: stageWords[flashIdx].example_vietnamese || '',
+                  }
+                : null
+            }
           />
 
           <div className="flex justify-between items-center gap-4 max-w-lg mx-auto">

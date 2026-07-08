@@ -157,14 +157,14 @@ export default function DictionaryPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-nowrap sm:text-wrap">
+            <table className="w-full text-left border-collapse md:text-nowrap">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   <th className="p-4 font-black text-slate-700 text-base">Hán Tự</th>
-                  <th className="p-4 font-black text-slate-700 text-base">Pinyin</th>
-                  <th className="p-4 font-black text-slate-700 text-base">Nghĩa Tiếng Việt</th>
+                  <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Pinyin</th>
+                  <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Nghĩa Tiếng Việt</th>
                   <th className="p-4 font-black text-slate-700 text-base">Ví Dụ</th>
-                  <th className="p-4 font-black text-slate-700 text-base text-center">Cấp Độ</th>
+                  <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell text-center">Cấp Độ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-semibold text-slate-700 text-base">
@@ -181,8 +181,19 @@ export default function DictionaryPage() {
                           <Volume2 className="w-4 h-4" />
                         </button>
                       </div>
+                      <div className="md:hidden">
+                        {w.pinyin}
+                        {w.pos && (
+                          <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
+                            {w.pos}
+                          </span>
+                        )}
+                        <span className="text-green-500 block">
+                          {w.vietnamese || '—'}
+                        </span>
+                      </div>
                     </td>
-                    <td className="p-4 text-blue-600 font-bold text-lg">
+                    <td className="p-4 text-blue-600 font-bold text-lg hidden md:table-cell">
                       {w.pinyin}
                       {w.pos && (
                         <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
@@ -190,7 +201,7 @@ export default function DictionaryPage() {
                         </span>
                       )}
                     </td>
-                    <td className="p-4 text-slate-800">{w.vietnamese || '—'}</td>
+                    <td className="p-4 text-slate-800 hidden md:table-cell">{w.vietnamese || '—'}</td>
                     <td className="p-4 min-w-[240px]">
                       {w.example_hanzi ? (
                         <div className="flex items-start gap-1.5">
@@ -211,7 +222,7 @@ export default function DictionaryPage() {
                         <span className="text-sm text-slate-300 italic">Chưa có ví dụ</span>
                       )}
                     </td>
-                    <td className="p-4 text-center">
+                    <td className="p-4 text-center hidden md:table-cell">
                       <span className="text-xs font-black px-2 py-1 rounded-full bg-blue-50 text-blue-600">
                         {w.level}
                       </span>

@@ -59,7 +59,7 @@ export default function DashboardPage() {
         const flashcardCompleted = !!records?.find(
           (r) => r.exercise_type === 'flashcard' && r.is_completed
         )
-        const matchingTypes = ['hanzi_pinyin', 'pinyin_viet', 'hanzi_viet']
+        const matchingTypes = ['hanzi_pinyin', 'hanzi_viet']
         const exercisesCompletedCount = records
           ? records.filter((r) => matchingTypes.includes(r.exercise_type) && r.is_completed).length
           : 0
@@ -138,7 +138,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <div className="text-2xl font-black text-slate-800">
-              {loading ? '...' : `${stats.exercisesCompletedCount}/3`}
+              {loading ? '...' : `${stats.exercisesCompletedCount}/2`}
             </div>
             <div className="text-xs font-bold text-slate-400">Bài tập nối từ đã xong</div>
           </div>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
           {/* Step 3: Exercise */}
           <div className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex gap-3 items-start">
-              {stats.exercisesCompletedCount === 3 ? (
+              {stats.exercisesCompletedCount === 2 ? (
                 <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0 mt-0.5" />
               ) : (
                 <XCircle className="w-6 h-6 text-slate-300 shrink-0 mt-0.5" />
@@ -207,7 +207,7 @@ export default function DashboardPage() {
               <div>
                 <h4 className="font-extrabold text-slate-800 text-base">Bước 3: Bài tập rèn luyện nối từ</h4>
                 <p className="text-sm font-semibold text-slate-500">
-                  Luyện tập nối Chữ Hoa - Pinyin, Pinyin - Nghĩa, Chữ Hoa - Nghĩa để tăng cường trí nhớ.
+                  Luyện tập nối Chữ Hán ↔ Pinyin và Chữ Hán ↔ Nghĩa tiếng Việt để tăng cường trí nhớ.
                 </p>
               </div>
             </div>

@@ -7,7 +7,7 @@ import { getDaysInMonth, toLocalDateString, formatDate } from '@/lib/utils/date'
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 
 interface DateStatus {
-  completedCount: number // out of 3
+  completedCount: number // out of 2
 }
 
 export default function ExercisesPage() {
@@ -51,8 +51,8 @@ export default function ExercisesPage() {
 
       if (records) {
         records.forEach(r => {
-          // Count only matching exercise types
-          const matchingTypes = ['hanzi_pinyin', 'pinyin_viet', 'hanzi_viet']
+          // Count only the remaining matching exercise types
+          const matchingTypes = ['hanzi_pinyin', 'hanzi_viet']
           if (matchingTypes.includes(r.exercise_type)) {
             if (!tempMap[r.date]) {
               tempMap[r.date] = { completedCount: 0 }
@@ -131,7 +131,7 @@ export default function ExercisesPage() {
   const weekdayHeaders = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6">
       {/* Title */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
