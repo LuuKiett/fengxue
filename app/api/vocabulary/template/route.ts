@@ -17,13 +17,19 @@ export async function GET(request: NextRequest) {
         'Chữ Hoa': '谢谢',
         'Pinyin': 'xièxie',
         'Tiếng Việt': 'Cảm ơn',
-        'Nguồn Từ': 'study'
+        'Nguồn Từ': 'study',
+        'Ví Dụ - Chữ Hán': '谢谢你',
+        'Ví Dụ - Pinyin': 'xièxie nǐ',
+        'Ví Dụ - Tiếng Việt': 'Cảm ơn bạn'
       },
       {
         'Chữ Hoa': '再见',
         'Pinyin': 'zàijiàn',
         'Tiếng Việt': 'Tạm biệt',
-        'Nguồn Từ': 'practice'
+        'Nguồn Từ': 'practice',
+        'Ví Dụ - Chữ Hán': '再见！',
+        'Ví Dụ - Pinyin': 'zàijiàn',
+        'Ví Dụ - Tiếng Việt': 'Tạm biệt!'
       }
     ]
 
@@ -34,7 +40,10 @@ export async function GET(request: NextRequest) {
       { wch: 15 }, // Chữ Hoa
       { wch: 15 }, // Pinyin
       { wch: 20 }, // Tiếng Việt
-      { wch: 12 }  // Nguồn Từ
+      { wch: 12 }, // Nguồn Từ
+      { wch: 18 }, // Ví Dụ - Chữ Hán
+      { wch: 18 }, // Ví Dụ - Pinyin
+      { wch: 24 }  // Ví Dụ - Tiếng Việt
     ]
 
     // Append to sheet with today's date format as a hint for tab name format

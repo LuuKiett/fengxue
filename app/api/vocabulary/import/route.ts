@@ -9,6 +9,9 @@ interface ParsedRow {
   pinyin: string
   vietnamese: string
   source: 'study' | 'practice'
+  example_hanzi?: string
+  example_pinyin?: string
+  example_vietnamese?: string
   order_index: number
 }
 
@@ -29,11 +32,17 @@ function parseSheetRows(worksheet: XLSX.WorkSheet): Omit<ParsedRow, 'order_index
       const vietnamese = row['Tiếng Việt'] || row['vietnamese'] || row['viet'] || ''
       const sourceRaw = String(row['Nguồn Từ'] || row['source'] || '').trim().toLowerCase()
       const source: 'study' | 'practice' = sourceRaw === 'practice' ? 'practice' : 'study'
+      const exampleHanzi = row['Ví Dụ - Chữ Hán'] || row['Example Hanzi'] || row['example_hanzi'] || ''
+      const examplePinyin = row['Ví Dụ - Pinyin'] || row['Example Pinyin'] || row['example_pinyin'] || ''
+      const exampleVietnamese = row['Ví Dụ - Tiếng Việt'] || row['Example Vietnamese'] || row['example_vietnamese'] || ''
       return {
         hanzi: String(hanzi).trim(),
         pinyin: String(pinyin).trim(),
         vietnamese: String(vietnamese).trim(),
         source,
+        example_hanzi: String(exampleHanzi).trim(),
+        example_pinyin: String(examplePinyin).trim(),
+        example_vietnamese: String(exampleVietnamese).trim(),
       }
     })
     .filter((r) => r.hanzi && r.pinyin && r.vietnamese)
@@ -92,8 +101,8 @@ export async function POST(request: NextRequest) {
     if (Object.keys(results).length === 0) {
       return NextResponse.json({
         error: targetDate
-          ? 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt".'
-          : 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra: tên sheet phải đúng định dạng YYYY-MM-DD, và các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt".',
+          ? 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt" (có thể có thêm "Ví Dụ - Chữ Hán", "Ví Dụ - Pinyin", "Ví Dụ - Tiếng Việt").'
+          : 'Không tìm thấy dòng dữ liệu hợp lệ nào. Kiểm tra: tên sheet phải đúng định dạng YYYY-MM-DD, và các cột phải tên là "Chữ Hoa", "Pinyin", "Tiếng Việt" (có thể có thêm "Ví Dụ - Chữ Hán", "Ví Dụ - Pinyin", "Ví Dụ - Tiếng Việt").',
       }, { status: 400 })
     }
 
@@ -171,7 +180,14 @@ export async function POST(request: NextRequest) {
           .from('vocabularies')
           .insert(
             rows.map((r) => {
-              const example = findExample(r.hanzi, r.pinyin)
+              const hasManualExample = Boolean(r.example_hanzi && r.example_pinyin && r.example_vietnamese)
+              const example = hasManualExample
+                ? {
+                    example_hanzi: r.example_hanzi,
+                    example_pinyin: r.example_pinyin,
+                    example_vietnamese: r.example_vietnamese,
+                  }
+                : findExample(r.hanzi, r.pinyin)
               if (example) matchedCount++
               return {
                 set_id: set.id,
@@ -183,7 +199,7 @@ export async function POST(request: NextRequest) {
                 example_hanzi: example?.example_hanzi ?? null,
                 example_pinyin: example?.example_pinyin ?? null,
                 example_vietnamese: example?.example_vietnamese ?? null,
-                example_source: example ? 'dictionary' : null,
+                example_source: hasManualExample ? 'manual' : example ? 'dictionary' : null,
               }
             })
           )

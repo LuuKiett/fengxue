@@ -88,6 +88,12 @@ export default function VocabularyPage() {
   const [editHanzi, setEditHanzi] = useState('')
   const [editPinyin, setEditPinyin] = useState('')
   const [editVietnamese, setEditVietnamese] = useState('')
+  const [editExampleHanzi, setEditExampleHanzi] = useState('')
+  const [editExamplePinyin, setEditExamplePinyin] = useState('')
+  const [editExampleVietnamese, setEditExampleVietnamese] = useState('')
+  const [editExampleComposingBuffer, setEditExampleComposingBuffer] = useState('')
+  const [editExampleSuggestions, setEditExampleSuggestions] = useState<SuggestionEntry[]>([])
+  const editExampleDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Load vocab for selected date
   const loadVocab = async (targetDate: string) => {
@@ -581,12 +587,66 @@ export default function VocabularyPage() {
     setEditComposingBuffer('')
   }
 
+  const lookupEditExampleSuggestions = (query: string) => {
+    if (editExampleDebounceRef.current) clearTimeout(editExampleDebounceRef.current)
+
+    const normalizedQuery = stripTones(query)
+    if (!normalizedQuery) {
+      setEditExampleSuggestions([])
+      return
+    }
+
+    editExampleDebounceRef.current = setTimeout(async () => {
+      if (!tocflIndexRef.current) await loadTocflIndex()
+      const idx = tocflIndexRef.current
+      if (!idx) return
+
+      let results: TocflEntry[] = idx[normalizedQuery] || []
+      if (results.length === 0) {
+        const keys = sortedKeysRef.current ?? Object.keys(idx).sort()
+        sortedKeysRef.current = keys
+        const matchingKeys = prefixSearchKeys(keys, normalizedQuery).filter(k => k !== normalizedQuery)
+        results = matchingKeys
+          .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
+          .flatMap(k => idx[k])
+          .slice(0, 8)
+      }
+
+      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
+      setEditExampleSuggestions(finalResults)
+    }, 150)
+  }
+
+  const updateEditExampleComposingBuffer = (value: string) => {
+    setEditExampleComposingBuffer(value)
+    lookupEditExampleSuggestions(value)
+  }
+
+  const selectEditExampleSuggestion = (item: SuggestionEntry) => {
+    setEditExampleHanzi(prev => prev + item.t)
+    setEditExamplePinyin(prev => (prev ? `${prev} ${item.p}` : item.p))
+    setEditExampleComposingBuffer('')
+    setEditExampleSuggestions([])
+  }
+
+  const clearEditExampleComposition = () => {
+    setEditExampleHanzi('')
+    setEditExamplePinyin('')
+    setEditExampleComposingBuffer('')
+  }
+
   // EDIT VOCABULARY
   const openEditModal = (item: VocabItem) => {
     setEditItem(item)
     setEditHanzi(item.hanzi)
     setEditPinyin(item.pinyin)
     setEditVietnamese(item.vietnamese)
+    setEditExampleHanzi(item.example_hanzi ?? '')
+    setEditExamplePinyin(item.example_pinyin ?? '')
+    setEditExampleVietnamese(item.example_vietnamese ?? '')
+    setEditExampleComposingBuffer('')
+    setEditExampleSuggestions([])
     setEditComposingBuffer('')
     setEditSuggestions([])
     setIsEditModalOpen(true)
@@ -604,6 +664,10 @@ export default function VocabularyPage() {
       return
     }
 
+    const hasManualExample = Boolean(
+      editExampleHanzi.trim() && editExamplePinyin.trim() && editExampleVietnamese.trim()
+    )
+
     try {
       const { error: updateErr } = await supabase
         .from('vocabularies')
@@ -611,6 +675,10 @@ export default function VocabularyPage() {
           hanzi: editHanzi.trim(),
           pinyin: editPinyin.trim(),
           vietnamese: editVietnamese.trim(),
+          example_hanzi: hasManualExample ? editExampleHanzi.trim() : null,
+          example_pinyin: hasManualExample ? editExamplePinyin.trim() : null,
+          example_vietnamese: hasManualExample ? editExampleVietnamese.trim() : null,
+          example_source: hasManualExample ? 'manual' : null,
           updated_at: new Date().toISOString()
         })
         .eq('id', editItem.id)
@@ -1188,7 +1256,7 @@ export default function VocabularyPage() {
                 ))}
               </div>
 
-              <div className="flex justify-between items-center border-t border-slate-100 pt-4 bg-white">
+              <div className="flex justify-between items-center border-t border-slate-100 pt-4 bg-white gap-2">
                 <button
                   type="button"
                   onClick={addNewRow}
@@ -1197,13 +1265,6 @@ export default function VocabularyPage() {
                   + Thêm Dòng
                 </button>
                 <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsAddModalOpen(false)}
-                    className="cartoon-btn cartoon-btn-secondary px-4 py-2 text-sm"
-                  >
-                    Hủy
-                  </button>
                   <button
                     type="submit"
                     disabled={actionLoading}
@@ -1264,7 +1325,7 @@ export default function VocabularyPage() {
       {/* SINGLE-ROW EDIT MODAL */}
       {isEditModalOpen && editItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-panel bg-white w-full max-w-md p-6 relative">
+          <div className="cartoon-panel bg-white w-full max-w-5xl p-6 relative">
             <button
               onClick={() => setIsEditModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
@@ -1277,81 +1338,166 @@ export default function VocabularyPage() {
             </h3>
 
             <form onSubmit={handleEditSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Chữ Hoa (Hanzi)</label>
-                <input
-                  type="text"
-                  value={editHanzi}
-                  onChange={(e) => setEditHanzi(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-lg"
-                />
-              </div>
-
-              <div style={{ position: 'relative' }}>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Pinyin</label>
-                <input
-                  type="text"
-                  placeholder="Gõ không dấu để gợi ý (ni, hao...)"
-                  value={editComposingBuffer}
-                  onFocus={() => loadTocflIndex()}
-                  onChange={(e) => updateEditComposingBuffer(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold"
-                />
-                <div className="flex items-center gap-1.5 mt-1 px-0.5">
-                  <span className="text-[10px] font-bold text-slate-400 truncate">
-                    Pinyin hiện tại: <span className="font-semibold text-slate-600">{editPinyin || '—'}</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={clearEditComposition}
-                    className="text-[10px] font-black text-red-400 hover:text-red-600 flex-shrink-0"
-                  >
-                    Xóa
-                  </button>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-1">Chữ Hoa (Hanzi)</label>
+                  <input
+                    type="text"
+                    value={editHanzi}
+                    onChange={(e) => setEditHanzi(e.target.value)}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-lg"
+                  />
                 </div>
-                {/* Autocomplete Suggestion Panel — same TOCFL suggestion engine as Add Word */}
-                {editSuggestions.length > 0 && (
-                  <div
-                    className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 max-h-52 overflow-y-auto"
-                    style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, zIndex: 20000 }}
-                  >
-                    <div className="flex items-center gap-1.5 px-2 py-1">
-                      <span className="text-[9px] font-black text-blue-500 uppercase tracking-wider">⌨️ TOCFL 繁體 — {editSuggestions.length} gợi ý</span>
-                    </div>
-                    {editSuggestions.map((item, sugIdx) => (
-                      <button
-                        key={sugIdx}
-                        type="button"
-                        onMouseDown={(e) => { e.preventDefault(); selectEditSuggestion(item) }}
-                        className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-blue-50 rounded-xl transition-colors"
-                        title="Ghép vào từ đang gõ"
-                      >
-                        <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
-                        <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
-                        {'composed' in item ? (
-                          <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
-                        ) : item.l === null ? (
-                          <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
-                        ) : (
-                          <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' :
-                            item.l <= 4 ? 'bg-amber-100 text-amber-700' :
-                              'bg-red-100 text-red-700'
-                            }`}>L{item.l}</span>
-                        )}
-                      </button>
-                    ))}
+
+                <div style={{ position: 'relative' }}>
+                  <label className="block text-sm font-bold text-slate-700 mb-1">Pinyin</label>
+                  <input
+                    type="text"
+                    placeholder="Gõ không dấu để gợi ý (ni, hao...)"
+                    value={editComposingBuffer}
+                    onFocus={() => loadTocflIndex()}
+                    onChange={(e) => updateEditComposingBuffer(e.target.value)}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold"
+                  />
+                  <div className="flex items-center gap-1.5 mt-1 px-0.5">
+                    <span className="text-[10px] font-bold text-slate-400 truncate">
+                      Pinyin hiện tại: <span className="font-semibold text-slate-600">{editPinyin || '—'}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={clearEditComposition}
+                      className="text-[10px] font-black text-red-400 hover:text-red-600 flex-shrink-0"
+                    >
+                      Xóa
+                    </button>
                   </div>
-                )}
+                  {editSuggestions.length > 0 && (
+                    <div
+                      className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 max-h-52 overflow-y-auto"
+                      style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, zIndex: 20000 }}
+                    >
+                      <div className="flex items-center gap-1.5 px-2 py-1">
+                        <span className="text-[9px] font-black text-blue-500 uppercase tracking-wider">⌨️ TOCFL 繁體 — {editSuggestions.length} gợi ý</span>
+                      </div>
+                      {editSuggestions.map((item, sugIdx) => (
+                        <button
+                          key={sugIdx}
+                          type="button"
+                          onMouseDown={(e) => { e.preventDefault(); selectEditSuggestion(item) }}
+                          className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-blue-50 rounded-xl transition-colors"
+                          title="Ghép vào từ đang gõ"
+                        >
+                          <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
+                          <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
+                          {'composed' in item ? (
+                            <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
+                          ) : item.l === null ? (
+                            <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
+                          ) : (
+                            <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' :
+                              item.l <= 4 ? 'bg-amber-100 text-amber-700' :
+                                'bg-red-100 text-red-700'
+                              }`}>L{item.l}</span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-1">Tiếng Việt</label>
+                  <input
+                    type="text"
+                    value={editVietnamese}
+                    onChange={(e) => setEditVietnamese(e.target.value)}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Tiếng Việt</label>
-                <input
-                  type="text"
-                  value={editVietnamese}
-                  onChange={(e) => setEditVietnamese(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold"
-                />
+              <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-amber-600" />
+                  <h4 className="text-sm font-black text-slate-700">Ví Dụ (tùy chọn)</h4>
+                </div>
+                <p className="text-xs text-slate-500 font-semibold">Nếu từ đã có ví dụ thì sẽ hiện ở đây để chỉnh sửa. Nếu chưa có thì để trống để thêm mới.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">Ví Dụ - Chữ Hán</label>
+                    <input
+                      type="text"
+                      value={editExampleHanzi}
+                      onChange={(e) => setEditExampleHanzi(e.target.value)}
+                      className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-lg bg-white"
+                      placeholder="Ví dụ tiếng Hán"
+                    />
+                  </div>
+
+                  <div style={{ position: 'relative' }}>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">Ví Dụ - Pinyin</label>
+                    <input
+                      type="text"
+                      value={editExampleComposingBuffer}
+                      onFocus={() => loadTocflIndex()}
+                      onChange={(e) => updateEditExampleComposingBuffer(e.target.value)}
+                      className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold bg-white"
+                      placeholder="Gõ không dấu để gợi ý (ni, hao...)"
+                    />
+                    <div className="flex items-center gap-1.5 mt-1 px-0.5">
+                      <span className="text-[10px] font-bold text-amber-600/70 truncate">
+                        Đã ghép: <span className="font-semibold text-amber-700">{editExamplePinyin || '—'}</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={clearEditExampleComposition}
+                        className="text-[10px] font-black text-red-400 hover:text-red-600 flex-shrink-0"
+                      >
+                        Xóa
+                      </button>
+                    </div>
+                    {editExampleSuggestions.length > 0 && (
+                      <div
+                        className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 max-h-52 overflow-y-auto"
+                        style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, zIndex: 20000 }}
+                      >
+                        <div className="flex items-center gap-1.5 px-2 py-1">
+                          <span className="text-[9px] font-black text-amber-600 uppercase tracking-wider">⌨️ TOCFL 繁體 — {editExampleSuggestions.length} gợi ý</span>
+                        </div>
+                        {editExampleSuggestions.map((item, sugIdx) => (
+                          <button
+                            key={sugIdx}
+                            type="button"
+                            onMouseDown={(e) => { e.preventDefault(); selectEditExampleSuggestion(item) }}
+                            className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-amber-50 rounded-xl transition-colors"
+                            title="Ghép vào ví dụ đang gõ"
+                          >
+                            <span className="font-chinese text-lg text-amber-700 font-bold min-w-[2rem]">{item.t}</span>
+                            <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
+                            {'composed' in item ? (
+                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
+                            ) : item.l === null ? (
+                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
+                            ) : (
+                              <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' : item.l <= 4 ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>L{item.l}</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">Ví Dụ - Tiếng Việt</label>
+                    <input
+                      type="text"
+                      value={editExampleVietnamese}
+                      onChange={(e) => setEditExampleVietnamese(e.target.value)}
+                      className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold bg-white"
+                      placeholder="Nghĩa tiếng Việt"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex justify-end gap-2 border-t border-slate-100 pt-4">

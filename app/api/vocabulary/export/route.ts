@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       // 2. Get vocabularies
       const { data: vocabs } = await supabase
         .from('vocabularies')
-        .select('hanzi, pinyin, vietnamese, source')
+        .select('hanzi, pinyin, vietnamese, source, example_hanzi, example_pinyin, example_vietnamese')
         .eq('set_id', set.id)
         .order('order_index', { ascending: true })
 
@@ -47,6 +47,9 @@ export async function GET(request: NextRequest) {
             'Pinyin': v.pinyin,
             'Tiếng Việt': v.vietnamese,
             'Nguồn Từ': v.source === 'practice' ? 'practice' : 'study',
+            'Ví Dụ - Chữ Hán': v.example_hanzi ?? '',
+            'Ví Dụ - Pinyin': v.example_pinyin ?? '',
+            'Ví Dụ - Tiếng Việt': v.example_vietnamese ?? '',
           }))
         )
         XLSX.utils.book_append_sheet(wb, worksheet, dateStr)
@@ -56,7 +59,7 @@ export async function GET(request: NextRequest) {
 
     if (addedSheets === 0) {
       // Create a dummy empty sheet if no vocabulary is found
-      const worksheet = XLSX.utils.json_to_sheet([{ 'Chữ Hoa': '', 'Pinyin': '', 'Tiếng Việt': '', 'Nguồn Từ': '' }])
+      const worksheet = XLSX.utils.json_to_sheet([{ 'Chữ Hoa': '', 'Pinyin': '', 'Tiếng Việt': '', 'Nguồn Từ': '', 'Ví Dụ - Chữ Hán': '', 'Ví Dụ - Pinyin': '', 'Ví Dụ - Tiếng Việt': '' }])
       XLSX.utils.book_append_sheet(wb, worksheet, 'No_Data')
     }
 
