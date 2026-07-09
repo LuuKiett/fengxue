@@ -348,6 +348,11 @@ export default function VocabularyPage() {
     const updated = [...newRows]
     updated[index][field] = value
     setNewRows(updated)
+
+    if (field === 'pinyin') {
+      setComposingBuffer(prev => ({ ...prev, [index]: value }))
+      lookupSuggestions(index, value)
+    }
   }
 
   // Toggles the manual example sub-section open/closed for one row of the add form.
@@ -365,6 +370,11 @@ export default function VocabularyPage() {
     const updated = [...newRows]
     updated[index] = { ...updated[index], [field]: value }
     setNewRows(updated)
+
+    if (field === 'examplePinyin') {
+      setExampleComposingBuffer(prev => ({ ...prev, [index]: value }))
+      lookupExampleSuggestions(index, value)
+    }
   }
 
   // Runs the exact/prefix/composed suggestion lookup against whatever the user is
@@ -560,6 +570,7 @@ export default function VocabularyPage() {
 
   const updateEditComposingBuffer = (value: string) => {
     setEditComposingBuffer(value)
+    setEditPinyin(value)
     lookupEditSuggestions(value)
   }
 
@@ -609,6 +620,7 @@ export default function VocabularyPage() {
 
   const updateEditExampleComposingBuffer = (value: string) => {
     setEditExampleComposingBuffer(value)
+    setEditExamplePinyin(value)
     lookupEditExampleSuggestions(value)
   }
 
@@ -941,7 +953,7 @@ export default function VocabularyPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse md:text-nowrap">
+            <table className="w-full text-left border-collapse text-nowrap">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   <th className="p-4 font-black text-slate-700 text-sm">
@@ -1140,7 +1152,7 @@ export default function VocabularyPage() {
                           placeholder="Pinyin (gõ không dấu: ni, hao...)"
                           value={composingBuffer[idx] || ''}
                           onFocus={() => loadTocflIndex()}
-                          onChange={(e) => updateComposingBuffer(idx, e.target.value)}
+                          onChange={(e) => updateNewRowField(idx, 'pinyin', e.target.value)}
                           className="px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-md bg-white"
                         />
                         {row.hanzi && (
@@ -1261,7 +1273,7 @@ export default function VocabularyPage() {
                           placeholder="Pinyin (gõ không dấu: ni, hao...)"
                           value={exampleComposingBuffer[idx] || ''}
                           onFocus={() => loadTocflIndex()}
-                          onChange={(e) => updateExampleComposingBuffer(idx, e.target.value)}
+                          onChange={(e) => updateNewRowExampleField(idx, 'examplePinyin', e.target.value)}
                           className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-md bg-white"
                         />
                         {row.exampleHanzi && (
