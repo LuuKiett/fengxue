@@ -313,6 +313,13 @@ export default function VocabularyPage() {
   // Debounce timers per row
   const debounceRefs = useRef<{ [rowIndex: number]: ReturnType<typeof setTimeout> }>({})
 
+  // Same TOCFL suggestion engine as above, but for the per-row "Thêm ví dụ" example
+  // sentence composer — a sentence is just several picks appended one after another,
+  // same as composing a multi-character word.
+  const [exampleSuggestions, setExampleSuggestions] = useState<{ [rowIndex: number]: SuggestionEntry[] }>({})
+  const [exampleComposingBuffer, setExampleComposingBuffer] = useState<{ [rowIndex: number]: string }>({})
+  const exampleDebounceRefs = useRef<{ [rowIndex: number]: ReturnType<typeof setTimeout> }>({})
+
   // Shifts index-keyed maps down by one after a row is removed, so suggestions/
   // composing state for rows after the removed one stay attached to the right row.
   function reindexAfterRemoval<T>(map: { [rowIndex: number]: T }, removedIndex: number) {
@@ -336,6 +343,10 @@ export default function VocabularyPage() {
     setComposingBuffer(prev => reindexAfterRemoval(prev, index))
     if (debounceRefs.current[index]) clearTimeout(debounceRefs.current[index])
     debounceRefs.current = reindexAfterRemoval(debounceRefs.current, index)
+    setExampleSuggestions(prev => reindexAfterRemoval(prev, index))
+    setExampleComposingBuffer(prev => reindexAfterRemoval(prev, index))
+    if (exampleDebounceRefs.current[index]) clearTimeout(exampleDebounceRefs.current[index])
+    exampleDebounceRefs.current = reindexAfterRemoval(exampleDebounceRefs.current, index)
   }
 
   const updateNewRowField = (index: number, field: 'hanzi' | 'pinyin' | 'vietnamese', value: string) => {
@@ -443,6 +454,75 @@ export default function VocabularyPage() {
     updated[rowIndex] = { ...updated[rowIndex], hanzi: '', pinyin: '' }
     setNewRows(updated)
     setComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
+  }
+
+  // ── "Thêm ví dụ" pinyin autocomplete — same TOCFL suggestion engine as the word
+  // fields above, just writing into exampleHanzi/examplePinyin instead of hanzi/pinyin
+  // so a whole example sentence can be composed pick-by-pick the same way a word is.
+  const lookupExampleSuggestions = (index: number, query: string) => {
+    if (exampleDebounceRefs.current[index]) clearTimeout(exampleDebounceRefs.current[index])
+
+    const normalizedQuery = stripTones(query)
+    if (!normalizedQuery) {
+      setExampleSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
+      return
+    }
+
+    exampleDebounceRefs.current[index] = setTimeout(async () => {
+      if (!tocflIndexRef.current) await loadTocflIndex()
+      const idx = tocflIndexRef.current
+      if (!idx) return
+
+      let results: TocflEntry[] = idx[normalizedQuery] || []
+      if (results.length === 0) {
+        const keys = sortedKeysRef.current ?? Object.keys(idx).sort()
+        sortedKeysRef.current = keys
+        const matchingKeys = prefixSearchKeys(keys, normalizedQuery).filter(k => k !== normalizedQuery)
+        results = matchingKeys
+          .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
+          .flatMap(k => idx[k])
+          .slice(0, 8)
+      }
+
+      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
+
+      if (finalResults.length > 0) {
+        setExampleSuggestions(prev => ({ ...prev, [index]: finalResults }))
+      } else {
+        setExampleSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
+      }
+    }, 150)
+  }
+
+  const updateExampleComposingBuffer = (index: number, value: string) => {
+    setExampleComposingBuffer(prev => ({ ...prev, [index]: value }))
+    lookupExampleSuggestions(index, value)
+  }
+
+  const selectExampleSuggestion = (rowIndex: number, item: SuggestionEntry) => {
+    const updated = [...newRows]
+    const current = updated[rowIndex]
+    updated[rowIndex] = {
+      ...current,
+      exampleHanzi: current.exampleHanzi + item.t,
+      examplePinyin: current.examplePinyin ? `${current.examplePinyin} ${item.p}` : item.p,
+    }
+    setNewRows(updated)
+
+    setExampleComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
+    setExampleSuggestions(prev => {
+      const next = { ...prev }
+      delete next[rowIndex]
+      return next
+    })
+  }
+
+  const clearExampleComposition = (rowIndex: number) => {
+    const updated = [...newRows]
+    updated[rowIndex] = { ...updated[rowIndex], exampleHanzi: '', examplePinyin: '' }
+    setNewRows(updated)
+    setExampleComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
   }
 
   // ── Edit-modal pinyin autocomplete — same TOCFL suggestion engine as the Add form
@@ -1022,28 +1102,86 @@ export default function VocabularyPage() {
                   </div>
 
                   {row.showExample && (
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-amber-50/60 border border-dashed border-amber-200 rounded-xl p-3">
-                      <input
-                        type="text"
-                        placeholder="Ví Dụ - Chữ Hán"
-                        value={row.exampleHanzi}
-                        onChange={(e) => updateNewRowExampleField(idx, 'exampleHanzi', e.target.value)}
-                        className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-lg bg-white"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Ví Dụ - Pinyin"
-                        value={row.examplePinyin}
-                        onChange={(e) => updateNewRowExampleField(idx, 'examplePinyin', e.target.value)}
-                        className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-sm bg-white"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Ví Dụ - Nghĩa Tiếng Việt"
-                        value={row.exampleVietnamese}
-                        onChange={(e) => updateNewRowExampleField(idx, 'exampleVietnamese', e.target.value)}
-                        className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-sm bg-white"
-                      />
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-amber-50/60 border border-dashed border-amber-200 rounded-xl p-3 relative">
+                      {/* Ví Dụ - Hán Tự */}
+                      <div className="flex flex-col">
+                        <input
+                          type="text"
+                          placeholder="Ví Dụ - Chữ Hán"
+                          value={row.exampleHanzi}
+                          onChange={(e) => updateNewRowExampleField(idx, 'exampleHanzi', e.target.value)}
+                          className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-2xl bg-white"
+                        />
+                      </div>
+
+                      {/* Ví Dụ - Pinyin + cùng bộ gợi ý TOCFL kiểu IME như ô Thêm Từ */}
+                      <div className="flex flex-col" style={{ position: 'relative' }}>
+                        <input
+                          type="text"
+                          placeholder="Pinyin (gõ không dấu: ni, hao...)"
+                          value={exampleComposingBuffer[idx] || ''}
+                          onFocus={() => loadTocflIndex()}
+                          onChange={(e) => updateExampleComposingBuffer(idx, e.target.value)}
+                          className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-md bg-white"
+                        />
+                        {row.exampleHanzi && (
+                          <div className="flex items-center gap-1.5 mt-1 px-0.5">
+                            <span className="text-[10px] font-bold text-amber-600/70 truncate">
+                              Đã ghép: <span className="font-chinese text-amber-700">{row.exampleHanzi}</span> ({row.examplePinyin})
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => clearExampleComposition(idx)}
+                              className="text-[10px] font-black text-red-400 hover:text-red-600 flex-shrink-0"
+                            >
+                              Xóa
+                            </button>
+                          </div>
+                        )}
+                        {exampleSuggestions[idx] && exampleSuggestions[idx].length > 0 && (
+                          <div
+                            className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 max-h-52 overflow-y-auto"
+                            style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, zIndex: 20000 }}
+                          >
+                            <div className="flex items-center gap-1.5 px-2 py-1">
+                              <span className="text-[9px] font-black text-amber-600 uppercase tracking-wider">⌨️ TOCFL 繁體 — {exampleSuggestions[idx].length} gợi ý</span>
+                            </div>
+                            {exampleSuggestions[idx].map((item, sugIdx) => (
+                              <button
+                                key={sugIdx}
+                                type="button"
+                                onMouseDown={(e) => { e.preventDefault(); selectExampleSuggestion(idx, item) }}
+                                className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-amber-50 rounded-xl transition-colors"
+                                title="Ghép vào câu ví dụ đang gõ"
+                              >
+                                <span className="font-chinese text-lg text-amber-700 font-bold min-w-[2rem]">{item.t}</span>
+                                <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
+                                {'composed' in item ? (
+                                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
+                                ) : item.l === null ? (
+                                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-slate-100 text-slate-500">詞典</span>
+                                ) : (
+                                  <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 ${item.l <= 2 ? 'bg-green-100 text-green-700' :
+                                    item.l <= 4 ? 'bg-amber-100 text-amber-700' :
+                                      'bg-red-100 text-red-700'
+                                    }`}>L{item.l}</span>
+                                )}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Ví Dụ - Nghĩa Tiếng Việt */}
+                      <div className="flex flex-col">
+                        <input
+                          type="text"
+                          placeholder="Ví Dụ - Nghĩa Tiếng Việt"
+                          value={row.exampleVietnamese}
+                          onChange={(e) => updateNewRowExampleField(idx, 'exampleVietnamese', e.target.value)}
+                          className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-sm bg-white"
+                        />
+                      </div>
                     </div>
                   )}
                   </div>

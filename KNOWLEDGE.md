@@ -84,9 +84,17 @@ Migrations are **hand-written SQL**, not `prisma migrate dev` output (folder nam
   that came from somewhere else.
 - On `/vocabulary`'s add-word modal, each row has a "Thêm ví dụ" (book icon) button
   next to the row's delete button — toggles an inline 3-input sub-panel (ví dụ Hán tự /
-  pinyin / tiếng Việt). A row only counts as having a manual example when **all three**
-  fields are filled in (partial input is discarded as "no example", since Flashcard
-  needs all three to render one).
+  pinyin / tiếng Việt), sized to match the main word inputs. A row only counts as
+  having a manual example when **all three** fields are filled in (partial input is
+  discarded as "no example", since Flashcard needs all three to render one).
+- The example's pinyin field reuses the exact same TOCFL IME-style composer as the
+  main word row (`lookupExampleSuggestions`/`selectExampleSuggestion`/
+  `exampleComposingBuffer`/`exampleSuggestions` in `app/(dashboard)/vocabulary/page.tsx`
+  — deliberately a parallel copy of `lookupSuggestions`/`selectSuggestion`/etc, not a
+  shared helper, matching how the edit-modal composer is already a separate copy
+  rather than a refactor). Each pick appends to `exampleHanzi`/`examplePinyin`, so a
+  whole sentence is composed the same way a word is: type pinyin without tones, pick a
+  candidate, repeat.
 - `handleAddSubmit` sets `example_source: 'manual'` on insert for those rows and
   **skips firing `generateExampleForWord`** for them (checked via the row's returned
   `example_source`, not row-index correlation with `validRows` — Postgres doesn't
