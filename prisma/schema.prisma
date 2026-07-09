@@ -52,6 +52,9 @@ model Vocabulary {
   hanzi      String
   pinyin     String
   vietnamese String
+  // Browsing category on /vocabulary: 'study' (Từ vựng tự học) or 'practice'
+  // (Từ vựng khác). Lives on the word, not the set, so a single day's set can mix both.
+  source     String        @default("study")
   orderIndex Int           @default(0) @map("order_index")
   // Backfilled at Excel-import time when the word matches an entry in dictionary_words,
   // so Flashcard can show the same accurate example used on /dictionary and
@@ -59,6 +62,11 @@ model Vocabulary {
   exampleHanzi      String? @map("example_hanzi")
   examplePinyin     String? @map("example_pinyin")
   exampleVietnamese String? @map("example_vietnamese")
+  // Where the example sentence came from: 'manual' (typed on /vocabulary), 'ai'
+  // (OpenRouter-generated), 'dictionary' (backfilled from dictionary_words at import
+  // time), or null (no example yet). Lets the AI generate-example endpoint skip words
+  // that already have a manual or dictionary example instead of overwriting them.
+  exampleSource     String? @map("example_source")
   createdAt  DateTime      @default(now()) @map("created_at")
   updatedAt  DateTime      @default(now()) @updatedAt @map("updated_at")
   set        VocabularySet @relation(fields: [setId], references: [id], onDelete: Cascade)

@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       // 2. Get vocabularies
       const { data: vocabs } = await supabase
         .from('vocabularies')
-        .select('hanzi, pinyin, vietnamese')
+        .select('hanzi, pinyin, vietnamese, source')
         .eq('set_id', set.id)
         .order('order_index', { ascending: true })
 
@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
             'Chữ Hoa': v.hanzi,
             'Pinyin': v.pinyin,
             'Tiếng Việt': v.vietnamese,
+            'Nguồn Từ': v.source === 'practice' ? 'practice' : 'study',
           }))
         )
         XLSX.utils.book_append_sheet(wb, worksheet, dateStr)
@@ -55,7 +56,7 @@ export async function GET(request: NextRequest) {
 
     if (addedSheets === 0) {
       // Create a dummy empty sheet if no vocabulary is found
-      const worksheet = XLSX.utils.json_to_sheet([{ 'Chữ Hoa': '', 'Pinyin': '', 'Tiếng Việt': '' }])
+      const worksheet = XLSX.utils.json_to_sheet([{ 'Chữ Hoa': '', 'Pinyin': '', 'Tiếng Việt': '', 'Nguồn Từ': '' }])
       XLSX.utils.book_append_sheet(wb, worksheet, 'No_Data')
     }
 

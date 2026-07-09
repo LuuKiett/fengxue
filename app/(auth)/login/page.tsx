@@ -44,13 +44,15 @@ export default function LoginPage() {
             ? 'Số điện thoại hoặc mật khẩu không chính xác'
             : signInError.message
         )
+        setLoading(false)
       } else {
+        // Keep the button in its loading state through the redirect — it only resets
+        // on error above, since a successful login unmounts this page on navigation.
         router.push('/dashboard')
         router.refresh()
       }
     } catch (err: any) {
       setError(err?.message || 'Có lỗi xảy ra, vui lòng thử lại')
-    } finally {
       setLoading(false)
     }
   }
@@ -130,7 +132,7 @@ export default function LoginPage() {
           {loading ? (
             <>
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Đang đăng nhập...
+              Đang xác thực...
             </>
           ) : (
             <>

@@ -54,6 +54,10 @@ CREATE TABLE IF NOT EXISTS public.vocabularies (
     example_hanzi TEXT,
     example_pinyin TEXT,
     example_vietnamese TEXT,
+    -- Browsing category on /vocabulary: 'study' (Từ vựng tự học) or 'practice' (Từ vựng khác)
+    source TEXT NOT NULL DEFAULT 'study' CHECK (source IN ('study', 'practice')),
+    -- Where the example sentence came from: 'manual' | 'ai' | 'dictionary' | NULL
+    example_source TEXT CHECK (example_source IS NULL OR example_source IN ('manual', 'ai', 'dictionary')),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );

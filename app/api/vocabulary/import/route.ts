@@ -8,6 +8,7 @@ interface ParsedRow {
   hanzi: string
   pinyin: string
   vietnamese: string
+  source: 'study' | 'practice'
   order_index: number
 }
 
@@ -26,10 +27,13 @@ function parseSheetRows(worksheet: XLSX.WorkSheet): Omit<ParsedRow, 'order_index
       const hanzi = row['Chữ Hoa'] || row['hanzi'] || ''
       const pinyin = row['Pinyin'] || row['pinyin'] || ''
       const vietnamese = row['Tiếng Việt'] || row['vietnamese'] || row['viet'] || ''
+      const sourceRaw = String(row['Nguồn Từ'] || row['source'] || '').trim().toLowerCase()
+      const source: 'study' | 'practice' = sourceRaw === 'practice' ? 'practice' : 'study'
       return {
         hanzi: String(hanzi).trim(),
         pinyin: String(pinyin).trim(),
         vietnamese: String(vietnamese).trim(),
+        source,
       }
     })
     .filter((r) => r.hanzi && r.pinyin && r.vietnamese)
@@ -175,9 +179,11 @@ export async function POST(request: NextRequest) {
                 pinyin: r.pinyin,
                 vietnamese: r.vietnamese,
                 order_index: r.order_index,
+                source: r.source,
                 example_hanzi: example?.example_hanzi ?? null,
                 example_pinyin: example?.example_pinyin ?? null,
                 example_vietnamese: example?.example_vietnamese ?? null,
+                example_source: example ? 'dictionary' : null,
               }
             })
           )

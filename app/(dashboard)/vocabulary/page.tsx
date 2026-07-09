@@ -7,6 +7,7 @@ import { ensureProfile } from '@/lib/utils/ensureProfile'
 import { stripTones } from '@/lib/utils/pinyin'
 import { segmentPinyin, type ComposedCandidate } from '@/lib/utils/pinyinSegment'
 import DatePicker from '@/components/ui/DatePicker'
+import { speak } from '@/lib/utils/speak'
 import {
   Plus,
   Trash2,
@@ -16,14 +17,20 @@ import {
   Save,
   X,
   FileSpreadsheet,
-  AlertCircle
+  AlertCircle,
+  Volume2,
+  BookOpen,
+  Layers
 } from 'lucide-react'
+
+type VocabSource = 'study' | 'practice'
 
 interface VocabItem {
   id: string
   hanzi: string
   pinyin: string
   vietnamese: string
+  source: VocabSource
   example_hanzi?: string | null
   example_pinyin?: string | null
   example_vietnamese?: string | null
@@ -40,7 +47,14 @@ export default function VocabularyPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
+  // Navtab: which source category is currently being browsed/added to
+  const [activeTab, setActiveTab] = useState<VocabSource>('study')
+  const filteredVocabList = vocabList.filter(v => v.source === activeTab)
+  const studyCount = vocabList.filter(v => v.source === 'study').length
+  const practiceCount = vocabList.filter(v => v.source === 'practice').length
+
   // Modals state
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editItem, setEditItem] = useState<VocabItem | null>(null)
@@ -50,10 +64,25 @@ export default function VocabularyPage() {
   const [isImportModalOpen, setIsImportModalOpen] = useState(false)
   const [importDate, setImportDate] = useState(date)
 
-  // Multi-row add form state
-  const [newRows, setNewRows] = useState<Omit<VocabItem, 'id'>[]>([
-    { hanzi: '', pinyin: '', vietnamese: '' }
+  // Multi-row add form state — source comes from the category modal (pendingSource),
+  // not the row form. Each row can optionally carry a hand-typed example sentence
+  // (shown/hidden via showExample); when present it's saved with example_source
+  // 'manual' and skips AI generation. Rows without one get an AI-generated example
+  // (example_source 'ai') fired after insert.
+  const [newRows, setNewRows] = useState<{
+    hanzi: string
+    pinyin: string
+    vietnamese: string
+    showExample: boolean
+    exampleHanzi: string
+    examplePinyin: string
+    exampleVietnamese: string
+  }[]>([
+    { hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }
   ])
+  // Which source category the "Thêm Từ" button is currently adding into — chosen via
+  // the category-select modal that opens before the actual add-word modal.
+  const [pendingSource, setPendingSource] = useState<VocabSource>('study')
 
   // Single-row edit form state
   const [editHanzi, setEditHanzi] = useState('')
@@ -84,10 +113,11 @@ export default function VocabularyPage() {
         return
       }
 
-      // Fetch all vocab for this set
+      // Fetch all vocab for this set (both source categories — the navtabs filter
+      // client-side so switching tabs doesn't need a re-fetch)
       const { data: vocabs, error: fetchErr } = await supabase
         .from('vocabularies')
-        .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
+        .select('id, hanzi, pinyin, vietnamese, source, example_hanzi, example_pinyin, example_vietnamese')
         .eq('set_id', vocabSet.id)
         .order('order_index', { ascending: true })
 
@@ -121,6 +151,21 @@ export default function VocabularyPage() {
     const month = String(d.getMonth() + 1).padStart(2, '0')
     const day = String(d.getDate()).padStart(2, '0')
     setDate(`${year}-${month}-${day}`)
+  }
+
+  // Asks the AI example-sentence endpoint to generate & save an example for one word.
+  // Best-effort: swallows errors since a failed generation shouldn't surface to the
+  // user or block adding vocabulary (the Flashcard/review pages just show no example).
+  const generateExampleForWord = async (vocabularyId: string) => {
+    try {
+      await fetch('/api/vocabulary/generate-example', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vocabularyId })
+      })
+    } catch (err) {
+      console.error('AI example generation failed:', err)
+    }
   }
 
   // CREATE VOCABULARY SET & ITEMS
@@ -163,27 +208,51 @@ export default function VocabularyPage() {
         set = newSet
       }
 
-      // 2. Insert items
+      // 2. Insert items into the category chosen in the category-select modal. A row
+      // only counts as having a manual example when all 3 example fields are filled in
+      // (a partial example isn't usable on Flashcard, so it's treated as none).
       if (set) {
         const startOrder = vocabList.length
-        const { error: insertErr } = await supabase
+        const { data: inserted, error: insertErr } = await supabase
           .from('vocabularies')
           .insert(
-            validRows.map((r, i) => ({
-              set_id: set!.id,
-              hanzi: r.hanzi.trim(),
-              pinyin: r.pinyin.trim(),
-              vietnamese: r.vietnamese.trim(),
-              order_index: startOrder + i
-            }))
+            validRows.map((r, i) => {
+              const hasManualExample = Boolean(
+                r.exampleHanzi.trim() && r.examplePinyin.trim() && r.exampleVietnamese.trim()
+              )
+              return {
+                set_id: set!.id,
+                hanzi: r.hanzi.trim(),
+                pinyin: r.pinyin.trim(),
+                vietnamese: r.vietnamese.trim(),
+                order_index: startOrder + i,
+                source: pendingSource,
+                example_hanzi: hasManualExample ? r.exampleHanzi.trim() : null,
+                example_pinyin: hasManualExample ? r.examplePinyin.trim() : null,
+                example_vietnamese: hasManualExample ? r.exampleVietnamese.trim() : null,
+                example_source: hasManualExample ? 'manual' : null
+              }
+            })
           )
+          .select('id, example_source')
 
         if (insertErr) throw insertErr
 
         setSuccess('Thêm từ vựng thành công! 🎉')
         setIsAddModalOpen(false)
-        setNewRows([{ hanzi: '', pinyin: '', vietnamese: '' }])
+        setNewRows([{ hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
+        setActiveTab(pendingSource)
         loadVocab(date)
+
+        // Fire-and-forget: ask the AI to draft an example sentence for each new word
+        // that doesn't already have a manual one. Not awaited — word creation
+        // shouldn't block on it, and results land silently via a background DB update
+        // that /learn and /review pick up next time they load.
+        if (inserted) {
+          for (const row of inserted) {
+            if (row.example_source !== 'manual') generateExampleForWord(row.id)
+          }
+        }
       }
     } catch (err: any) {
       console.error(err)
@@ -257,7 +326,7 @@ export default function VocabularyPage() {
   }
 
   const addNewRow = () => {
-    setNewRows([...newRows, { hanzi: '', pinyin: '', vietnamese: '' }])
+    setNewRows([...newRows, { hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
   }
 
   const removeNewRow = (index: number) => {
@@ -272,6 +341,23 @@ export default function VocabularyPage() {
   const updateNewRowField = (index: number, field: 'hanzi' | 'pinyin' | 'vietnamese', value: string) => {
     const updated = [...newRows]
     updated[index][field] = value
+    setNewRows(updated)
+  }
+
+  // Toggles the manual example sub-section open/closed for one row of the add form.
+  const toggleRowExample = (index: number) => {
+    const updated = [...newRows]
+    updated[index] = { ...updated[index], showExample: !updated[index].showExample }
+    setNewRows(updated)
+  }
+
+  const updateNewRowExampleField = (
+    index: number,
+    field: 'exampleHanzi' | 'examplePinyin' | 'exampleVietnamese',
+    value: string
+  ) => {
+    const updated = [...newRows]
+    updated[index] = { ...updated[index], [field]: value }
     setNewRows(updated)
   }
 
@@ -331,9 +417,9 @@ export default function VocabularyPage() {
     const updated = [...newRows]
     const current = updated[rowIndex]
     updated[rowIndex] = {
+      ...current,
       hanzi: current.hanzi + item.t,
       pinyin: current.pinyin ? `${current.pinyin} ${item.p}` : item.p,
-      vietnamese: current.vietnamese,
     }
     setNewRows(updated)
 
@@ -349,7 +435,7 @@ export default function VocabularyPage() {
   // add this candidate as a brand-new row (copying the current Vietnamese meaning),
   // so both variants can be kept side by side without retyping.
   const addSuggestionAsNewRow = (item: SuggestionEntry, vietnamese: string) => {
-    setNewRows(prev => [...prev, { hanzi: item.t, pinyin: item.p, vietnamese }])
+    setNewRows(prev => [...prev, { hanzi: item.t, pinyin: item.p, vietnamese, showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
   }
 
   const clearComposition = (rowIndex: number) => {
@@ -584,7 +670,7 @@ export default function VocabularyPage() {
         {/* Buttons Grid/Flex - Fully Responsive */}
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
           <button
-            onClick={() => setIsAddModalOpen(true)}
+            onClick={() => setIsCategoryModalOpen(true)}
             className="cartoon-btn px-4 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5"
           >
             <Plus className="w-4 h-4" /> Thêm Từ
@@ -618,6 +704,32 @@ export default function VocabularyPage() {
         </div>
       </div>
 
+      {/* Navtabs: Từ vựng tự học vs Từ vựng khác, each with a live word count */}
+      <div className="cartoon-panel p-1.5 bg-white flex items-center gap-1.5 w-fit">
+        <button
+          onClick={() => setActiveTab('study')}
+          className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-xl flex items-center gap-1.5 transition-all ${
+            activeTab === 'study' ? 'bg-[#1877f2] text-white shadow-sm' : 'text-slate-500 hover:bg-slate-50'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" /> Từ Vựng Tự Học
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${activeTab === 'study' ? 'bg-white/25' : 'bg-slate-100'}`}>
+            {studyCount}
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab('practice')}
+          className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-xl flex items-center gap-1.5 transition-all ${
+            activeTab === 'practice' ? 'bg-[#1877f2] text-white shadow-sm' : 'text-slate-500 hover:bg-slate-50'
+          }`}
+        >
+          <Layers className="w-4 h-4" /> Từ Vựng Khác
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${activeTab === 'practice' ? 'bg-white/25' : 'bg-slate-100'}`}>
+            {practiceCount}
+          </span>
+        </button>
+      </div>
+
       {error && (
         <div className="bg-rose-50 border border-rose-200 text-rose-600 p-4 rounded-2xl font-bold flex items-center gap-2 animate-shake">
           <AlertCircle className="w-5 h-5 shrink-0" />
@@ -638,12 +750,14 @@ export default function VocabularyPage() {
             <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="font-bold text-slate-500">Đang tải danh sách từ vựng...</p>
           </div>
-        ) : vocabList.length === 0 ? (
+        ) : filteredVocabList.length === 0 ? (
           <div className="p-12 text-center space-y-4">
             <span className="text-6xl animate-float inline-block">🐼</span>
-            <h3 className="text-xl font-extrabold text-slate-700">Chưa có từ vựng nào cho ngày này!</h3>
+            <h3 className="text-xl font-extrabold text-slate-700">
+              {activeTab === 'study' ? 'Chưa có từ vựng tự học nào cho ngày này!' : 'Chưa có từ vựng khác nào cho ngày này!'}
+            </h3>
             <p className="text-slate-500 max-w-sm mx-auto font-semibold">
-              Nhấp vào nút <span className="text-blue-500 font-bold">Thêm Từ Vựng</span> ở trên để bắt đầu thêm từ mới của riêng bạn hoặc nhập file Excel mẫu.
+              Nhấp vào nút <span className="text-blue-500 font-bold">Thêm Từ</span> ở trên để bắt đầu thêm từ mới của riêng bạn hoặc nhập file Excel mẫu.
             </p>
           </div>
         ) : (
@@ -659,10 +773,21 @@ export default function VocabularyPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
-                {vocabList.map((item, index) => (
+                {filteredVocabList.map((item, index) => (
                   <tr key={item.id} className="hover:bg-slate-50">
                     <td className="p-4 font-bold text-slate-400">{index + 1}</td>
-                    <td className="p-4 font-chinese text-2xl font-bold text-slate-900">{item.hanzi}</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <span className="font-chinese text-2xl font-bold text-slate-900">{item.hanzi}</span>
+                        <button
+                          onClick={() => speak(item.hanzi)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors shrink-0"
+                          title="Phát âm"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
                     <td className="p-4 text-blue-600 font-bold">{item.pinyin}</td>
                     <td className="p-4 text-slate-800">{item.vietnamese}</td>
                     <td className="p-4">
@@ -691,6 +816,67 @@ export default function VocabularyPage() {
         )}
       </div>
 
+      {/* CATEGORY-SELECT MODAL — asks which list to add into before opening the actual
+          add-word form, so newly added words land in (and the page switches to) the
+          right navtab. */}
+      {isCategoryModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+            <button
+              onClick={() => setIsCategoryModalOpen(false)}
+              className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-xl font-extrabold text-slate-800 mb-1 flex items-center gap-2">
+              <span>➕</span> Thêm Vào Đâu?
+            </h3>
+            <p className="text-xs text-slate-500 font-semibold mb-5">
+              Chọn loại từ vựng muốn thêm vào cho ngày {formatDate(date)}.
+            </p>
+
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setPendingSource('study')
+                  setIsCategoryModalOpen(false)
+                  setIsAddModalOpen(true)
+                }}
+                className="w-full cartoon-panel p-4 bg-white hover:bg-blue-50 flex items-center gap-3 text-left transition-colors"
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="font-extrabold text-slate-800 text-sm">Từ Vựng Tự Học</div>
+                  <div className="text-xs text-slate-400 font-semibold">{studyCount} từ trong ngày này</div>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPendingSource('practice')
+                  setIsCategoryModalOpen(false)
+                  setIsAddModalOpen(true)
+                }}
+                className="w-full cartoon-panel p-4 bg-white hover:bg-blue-50 flex items-center gap-3 text-left transition-colors"
+              >
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 shrink-0">
+                  <Layers className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="font-extrabold text-slate-800 text-sm">Từ Vựng Khác</div>
+                  <div className="text-xs text-slate-400 font-semibold">{practiceCount} từ trong ngày này</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* MULTI-ROW ADD MODAL */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 py-8 overflow-y-auto">
@@ -702,14 +888,18 @@ export default function VocabularyPage() {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-2xl font-extrabold text-slate-800 mb-4 flex items-center gap-2">
+            <h3 className="text-2xl font-extrabold text-slate-800 mb-1 flex items-center gap-2">
               <span>➕</span> Thêm Từ Vựng ({formatDate(date)})
             </h3>
+            <p className="text-xs font-black uppercase tracking-wider text-blue-500 mb-3">
+              Vào mục: {pendingSource === 'study' ? 'Từ Vựng Tự Học' : 'Từ Vựng Khác'}
+            </p>
 
             <form onSubmit={handleAddSubmit} className="flex-1 flex flex-col overflow-hidden">
               <div className="flex-1 overflow-y-auto space-y-3 pr-2 mb-4" style={{ overflowX: 'visible' }}>
                 {newRows.map((row, idx) => (
-                  <div key={idx} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-slate-50 p-3 rounded-2xl border border-dashed border-slate-200">
+                  <div key={idx} className="bg-slate-50 p-3 rounded-2xl border border-dashed border-slate-200 space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1 w-full relative">
                       {/* Hanzi Input */}
@@ -806,14 +996,56 @@ export default function VocabularyPage() {
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => removeNewRow(idx)}
-                      disabled={newRows.length === 1}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-xl disabled:opacity-30 border border-transparent hover:border-red-100 flex-shrink-0"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => toggleRowExample(idx)}
+                        className={`p-2 rounded-xl border transition-all active:translate-y-0.5 ${
+                          row.showExample
+                            ? 'bg-blue-50 border-blue-200 text-blue-600'
+                            : 'border-transparent text-slate-400 hover:bg-blue-50 hover:border-blue-100 hover:text-blue-600'
+                        }`}
+                        title="Thêm ví dụ cho từ này (dùng khi học Flashcard)"
+                      >
+                        <BookOpen className="w-5 h-5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeNewRow(idx)}
+                        disabled={newRows.length === 1}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-xl disabled:opacity-30 border border-transparent hover:border-red-100 flex-shrink-0"
+                        title="Xóa dòng"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {row.showExample && (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-amber-50/60 border border-dashed border-amber-200 rounded-xl p-3">
+                      <input
+                        type="text"
+                        placeholder="Ví Dụ - Chữ Hán"
+                        value={row.exampleHanzi}
+                        onChange={(e) => updateNewRowExampleField(idx, 'exampleHanzi', e.target.value)}
+                        className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-lg bg-white"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Ví Dụ - Pinyin"
+                        value={row.examplePinyin}
+                        onChange={(e) => updateNewRowExampleField(idx, 'examplePinyin', e.target.value)}
+                        className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-sm bg-white"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Ví Dụ - Nghĩa Tiếng Việt"
+                        value={row.exampleVietnamese}
+                        onChange={(e) => updateNewRowExampleField(idx, 'exampleVietnamese', e.target.value)}
+                        className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-bold text-sm bg-white"
+                      />
+                    </div>
+                  )}
                   </div>
                 ))}
               </div>

@@ -46,12 +46,21 @@ export default function MatchingExercise({
   const [disappearingIds, setDisappearingIds] = useState<Set<string>>(new Set())
   const [removedIds, setRemovedIds] = useState<Set<string>>(new Set())
   const [shakeId, setShakeId] = useState<string | null>(null)
-  // Guards against onComplete firing more than once for the same round. `onComplete`
-  // is a fresh function reference on every parent re-render (it isn't memoized), so
-  // without this guard the completion-trigger effect below would re-fire whenever the
-  // parent re-rendered after a round finished (but before `vocabs` actually changed),
-  // silently skipping the next round of words.
+  // Guards against onComplete firing more than once for the same round.
   const completionFiredRef = useRef(false)
+  // `onComplete` is a fresh function reference on every parent re-render (it isn't
+  // memoized). Keeping it in a ref — instead of the completion effect's dependency
+  // array — means that re-render alone can't re-run the effect. Without this, when a
+  // round finishes and the parent re-renders with new `vocabs` AND a new `onComplete`
+  // in the same commit, both this effect and the vocabs-reset effect below fire in the
+  // same pass; the reset effect (declared first) clears `completionFiredRef` before
+  // this effect re-reads the *stale* matchedIds/leftItems (still showing the just-
+  // finished round as complete), causing onComplete to fire a second time immediately
+  // and silently skip the next round of words.
+  const onCompleteRef = useRef(onComplete)
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
 
   // Track coordinates for rendering lines
   const [lines, setLines] = useState<{
@@ -186,16 +195,18 @@ export default function MatchingExercise({
     }
   }, [selectedLeft, selectedRight])
 
-  // Handle completion trigger
+  // Handle completion trigger. Deliberately excludes `onComplete` from the deps (see
+  // onCompleteRef above) so this only re-runs on actual match progress, not whenever
+  // the parent hands us a new callback reference.
   useEffect(() => {
     if (leftItems.length > 0 && matchedIds.size === leftItems.length && !completionFiredRef.current) {
       completionFiredRef.current = true
       // Calculate score (simple 100 base)
       setTimeout(() => {
-        onComplete(100)
+        onCompleteRef.current(100)
       }, 800)
     }
-  }, [matchedIds, leftItems, onComplete])
+  }, [matchedIds, leftItems])
 
   const handleLeftClick = (id: string) => {
     if (matchedIds.has(id) || selectedLeft === id) return

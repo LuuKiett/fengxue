@@ -10,27 +10,31 @@ export async function GET(request: NextRequest) {
       {
         'Chữ Hoa': '你好',
         'Pinyin': 'nǐ hǎo',
-        'Tiếng Việt': 'Xin chào'
+        'Tiếng Việt': 'Xin chào',
+        'Nguồn Từ': 'study'
       },
       {
         'Chữ Hoa': '谢谢',
         'Pinyin': 'xièxie',
-        'Tiếng Việt': 'Cảm ơn'
+        'Tiếng Việt': 'Cảm ơn',
+        'Nguồn Từ': 'study'
       },
       {
         'Chữ Hoa': '再见',
         'Pinyin': 'zàijiàn',
-        'Tiếng Việt': 'Tạm biệt'
+        'Tiếng Việt': 'Tạm biệt',
+        'Nguồn Từ': 'practice'
       }
     ]
 
     const worksheet = XLSX.utils.json_to_sheet(sampleData)
-    
+
     // Set column widths for better Excel readability
     worksheet['!cols'] = [
       { wch: 15 }, // Chữ Hoa
       { wch: 15 }, // Pinyin
-      { wch: 20 }  // Tiếng Việt
+      { wch: 20 }, // Tiếng Việt
+      { wch: 12 }  // Nguồn Từ
     ]
 
     // Append to sheet with today's date format as a hint for tab name format
