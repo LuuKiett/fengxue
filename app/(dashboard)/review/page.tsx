@@ -2,19 +2,22 @@
 
 import React, { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { getTodayString, toLocalDateString, formatDate } from '@/lib/utils/date'
+import { getDaysInMonth, getTodayString, toLocalDateString, formatDate } from '@/lib/utils/date'
 import { shuffleArray } from '@/lib/utils/shuffle'
 import Flashcard from '@/components/learn/Flashcard'
 import MatchingExercise from '@/components/exercises/MatchingExercise'
-import { 
-  Calendar as CalendarIcon, 
-  RotateCcw, 
-  ArrowRight, 
+import {
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  RotateCcw,
+  ArrowRight,
   ArrowLeft,
-  CalendarDays, 
-  BookOpen, 
-  GraduationCap, 
-  Dumbbell, 
+  CalendarDays,
+  BookOpen,
+  GraduationCap,
+  Dumbbell,
   Sparkles,
   CheckCircle,
   HelpCircle
@@ -38,6 +41,16 @@ export default function ReviewPage() {
   const [availableDates, setAvailableDates] = useState<string[]>([])
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
+  const [calendarLoading, setCalendarLoading] = useState(true)
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const [vocabCountMap, setVocabCountMap] = useState<Record<string, number>>({})
+
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth()
+  const monthNames = [
+    'Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu',
+    'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'
+  ]
 
   // Combined vocab for study
   const [mergedVocabs, setMergedVocabs] = useState<VocabItem[]>([])
@@ -81,13 +94,72 @@ export default function ReviewPage() {
     loadDates()
   }, [supabase])
 
+  useEffect(() => {
+    async function loadMonthData() {
+      setCalendarLoading(true)
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+
+        const startOfMonth = `${year}-${String(month + 1).padStart(2, '0')}-01`
+        const lastDay = new Date(year, month + 1, 0).getDate()
+        const endOfMonth = `${year}-${String(month + 1).padStart(2, '0')}-${lastDay}`
+
+        const { data: sets, error: setsErr } = await supabase
+          .from('vocabulary_sets')
+          .select('id, date')
+          .eq('user_id', user.id)
+          .gte('date', startOfMonth)
+          .lte('date', endOfMonth)
+
+        if (setsErr) throw setsErr
+
+        const setIdToDate: Record<string, string> = {}
+        for (const s of sets || []) setIdToDate[s.id] = s.date
+        const setIds = Object.keys(setIdToDate)
+
+        const vocabCountByDate: Record<string, number> = {}
+        if (setIds.length > 0) {
+          const { data: vocabRows, error: vocabErr } = await supabase
+            .from('vocabularies')
+            .select('set_id')
+            .in('set_id', setIds)
+
+          if (vocabErr) throw vocabErr
+
+          for (const v of vocabRows || []) {
+            const d = setIdToDate[v.set_id]
+            if (d) vocabCountByDate[d] = (vocabCountByDate[d] || 0) + 1
+          }
+        }
+
+        setVocabCountMap(vocabCountByDate)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setCalendarLoading(false)
+      }
+    }
+
+    loadMonthData()
+  }, [currentDate, supabase])
+
   const toggleDateSelection = (d: string) => {
+    if (!availableDates.includes(d)) return
     setSelectedDates(prev => {
       const next = new Set(prev)
       if (next.has(d)) next.delete(d)
       else next.add(d)
       return next
     })
+  }
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(year, month - 1, 1))
+  }
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(year, month + 1, 1))
   }
 
   const selectLast7Days = () => {
@@ -266,8 +338,16 @@ export default function ReviewPage() {
     return 'Vòng 2: Chữ Hán ↔ Nghĩa Việt'
   }
 
+  const days = getDaysInMonth(year, month)
+  const startDayOfWeek = days[0].getDay()
+  const adjustedStart = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1
+  const gridCells: (Date | null)[] = []
+  for (let i = 0; i < adjustedStart; i++) gridCells.push(null)
+  days.forEach(day => gridCells.push(day))
+  const weekdayHeaders = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-4xl mx-auto px-4">
       {/* Title */}
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
         <span>🔥</span> Ôn Tập Tổng Hợp
@@ -305,6 +385,17 @@ export default function ReviewPage() {
           <div className="cartoon-card p-6 bg-white space-y-4">
             <h4 className="font-extrabold text-slate-800">Chọn các ngày để ôn tập:</h4>
             
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <div className="flex items-center gap-2 text-sm font-black text-slate-600">
+                <CalendarIcon className="w-4 h-4 text-blue-500" />
+                Chọn ngày trong tháng
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
+                <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Đã chọn</span>
+                <span className="inline-flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-amber-200"></span>Có từ</span>
+              </div>
+            </div>
+
             {loading ? (
               <div className="p-8 text-center">
                 <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
@@ -315,24 +406,80 @@ export default function ReviewPage() {
                 Chưa có ngày nào có từ vựng. Vui lòng thêm từ vựng trước nhé!
               </p>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {availableDates.map(d => {
-                  const isSelected = selectedDates.has(d)
-                  return (
-                    <button
-                      key={d}
-                      onClick={() => toggleDateSelection(d)}
-                      className={`px-4 py-2 rounded-xl border-2 font-bold text-sm transition-all flex items-center justify-between ${
-                        isSelected
-                          ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
-                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                      }`}
-                    >
-                      <span>{formatDate(d)}</span>
-                      {isSelected && <span className="text-xs">✅</span>}
-                    </button>
-                  )
-                })}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <button
+                    type="button"
+                    onClick={handlePrevMonth}
+                    className="cartoon-btn cartoon-btn-secondary p-2.5 flex items-center justify-center"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <h5 className="text-lg font-black text-slate-800 flex items-center gap-2">
+                    <CalendarIcon className="w-4 h-4 text-blue-500" />
+                    {monthNames[month]} {year}
+                  </h5>
+                  <button
+                    type="button"
+                    onClick={handleNextMonth}
+                    className="cartoon-btn cartoon-btn-secondary p-2.5 flex items-center justify-center"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {calendarLoading ? (
+                  <div className="p-6 text-center">
+                    <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                    <p className="text-xs text-slate-400 font-bold">Đang tải lịch cho tháng này...</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-7 gap-2 text-center text-[11px] font-black text-slate-400">
+                      {weekdayHeaders.map(h => <div key={h}>{h}</div>)}
+                    </div>
+                    <div className="grid grid-cols-7 gap-2">
+                      {gridCells.map((day, idx) => {
+                        if (!day) {
+                          return <div key={`empty-${idx}`} className="aspect-square rounded-xl bg-slate-50/70" />
+                        }
+
+                        const dateStr = toLocalDateString(day)
+                        const vocabCount = vocabCountMap[dateStr] || 0
+                        const hasVocab = vocabCount > 0
+                        const isSelected = selectedDates.has(dateStr)
+
+                        let cellClass = 'border border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50'
+                        if (isSelected) {
+                          cellClass = 'border border-blue-600 bg-blue-500 text-white shadow-md'
+                        } else if (hasVocab) {
+                          cellClass = 'border border-amber-200 bg-amber-50 text-slate-700 hover:bg-amber-100'
+                        } else {
+                          cellClass = 'border border-slate-100 bg-slate-100/70 text-slate-400 cursor-not-allowed'
+                        }
+
+                        return (
+                          <button
+                            key={dateStr}
+                            type="button"
+                            disabled={!hasVocab}
+                            onClick={() => toggleDateSelection(dateStr)}
+                            className={`aspect-square rounded-xl p-1.5 transition-all font-black text-sm relative ${cellClass}`}
+                            title={hasVocab ? `${vocabCount} từ vựng` : 'Không có từ vựng'}
+                          >
+                            <span className="absolute left-1.5 top-1.5">{day.getDate()}</span>
+                            {hasVocab && (
+                              <span className={`absolute md:right-1.5 md:top-1.5 right-0 top-0 min-w-[12px] h-[12px] px-1 rounded-full text-[8px] font-black flex items-center justify-center ${isSelected ? 'bg-white/20 text-white' : 'bg-white text-amber-700 border border-amber-100'}`}>
+                                {vocabCount}
+                              </span>
+                            )}
+                            {isSelected && <Check className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5" />}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
