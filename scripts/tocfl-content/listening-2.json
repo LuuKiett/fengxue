@@ -1,0 +1,1394 @@
+{
+  "questions": [
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 1,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 1,
+      "promptHanzi": "這是什麼地方？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q01_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q01.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "公園"
+        },
+        {
+          "label": "B",
+          "text": "學校"
+        },
+        {
+          "label": "C",
+          "text": "醫院"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 2,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 2,
+      "promptHanzi": "樹上有什麼動物？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q02_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q02.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "小鳥"
+        },
+        {
+          "label": "B",
+          "text": "貓"
+        },
+        {
+          "label": "C",
+          "text": "狗"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 3,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 3,
+      "promptHanzi": "這是什麼地方？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q03_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q03.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "海邊"
+        },
+        {
+          "label": "B",
+          "text": "公園"
+        },
+        {
+          "label": "C",
+          "text": "學校"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 4,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 4,
+      "promptHanzi": "他哪裡受傷了？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q04_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q04.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "頭"
+        },
+        {
+          "label": "B",
+          "text": "腳"
+        },
+        {
+          "label": "C",
+          "text": "手"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 5,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 5,
+      "promptHanzi": "他們在做什麼運動？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q05_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q05.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "足球"
+        },
+        {
+          "label": "B",
+          "text": "籃球"
+        },
+        {
+          "label": "C",
+          "text": "棒球"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 6,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 6,
+      "promptHanzi": "這位先生在做什麼？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q06_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q06.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "修理汽車"
+        },
+        {
+          "label": "B",
+          "text": "開車去上班"
+        },
+        {
+          "label": "C",
+          "text": "打電話叫拖車"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 7,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 7,
+      "promptHanzi": "這是什麼季節？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q07_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q07.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "冬天"
+        },
+        {
+          "label": "B",
+          "text": "秋天"
+        },
+        {
+          "label": "C",
+          "text": "夏天"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 8,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 8,
+      "promptHanzi": "桌上有什麼？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q08_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q08.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "電話和書"
+        },
+        {
+          "label": "B",
+          "text": "信和雜誌"
+        },
+        {
+          "label": "C",
+          "text": "電腦和報紙"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 9,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 9,
+      "promptHanzi": "他們在做什麼？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q09_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q09.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "他們要坐計程車"
+        },
+        {
+          "label": "B",
+          "text": "他們要下計程車"
+        },
+        {
+          "label": "C",
+          "text": "他們在修車"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 1,
+      "questionNumber": 10,
+      "questionType": "picture_stim_text_choice",
+      "groupKey": null,
+      "orderIndex": 10,
+      "promptHanzi": "她在做什麼？",
+      "promptImagePath": "/tocfl/A/listening/2/images/q10_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q10.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "她在等傳真"
+        },
+        {
+          "label": "B",
+          "text": "她在打電話"
+        },
+        {
+          "label": "C",
+          "text": "她在看電視"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 11,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 11,
+      "promptHanzi": "男：妳好，請問要點什麼？\n女：我要一份炒飯，謝謝。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q11.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q11_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q11_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q11_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 12,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 12,
+      "promptHanzi": "男：妳最近在學什麼運動？\n女：我在學游泳。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q12.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q12_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q12_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q12_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 13,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 13,
+      "promptHanzi": "男：這是要給誰的禮物？\n女：這是要給爸爸的。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q13.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q13_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q13_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q13_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 14,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 14,
+      "promptHanzi": "男：妳要去哪裡買衣服？\n女：前面那家店有賣衣服，我們去看看。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q14.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q14_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q14_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q14_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 15,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 15,
+      "promptHanzi": "男：要不要喝點什麼？\n女：來一杯啤酒吧！",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q15.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q15_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q15_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q15_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 16,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 16,
+      "promptHanzi": "女：郵局要怎麼走？\n男：一直走，到第二個路口再左轉。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q16.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q16_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q16_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q16_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 17,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 17,
+      "promptHanzi": "女：老闆，這隻烤雞多少錢？\n男：三百元。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q17.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q17_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q17_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q17_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 18,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 18,
+      "promptHanzi": "女：你在做什麼？\n男：我在煮茶，喝了比較不會冷。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q18.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q18_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q18_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q18_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 19,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 19,
+      "promptHanzi": "男：小美在哪裡？\n女：她在樓上的房間裡睡覺。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q19.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q19_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q19_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q19_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 20,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 20,
+      "promptHanzi": "女：你在算什麼？\n男：我在算今天要付多少錢。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q20.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q20_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q20_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q20_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 21,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 21,
+      "promptHanzi": "男：你的手機怎麼了？\n女：不小心摔到地上，壞了。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q21.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q21_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q21_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q21_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 22,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 22,
+      "promptHanzi": "男：妳聽懂老師說的話了嗎？\n女：沒有，我不太懂他的意思。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q22.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q22_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q22_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q22_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 23,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 23,
+      "promptHanzi": "女：這麼多人在排隊，他們在等什麼？\n男：那家新開的衣服店在打折，所以很多人排隊。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q23.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q23_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q23_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q23_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 24,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 24,
+      "promptHanzi": "男：妳週末打算做什麼？\n女：我想去山上走走，那裡風景很漂亮。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q24.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q24_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q24_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q24_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 2,
+      "questionNumber": 25,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 25,
+      "promptHanzi": "男：冰箱跟洗衣機都不能貼著牆壁放，要不然會壞得比較快。\n女：好，我知道了，兩台都會離牆遠一點。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q25.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q25_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q25_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q25_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 26,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 26,
+      "promptHanzi": "男：你朋友生日快到了，你要送她什麼禮物？\n女：她很喜歡看小說，我想送她幾本書。\n男：好主意，她一定會很開心。\n女：希望她會喜歡。\n男：請問這位小姐要送什麼禮物？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q26.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q26_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q26_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q26_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 27,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 27,
+      "promptHanzi": "男：妳要點什麼？\n女：我要一個漢堡跟一杯咖啡就好。\n男：只要一個漢堡？我要兩個漢堡。\n女：好，那我們一共點兩個漢堡跟一杯咖啡。\n男：請問他們一共點了什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q27.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q27_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q27_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q27_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 28,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 28,
+      "promptHanzi": "女：你的手怎麼了？\n男：我打球的時候不小心受傷了，很痛。\n女：要不要去看醫生？\n男：我等一下就去。\n女：請問這位先生怎麼了？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q28.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q28_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q28_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q28_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 29,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 29,
+      "promptHanzi": "男：妳每個星期都去游泳嗎？\n女：對啊，我星期三和星期四都會去游泳。\n男：那其他時間呢？\n女：其他時間我要上班，沒有時間游泳。\n男：請問這位小姐星期幾去游泳？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q29.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q29_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q29_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q29_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 30,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 30,
+      "promptHanzi": "男：這是我們全家的合照，有爸爸、媽媽和三個女兒。\n女：你們一共五個人啊？\n男：對，就我們五個人。\n女：真好，全家福拍得很漂亮。\n女：請問這張照片裡有幾個人？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q30.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q30_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q30_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q30_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 31,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 31,
+      "promptHanzi": "男：我要找一本英文小說，你知道在哪一區嗎？\n女：在那邊的書架，我陪你去找。\n男：好，謝謝妳。\n女：不客氣，我們一起去看看。\n男：請問他們在哪裡？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q31.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q31_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q31_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q31_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 32,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 32,
+      "promptHanzi": "女：昨天晚上的地震你感覺到了嗎？\n男：感覺到了，搖得很厲害，我家的東西都掉到地上了。\n女：新聞說有的房子倒了，還有人受傷。\n男：對啊，真的很可怕。\n女：請問他們在說什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q32.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q32_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q32_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q32_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 33,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 33,
+      "promptHanzi": "男：妳的數學考得怎麼樣？\n女：還不錯，老師今天還請我上臺算數學題呢！\n男：真厲害，妳一定很會算數學。\n女：還好啦，我每天都有練習。\n男：請問這位小姐在做什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q33.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q33_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q33_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q33_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 34,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 34,
+      "promptHanzi": "女：你要辦什麼手續？\n男：我想開一個新的銀行帳戶，需要一本存摺。\n女：好的，請等一下。\n男：謝謝妳。\n女：請問這位先生需要什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q34.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q34_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q34_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q34_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 35,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 35,
+      "promptHanzi": "男：今天晚上我們吃什麼？\n女：我準備了火鍋，還買了一些水果和飲料。\n男：太好了，我最喜歡吃火鍋了。\n女：那我們趕快開動吧。\n男：請問他們今天晚餐吃什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q35.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q35_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q35_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q35_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 36,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 36,
+      "promptHanzi": "男：妳每天怎麼去上班？\n女：我開車去，比較方便。\n男：不會塞車嗎？\n女：還好，我提早出門就不會塞車了。\n男：請問這位小姐怎麼去上班？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q36.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q36_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q36_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q36_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 37,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 37,
+      "promptHanzi": "女：妹妹怎麼在哭？\n男：媽媽煮了她不喜歡吃的菜，她不想吃，可是媽媽要她吃完。\n女：那她真可憐。\n男：對啊，她邊哭邊吃。\n女：請問妹妹現在正在做什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q37.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q37_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q37_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q37_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 38,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 38,
+      "promptHanzi": "男：妳要出國嗎？\n女：對啊，我要去日本旅遊，飛機兩個小時後起飛。\n男：祝妳玩得開心。\n女：謝謝，我到了會傳照片給你看。\n男：請問這位小姐要做什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q38.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q38_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q38_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q38_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 39,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 39,
+      "promptHanzi": "女：今天晚上的星星好漂亮，我們坐在外面聊天吧。\n男：好啊，這麼晴朗的晚上很適合看星星。\n女：對啊，我們約朋友一起來吧。\n男：好主意，我現在就打電話約他們。\n女：請問他們正在做什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q39.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q39_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q39_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q39_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 3,
+      "questionNumber": 40,
+      "questionType": "dialogue_picture_choice",
+      "groupKey": null,
+      "orderIndex": 40,
+      "promptHanzi": "男：你們家是什麼樣子？\n女：我們家是那種一棟兩戶的房子，兩邊各有一個樓梯上去。\n男：喔，我知道那種房子。\n女：對啊，我家在右邊。\n男：請問這位小姐的家是什麼樣子？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q40.mp3",
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/listening/2/images/q40_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/listening/2/images/q40_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/listening/2/images/q40_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 41,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 41,
+      "promptHanzi": "男：大家請不要慌張，電梯不能用，請大家往樓梯那邊走。\n女：好，我知道了，我馬上通知大家。\n男：請大家不要跑，慢慢走比較安全。\n女：好的，謝謝你。\n男：請問這位先生做了什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q41.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "這位先生找不到安全門"
+        },
+        {
+          "label": "B",
+          "text": "這位小姐想搭電梯下樓"
+        },
+        {
+          "label": "C",
+          "text": "這位先生要大家往樓梯那兒走"
+        },
+        {
+          "label": "D",
+          "text": "這位小姐要這位先生快一點離開"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 42,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 42,
+      "promptHanzi": "女：請問讀這間大學一年的學費大概多少錢？\n男：一年大概要十萬元左右，包含住宿費的話會更多。\n女：這麼貴啊，那我要好好準備了。\n男：對，最好提早開始存錢。\n女：請問這位小姐想知道什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q42.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "想參加大學考試"
+        },
+        {
+          "label": "B",
+          "text": "想了解大學的學費"
+        },
+        {
+          "label": "C",
+          "text": "想知道付學費的方法"
+        },
+        {
+          "label": "D",
+          "text": "想問問讀大學的方法"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 43,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 43,
+      "promptHanzi": "男：歡迎光臨，請問您想喝點什麼？\n女：我要一杯熱咖啡，謝謝。\n男：好的，馬上為您送上。\n女：麻煩你了。\n女：請問這位先生的工作是什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q43.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "記者"
+        },
+        {
+          "label": "B",
+          "text": "護士"
+        },
+        {
+          "label": "C",
+          "text": "教師"
+        },
+        {
+          "label": "D",
+          "text": "服務生"
+        }
+      ],
+      "correctIndex": 3
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 44,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 44,
+      "promptHanzi": "男：聽說妳要去新加坡工作，是真的嗎？\n女：對啊，下個月我就要出發了。\n男：那妳要好好準備，出國工作不容易。\n女：謝謝你的關心，我會加油的。\n男：關於這位小姐，下面哪一個是對的？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q44.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "這位小姐準備出國工作"
+        },
+        {
+          "label": "B",
+          "text": "這位先生已經找到工作"
+        },
+        {
+          "label": "C",
+          "text": "這位小姐每天都在讀書"
+        },
+        {
+          "label": "D",
+          "text": "這位先生想快一點畢業"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 45,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 45,
+      "promptHanzi": "女：你跟明美常常聊天嗎？\n男：對啊，我很喜歡跟她聊天，她說話很有趣。\n女：你們認識很久了嗎？\n男：沒有，我們才認識三個月而已。\n女：請問這位先生的意思是什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q45.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "他喜歡和明美聊天兒"
+        },
+        {
+          "label": "B",
+          "text": "他有明美的電話號碼"
+        },
+        {
+          "label": "C",
+          "text": "他和明美從小就認識"
+        },
+        {
+          "label": "D",
+          "text": "他和明美一起去舞會"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 46,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 46,
+      "promptHanzi": "女：你怎麼看起來不太高興？\n男：我等公車等了半個小時，車子都沒有來，快遲到了。\n女：真的很麻煩，你要不要坐計程車？\n男：好，我現在就去攔車。\n女：請問這位先生現在的心情怎麼樣？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q46.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "這位先生每次都遲到"
+        },
+        {
+          "label": "B",
+          "text": "這位先生現在不太高興"
+        },
+        {
+          "label": "C",
+          "text": "這位先生著急地找這位小姐"
+        },
+        {
+          "label": "D",
+          "text": "這位先生擔心這位小姐的安全"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 47,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 47,
+      "promptHanzi": "女：你可以幫我把這些資料整理好嗎？\n男：可是我今天的工作已經很多了，真的沒辦法再多做了。\n女：好吧，那我請別人幫忙。\n男：不好意思，下次我再幫妳。\n女：請問這位先生的意思是什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q47.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "他很願意幫忙"
+        },
+        {
+          "label": "B",
+          "text": "他完全沒經驗"
+        },
+        {
+          "label": "C",
+          "text": "他需要有人教他"
+        },
+        {
+          "label": "D",
+          "text": "他認為工作太多"
+        }
+      ],
+      "correctIndex": 3
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 48,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 48,
+      "promptHanzi": "男：妳看起來很累的樣子。\n女：對啊，我最近常常睡不好，晚上一直醒來。\n男：妳要不要去看醫生？\n女：好，我明天就去看看。\n男：請問這位小姐怎麼了？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q48.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "感冒了"
+        },
+        {
+          "label": "B",
+          "text": "害怕出門"
+        },
+        {
+          "label": "C",
+          "text": "常常睡不好"
+        },
+        {
+          "label": "D",
+          "text": "一運動就覺得累"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 49,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 49,
+      "promptHanzi": "男：先生，麻煩請你熄火，從車上下來一下。\n男二：好，請問發生什麼事了？\n男：我們要做簡單的檢查，請配合一下。\n男二：好，我現在下車。\n男：請問警察要這位先生做什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q49.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "把手放車門"
+        },
+        {
+          "label": "B",
+          "text": "從車上下來"
+        },
+        {
+          "label": "C",
+          "text": "離開警察局"
+        },
+        {
+          "label": "D",
+          "text": "把酒拿出來"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "listening",
+      "partNumber": 4,
+      "questionNumber": 50,
+      "questionType": "dialogue_text_choice",
+      "groupKey": null,
+      "orderIndex": 50,
+      "promptHanzi": "女：你覺得要怎麼樣才能過得幸福？\n男：我覺得要有健康的身體，還要有關心你的家人和朋友。\n女：說得對，錢並不是最重要的。\n男：對啊，開心最重要。\n女：請問他們在討論什麼？",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": "/tocfl/A/listening/2/audio/q50.mp3",
+      "options": [
+        {
+          "label": "A",
+          "text": "幾歲結婚比較好"
+        },
+        {
+          "label": "B",
+          "text": "結婚要準備哪些東西"
+        },
+        {
+          "label": "C",
+          "text": "要怎樣才能有幸福的生活"
+        },
+        {
+          "label": "D",
+          "text": "要怎麼做才能讓人相信自己"
+        }
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { getTodayString, formatDate } from '@/lib/utils/date'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
+import { pinyin } from 'pinyin-pro'
 import { stripTones } from '@/lib/utils/pinyin'
 import { segmentPinyin, type ComposedCandidate } from '@/lib/utils/pinyinSegment'
 import DatePicker from '@/components/ui/DatePicker'
@@ -173,7 +174,18 @@ export default function VocabularyPage() {
     setActionLoading(true)
     setError('')
 
-    const validRows = newRows.filter(r => r.hanzi.trim() && r.pinyin.trim() && r.vietnamese.trim())
+    const validRows = newRows.map((r, idx) => {
+      const hanzi = r.hanzi.trim()
+      const derived = derivedPinyinByRow[idx]?.trim() || ''
+      const rowPinyin = r.pinyin.trim() || derived || (hanzi ? pinyin(hanzi, { toneType: 'symbol', type: 'string', separator: ' ' }) : '')
+      return {
+        ...r,
+        hanzi,
+        pinyin: rowPinyin,
+        vietnamese: r.vietnamese.trim()
+      }
+    }).filter(r => r.hanzi && r.pinyin && r.vietnamese)
+
     if (validRows.length === 0) {
       setError('Vui lòng điền đầy đủ 3 cột cho ít nhất 1 dòng')
       setActionLoading(false)
@@ -221,9 +233,9 @@ export default function VocabularyPage() {
               )
               return {
                 set_id: set!.id,
-                hanzi: r.hanzi.trim(),
-                pinyin: r.pinyin.trim(),
-                vietnamese: r.vietnamese.trim(),
+                hanzi: r.hanzi,
+                pinyin: r.pinyin,
+                vietnamese: r.vietnamese,
                 order_index: startOrder + i,
                 source: pendingSource,
                 example_hanzi: hasManualExample ? r.exampleHanzi.trim() : null,
@@ -240,6 +252,7 @@ export default function VocabularyPage() {
         setSuccess('Thêm từ vựng thành công! 🎉')
         setIsAddModalOpen(false)
         setNewRows([{ hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
+        setDerivedPinyinByRow({})
         setActiveTab(pendingSource)
         loadVocab(date)
 
@@ -305,6 +318,9 @@ export default function VocabularyPage() {
   // Pinyin keyboard, picking a candidate clears the composing text and lets you
   // keep typing the next character/word instead of finishing the row.
   const [composingBuffer, setComposingBuffer] = useState<{ [rowIndex: number]: string }>({})
+  // Derived pinyin committed from selected suggestions so the row keeps the pinyin
+  // based on the hanzi choices instead of duplicating the raw input + selected value.
+  const [derivedPinyinByRow, setDerivedPinyinByRow] = useState<{ [rowIndex: number]: string }>({})
   // Debounce timers per row
   const debounceRefs = useRef<{ [rowIndex: number]: ReturnType<typeof setTimeout> }>({})
 
@@ -327,6 +343,20 @@ export default function VocabularyPage() {
     return next
   }
 
+  const generatePinyinForRow = (index: number) => {
+    const row = newRows[index]
+    if (!row.hanzi.trim()) return
+    const generated = pinyin(row.hanzi.trim(), { toneType: 'symbol', type: 'string', separator: ' ' })
+    const updated = [...newRows]
+    updated[index] = {
+      ...updated[index],
+      pinyin: generated
+    }
+    setNewRows(updated)
+    setDerivedPinyinByRow(prev => ({ ...prev, [index]: generated }))
+    setComposingBuffer(prev => ({ ...prev, [index]: generated }))
+  }
+
   const addNewRow = () => {
     setNewRows([...newRows, { hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
   }
@@ -336,6 +366,7 @@ export default function VocabularyPage() {
     setNewRows(newRows.filter((_, i) => i !== index))
     setSuggestions(prev => reindexAfterRemoval(prev, index))
     setComposingBuffer(prev => reindexAfterRemoval(prev, index))
+    setDerivedPinyinByRow(prev => reindexAfterRemoval(prev, index))
     if (debounceRefs.current[index]) clearTimeout(debounceRefs.current[index])
     debounceRefs.current = reindexAfterRemoval(debounceRefs.current, index)
     setExampleSuggestions(prev => reindexAfterRemoval(prev, index))
@@ -346,12 +377,43 @@ export default function VocabularyPage() {
 
   const updateNewRowField = (index: number, field: 'hanzi' | 'pinyin' | 'vietnamese', value: string) => {
     const updated = [...newRows]
+    const current = updated[index]
+    const trimmedValue = value.trim()
+
+    if (field === 'hanzi') {
+      const fallbackPinyin = trimmedValue ? pinyin(trimmedValue, { toneType: 'symbol', type: 'string', separator: ' ' }) : ''
+      updated[index] = {
+        ...current,
+        hanzi: value,
+        pinyin: current.pinyin.trim() ? current.pinyin : fallbackPinyin,
+      }
+      setNewRows(updated)
+
+      if (trimmedValue) {
+        setDerivedPinyinByRow(prev => ({ ...prev, [index]: fallbackPinyin }))
+      } else {
+        setDerivedPinyinByRow(prev => {
+          const next = { ...prev }
+          delete next[index]
+          return next
+        })
+      }
+      return
+    }
+
     updated[index][field] = value
     setNewRows(updated)
 
     if (field === 'pinyin') {
       setComposingBuffer(prev => ({ ...prev, [index]: value }))
       lookupSuggestions(index, value)
+      if (trimmedValue === '') {
+        setDerivedPinyinByRow(prev => {
+          const next = { ...prev }
+          delete next[index]
+          return next
+        })
+      }
     }
   }
 
@@ -428,6 +490,13 @@ export default function VocabularyPage() {
       next[index] = { ...next[index], pinyin: value }
       return next
     })
+    if (value.trim() === '') {
+      setDerivedPinyinByRow(prev => {
+        const next = { ...prev }
+        delete next[index]
+        return next
+      })
+    }
     lookupSuggestions(index, value)
   }
 
@@ -437,12 +506,16 @@ export default function VocabularyPage() {
   const selectSuggestion = (rowIndex: number, item: SuggestionEntry) => {
     const updated = [...newRows]
     const current = updated[rowIndex]
+    const existingDerivedPinyin = derivedPinyinByRow[rowIndex]?.trim() ?? ''
+    const nextDerivedPinyin = existingDerivedPinyin ? `${existingDerivedPinyin} ${item.p}` : item.p
+
     updated[rowIndex] = {
       ...current,
       hanzi: current.hanzi + item.t,
-      pinyin: current.pinyin ? `${current.pinyin} ${item.p}` : item.p,
+      pinyin: nextDerivedPinyin,
     }
     setNewRows(updated)
+    setDerivedPinyinByRow(prev => ({ ...prev, [rowIndex]: nextDerivedPinyin }))
 
     setComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
     setSuggestions(prev => {
@@ -464,6 +537,11 @@ export default function VocabularyPage() {
     updated[rowIndex] = { ...updated[rowIndex], hanzi: '', pinyin: '' }
     setNewRows(updated)
     setComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
+    setDerivedPinyinByRow(prev => {
+      const next = { ...prev }
+      delete next[rowIndex]
+      return next
+    })
   }
 
   // ── "Thêm ví dụ" pinyin autocomplete — same TOCFL suggestion engine as the word
@@ -595,6 +673,13 @@ export default function VocabularyPage() {
     setEditHanzi('')
     setEditPinyin('')
     setEditComposingBuffer('')
+  }
+
+  const generateEditPinyin = () => {
+    if (!editHanzi.trim()) return
+    const generated = pinyin(editHanzi.trim(), { toneType: 'symbol', type: 'string', separator: ' ' })
+    setEditPinyin(generated)
+    setEditComposingBuffer(generated)
   }
 
   const lookupEditExampleSuggestions = (query: string) => {
@@ -1145,14 +1230,24 @@ export default function VocabularyPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1 w-full relative">
                       {/* Hanzi Input */}
-                      <div className="flex flex-col">
+                      <div className="flex flex-col relative justify-center">
                         <input
                           type="text"
                           placeholder="Chữ Hoa (Hán tự)"
                           value={row.hanzi}
                           onChange={(e) => updateNewRowField(idx, 'hanzi', e.target.value)}
-                          className="px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-2xl bg-white"
+                          className="px-3 py-2 pr-10 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-2xl bg-white w-full"
                         />
+                        {row.hanzi.trim() && (
+                          <button
+                            type="button"
+                            onClick={() => generatePinyinForRow(idx)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-blue-500 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg text-xs font-bold transition-all active:translate-y-0.5"
+                            title="Tạo Pinyin tự động"
+                          >
+                            🪄
+                          </button>
+                        )}
                       </div>
 
                       {/* Pinyin Input + TOCFL Dropdown suggestion (phone-IME style composing) */}
@@ -1168,7 +1263,7 @@ export default function VocabularyPage() {
                         {row.hanzi && (
                           <div className="flex items-center gap-1.5 mt-1 px-0.5">
                             <span className="text-[10px] font-bold text-slate-400 truncate">
-                              Đã ghép: <span className="font-chinese text-slate-600">{row.hanzi}</span> ({row.pinyin})
+                              Đã ghép: <span className="font-chinese text-slate-600">{row.hanzi}</span> ({derivedPinyinByRow[idx] || ''})
                             </span>
                             <button
                               type="button"
@@ -1470,12 +1565,24 @@ export default function VocabularyPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-1">Chữ Hoa (Hanzi)</label>
-                  <input
-                    type="text"
-                    value={editHanzi}
-                    onChange={(e) => setEditHanzi(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-lg"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={editHanzi}
+                      onChange={(e) => setEditHanzi(e.target.value)}
+                      className="w-full px-4 py-2 pr-12 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-lg bg-white"
+                    />
+                    {editHanzi.trim() && (
+                      <button
+                        type="button"
+                        onClick={generateEditPinyin}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-blue-500 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg text-xs font-bold transition-all"
+                        title="Tạo Pinyin tự động"
+                      >
+                        🪄
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div style={{ position: 'relative' }}>

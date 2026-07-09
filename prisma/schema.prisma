@@ -30,6 +30,7 @@ model Profile {
   exerciseRecords    ExerciseRecord[]
   dictionaryProgress DictionaryProgress[]
   practiceSessions   PracticeSession[]
+  tocflAttempts      TocflAttempt[]
 
   @@map("profiles")
 }
@@ -165,4 +166,69 @@ model ComprehensionQuestion {
   passage       ComprehensionPassage @relation(fields: [passageId], references: [id], onDelete: Cascade)
 
   @@map("comprehension_questions")
+}
+
+// Real TOCFL Band A official mock-exam papers (5 papers, listening + reading,
+// sourced from the official past-paper PDFs/audio). Rows written only by
+// scripts/build-tocfl-seed.js, never by end users.
+model TocflPaper {
+  id                    String   @id @default(uuid()) @db.Uuid
+  band                  String   @default("A")
+  paperNumber           Int      @map("paper_number")
+  title                 String
+  listeningTimeMinutes  Int      @default(60) @map("listening_time_minutes")
+  readingTimeMinutes    Int      @default(60) @map("reading_time_minutes")
+  listeningIntroAudio   Json     @default("{}") @map("listening_intro_audio")
+  createdAt             DateTime @default(now()) @map("created_at")
+  questions             TocflQuestion[]
+  attempts              TocflAttempt[]
+
+  @@unique([band, paperNumber])
+  @@map("tocfl_papers")
+}
+
+model TocflQuestion {
+  id             String     @id @default(uuid()) @db.Uuid
+  paperId        String     @map("paper_id") @db.Uuid
+  section        String     // 'listening' | 'reading'
+  partNumber     Int        @map("part_number")
+  questionNumber Int        @map("question_number")
+  questionType   String     @map("question_type")
+  groupKey       String?    @map("group_key")
+  orderIndex     Int        @map("order_index")
+  promptHanzi    String?    @map("prompt_hanzi")
+  promptImagePath String?   @map("prompt_image_path")
+  passageHanzi   String?    @map("passage_hanzi")
+  audioPath      String?    @map("audio_path")
+  options        Json
+  correctIndex   Int        @map("correct_index")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  paper          TocflPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
+
+  @@unique([paperId, section, questionNumber])
+  @@map("tocfl_questions")
+}
+
+// Per-user mock-exam attempt history, powering the score-progress grid on /thi-thu.
+model TocflAttempt {
+  id                String     @id @default(uuid()) @db.Uuid
+  userId            String     @map("user_id") @db.Uuid
+  paperId           String     @map("paper_id") @db.Uuid
+  status            String     @default("in_progress")
+  listeningCorrect  Int?       @map("listening_correct")
+  listeningTotal    Int?       @map("listening_total")
+  readingCorrect    Int?       @map("reading_correct")
+  readingTotal      Int?       @map("reading_total")
+  totalCorrect      Int?       @map("total_correct")
+  totalQuestions    Int?       @map("total_questions")
+  scorePercent      Decimal?   @map("score_percent") @db.Decimal(5, 2)
+  bandResult        String?    @map("band_result")
+  answers           Json       @default("{}")
+  startedAt         DateTime   @default(now()) @map("started_at")
+  completedAt       DateTime?  @map("completed_at")
+  createdAt         DateTime   @default(now()) @map("created_at")
+  user              Profile    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paper             TocflPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
+
+  @@map("tocfl_attempts")
 }

@@ -16,6 +16,7 @@ import {
   LogOut,
   X,
   Sparkles,
+  Trophy,
 } from 'lucide-react'
 
 const navItems = [
@@ -27,6 +28,7 @@ const navItems = [
   { href: '/dictionary',         label: 'Từ Điển',          icon: Library },
   { href: '/review-dictionary',  label: 'Ôn Tập Từ Điển',   icon: ListChecks },
   { href: '/practice-exam',      label: 'Luyện Đề TOCFL',   icon: ClipboardList },
+  { href: '/thi-thu',            label: 'Thi Thử TOCFL',    icon: Trophy },
 ]
 
 interface MobileDrawerProps {

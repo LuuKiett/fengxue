@@ -42,7 +42,7 @@ Migrations are **hand-written SQL**, not `prisma migrate dev` output (folder nam
 
 ## Data model notes
 
-- `vocabulary_sets` is unique per `(user_id, date)` — one set per user per calendar
+- `vocabulary_sets` is unique per `(user_id, date)` — one set per user per cal
   day. `/vocabulary`, `/learn`, `/exercises/[date]` are all scoped to a single date's
   set.
 - `vocabularies.source` (`'study' | 'practice'`, default `'study'`, added in migration
@@ -134,6 +134,51 @@ email (`${phone}@fengxue.com`). Login button shows "Đang xác thực..." and st
 loading state through `router.push('/dashboard')` + `router.refresh()` — `loading` is
 only reset to `false` on the error paths, not in a `finally`, since a successful login
 unmounts the page before there's a chance to flip it back.
+
+## TOCFL mock-exam transcription (reading-N.json / listening-N.json)
+
+- Source PDFs live under `TOCFL PHỒN THỂ/` (gitignored, not committed — see
+  `scripts/tocfl-content/reading-N.json` / `listening-N.json` for the actual output).
+  `đọc band A/đáp án đề N.pdf` is always a real answer grid. **`nghe band A pdf/đáp án
+  đề N.pdf` is NOT reliably a transcript** — only Đề 1's version is a 9-page spoken
+  script; Đề 2–5's versions (confirmed for at least Đề 2–5) are a single-page answer
+  grid only, structurally identical to the reading answer key, with no dialogue text.
+  Check `fitz.open(path).page_count` before assuming transcript content — a 9-page doc
+  is a script, a 1-page doc is grid-only.
+- When the local `nghe band A pdf/đáp án đề N.pdf` is grid-only (no transcript), **do
+  not guess/reconstruct dialogue from images before trying the official source** — the
+  full listening script is published at `https://tocfl.edu.tw/assets/files/mock/ls_mockM_test_BandA_listen.pdf`
+  (confirmed live for M=2,3,4,5; M=1 404s, presumably because that one already ships
+  as the 9-page local transcript). **M is not the same as the paper's Đề number** —
+  read it off the extracted audio folder name instead, e.g. `scratchpad/audio/N/
+  mock2_BandA_mp3_vie/` means Đề N corresponds to M=2. This script gives verbatim
+  Part 1 questions+options and Part 2/3/4 dialogues; it was cross-checked word-for-word
+  against `nghe band A pdf/dien giai nghe band A/Q*.pdf` (a shared cross-paper item
+  bank of ~140 explanation snippets keyed by opaque `Q########` ids, useful as a
+  secondary source/sanity-check for Part 3/4-style 4-line dialogues specifically — grep
+  its dumped text for a known option phrase to find a paper's block, which tends to be
+  numerically contiguous per paper, e.g. Đề 4's Part 3+4 was the contiguous run
+  `Q00352800`–`Q00353700`). Only fall back to image/answer-key-based reconstruction
+  (lower-confidence, flag it explicitly) if neither the official script nor the item
+  bank yields a match — with the official script available, that fallback should now
+  be rare. No equivalent gap exists for reading: its PDF always has a real text layer
+  (`text.txt`), so reading content is never reconstructed.
+- For listening Part 1/2/3 image options, the crop-order from the page-image
+  extraction pipeline (`p{page}_i{idx}.*`, `idx` increasing) reliably corresponds to
+  left-to-right/top-to-bottom (A)(B)(C) reading order — confirmed by cross-referencing
+  each resulting image's content against the dialogue/question text and the official
+  correct-letter answer for every group in Đề 4's Part 2 (Q26–40) and Part 3 (Q41–45).
+  Trust `idx*3+j → label "ABC"[j]` without needing per-question manual disambiguation,
+  but still spot-check a handful of the final copied files by eye before finishing.
+- Per-paper part boundaries are **not guaranteed to match Đề 1's**. Đề 2's reading
+  Part 3 (選詞填空) turned out to be a single 5-question group (Q31–35) instead of
+  Đề 1's two groups of 5 (Q31–40), with the freed-up range absorbed into Part 4
+  (完成段落) as *two* passage groups (Q36–40 and Q41–45) instead of Đề 1's one.
+  Similarly Đề 2's listening Part 2/3 boundary fell at Q11–25/Q26–40 (15+15) rather
+  than Đề 1's Q11–28/Q29–40 (18+12). Always verify part boundaries from the paper's
+  own `text.txt` (reading) or page-image layout + `manifest.json` image-per-page
+  counts (listening, since listening PDFs don't have a text layer for spoken content)
+  before assuming a fixed template.
 
 ---
 

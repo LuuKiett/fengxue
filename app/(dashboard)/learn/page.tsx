@@ -26,6 +26,8 @@ interface VocabItem {
   example_vietnamese?: string | null
 }
 
+type VocabularySource = 'study' | 'practice'
+
 export default function LearnPage() {
   const supabase = createClient()
 
@@ -36,9 +38,10 @@ export default function LearnPage() {
   const [isFlipped, setIsFlipped] = useState(false)
   const [isCompleted, setIsCompleted] = useState(false)
   const [savingRecord, setSavingRecord] = useState(false)
+  const [selectedSource, setSelectedSource] = useState<VocabularySource | null>(null)
 
-  // Load vocabularies for selected date
-  const loadVocabSet = async (targetDate: string) => {
+  // Load vocabularies for selected date and source category
+  const loadVocabSet = async (targetDate: string, source: VocabularySource) => {
     setLoading(true)
     setIsCompleted(false)
     setCurrentIdx(0)
@@ -63,6 +66,7 @@ export default function LearnPage() {
         .from('vocabularies')
         .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
         .eq('set_id', set.id)
+        .eq('source', source)
 
       if (list) {
         setVocabs(shuffleArray(list))
@@ -78,8 +82,17 @@ export default function LearnPage() {
   }
 
   useEffect(() => {
-    loadVocabSet(date)
+    setSelectedSource(null)
+    setVocabs([])
+    setIsCompleted(false)
+    setCurrentIdx(0)
+    setIsFlipped(false)
   }, [date])
+
+  useEffect(() => {
+    if (!selectedSource) return
+    loadVocabSet(date, selectedSource)
+  }, [date, selectedSource])
 
   const handleNext = () => {
     setIsFlipped(false)
@@ -104,6 +117,10 @@ export default function LearnPage() {
     setCurrentIdx(0)
     setIsFlipped(false)
     setVocabs(shuffleArray(vocabs))
+  }
+
+  const handleSelectSource = (source: VocabularySource) => {
+    setSelectedSource(source)
   }
 
   const saveProgress = async () => {
@@ -135,9 +152,22 @@ export default function LearnPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header bar */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-        <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
-          <span>📖</span> Học Từ Mới
-        </h2>
+        <div className="space-y-1">
+          <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
+            <span>📖</span> Học Từ Mới
+          </h2>
+          {selectedSource && (
+            <p className="text-xs font-bold text-[#1877f2] flex items-center gap-2">
+              Danh mục: {selectedSource === 'study' ? 'Từ vựng tự học' : 'Từ vựng khác'}
+              <button
+                onClick={() => setSelectedSource(null)}
+                className="text-[10px] text-slate-400 hover:text-red-500 underline ml-1 font-bold"
+              >
+                (Đổi danh mục)
+              </button>
+            </p>
+          )}
+        </div>
 
         {/* Date Selector */}
         <div className="cartoon-panel px-1 py-0.5 bg-white text-sm relative z-30">
@@ -146,7 +176,28 @@ export default function LearnPage() {
       </div>
 
       {/* Main Flashcard Container */}
-      {loading ? (
+      {!selectedSource ? (
+        <div className="cartoon-card bg-white p-8 text-center space-y-4">
+          <h3 className="text-xl font-extrabold text-slate-700">Chọn danh mục từ vựng để học</h3>
+          <p className="text-slate-500 font-semibold max-w-md mx-auto">
+            Chọn đúng tab từ vựng mà bạn đã tạo cho ngày {formatDate(date)} để tải flashcard phù hợp.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => handleSelectSource('study')}
+              className="cartoon-btn px-5 py-3 text-sm"
+            >
+              Từ vựng tự học
+            </button>
+            <button
+              onClick={() => handleSelectSource('practice')}
+              className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm"
+            >
+              Từ vựng khác
+            </button>
+          </div>
+        </div>
+      ) : loading ? (
         <div className="cartoon-card bg-white p-12 text-center">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="font-bold text-slate-500">Đang chuẩn bị thẻ học...</p>
@@ -156,11 +207,19 @@ export default function LearnPage() {
           <span className="text-6xl animate-float inline-block">🐼</span>
           <h3 className="text-xl font-extrabold text-slate-700">Không tìm thấy từ vựng học hôm nay!</h3>
           <p className="text-slate-500 font-semibold max-w-sm mx-auto">
-            Hãy thêm một số từ vựng vào ngày này trong trang quản lý từ vựng trước khi bắt đầu học nhé.
+            Chưa có từ vựng {selectedSource === 'study' ? 'tự học' : 'khác'} nào cho ngày này. Hãy thêm một số từ vựng vào tab phù hợp trước khi bắt đầu học nhé.
           </p>
-          <Link href="/vocabulary" className="cartoon-btn px-6 py-2.5 inline-block text-sm">
-            Quản lý từ vựng
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/vocabulary" className="cartoon-btn px-6 py-2.5 inline-block text-sm">
+              Quản lý từ vựng
+            </Link>
+            <button
+              onClick={() => setSelectedSource(null)}
+              className="cartoon-btn cartoon-btn-secondary px-6 py-2.5 inline-block text-sm"
+            >
+              Chọn danh mục khác
+            </button>
+          </div>
         </div>
       ) : isCompleted ? (
         /* Completed Screen */
@@ -180,6 +239,12 @@ export default function LearnPage() {
               className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm flex items-center justify-center gap-2"
             >
               <RotateCcw className="w-4 h-4" /> Học Lại Từ Đầu
+            </button>
+            <button
+              onClick={() => setSelectedSource(null)}
+              className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm flex items-center justify-center gap-2"
+            >
+              Đổi danh mục
             </button>
             <Link
               href={`/exercises/${date}`}

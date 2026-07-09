@@ -1,0 +1,1445 @@
+{
+  "band": "A",
+  "paperNumber": 1,
+  "title": "TOCFL Band A - Đề 1",
+  "listeningTimeMinutes": 60,
+  "readingTimeMinutes": 60,
+  "listeningIntroAudio": {
+    "1": "/tocfl/A/listening/1/audio/intro-part1.mp3",
+    "2": "/tocfl/A/listening/1/audio/intro-part2.mp3",
+    "3": "/tocfl/A/listening/1/audio/intro-part3.mp3",
+    "4": "/tocfl/A/listening/1/audio/intro-part4.mp3"
+  },
+  "questions": [
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 1,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 1,
+      "promptHanzi": "小王和朋友們一起在游泳池游泳。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q01_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q01_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q01_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 2,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 2,
+      "promptHanzi": "他喜歡在吃飯的時候看雜誌。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q02_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q02_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q02_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 3,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 3,
+      "promptHanzi": "咖啡店裡一個客人也沒有。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q03_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q03_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q03_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 4,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 4,
+      "promptHanzi": "小明自己騎機車去市場，幫媽媽買菜。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q04_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q04_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q04_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 5,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 5,
+      "promptHanzi": "他平常吃完晚餐後喜歡到公園散步。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q05_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q05_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q05_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 6,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 6,
+      "promptHanzi": "醫生正在病房裡和病人說話。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q06_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q06_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q06_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 7,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 7,
+      "promptHanzi": "下大雨了，所以很多人都在買雨衣。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q07_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q07_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q07_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 8,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 8,
+      "promptHanzi": "今天天氣很冷，小月不只穿長褲，還穿了外套。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q08_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q08_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q08_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 9,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 9,
+      "promptHanzi": "小明比妹妹高，也比爸爸高。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q09_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q09_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q09_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 10,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 10,
+      "promptHanzi": "到第二個路口以前，會先經過一家銀行。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q10_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q10_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q10_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 11,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 11,
+      "promptHanzi": "小美想要一雙鞋子，但是收到了一雙襪子。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q11_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q11_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q11_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 12,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 12,
+      "promptHanzi": "爸爸使用信用卡買了一台照相機。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q12_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q12_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q12_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 13,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 13,
+      "promptHanzi": "這些家具都壞了。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q13_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q13_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q13_C.jpg"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 14,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 14,
+      "promptHanzi": "同學們都在教室裡做作業，所以很安靜。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q14_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q14_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q14_C.jpg"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 1,
+      "questionNumber": 15,
+      "questionType": "sentence_picture",
+      "groupKey": null,
+      "orderIndex": 15,
+      "promptHanzi": "如果你常常看新聞節目，就能知道很多新消息。",
+      "promptImagePath": null,
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "imagePath": "/tocfl/A/reading/1/images/q15_A.jpg"
+        },
+        {
+          "label": "B",
+          "imagePath": "/tocfl/A/reading/1/images/q15_B.jpg"
+        },
+        {
+          "label": "C",
+          "imagePath": "/tocfl/A/reading/1/images/q15_C.jpg"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 16,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 16,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q16_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "教室裡有四位學生。"
+        },
+        {
+          "label": "B",
+          "text": "教室裡面有三位老師。"
+        },
+        {
+          "label": "C",
+          "text": "林老師正在上中文課。"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 17,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 17,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q17_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "這裡一共有六個人。"
+        },
+        {
+          "label": "B",
+          "text": "他們又吃菜又喝飲料。"
+        },
+        {
+          "label": "C",
+          "text": "所有的人都正用著筷子。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 18,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 18,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q18_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "女孩站在草地上。"
+        },
+        {
+          "label": "B",
+          "text": "地上有一個袋子。"
+        },
+        {
+          "label": "C",
+          "text": "男孩們正在踢足球。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 19,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 19,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q19_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "他把椅子搬出去。"
+        },
+        {
+          "label": "B",
+          "text": "他把椅子搬進房間來。"
+        },
+        {
+          "label": "C",
+          "text": "他把椅子放在窗戶下面。"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 20,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 20,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q20_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "孩子在玩水。"
+        },
+        {
+          "label": "B",
+          "text": "媽媽在弄衣服。"
+        },
+        {
+          "label": "C",
+          "text": "爸爸在打掃家裡。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 21,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 21,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q21_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "要先煮菜再放鹽。"
+        },
+        {
+          "label": "B",
+          "text": "做這道菜用不了多少時間。"
+        },
+        {
+          "label": "C",
+          "text": "這個方法教你怎麼烤青菜。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 22,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 22,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q22_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "誰都可以進去這間圖書館。"
+        },
+        {
+          "label": "B",
+          "text": "圖書館中午休息一個小時。"
+        },
+        {
+          "label": "C",
+          "text": "只有一個月可以進去圖書館。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 23,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 23,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q23_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "白小姐要找一間好學校。"
+        },
+        {
+          "label": "B",
+          "text": "白小姐想和小美一塊兒住。"
+        },
+        {
+          "label": "C",
+          "text": "從白小姐家到市場很方便。"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 24,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 24,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q24_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "李大明留言給王華。"
+        },
+        {
+          "label": "B",
+          "text": "王華中午要去開會。"
+        },
+        {
+          "label": "C",
+          "text": "王華打電話給李大明。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 25,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 25,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q25_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "拿書時要先給錢。"
+        },
+        {
+          "label": "B",
+          "text": "陳小姐買了一些書。"
+        },
+        {
+          "label": "C",
+          "text": "林先生把書寄出去了。"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 26,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 26,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q26_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "王明下午在辦公室。"
+        },
+        {
+          "label": "B",
+          "text": "王明的媽媽在醫院。"
+        },
+        {
+          "label": "C",
+          "text": "王明已經下班回家。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 27,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 27,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q27_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "警察要大家看清楚紅綠燈。"
+        },
+        {
+          "label": "B",
+          "text": "警察要大家騎車戴著安全帽。"
+        },
+        {
+          "label": "C",
+          "text": "警察要大家不只晚上騎車開燈。"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 28,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 28,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q28_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "每個人坐車都需要付錢。"
+        },
+        {
+          "label": "B",
+          "text": "十月十日坐車不用買車票。"
+        },
+        {
+          "label": "C",
+          "text": "國家生日那天沒有公車服務。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 29,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 29,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q29_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "中午以後才有車子到舊城。"
+        },
+        {
+          "label": "B",
+          "text": "可以搭34號火車到舊城去。"
+        },
+        {
+          "label": "C",
+          "text": "只有下午才有到新城的火車。"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 2,
+      "questionNumber": 30,
+      "questionType": "picture_sentence",
+      "groupKey": null,
+      "orderIndex": 30,
+      "promptHanzi": null,
+      "promptImagePath": "/tocfl/A/reading/1/images/q30_stim.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "這裡的服務員每天都要上班。"
+        },
+        {
+          "label": "B",
+          "text": "經驗多的人可以拿比較多的錢。"
+        },
+        {
+          "label": "C",
+          "text": "有興趣的人可以給陳先生打電話。"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 31,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g31_35",
+      "orderIndex": 31,
+      "promptHanzi": "冬天快到了，小王想買一______黑色大衣。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g31_35.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "付"
+        },
+        {
+          "label": "B",
+          "text": "件"
+        },
+        {
+          "label": "C",
+          "text": "條"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 32,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g31_35",
+      "orderIndex": 32,
+      "promptHanzi": "小李今天有時間，所以下午和小王______去商店買衣服。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g31_35.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "剛才"
+        },
+        {
+          "label": "B",
+          "text": "一起"
+        },
+        {
+          "label": "C",
+          "text": "經常"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 33,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g31_35",
+      "orderIndex": 33,
+      "promptHanzi": "小王看到很多好看的大衣，他每一件______想買。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g31_35.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "都"
+        },
+        {
+          "label": "B",
+          "text": "快"
+        },
+        {
+          "label": "C",
+          "text": "先"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 34,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g31_35",
+      "orderIndex": 34,
+      "promptHanzi": "這些大衣太貴了，______便宜一點，小王就一定會買。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g31_35.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "或是"
+        },
+        {
+          "label": "B",
+          "text": "不但"
+        },
+        {
+          "label": "C",
+          "text": "要是"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 35,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g31_35",
+      "orderIndex": 35,
+      "promptHanzi": "他們______了一個下午還沒______到想要的衣服，下次再買吧。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g31_35.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "撿…撿…"
+        },
+        {
+          "label": "B",
+          "text": "找…找…"
+        },
+        {
+          "label": "C",
+          "text": "收…收…"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 36,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g36_40",
+      "orderIndex": 36,
+      "promptHanzi": "星期日下午，書店裡的人______多。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g36_40.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "非常"
+        },
+        {
+          "label": "B",
+          "text": "正在"
+        },
+        {
+          "label": "C",
+          "text": "一點"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 37,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g36_40",
+      "orderIndex": 37,
+      "promptHanzi": "要開學了，很多書都在特價。字典現在______賣三百五十元。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g36_40.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "每"
+        },
+        {
+          "label": "B",
+          "text": "最"
+        },
+        {
+          "label": "C",
+          "text": "只"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 38,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g36_40",
+      "orderIndex": 38,
+      "promptHanzi": "買兩本書比較便宜，______五百元。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g36_40.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "總是"
+        },
+        {
+          "label": "B",
+          "text": "一共"
+        },
+        {
+          "label": "C",
+          "text": "只好"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 39,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g36_40",
+      "orderIndex": 39,
+      "promptHanzi": "因為這裡的書都不貴，______人很多。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g36_40.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "雖然"
+        },
+        {
+          "label": "B",
+          "text": "所以"
+        },
+        {
+          "label": "C",
+          "text": "可是"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 3,
+      "questionNumber": 40,
+      "questionType": "cloze_situational",
+      "groupKey": "r1_g36_40",
+      "orderIndex": 40,
+      "promptHanzi": "這學期他要上法文課，他應該______法文字典。",
+      "promptImagePath": "/tocfl/A/reading/1/images/g36_40.jpg",
+      "passageHanzi": null,
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "賣"
+        },
+        {
+          "label": "B",
+          "text": "付"
+        },
+        {
+          "label": "C",
+          "text": "買"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 4,
+      "questionNumber": 41,
+      "questionType": "cloze_passage_shared",
+      "groupKey": "r1_p4",
+      "orderIndex": 41,
+      "promptHanzi": "Chỗ trống (1)",
+      "promptImagePath": null,
+      "passageHanzi": "王明五歲的時候在自己家前面，被(1)帶走了。他最近和朋友說他很(2)，他很希望爸爸知道他大學畢業了。他的朋友聽了以後就上網(3)，最後，王明真的找到他的爸爸了。他爸爸說這些年(4)，沒想到是王明先找到他。他們(5)，也很感謝大家的幫忙。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "想他的爸爸"
+        },
+        {
+          "label": "B",
+          "text": "請大家幫忙"
+        },
+        {
+          "label": "C",
+          "text": "不認識的人"
+        },
+        {
+          "label": "D",
+          "text": "兩人都很高興"
+        },
+        {
+          "label": "E",
+          "text": "他不想去找王明"
+        },
+        {
+          "label": "F",
+          "text": "他一直在找王明"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 4,
+      "questionNumber": 42,
+      "questionType": "cloze_passage_shared",
+      "groupKey": "r1_p4",
+      "orderIndex": 42,
+      "promptHanzi": "Chỗ trống (2)",
+      "promptImagePath": null,
+      "passageHanzi": "王明五歲的時候在自己家前面，被(1)帶走了。他最近和朋友說他很(2)，他很希望爸爸知道他大學畢業了。他的朋友聽了以後就上網(3)，最後，王明真的找到他的爸爸了。他爸爸說這些年(4)，沒想到是王明先找到他。他們(5)，也很感謝大家的幫忙。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "想他的爸爸"
+        },
+        {
+          "label": "B",
+          "text": "請大家幫忙"
+        },
+        {
+          "label": "C",
+          "text": "不認識的人"
+        },
+        {
+          "label": "D",
+          "text": "兩人都很高興"
+        },
+        {
+          "label": "E",
+          "text": "他不想去找王明"
+        },
+        {
+          "label": "F",
+          "text": "他一直在找王明"
+        }
+      ],
+      "correctIndex": 0
+    },
+    {
+      "section": "reading",
+      "partNumber": 4,
+      "questionNumber": 43,
+      "questionType": "cloze_passage_shared",
+      "groupKey": "r1_p4",
+      "orderIndex": 43,
+      "promptHanzi": "Chỗ trống (3)",
+      "promptImagePath": null,
+      "passageHanzi": "王明五歲的時候在自己家前面，被(1)帶走了。他最近和朋友說他很(2)，他很希望爸爸知道他大學畢業了。他的朋友聽了以後就上網(3)，最後，王明真的找到他的爸爸了。他爸爸說這些年(4)，沒想到是王明先找到他。他們(5)，也很感謝大家的幫忙。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "想他的爸爸"
+        },
+        {
+          "label": "B",
+          "text": "請大家幫忙"
+        },
+        {
+          "label": "C",
+          "text": "不認識的人"
+        },
+        {
+          "label": "D",
+          "text": "兩人都很高興"
+        },
+        {
+          "label": "E",
+          "text": "他不想去找王明"
+        },
+        {
+          "label": "F",
+          "text": "他一直在找王明"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 4,
+      "questionNumber": 44,
+      "questionType": "cloze_passage_shared",
+      "groupKey": "r1_p4",
+      "orderIndex": 44,
+      "promptHanzi": "Chỗ trống (4)",
+      "promptImagePath": null,
+      "passageHanzi": "王明五歲的時候在自己家前面，被(1)帶走了。他最近和朋友說他很(2)，他很希望爸爸知道他大學畢業了。他的朋友聽了以後就上網(3)，最後，王明真的找到他的爸爸了。他爸爸說這些年(4)，沒想到是王明先找到他。他們(5)，也很感謝大家的幫忙。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "想他的爸爸"
+        },
+        {
+          "label": "B",
+          "text": "請大家幫忙"
+        },
+        {
+          "label": "C",
+          "text": "不認識的人"
+        },
+        {
+          "label": "D",
+          "text": "兩人都很高興"
+        },
+        {
+          "label": "E",
+          "text": "他不想去找王明"
+        },
+        {
+          "label": "F",
+          "text": "他一直在找王明"
+        }
+      ],
+      "correctIndex": 5
+    },
+    {
+      "section": "reading",
+      "partNumber": 4,
+      "questionNumber": 45,
+      "questionType": "cloze_passage_shared",
+      "groupKey": "r1_p4",
+      "orderIndex": 45,
+      "promptHanzi": "Chỗ trống (5)",
+      "promptImagePath": null,
+      "passageHanzi": "王明五歲的時候在自己家前面，被(1)帶走了。他最近和朋友說他很(2)，他很希望爸爸知道他大學畢業了。他的朋友聽了以後就上網(3)，最後，王明真的找到他的爸爸了。他爸爸說這些年(4)，沒想到是王明先找到他。他們(5)，也很感謝大家的幫忙。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "想他的爸爸"
+        },
+        {
+          "label": "B",
+          "text": "請大家幫忙"
+        },
+        {
+          "label": "C",
+          "text": "不認識的人"
+        },
+        {
+          "label": "D",
+          "text": "兩人都很高興"
+        },
+        {
+          "label": "E",
+          "text": "他不想去找王明"
+        },
+        {
+          "label": "F",
+          "text": "他一直在找王明"
+        }
+      ],
+      "correctIndex": 3
+    },
+    {
+      "section": "reading",
+      "partNumber": 5,
+      "questionNumber": 46,
+      "questionType": "passage_mcq",
+      "groupKey": null,
+      "orderIndex": 46,
+      "promptHanzi": "為什麼小明不去參加舞會？",
+      "promptImagePath": null,
+      "passageHanzi": "小明的好朋友問他晚上要不要一起去參加舞會，小明不想去。因為他的感冒才剛好，又加上快考試了，他得讀很多書，而且每天早上也需要去咖啡廳上班。如果晚上還要跟朋友一起出去玩，那就真的太累了。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "因為他生病了"
+        },
+        {
+          "label": "B",
+          "text": "因為他想要休息"
+        },
+        {
+          "label": "C",
+          "text": "因為他得去工作"
+        },
+        {
+          "label": "D",
+          "text": "因為他喜歡在家看書"
+        }
+      ],
+      "correctIndex": 1
+    },
+    {
+      "section": "reading",
+      "partNumber": 5,
+      "questionNumber": 47,
+      "questionType": "passage_mcq",
+      "groupKey": null,
+      "orderIndex": 47,
+      "promptHanzi": "為什麼小王覺得考試可能考不好？",
+      "promptImagePath": null,
+      "passageHanzi": "小王總是非常認真，功課也不錯，但是他因為生病，請了好幾天的假。雖然病一好就馬上讀書，他還是讀不懂中文課本裡的一些句子，而且還有很多語法不了解。明天就要考試了，他非常擔心，現在他也只能希望考試不會太難。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "他本來成績就不好"
+        },
+        {
+          "label": "B",
+          "text": "他的身體還沒恢復"
+        },
+        {
+          "label": "C",
+          "text": "他準備得還不夠好"
+        },
+        {
+          "label": "D",
+          "text": "他聽說考試非常難"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 5,
+      "questionNumber": 48,
+      "questionType": "passage_mcq",
+      "groupKey": null,
+      "orderIndex": 48,
+      "promptHanzi": "這篇文章告訴我們什麼事？",
+      "promptImagePath": null,
+      "passageHanzi": "今天小華收到了小美的明信片，明信片裡介紹了日本的食物、天氣和她的學校生活，小美還邀請小華到她家玩、認識她在日本的朋友。小華想了想，雖然她很想去，但是三月臺灣的學校已經開學了，於是她寫了明信片給小美，告訴她雖然那個時間不能去，但是暑假的時候可以去參觀她的學校，到時候再買好吃點心過去。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "小美現在在臺灣"
+        },
+        {
+          "label": "B",
+          "text": "小華三月要去日本"
+        },
+        {
+          "label": "C",
+          "text": "小美很想吃好吃的點心"
+        },
+        {
+          "label": "D",
+          "text": "小華暑假的時候要去找小美"
+        }
+      ],
+      "correctIndex": 3
+    },
+    {
+      "section": "reading",
+      "partNumber": 5,
+      "questionNumber": 49,
+      "questionType": "passage_mcq",
+      "groupKey": null,
+      "orderIndex": 49,
+      "promptHanzi": "為什麼小月決定買那條白色的裙子？",
+      "promptImagePath": null,
+      "passageHanzi": "小月和媽媽去買衣服的時候，看到了一條漂亮的裙子，小月很喜歡那條裙子的樣子，但是太貴了，所以小月想跟媽媽討論以後再決定要不要買。當他們在討論的時候，一位客人看到了小月手上的裙子，就問老闆裙子多少錢，老闆回答了，還說裙子只剩最後這條白色的了，以後也不會再有了。小月聽到老闆說的話以後，馬上買了那條裙子。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "因為小月只喜歡白色的裙子"
+        },
+        {
+          "label": "B",
+          "text": "因為那條裙子的價格太便宜了"
+        },
+        {
+          "label": "C",
+          "text": "因為以後就買不到那條裙子了"
+        },
+        {
+          "label": "D",
+          "text": "因為小月的媽媽要她買那條裙子"
+        }
+      ],
+      "correctIndex": 2
+    },
+    {
+      "section": "reading",
+      "partNumber": 5,
+      "questionNumber": 50,
+      "questionType": "passage_mcq",
+      "groupKey": null,
+      "orderIndex": 50,
+      "promptHanzi": "大同為什麼不常回家呢？",
+      "promptImagePath": null,
+      "passageHanzi": "大同想要給家裡更好的生活，所以從南部北上工作，但是北部的東西太貴了，他週末的時候得在公司加班才能賺更多的錢。雖然賺了很多錢，可是一年才能回家一次，這讓跟家人感情很好的他覺得很傷心。",
+      "audioPath": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "他的事情很多"
+        },
+        {
+          "label": "B",
+          "text": "他沒有錢回家"
+        },
+        {
+          "label": "C",
+          "text": "他跟家人的關係不好"
+        },
+        {
+          "label": "D",
+          "text": "他覺得南部東西很貴"
+        }
+      ],
+      "correctIndex": 0
+    }
+  ]
+}
