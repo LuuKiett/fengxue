@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import React, { useState, useEffect, Suspense } from 'react'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils/date'
@@ -16,10 +16,30 @@ interface VocabItem {
   vietnamese: string
 }
 
+const SOURCE_LABELS: { [key: string]: string } = {
+  study: 'Từ Vựng Tự Học',
+  practice: 'Từ Vựng Khác',
+}
+
 export default function DateExercisesPage() {
+  return (
+    <Suspense fallback={
+      <div className="cartoon-card bg-white p-12 text-center max-w-xl mx-auto">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="font-bold text-slate-500">Đang chuẩn bị bài tập luyện...</p>
+      </div>
+    }>
+      <DateExercisesPageInner />
+    </Suspense>
+  )
+}
+
+function DateExercisesPageInner() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const dateStr = params.date as string
+  const sourceParam = searchParams.get('source') // 'study' | 'practice' | 'all' | null
   const supabase = createClient()
 
   const [loading, setLoading] = useState(true)
@@ -50,10 +70,16 @@ export default function DateExercisesPage() {
         .single()
 
       if (set) {
-        const { data: list } = await supabase
+        let query = supabase
           .from('vocabularies')
           .select('id, hanzi, pinyin, vietnamese')
           .eq('set_id', set.id)
+
+        if (sourceParam === 'study' || sourceParam === 'practice') {
+          query = query.eq('source', sourceParam)
+        }
+
+        const { data: list } = await query
         setVocabs(list || [])
       }
 
@@ -86,7 +112,7 @@ export default function DateExercisesPage() {
 
   useEffect(() => {
     loadData()
-  }, [dateStr])
+  }, [dateStr, sourceParam])
 
   const startExercise = (type: 'hanzi_pinyin' | 'hanzi_viet') => {
     setActiveType(type)
@@ -151,7 +177,11 @@ export default function DateExercisesPage() {
     return (
       <div className="cartoon-card bg-white p-12 text-center max-w-xl mx-auto space-y-4">
         <span className="text-6xl animate-float inline-block">🐼</span>
-        <h3 className="text-xl font-extrabold text-slate-700">Chưa có từ vựng học nào cho ngày này!</h3>
+        <h3 className="text-xl font-extrabold text-slate-700">
+          {sourceParam && SOURCE_LABELS[sourceParam]
+            ? `Chưa có từ vựng nào thuộc mục "${SOURCE_LABELS[sourceParam]}" cho ngày này!`
+            : 'Chưa có từ vựng học nào cho ngày này!'}
+        </h3>
         <p className="text-slate-500 font-semibold max-w-sm mx-auto">
           Vui lòng thêm từ vựng trước khi thực hiện bài tập nối từ.
         </p>
@@ -185,7 +215,14 @@ export default function DateExercisesPage() {
           <h2 className="text-2xl font-black text-slate-800">
             {mode === 'playing' ? getExerciseTitle(activeType!) : 'Bài Tập Luyện Tập'}
           </h2>
-          <p className="text-xs font-bold text-slate-500">Ngày {formatDate(dateStr)}</p>
+          <p className="text-xs font-bold text-slate-500">
+            Ngày {formatDate(dateStr)}
+            {sourceParam && SOURCE_LABELS[sourceParam] && (
+              <span className="ml-2 px-2 py-0.5 bg-blue-50 border border-blue-200 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-wide">
+                {SOURCE_LABELS[sourceParam]}
+              </span>
+            )}
+          </p>
         </div>
       </div>
 

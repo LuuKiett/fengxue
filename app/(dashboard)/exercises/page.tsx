@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { getDaysInMonth, toLocalDateString, formatDate } from '@/lib/utils/date'
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react'
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check, BookOpen, Layers, Sparkles, X } from 'lucide-react'
 
 interface DateStatus {
   completedCount: number // out of 2
@@ -12,11 +12,14 @@ interface DateStatus {
 
 export default function ExercisesPage() {
   const supabase = createClient()
-  
+  const router = useRouter()
+
   const [currentDate, setCurrentDate] = useState(new Date())
   const [loading, setLoading] = useState(true)
   const [completionMap, setCompletionMap] = useState<{ [dateStr: string]: DateStatus }>({})
   const [vocabCountMap, setVocabCountMap] = useState<{ [dateStr: string]: number }>({})
+  const [sourceMap, setSourceMap] = useState<{ [dateStr: string]: Set<string> }>({})
+  const [pickerDate, setPickerDate] = useState<string | null>(null)
 
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
@@ -77,18 +80,24 @@ export default function ExercisesPage() {
       const setIds = Object.keys(setIdToDate)
 
       const vocabCountByDate: Record<string, number> = {}
+      const sourcesByDate: Record<string, Set<string>> = {}
       if (setIds.length > 0) {
         const { data: vocabRows } = await supabase
           .from('vocabularies')
-          .select('set_id')
+          .select('set_id, source')
           .in('set_id', setIds)
 
         for (const v of vocabRows || []) {
           const d = setIdToDate[v.set_id]
-          if (d) vocabCountByDate[d] = (vocabCountByDate[d] || 0) + 1
+          if (d) {
+            vocabCountByDate[d] = (vocabCountByDate[d] || 0) + 1
+            if (!sourcesByDate[d]) sourcesByDate[d] = new Set()
+            sourcesByDate[d].add(v.source || 'study')
+          }
         }
       }
       setVocabCountMap(vocabCountByDate)
+      setSourceMap(sourcesByDate)
     } catch (err) {
       console.error('Error fetching calendar records:', err)
     } finally {
@@ -216,11 +225,22 @@ export default function ExercisesPage() {
                 }
 
                 const vocabCount = vocabCountMap[dateStr]
+                const sources = sourceMap[dateStr]
+                const hasMultipleSources = !!sources && sources.size > 1
+
+                const handleDayClick = () => {
+                  if (hasMultipleSources) {
+                    setPickerDate(dateStr)
+                  } else {
+                    router.push(`/exercises/${dateStr}`)
+                  }
+                }
 
                 return (
-                  <Link
+                  <button
                     key={dateStr}
-                    href={`/exercises/${dateStr}`}
+                    type="button"
+                    onClick={handleDayClick}
                     className={`aspect-square border rounded-xl flex flex-col items-center justify-between p-1.5 transition-all font-black text-sm relative ${cellClass}`}
                   >
                     <span className="self-start">{day.getDate()}</span>
@@ -235,13 +255,69 @@ export default function ExercisesPage() {
                     <div className="absolute bottom-1 right-1">
                       {labelIcon}
                     </div>
-                  </Link>
+                  </button>
                 )
               })}
             </div>
           </div>
         )}
       </div>
+
+      {/* SOURCE PICKER MODAL — shown when a date mixes "Từ Vựng Tự Học" and "Từ Vựng Khác" */}
+      {pickerDate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+            <button
+              onClick={() => setPickerDate(null)}
+              className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-xl font-extrabold text-slate-800 mb-1 flex items-center gap-2">
+              <span>🎯</span> Luyện Tập Mục Nào?
+            </h3>
+            <p className="text-xs text-slate-500 font-semibold mb-5">
+              Ngày {formatDate(pickerDate)} có từ vựng ở cả 2 mục. Chọn mục muốn luyện tập nhé.
+            </p>
+
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => router.push(`/exercises/${pickerDate}?source=study`)}
+                className="w-full cartoon-panel p-4 bg-white hover:bg-blue-50 flex items-center gap-3 text-left transition-colors"
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div className="font-extrabold text-slate-800 text-sm">Từ Vựng Tự Học</div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => router.push(`/exercises/${pickerDate}?source=practice`)}
+                className="w-full cartoon-panel p-4 bg-white hover:bg-blue-50 flex items-center gap-3 text-left transition-colors"
+              >
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 shrink-0">
+                  <Layers className="w-5 h-5" />
+                </div>
+                <div className="font-extrabold text-slate-800 text-sm">Từ Vựng Khác</div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => router.push(`/exercises/${pickerDate}?source=all`)}
+                className="w-full cartoon-panel p-4 bg-white hover:bg-blue-50 flex items-center gap-3 text-left transition-colors"
+              >
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 shrink-0">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div className="font-extrabold text-slate-800 text-sm">Cả Hai</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -227,6 +227,28 @@ unmounts the page before there's a chance to flip it back.
   crops (520 total across both sections) are also clean at 150dpi — 0 flagged. All 5
   papers' image pipelines now standardize on `CROP_DPI = 150` in `extract_images.py`.
 
+## Exercises source picker (`/exercises`, `/exercises/[date]`)
+
+`vocabularies.source` (`study`/`practice`, see Data model notes above) means a single
+day's set can mix both categories. `/exercises` (the calendar) now fetches a
+`source` breakdown alongside the existing vocab-count query and, when a clicked
+date has vocab in **both** categories, opens a modal (instead of navigating
+straight through a `Link`) offering "Từ Vựng Tự Học" / "Từ Vựng Khác" / "Cả Hai" —
+each option pushes `/exercises/[date]?source=study|practice|all`. Days with only
+one category (or no vocab) skip the modal and navigate directly.
+`/exercises/[date]/page.tsx` reads that `?source=` param via `useSearchParams` and
+filters the `vocabularies` query with `.eq('source', ...)` when it's `study` or
+`practice` (no filter for `all`/missing — preserves old links that never had the
+param). Since this version of Next.js suspends `useSearchParams` on a full/direct
+page load (not just client navigations — see
+`node_modules/next/dist/docs/01-app/02-guides/instant-navigation.md`), the page
+component had to be split into an outer default export that just wraps an inner
+`DateExercisesPageInner` in `<Suspense>`, otherwise production builds fail with
+"Missing Suspense boundary with useSearchParams". Exercise completion records
+(`exercise_records`) are still tracked per-date only, not per-source-selection —
+picking "Từ Vựng Khác" and finishing both games marks the whole date complete on
+the calendar, same as before.
+
 ## TOCFL mock-exam feature architecture (`/thi-thu`, `/practice-exam/[paper]`)
 
 Two distinct exam-taking UIs share the same DB content (`tocfl_papers` /
@@ -246,8 +268,17 @@ Two distinct exam-taking UIs share the same DB content (`tocfl_papers` /
   in either section on click, no timer, "Nộp Bài" is always visible and scores
   whatever's been answered so far. Does **not** write to `tocfl_attempts` (this mode
   is deliberately not counted in the Thi Thử score-history grid — it's practice, not a
-  mock-exam attempt). Linked from `/practice-exam`'s existing quiz-mode picker as a
-  distinct "5 Đề Chính Thức" section.
+  mock-exam attempt).
+
+`/practice-exam` (the index) used to also offer an auto-generated quiz mode
+("Luyện Tập Nhanh"/"Thi Thử Đầy Đủ", built from `dictionary_words` +
+`comprehension_passages` via `lib/utils/practiceGenerator.ts`/`examGenerator.ts`,
+saved to `practice_sessions`) — that's been removed from the page entirely per
+user request; it now only lists the 5 official papers (linking into
+`/practice-exam/[paper]`) plus the official tocfl.edu.tw resource link.
+`practiceGenerator.ts`/`examGenerator.ts` and the `comprehension_passages` /
+`practice_sessions` tables still exist (nothing was migrated away) but are no
+longer referenced from any page — only touch them if this feature comes back.
 
 Key rendering rule in `StepCard`/`ExamRunner`: **`prompt_hanzi` (the question/dialogue
 text) is only rendered when `showPromptText` is true, which both pages only pass for
