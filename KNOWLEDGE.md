@@ -170,15 +170,118 @@ unmounts the page before there's a chance to flip it back.
   correct-letter answer for every group in Đề 4's Part 2 (Q26–40) and Part 3 (Q41–45).
   Trust `idx*3+j → label "ABC"[j]` without needing per-question manual disambiguation,
   but still spot-check a handful of the final copied files by eye before finishing.
+- **Per-image extraction via `doc.extract_image(xref)` (raw embedded stream) breaks on
+  CMYK JPEGs** — it skips the PDF's `/Decode` array, so the un-inverted colors come out
+  dark/inverted. The fix is to crop from the rendered page instead:
+  `page.get_pixmap(matrix=fitz.Matrix(zoom, zoom), clip=fitz.Rect(bbox))`. **But this
+  clip+matrix approach has its own zoom-dependent bug in this PyMuPDF build (1.28.0 /
+  MuPDF 1.29.0): at `zoom=300/72` it silently compositing the wrong tile for at least
+  one bbox region** (confirmed: Đề 4 listening `q29_C` — the `(chicken-restaurant over
+  cinema)` image — rendered as an unrelated `(sink/toilet shelf)` image from a
+  different question's bbox, while the *identical* `clip=fitz.Rect(bbox)` on the same
+  page at `zoom=150/72` rendered correctly). This is invisible to naive
+  pixel-diff/dHash checks against a same-zoom "ground truth" crop of the full page,
+  since a wrong-but-similarly-sparse line drawing can still hash close to the right
+  one — verify page-crop correctness against a full-page render done at a **different**
+  zoom than the one being audited (e.g. audit 150dpi production output against a
+  freshly-rendered 200dpi ground truth crop, not another 150dpi one), and treat a
+  handful of manual eyeball spot-checks as non-optional even when the automated diff
+  says "clean." Use `zoom=150/72` (150dpi) for these per-image crops — confirmed
+  correct across all of Đề 4's 147 crops (reading `images/` + listening `images/`) via
+  this cross-zoom dHash audit, worst-case distance 7/64 bits, vs. clearly-wrong crops
+  scoring much higher when this bug was triggered at 300dpi.
 - Per-paper part boundaries are **not guaranteed to match Đề 1's**. Đề 2's reading
   Part 3 (選詞填空) turned out to be a single 5-question group (Q31–35) instead of
   Đề 1's two groups of 5 (Q31–40), with the freed-up range absorbed into Part 4
   (完成段落) as *two* passage groups (Q36–40 and Q41–45) instead of Đề 1's one.
   Similarly Đề 2's listening Part 2/3 boundary fell at Q11–25/Q26–40 (15+15) rather
-  than Đề 1's Q11–28/Q29–40 (18+12). Always verify part boundaries from the paper's
-  own `text.txt` (reading) or page-image layout + `manifest.json` image-per-page
-  counts (listening, since listening PDFs don't have a text layer for spoken content)
-  before assuming a fixed template.
+  than Đề 1's Q11–28/Q29–40 (18+12). Đề 5's listening boundary is different again:
+  Part1=Q1–25, Part2=Q26–40, Part3=Q41–45, Part4=Q46–50 (25+15+5+5) — confirmed both
+  from the exam PDF's own `第N部分(第X～Y題)` headers and from the official script's
+  matching part breaks. Đề 5's reading boundary matches Đề 1's shape (15/15/10/5/5,
+  with reading Part 3 split into two 5-question groups g31_35/g36_40). Always verify
+  part boundaries from the paper's own `text.txt` (reading) or page-image layout +
+  `manifest.json` image-per-page counts (listening) before assuming a fixed template.
+- **Mapping between a paper's "Đề N" and the vendor's own mock number `M`** (used in
+  the `ls_mockM_test_BandA_listen.pdf` URL): empirically `M = 6 - N` for Đề 1–4 (Đề 1
+  → mock5, Đề 2 → mock4, Đề 3 → mock3, Đề 4 → mock2 — read straight off each
+  `scratchpad/audio/N/mockM_BandA_mp3_*/` folder name). Đề 5 breaks the pattern: its
+  audio archive's internal folder is literally named `mock_BandA_mp3_vie` with **no
+  digit at all** (confirmed via `UnRAR.exe lb` on the `.rar`, not just the extracted
+  folder — ruling out an extraction-step accident). This lines up with the earlier
+  finding that `M=1` 404s on the numbered URL: `M=1` isn't numbered in the vendor's own
+  naming either. The actual URL that works for this case is the number-less
+  `https://tocfl.edu.tw/assets/files/mock/ls_mock_test_BandA_listen.pdf` (200 OK, 9
+  pages) — try this exact no-digit variant whenever a paper's audio folder name also
+  lacks a digit, instead of concluding the script is unavailable.
+- **The official `ls_mock*_test_BandA_listen.pdf` script does not print Part 4's
+  (A)(B)(C)(D) text options** — it only has the spoken dialogue + the final spoken
+  question line, because those options are never read aloud (only Part 1's options
+  are spoken; Part 2–4 options are print-only). For Part 4 text options, read them
+  straight off the actual exam PDF's own text layer instead (`scratchpad/listeningN/
+  text.txt`, the last page(s), right after the `第四部分` header) — the printed test
+  booklet always includes them even though the listening PDF has no text layer for
+  the spoken dialogue itself. Confirmed working for Đề 5 (Q46–50 options pulled
+  verbatim from `text.txt` page 16, not reconstructed).
+- Confirmed via a cross-zoom dHash audit (`scratchpad/audit_crops.py`) that Đề 1–3's
+  crops (520 total across both sections) are also clean at 150dpi — 0 flagged. All 5
+  papers' image pipelines now standardize on `CROP_DPI = 150` in `extract_images.py`.
+
+## TOCFL mock-exam feature architecture (`/thi-thu`, `/practice-exam/[paper]`)
+
+Two distinct exam-taking UIs share the same DB content (`tocfl_papers` /
+`tocfl_questions`, migration `0009_tocfl_exam`) and the same rendering components in
+`components/tocfl/examShared.tsx` (`useTocflPaper`, `buildSteps`, `StepCard`,
+`QuestionOptions`, `formatTime`):
+
+- **`/thi-thu/[paper]`** — strict timed mock exam (matches the real test): listening
+  section is forward-only (no jumping back, audio autoplays once per question, 60min
+  countdown auto-advances to reading on expiry), reading section is free-navigation
+  within itself with a jump palette, submit only appears in reading. Every completed
+  attempt is persisted to `tocfl_attempts` (used by `/thi-thu`'s grid cards to show
+  score history/trend per paper).
+- **`/practice-exam/[paper]`** — free-navigation practice mode: both sections combined
+  into one view with a "Phần Nghe"/"Phần Đọc" section-tab toggle plus a right-side
+  question-number panel (spans all 100 questions) that jumps directly to any question
+  in either section on click, no timer, "Nộp Bài" is always visible and scores
+  whatever's been answered so far. Does **not** write to `tocfl_attempts` (this mode
+  is deliberately not counted in the Thi Thử score-history grid — it's practice, not a
+  mock-exam attempt). Linked from `/practice-exam`'s existing quiz-mode picker as a
+  distinct "5 Đề Chính Thức" section.
+
+Key rendering rule in `StepCard`/`ExamRunner`: **`prompt_hanzi` (the question/dialogue
+text) is only rendered when `showPromptText` is true, which both pages only pass for
+`section === 'reading'`.** The real TOCFL listening booklet never prints the spoken
+question or dialogue — only the picture (if any) and the answer choices are on the
+page, everything else is audio-only. This also happens to sidestep an integrity issue:
+for papers whose "answer key" PDF turned out to be a bare grid with no transcript, the
+`promptHanzi` text stored in the DB for listening Parts 1–3 was sometimes
+*reconstructed* to fit the correct answer rather than transcribed verbatim
+(`correctIndex` is always grid-verified regardless) — since it's never displayed
+during either exam mode, that distinction doesn't leak into the UI, only into the
+stored data.
+
+`options` on a `tocfl_questions` row is `[{label, text?, imagePath?}]` — `QuestionOptions`
+switches to an image-grid layout automatically whenever any option has `imagePath`.
+`group_key` bundles multiple question rows that must render as one screen (reading
+Part 3's shared situational image, Part 4's shared 6-choice passage cloze) — see
+`buildSteps()`, which folds consecutive same-`group_key` questions into a single
+`Step`.
+
+**Re-seeding a paper after fixing its content/assets**: edit `scripts/tocfl-content/
+reading-N.json` / `listening-N.json` (or the images/audio under `public/tocfl/A/...`),
+then `node scripts/build-tocfl-seed.js N` (or with no args to reseed all found
+papers) followed by `npx prisma db execute --file scripts/output/tocfl-seed.sql` — the
+generated SQL uses `ON CONFLICT ... DO UPDATE`, so it's safe to re-run against an
+already-seeded paper. If only the image/audio *file bytes* changed (same path), no
+reseed is needed at all — Next.js serves `public/` statically.
+
+**Estimated banding (`estimateBand` in `lib/types/tocfl.ts`)**: TOCFL's real pass/fail
+cut uses IRT scaled scoring calibrated from a proprietary SC-TOP item bank, which
+isn't published — this can't be reproduced exactly by anyone outside SC-TOP. Both exam
+modes show a raw score (số câu đúng/tổng) plus a clearly-labeled *estimated* band
+(commonly-cited ~60%/~80% correct-rate thresholds), never presented as the official
+result.
 
 ---
 

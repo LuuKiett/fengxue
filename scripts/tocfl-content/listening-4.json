@@ -8,7 +8,7 @@
       "groupKey": null,
       "orderIndex": 1,
       "promptHanzi": "爸爸正在做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q01_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q01_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q01.mp3",
       "options": [
@@ -35,7 +35,7 @@
       "groupKey": null,
       "orderIndex": 2,
       "promptHanzi": "這間屋子裡有什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q02_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q02_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q02.mp3",
       "options": [
@@ -62,7 +62,7 @@
       "groupKey": null,
       "orderIndex": 3,
       "promptHanzi": "弟弟怎麼去書店？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q03_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q03_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q03.mp3",
       "options": [
@@ -89,7 +89,7 @@
       "groupKey": null,
       "orderIndex": 4,
       "promptHanzi": "他們家有幾個人？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q04_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q04_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q04.mp3",
       "options": [
@@ -116,7 +116,7 @@
       "groupKey": null,
       "orderIndex": 5,
       "promptHanzi": "哥哥今天要做什麼給大家吃？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q05_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q05_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q05.mp3",
       "options": [
@@ -143,7 +143,7 @@
       "groupKey": null,
       "orderIndex": 6,
       "promptHanzi": "這件裙子怎麼樣？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q06_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q06_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q06.mp3",
       "options": [
@@ -170,7 +170,7 @@
       "groupKey": null,
       "orderIndex": 7,
       "promptHanzi": "王小姐帶了什麼去旅行？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q07_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q07_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q07.mp3",
       "options": [
@@ -197,7 +197,7 @@
       "groupKey": null,
       "orderIndex": 8,
       "promptHanzi": "這位太太在哪裡？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q08_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q08_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q08.mp3",
       "options": [
@@ -224,7 +224,7 @@
       "groupKey": null,
       "orderIndex": 9,
       "promptHanzi": "媽媽收到什麼東西？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q09_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q09_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q09.mp3",
       "options": [
@@ -251,7 +251,7 @@
       "groupKey": null,
       "orderIndex": 10,
       "promptHanzi": "學生們在教室裡做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q10_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q10_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q10.mp3",
       "options": [
@@ -278,7 +278,7 @@
       "groupKey": null,
       "orderIndex": 11,
       "promptHanzi": "文華在做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q11_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q11_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q11.mp3",
       "options": [
@@ -305,7 +305,7 @@
       "groupKey": null,
       "orderIndex": 12,
       "promptHanzi": "這三個人，哪一個人最矮？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q12_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q12_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q12.mp3",
       "options": [
@@ -332,7 +332,7 @@
       "groupKey": null,
       "orderIndex": 13,
       "promptHanzi": "李先生和同事在做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q13_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q13_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q13.mp3",
       "options": [
@@ -359,7 +359,7 @@
       "groupKey": null,
       "orderIndex": 14,
       "promptHanzi": "弟弟跑步以後，覺得怎麼樣？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q14_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q14_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q14.mp3",
       "options": [
@@ -386,7 +386,7 @@
       "groupKey": null,
       "orderIndex": 15,
       "promptHanzi": "女孩怎麼了？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q15_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q15_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q15.mp3",
       "options": [
@@ -413,7 +413,7 @@
       "groupKey": null,
       "orderIndex": 16,
       "promptHanzi": "妹妹週末做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q16_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q16_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q16.mp3",
       "options": [
@@ -440,7 +440,7 @@
       "groupKey": null,
       "orderIndex": 17,
       "promptHanzi": "房子旁邊有什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q17_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q17_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q17.mp3",
       "options": [
@@ -467,7 +467,7 @@
       "groupKey": null,
       "orderIndex": 18,
       "promptHanzi": "李小姐在哪裡工作？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q18_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q18_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q18.mp3",
       "options": [
@@ -494,7 +494,7 @@
       "groupKey": null,
       "orderIndex": 19,
       "promptHanzi": "他們在上什麼課？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q19_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q19_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q19.mp3",
       "options": [
@@ -521,7 +521,7 @@
       "groupKey": null,
       "orderIndex": 20,
       "promptHanzi": "圖片裡面有什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q20_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q20_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q20.mp3",
       "options": [
@@ -548,7 +548,7 @@
       "groupKey": null,
       "orderIndex": 21,
       "promptHanzi": "姊姊的興趣是什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q21_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q21_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q21.mp3",
       "options": [
@@ -575,7 +575,7 @@
       "groupKey": null,
       "orderIndex": 22,
       "promptHanzi": "大明計劃暑假的時候做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q22_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q22_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q22.mp3",
       "options": [
@@ -602,7 +602,7 @@
       "groupKey": null,
       "orderIndex": 23,
       "promptHanzi": "哪一樣東西比較貴？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q23_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q23_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q23.mp3",
       "options": [
@@ -629,7 +629,7 @@
       "groupKey": null,
       "orderIndex": 24,
       "promptHanzi": "小明怎麼了？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q24_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q24_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q24.mp3",
       "options": [
@@ -656,7 +656,7 @@
       "groupKey": null,
       "orderIndex": 25,
       "promptHanzi": "這些人在做什麼？",
-      "promptImagePath": "/tocfl/A/listening/4/images/q25_stim.jpg",
+      "promptImagePath": "/tocfl/A/listening/4/images/q25_stim.png",
       "passageHanzi": null,
       "audioPath": "/tocfl/A/listening/4/audio/q25.mp3",
       "options": [
@@ -689,15 +689,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q26_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q26_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q26_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q26_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q26_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q26_C.png"
         }
       ],
       "correctIndex": 2
@@ -716,15 +716,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q27_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q27_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q27_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q27_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q27_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q27_C.png"
         }
       ],
       "correctIndex": 2
@@ -743,15 +743,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q28_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q28_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q28_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q28_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q28_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q28_C.png"
         }
       ],
       "correctIndex": 1
@@ -770,15 +770,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q29_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q29_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q29_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q29_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q29_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q29_C.png"
         }
       ],
       "correctIndex": 2
@@ -797,15 +797,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q30_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q30_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q30_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q30_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q30_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q30_C.png"
         }
       ],
       "correctIndex": 1
@@ -824,15 +824,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q31_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q31_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q31_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q31_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q31_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q31_C.png"
         }
       ],
       "correctIndex": 1
@@ -851,15 +851,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q32_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q32_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q32_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q32_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q32_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q32_C.png"
         }
       ],
       "correctIndex": 2
@@ -878,15 +878,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q33_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q33_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q33_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q33_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q33_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q33_C.png"
         }
       ],
       "correctIndex": 0
@@ -905,15 +905,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q34_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q34_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q34_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q34_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q34_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q34_C.png"
         }
       ],
       "correctIndex": 0
@@ -932,15 +932,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q35_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q35_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q35_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q35_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q35_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q35_C.png"
         }
       ],
       "correctIndex": 1
@@ -959,15 +959,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q36_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q36_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q36_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q36_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q36_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q36_C.png"
         }
       ],
       "correctIndex": 1
@@ -986,15 +986,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q37_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q37_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q37_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q37_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q37_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q37_C.png"
         }
       ],
       "correctIndex": 0
@@ -1013,15 +1013,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q38_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q38_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q38_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q38_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q38_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q38_C.png"
         }
       ],
       "correctIndex": 2
@@ -1040,15 +1040,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q39_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q39_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q39_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q39_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q39_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q39_C.png"
         }
       ],
       "correctIndex": 1
@@ -1067,15 +1067,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q40_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q40_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q40_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q40_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q40_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q40_C.png"
         }
       ],
       "correctIndex": 0
@@ -1094,15 +1094,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q41_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q41_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q41_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q41_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q41_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q41_C.png"
         }
       ],
       "correctIndex": 1
@@ -1121,15 +1121,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q42_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q42_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q42_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q42_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q42_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q42_C.png"
         }
       ],
       "correctIndex": 2
@@ -1148,15 +1148,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q43_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q43_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q43_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q43_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q43_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q43_C.png"
         }
       ],
       "correctIndex": 0
@@ -1175,15 +1175,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q44_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q44_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q44_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q44_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q44_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q44_C.png"
         }
       ],
       "correctIndex": 2
@@ -1202,15 +1202,15 @@
       "options": [
         {
           "label": "A",
-          "imagePath": "/tocfl/A/listening/4/images/q45_A.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q45_A.png"
         },
         {
           "label": "B",
-          "imagePath": "/tocfl/A/listening/4/images/q45_B.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q45_B.png"
         },
         {
           "label": "C",
-          "imagePath": "/tocfl/A/listening/4/images/q45_C.jpg"
+          "imagePath": "/tocfl/A/listening/4/images/q45_C.png"
         }
       ],
       "correctIndex": 0

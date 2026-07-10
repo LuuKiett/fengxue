@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import type { TocflPaper, TocflQuestion, TocflSection } from '@/lib/types/tocfl'
 import { estimateBand } from '@/lib/types/tocfl'
+import { useTocflPaper, buildSteps, formatTime, StepCard, type Step } from '@/components/tocfl/examShared'
 import {
   ArrowLeft, Headphones, BookOpenCheck, Clock, Volume2, ChevronRight, ChevronLeft,
   CheckCircle2, Trophy, RotateCcw, Home,
@@ -14,38 +15,12 @@ import confetti from 'canvas-confetti'
 
 type Phase = 'intro' | 'listening' | 'reading' | 'result'
 
-interface Step {
-  groupKey: string | null
-  questions: TocflQuestion[]
-}
-
-function buildSteps(questions: TocflQuestion[]): Step[] {
-  const steps: Step[] = []
-  for (const q of questions) {
-    const last = steps[steps.length - 1]
-    if (q.group_key && last && last.groupKey === q.group_key) {
-      last.questions.push(q)
-    } else {
-      steps.push({ groupKey: q.group_key, questions: [q] })
-    }
-  }
-  return steps
-}
-
-function formatTime(totalSeconds: number) {
-  const m = Math.floor(Math.max(0, totalSeconds) / 60)
-  const s = Math.max(0, totalSeconds) % 60
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-}
-
 export default function TocflExamPage() {
   const params = useParams()
   const paperNumber = Number(params.paper)
   const supabase = createClient()
 
-  const [loading, setLoading] = useState(true)
-  const [paper, setPaper] = useState<TocflPaper | null>(null)
-  const [questions, setQuestions] = useState<TocflQuestion[]>([])
+  const { loading, paper, questions } = useTocflPaper(paperNumber)
   const [phase, setPhase] = useState<Phase>('intro')
   const [attemptId, setAttemptId] = useState<string | null>(null)
   const [answers, setAnswers] = useState<Record<string, number>>({})
@@ -55,39 +30,6 @@ export default function TocflExamPage() {
   const [timeRemaining, setTimeRemaining] = useState(0)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  useEffect(() => {
-    async function load() {
-      setLoading(true)
-      try {
-        const { data: paperData } = await supabase
-          .from('tocfl_papers')
-          .select('*')
-          .eq('band', 'A')
-          .eq('paper_number', paperNumber)
-          .single()
-        if (!paperData) return
-        setPaper(paperData as TocflPaper)
-
-        const { data: qData } = await supabase
-          .from('tocfl_questions')
-          .select('*')
-          .eq('paper_id', paperData.id)
-        // 'listening' sorts before 'reading' to match exam order; order_index is the
-        // authoritative per-section sequence.
-        const all = ((qData || []) as TocflQuestion[]).sort((a, b) => {
-          if (a.section !== b.section) return a.section === 'listening' ? -1 : 1
-          return a.order_index - b.order_index
-        })
-        setQuestions(all)
-      } catch (err) {
-        console.error('Lỗi khi tải đề thi:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (paperNumber) load()
-  }, [paperNumber, supabase])
 
   const listeningQuestions = useMemo(() => questions.filter((q) => q.section === 'listening'), [questions])
   const readingQuestions = useMemo(() => questions.filter((q) => q.section === 'reading'), [questions])
@@ -299,6 +241,8 @@ function IntroScreen({ paper, onStart }: { paper: TocflPaper; onStart: () => voi
           <p>📌 Phần đọc: có thể tự do di chuyển giữa các câu, nộp bài bất cứ lúc nào trong thời gian cho phép.</p>
           <p>📌 Điểm số hiển thị sau khi nộp bài là điểm ước tính (số câu đúng / tổng), không phải điểm quy đổi
             chính thức của SC-TOP vì thang điểm gốc không được công bố công khai.</p>
+          <p>📌 Muốn luyện tập tự do (không giới hạn thứ tự, nộp bài bất cứ lúc nào cho cả 2 phần)? Vào{' '}
+            <Link href="/practice-exam" className="underline font-black">Luyện Đề TOCFL</Link>.</p>
         </div>
 
         <button onClick={onStart} className="cartoon-btn w-full text-base py-3">
@@ -380,7 +324,7 @@ function ExamRunner({
             </div>
           )}
 
-          <StepCard step={step} section={section} answers={answers} onSelect={onSelect} />
+          <StepCard step={step} showPromptText={!isListening} answers={answers} onSelect={onSelect} />
 
           <div className="flex items-center justify-between gap-3">
             {onPrev ? (
@@ -437,120 +381,16 @@ function ExamRunner({
   )
 }
 
-function StepCard({
-  step, section, answers, onSelect,
-}: {
-  step: Step
-  section: TocflSection
-  answers: Record<string, number>
-  onSelect: (questionId: string, index: number) => void
-}) {
-  const shared = step.questions[0]
-  const isGroup = step.questions.length > 1
-  // The real TOCFL listening booklet never prints the spoken question/dialogue —
-  // only the picture (if any) and the answer choices are on the page, everything
-  // else is audio-only. Showing prompt_hanzi during listening would both be
-  // unrealistic and, for papers whose "answer key" PDF turned out to be a bare
-  // grid with no transcript, would surface reconstructed (not verbatim) text as if
-  // it were the real audio content. Reading passages/sentences are always printed,
-  // so this only gates listening.
-  const showPromptText = section === 'reading'
-
-  return (
-    <div className="cartoon-panel p-5 md:p-6 bg-white space-y-5">
-      {shared.prompt_image_path && (
-        <div className="flex justify-center">
-          <img
-            src={shared.prompt_image_path}
-            alt=""
-            className="max-w-full max-h-80 object-contain rounded-xl border-2 border-slate-100"
-          />
-        </div>
-      )}
-
-      {showPromptText && shared.passage_hanzi && (
-        <div className="bg-slate-50 rounded-2xl p-4 font-chinese text-lg leading-relaxed text-slate-800 whitespace-pre-line">
-          {shared.passage_hanzi}
-        </div>
-      )}
-
-      {step.questions.map((q) => (
-        <div key={q.id} className="space-y-3">
-          {showPromptText && (isGroup || !shared.passage_hanzi) && q.prompt_hanzi && (
-            <div className="flex items-start gap-2">
-              <span className="font-black text-[#189fec] shrink-0">Câu {q.question_number}.</span>
-              <span className="font-chinese text-lg text-slate-800 whitespace-pre-line">{q.prompt_hanzi}</span>
-            </div>
-          )}
-          {!showPromptText && (
-            <span className="font-black text-[#189fec] text-sm">Câu {q.question_number}</span>
-          )}
-
-          <QuestionOptions question={q} selected={answers[q.id]} onSelect={(idx) => onSelect(q.id, idx)} />
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function QuestionOptions({
-  question, selected, onSelect,
-}: {
-  question: TocflQuestion
-  selected: number | undefined
-  onSelect: (index: number) => void
-}) {
-  const hasImages = question.options.some((o) => o.imagePath)
-
-  if (hasImages) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {question.options.map((opt, idx) => (
-          <button
-            key={opt.label}
-            onClick={() => onSelect(idx)}
-            className={`cartoon-card p-2 flex flex-col items-center gap-1.5 ${
-              selected === idx ? 'ring-3 ring-[#189fec]' : ''
-            }`}
-          >
-            <span className="font-black text-slate-500 text-xs">({opt.label})</span>
-            {opt.imagePath && (
-              <img src={opt.imagePath} alt="" className="w-full h-28 object-contain" />
-            )}
-          </button>
-        ))}
-      </div>
-    )
-  }
-
-  return (
-    <div className="grid grid-cols-1 gap-2">
-      {question.options.map((opt, idx) => (
-        <button
-          key={opt.label}
-          onClick={() => onSelect(idx)}
-          className={`text-left px-4 py-2.5 rounded-xl font-bold text-sm border-2 transition-all flex items-center gap-2 ${
-            selected === idx
-              ? 'bg-[#e7f3ff] border-[#189fec] text-[#0e6bab]'
-              : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-          }`}
-        >
-          <span className="font-black">({opt.label})</span>
-          <span className="font-chinese">{opt.text}</span>
-        </button>
-      ))}
-    </div>
-  )
-}
-
-function ResultScreen({
-  paper, listeningQuestions, readingQuestions, answers, onRetry,
+export function ResultScreen({
+  paper, listeningQuestions, readingQuestions, answers, onRetry, backHref = '/thi-thu', backLabel = 'Về Danh Sách Đề',
 }: {
   paper: TocflPaper
   listeningQuestions: TocflQuestion[]
   readingQuestions: TocflQuestion[]
   answers: Record<string, number>
   onRetry: () => void
+  backHref?: string
+  backLabel?: string
 }) {
   const listeningCorrect = listeningQuestions.filter((q) => answers[q.id] === q.correct_index).length
   const readingCorrect = readingQuestions.filter((q) => answers[q.id] === q.correct_index).length
@@ -590,8 +430,8 @@ function ResultScreen({
           <button onClick={onRetry} className="cartoon-btn flex items-center justify-center gap-2">
             <RotateCcw className="w-4 h-4" /> Thi Lại Đề Này
           </button>
-          <Link href="/thi-thu" className="cartoon-btn-secondary flex items-center justify-center gap-2">
-            <Home className="w-4 h-4" /> Về Danh Sách Đề
+          <Link href={backHref} className="cartoon-btn-secondary flex items-center justify-center gap-2 px-4">
+            <Home className="w-4 h-4" /> {backLabel}
           </Link>
         </div>
       </div>

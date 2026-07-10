@@ -1,7 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import type { TocflPaper } from '@/lib/types/tocfl'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
 import {
   LISTENING_TYPES,
@@ -81,6 +83,16 @@ export default function PracticeExamPage() {
   // Listening passages hide their hanzi transcript by default (revealing it would let
   // you read the answer instead of listening for it) — this toggles a manual reveal.
   const [showTranscript, setShowTranscript] = useState(false)
+
+  const [officialPapers, setOfficialPapers] = useState<TocflPaper[]>([])
+
+  useEffect(() => {
+    async function loadPapers() {
+      const { data } = await supabase.from('tocfl_papers').select('*').eq('band', 'A').order('paper_number')
+      setOfficialPapers((data || []) as TocflPaper[])
+    }
+    loadPapers()
+  }, [supabase])
 
   useEffect(() => {
     async function loadLevels() {
@@ -318,6 +330,30 @@ export default function PracticeExamPage() {
               kèm đoạn hội thoại nghe và đoạn văn đọc hiểu, xáo trộn khác nhau mỗi lần làm để luyện tập hiệu quả cho kỳ thi A1/A2.
             </p>
           </div>
+
+          {officialPapers.length > 0 && (
+            <div className="cartoon-panel p-5 bg-white space-y-3">
+              <h4 className="font-extrabold text-slate-800 flex items-center gap-1.5">
+                <Trophy className="w-5 h-5 text-amber-400" /> 5 Đề Chính Thức (Bộ Đề Thật TOCFL Band A)
+              </h4>
+              <p className="text-xs text-slate-500 font-semibold">
+                Luyện tập tự do trên đúng nội dung đề thi thật — có thể nhảy tới bất kỳ câu nào, nộp bài bất cứ lúc
+                nào, làm được bao nhiêu tính điểm bấy nhiêu. Muốn thi có tính giờ và lưu lịch sử điểm? Vào{' '}
+                <Link href="/thi-thu" className="underline">Thi Thử TOCFL</Link>.
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                {officialPapers.map((p) => (
+                  <Link
+                    key={p.id}
+                    href={`/practice-exam/${p.paper_number}`}
+                    className="cartoon-card p-3 text-center font-black text-slate-700 hover:text-[#189fec]"
+                  >
+                    Đề {p.paper_number}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Exam mode toggle */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
