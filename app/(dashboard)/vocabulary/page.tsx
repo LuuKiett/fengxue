@@ -363,6 +363,22 @@ export default function VocabularyPage() {
     setComposingBuffer(prev => ({ ...prev, [index]: generated }))
   }
 
+  // Same auto-pinyin-from-hanzi shortcut as generatePinyinForRow above, just for the
+  // "Thêm ví dụ" example sentence fields instead of the main word fields.
+  const generateExamplePinyinForRow = (index: number) => {
+    const row = newRows[index]
+    if (!row.exampleHanzi.trim()) return
+    const generated = pinyin(row.exampleHanzi.trim(), { toneType: 'symbol', type: 'string', separator: ' ' })
+    const updated = [...newRows]
+    updated[index] = {
+      ...updated[index],
+      examplePinyin: generated
+    }
+    setNewRows(updated)
+    setDerivedExamplePinyinByRow(prev => ({ ...prev, [index]: generated }))
+    setExampleComposingBuffer(prev => ({ ...prev, [index]: generated }))
+  }
+
   const addNewRow = () => {
     setNewRows([...newRows, { hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
   }
@@ -1384,14 +1400,24 @@ export default function VocabularyPage() {
                   {row.showExample && (
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-amber-50/60 border border-dashed border-amber-200 rounded-xl p-3 relative">
                       {/* Ví Dụ - Hán Tự */}
-                      <div className="flex flex-col">
+                      <div className="flex flex-col relative justify-center">
                         <input
                           type="text"
                           placeholder="Ví Dụ - Chữ Hán"
                           value={row.exampleHanzi}
                           onChange={(e) => updateNewRowExampleField(idx, 'exampleHanzi', e.target.value)}
-                          className="px-3 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-2xl bg-white"
+                          className="px-3 py-2 pr-10 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-2xl bg-white w-full"
                         />
+                        {row.exampleHanzi.trim() && (
+                          <button
+                            type="button"
+                            onClick={() => generateExamplePinyinForRow(idx)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-amber-500 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg text-xs font-bold transition-all active:translate-y-0.5"
+                            title="Tạo Pinyin tự động"
+                          >
+                            🪄
+                          </button>
+                        )}
                       </div>
 
                       {/* Ví Dụ - Pinyin + cùng bộ gợi ý TOCFL kiểu IME như ô Thêm Từ */}
