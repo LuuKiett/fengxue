@@ -253,6 +253,7 @@ export default function VocabularyPage() {
         setIsAddModalOpen(false)
         setNewRows([{ hanzi: '', pinyin: '', vietnamese: '', showExample: false, exampleHanzi: '', examplePinyin: '', exampleVietnamese: '' }])
         setDerivedPinyinByRow({})
+        setDerivedExamplePinyinByRow({})
         setActiveTab(pendingSource)
         loadVocab(date)
 
@@ -329,6 +330,11 @@ export default function VocabularyPage() {
   // same as composing a multi-character word.
   const [exampleSuggestions, setExampleSuggestions] = useState<{ [rowIndex: number]: SuggestionEntry[] }>({})
   const [exampleComposingBuffer, setExampleComposingBuffer] = useState<{ [rowIndex: number]: string }>({})
+  // Derived example pinyin committed from selected suggestions — same purpose as
+  // derivedPinyinByRow above, so picking a candidate replaces the raw typed text
+  // instead of appending accented pinyin after it (e.g. "ni" + picking 你 → "nǐ",
+  // not "ni nǐ").
+  const [derivedExamplePinyinByRow, setDerivedExamplePinyinByRow] = useState<{ [rowIndex: number]: string }>({})
   const exampleDebounceRefs = useRef<{ [rowIndex: number]: ReturnType<typeof setTimeout> }>({})
 
   // Shifts index-keyed maps down by one after a row is removed, so suggestions/
@@ -371,6 +377,7 @@ export default function VocabularyPage() {
     debounceRefs.current = reindexAfterRemoval(debounceRefs.current, index)
     setExampleSuggestions(prev => reindexAfterRemoval(prev, index))
     setExampleComposingBuffer(prev => reindexAfterRemoval(prev, index))
+    setDerivedExamplePinyinByRow(prev => reindexAfterRemoval(prev, index))
     if (exampleDebounceRefs.current[index]) clearTimeout(exampleDebounceRefs.current[index])
     exampleDebounceRefs.current = reindexAfterRemoval(exampleDebounceRefs.current, index)
   }
@@ -590,18 +597,29 @@ export default function VocabularyPage() {
       next[index] = { ...next[index], examplePinyin: value }
       return next
     })
+    if (value.trim() === '') {
+      setDerivedExamplePinyinByRow(prev => {
+        const next = { ...prev }
+        delete next[index]
+        return next
+      })
+    }
     lookupExampleSuggestions(index, value)
   }
 
   const selectExampleSuggestion = (rowIndex: number, item: SuggestionEntry) => {
     const updated = [...newRows]
     const current = updated[rowIndex]
+    const existingDerivedPinyin = derivedExamplePinyinByRow[rowIndex]?.trim() ?? ''
+    const nextDerivedPinyin = existingDerivedPinyin ? `${existingDerivedPinyin} ${item.p}` : item.p
+
     updated[rowIndex] = {
       ...current,
       exampleHanzi: current.exampleHanzi + item.t,
-      examplePinyin: current.examplePinyin ? `${current.examplePinyin} ${item.p}` : item.p,
+      examplePinyin: nextDerivedPinyin,
     }
     setNewRows(updated)
+    setDerivedExamplePinyinByRow(prev => ({ ...prev, [rowIndex]: nextDerivedPinyin }))
 
     setExampleComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
     setExampleSuggestions(prev => {
@@ -616,6 +634,11 @@ export default function VocabularyPage() {
     updated[rowIndex] = { ...updated[rowIndex], exampleHanzi: '', examplePinyin: '' }
     setNewRows(updated)
     setExampleComposingBuffer(prev => ({ ...prev, [rowIndex]: '' }))
+    setDerivedExamplePinyinByRow(prev => {
+      const next = { ...prev }
+      delete next[rowIndex]
+      return next
+    })
   }
 
   // ── Edit-modal pinyin autocomplete — same TOCFL suggestion engine as the Add form
@@ -1384,7 +1407,7 @@ export default function VocabularyPage() {
                         {row.exampleHanzi && (
                           <div className="flex items-center gap-1.5 mt-1 px-0.5">
                             <span className="text-[10px] font-bold text-amber-600/70 truncate">
-                              Đã ghép: <span className="font-chinese text-amber-700">{row.exampleHanzi}</span> ({row.examplePinyin})
+                              Đã ghép: <span className="font-chinese text-amber-700">{row.exampleHanzi}</span> ({derivedExamplePinyinByRow[idx] || ''})
                             </span>
                             <button
                               type="button"
