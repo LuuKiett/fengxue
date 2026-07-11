@@ -92,9 +92,16 @@ export default function VocabularyPage() {
   const [editHanzi, setEditHanzi] = useState('')
   const [editPinyin, setEditPinyin] = useState('')
   const [editVietnamese, setEditVietnamese] = useState('')
+  // Derived (accent-picked) pinyin, kept separate from editPinyin (which mirrors
+  // whatever's literally in the input, including raw mid-composition text) — same
+  // purpose as derivedPinyinByRow/derivedExamplePinyinByRow in the Add form, so
+  // picking a suggestion replaces the just-typed raw text instead of appending
+  // accented pinyin after it.
+  const [editDerivedPinyin, setEditDerivedPinyin] = useState('')
   const [editExampleHanzi, setEditExampleHanzi] = useState('')
   const [editExamplePinyin, setEditExamplePinyin] = useState('')
   const [editExampleVietnamese, setEditExampleVietnamese] = useState('')
+  const [editDerivedExamplePinyin, setEditDerivedExamplePinyin] = useState('')
   const [editExampleComposingBuffer, setEditExampleComposingBuffer] = useState('')
   const [editExampleSuggestions, setEditExampleSuggestions] = useState<SuggestionEntry[]>([])
   const editExampleDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -698,12 +705,17 @@ export default function VocabularyPage() {
   const updateEditComposingBuffer = (value: string) => {
     setEditComposingBuffer(value)
     setEditPinyin(value)
+    if (value.trim() === '') setEditDerivedPinyin('')
     lookupEditSuggestions(value)
   }
 
   const selectEditSuggestion = (item: SuggestionEntry) => {
+    const existingDerivedPinyin = editDerivedPinyin.trim()
+    const nextDerivedPinyin = existingDerivedPinyin ? `${existingDerivedPinyin} ${item.p}` : item.p
+
     setEditHanzi(prev => prev + item.t)
-    setEditPinyin(prev => (prev ? `${prev} ${item.p}` : item.p))
+    setEditPinyin(nextDerivedPinyin)
+    setEditDerivedPinyin(nextDerivedPinyin)
     setEditComposingBuffer('')
     setEditSuggestions([])
   }
@@ -711,6 +723,7 @@ export default function VocabularyPage() {
   const clearEditComposition = () => {
     setEditHanzi('')
     setEditPinyin('')
+    setEditDerivedPinyin('')
     setEditComposingBuffer('')
   }
 
@@ -718,6 +731,7 @@ export default function VocabularyPage() {
     if (!editHanzi.trim()) return
     const generated = pinyin(editHanzi.trim(), { toneType: 'symbol', type: 'string', separator: ' ' })
     setEditPinyin(generated)
+    setEditDerivedPinyin(generated)
     setEditComposingBuffer(generated)
   }
 
@@ -755,12 +769,17 @@ export default function VocabularyPage() {
   const updateEditExampleComposingBuffer = (value: string) => {
     setEditExampleComposingBuffer(value)
     setEditExamplePinyin(value)
+    if (value.trim() === '') setEditDerivedExamplePinyin('')
     lookupEditExampleSuggestions(value)
   }
 
   const selectEditExampleSuggestion = (item: SuggestionEntry) => {
+    const existingDerivedPinyin = editDerivedExamplePinyin.trim()
+    const nextDerivedPinyin = existingDerivedPinyin ? `${existingDerivedPinyin} ${item.p}` : item.p
+
     setEditExampleHanzi(prev => prev + item.t)
-    setEditExamplePinyin(prev => (prev ? `${prev} ${item.p}` : item.p))
+    setEditExamplePinyin(nextDerivedPinyin)
+    setEditDerivedExamplePinyin(nextDerivedPinyin)
     setEditExampleComposingBuffer('')
     setEditExampleSuggestions([])
   }
@@ -768,7 +787,18 @@ export default function VocabularyPage() {
   const clearEditExampleComposition = () => {
     setEditExampleHanzi('')
     setEditExamplePinyin('')
+    setEditDerivedExamplePinyin('')
     setEditExampleComposingBuffer('')
+  }
+
+  // Same auto-pinyin-from-hanzi shortcut as generateEditPinyin above, just for the
+  // edit modal's example sentence fields.
+  const generateEditExamplePinyin = () => {
+    if (!editExampleHanzi.trim()) return
+    const generated = pinyin(editExampleHanzi.trim(), { toneType: 'symbol', type: 'string', separator: ' ' })
+    setEditExamplePinyin(generated)
+    setEditDerivedExamplePinyin(generated)
+    setEditExampleComposingBuffer(generated)
   }
 
   // EDIT VOCABULARY
@@ -776,9 +806,11 @@ export default function VocabularyPage() {
     setEditItem(item)
     setEditHanzi(item.hanzi)
     setEditPinyin(item.pinyin)
+    setEditDerivedPinyin(item.pinyin)
     setEditVietnamese(item.vietnamese)
     setEditExampleHanzi(item.example_hanzi ?? '')
     setEditExamplePinyin(item.example_pinyin ?? '')
+    setEditDerivedExamplePinyin(item.example_pinyin ?? '')
     setEditExampleVietnamese(item.example_vietnamese ?? '')
     setEditExampleComposingBuffer('')
     setEditExampleSuggestions([])
@@ -1646,7 +1678,7 @@ export default function VocabularyPage() {
                   />
                   <div className="flex items-center gap-1.5 mt-1 px-0.5">
                     <span className="text-[10px] font-bold text-slate-400 truncate">
-                      Pinyin hiện tại: <span className="font-semibold text-slate-600">{editPinyin || '—'}</span>
+                      Pinyin hiện tại: <span className="font-semibold text-slate-600">{editDerivedPinyin || '—'}</span>
                     </span>
                     <button
                       type="button"
@@ -1710,13 +1742,25 @@ export default function VocabularyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1">Ví Dụ - Chữ Hán</label>
-                    <input
-                      type="text"
-                      value={editExampleHanzi}
-                      onChange={(e) => setEditExampleHanzi(e.target.value)}
-                      className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-lg bg-white"
-                      placeholder="Ví dụ tiếng Hán"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={editExampleHanzi}
+                        onChange={(e) => setEditExampleHanzi(e.target.value)}
+                        className="w-full px-4 py-2 pr-12 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-lg bg-white"
+                        placeholder="Ví dụ tiếng Hán"
+                      />
+                      {editExampleHanzi.trim() && (
+                        <button
+                          type="button"
+                          onClick={generateEditExamplePinyin}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-amber-500 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg text-xs font-bold transition-all"
+                          title="Tạo Pinyin tự động"
+                        >
+                          🪄
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <div style={{ position: 'relative' }}>
@@ -1731,7 +1775,7 @@ export default function VocabularyPage() {
                     />
                     <div className="flex items-center gap-1.5 mt-1 px-0.5">
                       <span className="text-[10px] font-bold text-amber-600/70 truncate">
-                        Đã ghép: <span className="font-semibold text-amber-700">{editExamplePinyin || '—'}</span>
+                        Đã ghép: <span className="font-semibold text-amber-700">{editDerivedExamplePinyin || '—'}</span>
                       </span>
                       <button
                         type="button"
