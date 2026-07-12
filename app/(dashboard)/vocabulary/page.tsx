@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { getTodayString, formatDate } from '@/lib/utils/date'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
 import { pinyin } from 'pinyin-pro'
-import { stripTones } from '@/lib/utils/pinyin'
+import { stripTones, parseNumberedSyllable, sortByRequestedTone } from '@/lib/utils/pinyin'
 import { segmentPinyin, type ComposedCandidate } from '@/lib/utils/pinyinSegment'
 import DatePicker from '@/components/ui/DatePicker'
 import { speak } from '@/lib/utils/speak'
@@ -283,24 +283,31 @@ export default function VocabularyPage() {
   type TocflEntry = { t: string; p: string; l: number | null }
   type SuggestionEntry = TocflEntry | ComposedCandidate
   const tocflIndexRef = useRef<Record<string, TocflEntry[]> | null>(null)
-  const tocflLoadingRef = useRef(false)
+  // Holds the in-flight load's own promise (not just a boolean) so a lookup that
+  // fires while the fetch is still in progress awaits the same promise instead of
+  // seeing "already loading" and returning immediately with a null index — that
+  // silently dropped every suggestion typed before the ~5.5MB index finished
+  // downloading/parsing, which on a first-focus keystroke is very often the case.
+  const tocflLoadPromiseRef = useRef<Promise<void> | null>(null)
   // Sorted key list, built once the index loads, so prefix lookups can binary-search
   // instead of linearly scanning all ~85k merged keys on every keystroke.
   const sortedKeysRef = useRef<string[] | null>(null)
 
   const loadTocflIndex = useCallback(async () => {
-    if (tocflIndexRef.current || tocflLoadingRef.current) return
-    tocflLoadingRef.current = true
-    try {
-      const res = await fetch('/tocfl-index.json')
-      const idx = await res.json()
-      tocflIndexRef.current = idx
-      sortedKeysRef.current = Object.keys(idx).sort()
-    } catch (e) {
-      console.error('Failed to load TOCFL index:', e)
-    } finally {
-      tocflLoadingRef.current = false
+    if (tocflIndexRef.current) return
+    if (!tocflLoadPromiseRef.current) {
+      tocflLoadPromiseRef.current = (async () => {
+        try {
+          const res = await fetch('/tocfl-index.json')
+          const idx = await res.json()
+          tocflIndexRef.current = idx
+          sortedKeysRef.current = Object.keys(idx).sort()
+        } catch (e) {
+          console.error('Failed to load TOCFL index:', e)
+        }
+      })()
     }
+    await tocflLoadPromiseRef.current
   }, [])
 
   // Binary-search the sorted key list for the range of keys starting with `prefix`.
@@ -474,7 +481,10 @@ export default function VocabularyPage() {
   const lookupSuggestions = (index: number, query: string) => {
     if (debounceRefs.current[index]) clearTimeout(debounceRefs.current[index])
 
-    const normalizedQuery = stripTones(query)
+    // Numbered-tone input ("ni3") pins down which of several same-syllable candidates
+    // (e.g. "ma" -> 媽/麻/馬/罵/嗎) the student means, instead of showing all of them.
+    const numbered = parseNumberedSyllable(query)
+    const normalizedQuery = numbered ? numbered.base : stripTones(query)
     if (!normalizedQuery) {
       setSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
       return
@@ -495,14 +505,15 @@ export default function VocabularyPage() {
         results = matchingKeys
           .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
           .flatMap(k => idx[k])
-          .slice(0, 8)
+          .slice(0, 15)
       }
+      if (numbered) results = sortByRequestedTone(results, numbered.tone)
 
       // IME-style composition fallback: when the typed pinyin spans more than one
       // dictionary word (e.g. typing several characters continuously without spaces,
       // like "nihaoma" for 你好嗎), decompose it into known segments and pin the
       // composed multi-hanzi result at the top of the list.
-      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const composed = !numbered && normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
       const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
 
       if (finalResults.length > 0) {
@@ -580,7 +591,8 @@ export default function VocabularyPage() {
   const lookupExampleSuggestions = (index: number, query: string) => {
     if (exampleDebounceRefs.current[index]) clearTimeout(exampleDebounceRefs.current[index])
 
-    const normalizedQuery = stripTones(query)
+    const numbered = parseNumberedSyllable(query)
+    const normalizedQuery = numbered ? numbered.base : stripTones(query)
     if (!normalizedQuery) {
       setExampleSuggestions(prev => { const n = { ...prev }; delete n[index]; return n })
       return
@@ -599,10 +611,11 @@ export default function VocabularyPage() {
         results = matchingKeys
           .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
           .flatMap(k => idx[k])
-          .slice(0, 8)
+          .slice(0, 15)
       }
+      if (numbered) results = sortByRequestedTone(results, numbered.tone)
 
-      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const composed = !numbered && normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
       const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
 
       if (finalResults.length > 0) {
@@ -674,7 +687,8 @@ export default function VocabularyPage() {
   const lookupEditSuggestions = (query: string) => {
     if (editDebounceRef.current) clearTimeout(editDebounceRef.current)
 
-    const normalizedQuery = stripTones(query)
+    const numbered = parseNumberedSyllable(query)
+    const normalizedQuery = numbered ? numbered.base : stripTones(query)
     if (!normalizedQuery) {
       setEditSuggestions([])
       return
@@ -693,10 +707,11 @@ export default function VocabularyPage() {
         results = matchingKeys
           .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
           .flatMap(k => idx[k])
-          .slice(0, 8)
+          .slice(0, 15)
       }
+      if (numbered) results = sortByRequestedTone(results, numbered.tone)
 
-      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const composed = !numbered && normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
       const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
       setEditSuggestions(finalResults)
     }, 150)
@@ -738,7 +753,8 @@ export default function VocabularyPage() {
   const lookupEditExampleSuggestions = (query: string) => {
     if (editExampleDebounceRef.current) clearTimeout(editExampleDebounceRef.current)
 
-    const normalizedQuery = stripTones(query)
+    const numbered = parseNumberedSyllable(query)
+    const normalizedQuery = numbered ? numbered.base : stripTones(query)
     if (!normalizedQuery) {
       setEditExampleSuggestions([])
       return
@@ -757,10 +773,11 @@ export default function VocabularyPage() {
         results = matchingKeys
           .sort((a, b) => (idx[a][0]?.l ?? 99) - (idx[b][0]?.l ?? 99))
           .flatMap(k => idx[k])
-          .slice(0, 8)
+          .slice(0, 15)
       }
+      if (numbered) results = sortByRequestedTone(results, numbered.tone)
 
-      const composed = normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
+      const composed = !numbered && normalizedQuery.length > 2 ? segmentPinyin(normalizedQuery, idx) : null
       const finalResults: SuggestionEntry[] = composed ? [composed, ...results] : results
       setEditExampleSuggestions(finalResults)
     }, 150)
@@ -1629,8 +1646,8 @@ export default function VocabularyPage() {
 
       {/* SINGLE-ROW EDIT MODAL */}
       {isEditModalOpen && editItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-panel bg-white w-full max-w-5xl p-6 relative">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 py-8 overflow-y-auto">
+          <div className="cartoon-panel bg-white w-full max-w-5xl p-6 relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsEditModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"

@@ -314,6 +314,123 @@ modes show a raw score (số câu đúng/tổng) plus a clearly-labeled *estimat
 (commonly-cited ~60%/~80% correct-rate thresholds), never presented as the official
 result.
 
+## Band A supplement + Band B import (`dictionary_words`, migrations 0010/0011)
+
+- Source: `OTAB19.xlsx` (gitignored, user-supplied), sheet `BAN A` (a personal
+  self-quiz export, columns B/C/D = hanzi/pinyin/nghĩa; columns G-J are unrelated quiz
+  self-check data, not dictionary content) and sheet `BAN B` (4005 rows, columns
+  index/hanzi/pinyin/nghĩa/điền-hán-tự/check/loại/level, level already tagged `B1`/
+  `B2` — used verbatim, never re-derived, since the user explicitly wants their own
+  spreadsheet's band labels as the source of truth).
+- Migration `0010_band_a_supplement` adds 25 words present in `BAN A` but missing from
+  the original A1/A2 import — cross-checked by hanzi, normalizing full-width vs
+  half-width parens/slashes first (naive exact-string diff falsely flagged `車（子）`
+  as missing; it already existed as `車(子)` half-width). Slash/variant entries whose
+  meaning was already covered by an existing word (`他/她` when `他` already meant
+  "anh ấy, cô ấy", `午餐/午飯` when `午餐` already existed, etc.) were intentionally
+  **not** duplicated. Band A itself was never deleted or edited — additive only, per
+  explicit user instruction.
+- Migration `0011_band_b` imports Band B wholesale (3953 clean rows after dropping 14
+  bare alphabet section-header rows, 1 emoji-corrupted row, and 8 exact duplicates from
+  the raw 4005; ~22 rows had hanzi+pinyin but no Vietnamese meaning in the source and
+  were hand-filled from general Chinese vocabulary knowledge — see
+  `scripts/output/band-b.review.txt` for the full raw-row audit trail this was
+  reconciled against). `example_*` columns are left NULL — Band B examples are
+  authored in a separate follow-up pass (see below), by hand/AI rather than templates,
+  per explicit user request for "chính xác, thực tế" quality.
+- **pinyin-pro (3.28.1) mis-reads common function-word polyphones regardless of
+  context**: 們 → wrongly "mén" (should be neutral "men"), 麼 → wrongly "mó" (should be
+  neutral "me" in 什麼/怎麼/那麼/這麼), 車 → wrongly "jū" (surname/chess reading; should
+  be "chē" for the vehicle word), 還 → wrongly "huán" (should be "hái" in 還沒/還是/還
+  有). This is a **pre-existing bug already present in previously-committed data**
+  (e.g. `scripts/output/band-a-examples-real.sql` has "huǒ jū bān cì" instead of "huǒ
+  chē bān cì") — not something introduced this session, just newly confirmed. New
+  hand-authored example pinyin in this session worked around it by generating each
+  sentence's pinyin via `pinyin-pro`'s array mode (one entry per character) and
+  overriding the exact character positions matching 們/麼/車/還 before joining — the
+  one-off script used for migration `0010`'s examples was not kept in the repo, but
+  the technique is worth reusing if similar generation scripts are run again. No
+  blanket fix was applied to the ~900 already-committed Band A example rows —
+  flagging here in case a future session wants to do a targeted find-and-fix pass.
+
+## `/review-dictionary` "Điền Từ" (fill-in-the-blank) mode
+
+- Alongside the existing Flashcard→Matching pipeline, clicking a level card now opens
+  a mode-select modal (Flashcard vs Điền Từ) before the existing stage-size chooser.
+  Điền Từ shows a table (`components/exercises/FillInExercise.tsx`): hanzi given up
+  front, student reconstructs it by typing toneless pinyin into the same TOCFL/CC-CEDICT
+  IME-style composer used on `/vocabulary` (own self-contained copy of the composer
+  logic — deliberate duplication, matching this codebase's established pattern of not
+  sharing that particular piece of state, see the vocabulary composer's own comments).
+  A row auto-grades (Đúng/Sai + reveals nghĩa) the instant the composed answer's
+  character length reaches the target word's length — no separate submit step per row.
+- `dictionary_progress` gained a `mode` column (`'flashcard' | 'fill_in'`, migration
+  `0012_dictionary_progress_mode`; unique constraint changed from `(user_id, level)` to
+  `(user_id, level, mode)`) so the two modes never share or clobber each other's
+  per-level progress. Every dictionary_progress query in `review-dictionary/page.tsx`
+  needed an added `.eq('mode', activeMode)` / `mode` upsert field — grep for
+  `activeMode` there before adding a new progress-touching code path. Level-select
+  cards show two independent progress rings (Flashcard + Điền Từ) per level.
+- **`/review-dictionary` never called `ensureProfile()`** (only `/vocabulary` and the
+  import API route did) — a user whose very first page after signup is
+  `/review-dictionary` had no `profiles` row yet, so the first `dictionary_progress`
+  upsert 409'd on the `dictionary_progress_user_id_fkey` FK. There is **no DB trigger**
+  actually creating profile rows in this project currently (confirmed by querying a
+  freshly-signed-up test user: zero `profiles` row after browsing multiple pages) —
+  `ensureProfile()` is the *only* thing that does it, despite its comment describing
+  itself as a "safety net" for when a trigger hasn't fired. Now called from
+  `loadLevelInfos()` too. If a new profile-dependent page/table is added anywhere,
+  check it calls `ensureProfile()` first rather than assuming a trigger exists.
+
+## `dictionary_words` row-count cap (PostgREST default 1000-row limit)
+
+Band B roughly quintupled `dictionary_words` (~900 → ~4850 rows), which silently
+exposed a latent bug: **Supabase/PostgREST caps any single `select()` response at 1000
+rows by default (`db.max_rows`)**, regardless of what `.limit()`/no-limit was
+requested client-side — invisible before because every unfiltered or per-level query
+happened to stay under 1000. Symptoms observed: `/dictionary` silently showed only a
+truncated word list; `/review-dictionary`'s level cards showed wildly wrong totals
+(A2 read "14" instead of 386, B2 didn't appear as a card at all); starting a Flashcard/
+Điền Từ session on B1/B2 would have built stages from an incomplete, arbitrarily-cut
+word set. Fixed via `lib/utils/supabasePagination.ts`'s `fetchAllRows()` (loops
+`.range()` in pages of 1000 until a short page comes back) for anywhere all matching
+rows are genuinely needed, and via `{ count: 'exact', head: true }` per-level requests
+(no rows fetched at all) for the level-card counts specifically. **Any new query
+against `dictionary_words` (or any other table that could plausibly exceed 1000 rows)
+must use one of these two patterns, never a bare `.select()`.**
+
+## Pinyin suggestion composer (`/vocabulary` + `/review-dictionary` Điền Từ)
+
+- **Numbered-tone input** ("ni3" → "nǐ") is now supported everywhere the toneless
+  composer exists (`lib/utils/pinyin.ts`'s `parseNumberedSyllable`/`syllableTone`/
+  `sortByRequestedTone`, wired into all 5 `lookupSuggestions`-shaped functions across
+  `vocabulary/page.tsx` and `FillInExercise.tsx`). A query matching `^[a-z]+[1-5]$` is
+  parsed into `{base, tone}`; the toneless `base` is used for the actual index lookup,
+  then results are reordered (not filtered — a wrong/mistyped tone still surfaces
+  something) so entries whose first-syllable tone matches come first.
+- **`loadTocflIndex()` had a race condition** that silently dropped suggestions: its
+  dedup guard (`if (indexRef.current || loadingRef.current) return`) let a
+  `lookupSuggestions` call that fired *while the ~5.5MB index was still downloading/
+  parsing* return immediately with a null index instead of waiting for the in-flight
+  load — meaning the very first keystroke right after focusing a composer input (the
+  most common case: `onFocus` kicks off the load, then the user immediately types)
+  frequently showed zero suggestions for no visible reason. This is very likely what
+  was behind reports of "nhiều từ muốn ghi mà nó không hiện gợi ý" (many words don't
+  show suggestions). Fixed by storing the in-flight fetch as a `Promise` (not a
+  boolean) that every caller awaits — same fix applied in both
+  `vocabulary/page.tsx` and `FillInExercise.tsx` (2 separate copies, not shared, same
+  reasoning as above).
+- **`public/tocfl-index.json` now also merges this project's own `dictionary_words`**
+  at top priority (`l: 0`, ranks before every real TOCFL level 1-7), via
+  `scripts/dump-own-dictionary.js` (writes `scripts/output/own-dictionary-words.json`,
+  requires `DATABASE_URL`/`pg`, a devDependency added this session) →
+  `scripts/build-dictionary-index.js` (also merges CC-CEDICT + the PSeitz TOCFL list
+  as before; `MAX_PER_KEY` raised 12→24, per-lookup prefix-search slice raised 8→15).
+  **Re-run both scripts in that order whenever `dictionary_words` changes materially**
+  (a new band imported, a batch of examples/words added) so the composer keeps
+  suggesting every word actually in this app's own dictionary, not just what CC-CEDICT/
+  TOCFL happen to rank highly.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

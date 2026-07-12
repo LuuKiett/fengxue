@@ -128,16 +128,19 @@ CREATE POLICY "Anyone authenticated can read dictionary"
     USING (true);
 
 -- Create dictionary_progress table
--- Tracks, per user + level, which dictionary_words the user has already been through so that
--- "Ôn tập theo từ điển" stages never repeat a word until the whole level has been covered.
+-- Tracks, per user + level + mode, which dictionary_words the user has already been
+-- through so that "Ôn tập theo từ điển" stages never repeat a word until the whole
+-- level has been covered. `mode` ('flashcard' | 'fill_in') keeps Flashcard and Điền
+-- Từ progress independent of each other for the same level.
 CREATE TABLE IF NOT EXISTS public.dictionary_progress (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     level TEXT NOT NULL,
+    mode TEXT NOT NULL DEFAULT 'flashcard',
     word_order UUID[] NOT NULL DEFAULT '{}',
     current_index INTEGER NOT NULL DEFAULT 0,
     updated_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE(user_id, level)
+    UNIQUE(user_id, level, mode)
 );
 
 ALTER TABLE public.dictionary_progress ENABLE ROW LEVEL SECURITY;

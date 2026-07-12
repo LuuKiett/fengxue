@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { stripTones } from '@/lib/utils/pinyin'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
+import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import Pagination from '@/components/ui/Pagination'
 import { speak } from '@/lib/utils/speak'
 import { Search, BookMarked, Volume2 } from 'lucide-react'
@@ -36,16 +37,20 @@ export default function DictionaryPage() {
     async function loadDictionary() {
       setLoading(true)
       try {
-        const { data, error } = await supabase
-          .from('dictionary_words')
-          .select('id, band, level, hanzi, pinyin, vietnamese, pos, example_hanzi, example_pinyin, example_vietnamese')
-          .order('level', { ascending: true })
-          .order('order_index', { ascending: true })
+        // Paginated (not a plain unbounded select): PostgREST caps any single response
+        // at 1000 rows by default, which silently truncated this page once Band B
+        // pushed dictionary_words past that.
+        const data = await fetchAllRows<DictWord>((from, to) =>
+          supabase
+            .from('dictionary_words')
+            .select('id, band, level, hanzi, pinyin, vietnamese, pos, example_hanzi, example_pinyin, example_vietnamese')
+            .order('level', { ascending: true })
+            .order('order_index', { ascending: true })
+            .range(from, to)
+        )
+        setWords(data)
 
-        if (error) throw error
-        setWords(data || [])
-
-        if (data && data.length > 0) {
+        if (data.length > 0) {
           const levels = sortLevels(Array.from(new Set(data.map((w) => w.level))))
           setActiveLevel(levels[0])
         }

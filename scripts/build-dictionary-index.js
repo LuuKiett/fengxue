@@ -13,7 +13,8 @@ const fs = require("fs");
 const path = require("path");
 
 const OUTPUT_FILE = path.join(__dirname, "../public/tocfl-index.json");
-const MAX_PER_KEY = 12;
+const OWN_DICT_FILE = path.join(__dirname, "output/own-dictionary-words.json");
+const MAX_PER_KEY = 24;
 
 function stripTones(py) {
   return py.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/̈/g, "").toLowerCase().replace(/\s+/g, "");
@@ -141,8 +142,37 @@ async function loadCedict(index) {
   console.log("CC-CEDICT new entries added:", count);
 }
 
+// Merges in our own dictionary_words content (dumped ahead of time to
+// scripts/output/own-dictionary-words.json — see KNOWLEDGE.md on regenerating it) at
+// top priority (l: 0, ranks before every real TOCFL level 1-7), so every word the
+// user is actively trying to type in this app's own dictionary is guaranteed to
+// suggest — CC-CEDICT/TOCFL alone were found to be missing/deprioritizing plenty of
+// entries once Band B roughly quintupled our word count.
+function loadOwnDictionary(index) {
+  if (!fs.existsSync(OWN_DICT_FILE)) {
+    console.log("No own-dictionary-words.json found — skipping own-dictionary merge.");
+    return;
+  }
+  const words = JSON.parse(fs.readFileSync(OWN_DICT_FILE, "utf-8"));
+  let count = 0;
+  for (const w of words) {
+    const trad = w.hanzi;
+    const py = w.pinyin;
+    if (!trad || !py) continue;
+    const key = stripTones(py);
+    if (!key) continue;
+    if (!index[key]) index[key] = [];
+    if (!index[key].find((x) => x.t === trad)) {
+      index[key].push({ t: trad, p: py, l: 0 });
+      count++;
+    }
+  }
+  console.log("Own dictionary_words merged:", count, "of", words.length);
+}
+
 async function main() {
   const index = {};
+  loadOwnDictionary(index);
   await loadTocfl(index);
   await loadCedict(index);
 

@@ -1,0 +1,1502 @@
+[
+  {
+    "id": 762,
+    "example_hanzi": "海水漲得很快，小船漸漸沒入水中。",
+    "example_pinyin": "hǎi shuǐ zhǎng de hěn kuài， xiǎo chuán jiàn jiàn méi rù shuǐ zhōng。",
+    "example_vietnamese": "Nước biển dâng rất nhanh, con thuyền nhỏ dần dần chìm xuống nước."
+  },
+  {
+    "id": 763,
+    "example_hanzi": "別擔心，這只是一點小傷，沒什麼。",
+    "example_pinyin": "bié dān xīn， zhè zhǐ shì yì diǎn xiǎo shāng， méi shén me。",
+    "example_vietnamese": "Đừng lo, đây chỉ là vết thương nhỏ thôi, không sao đâu."
+  },
+  {
+    "id": 764,
+    "example_hanzi": "我沒想到他會在這麼短的時間內學會中文。",
+    "example_pinyin": "wǒ méi xiǎng dào tā huì zài zhè me duǎn de shí jiān nèi xué huì zhōng wén。",
+    "example_vietnamese": "Tôi không ngờ rằng anh ấy có thể học được tiếng Trung trong thời gian ngắn như vậy."
+  },
+  {
+    "id": 765,
+    "example_hanzi": "他送給女朋友一束紅色的玫瑰。",
+    "example_pinyin": "tā sòng gěi nǚ péng yǒu yí shù hóng sè de méi gui。",
+    "example_vietnamese": "Anh ấy tặng bạn gái một bó hoa hồng đỏ."
+  },
+  {
+    "id": 766,
+    "example_hanzi": "我每天早上都會喝一杯咖啡。",
+    "example_pinyin": "wǒ měi tiān zǎo shang dōu huì hē yì bēi kā fēi。",
+    "example_vietnamese": "Mỗi sáng tôi đều uống một tách cà phê."
+  },
+  {
+    "id": 767,
+    "example_hanzi": "大家都希望擁有一個美好的未來。",
+    "example_pinyin": "dà jiā dōu xī wàng yōng yǒu yí gè měi hǎo de wèi lái。",
+    "example_vietnamese": "Mọi người đều mong muốn có một tương lai tốt đẹp."
+  },
+  {
+    "id": 768,
+    "example_hanzi": "這學期我選了三門課。",
+    "example_pinyin": "zhè xué qī wǒ xuǎn le sān mén kè。",
+    "example_vietnamese": "Học kỳ này tôi đã đăng ký ba môn học."
+  },
+  {
+    "id": 769,
+    "example_hanzi": "昨晚我做了一個很奇怪的夢。",
+    "example_pinyin": "zuó wǎn wǒ zuò le yí gè hěn qí guài de mèng。",
+    "example_vietnamese": "Tối qua tôi đã có một giấc mơ rất kỳ lạ."
+  },
+  {
+    "id": 770,
+    "example_hanzi": "我們在山裡迷路了，找不到回去的路。",
+    "example_pinyin": "wǒ men zài shān lǐ mí lù le， zhǎo bú dào huí qù de lù。",
+    "example_vietnamese": "Chúng tôi bị lạc đường trong núi, không tìm được đường về."
+  },
+  {
+    "id": 771,
+    "example_hanzi": "這座城市的夜景真是迷人。",
+    "example_pinyin": "zhè zuò chéng shì de yè jǐng zhēn shì mí rén。",
+    "example_vietnamese": "Cảnh đêm của thành phố này thật mê hoặc lòng người."
+  },
+  {
+    "id": 772,
+    "example_hanzi": "我今天中午吃了一碗米飯和一些青菜。",
+    "example_pinyin": "wǒ jīn tiān zhōng wǔ chī le yì wǎn mǐ fàn hàn yì xiē qīng cài。",
+    "example_vietnamese": "Trưa nay tôi đã ăn một bát cơm và một ít rau xanh."
+  },
+  {
+    "id": 773,
+    "example_hanzi": "這家店的炒米粉又香又好吃。",
+    "example_pinyin": "zhè jiā diàn de chǎo mǐ fěn yòu xiāng yòu hǎo chī。",
+    "example_vietnamese": "Món bún xào của quán này vừa thơm vừa ngon."
+  },
+  {
+    "id": 774,
+    "example_hanzi": "這是我們兩個人的秘密，不能告訴別人。",
+    "example_pinyin": "zhè shì wǒ men liǎng gè rén de mì mì， bù néng gào su bié rén。",
+    "example_vietnamese": "Đây là bí mật của hai chúng ta, không được nói cho người khác biết."
+  },
+  {
+    "id": 775,
+    "example_hanzi": "這兩個國家的關係一直很密切。",
+    "example_pinyin": "zhè liǎng gè guó jiā de guān xì yì zhí hěn mì qiè。",
+    "example_vietnamese": "Quan hệ giữa hai nước này luôn rất mật thiết."
+  },
+  {
+    "id": 776,
+    "example_hanzi": "這家咖啡廳提供免費的無線網路。",
+    "example_pinyin": "zhè jiā kā fēi tīng tí gōng miǎn fèi de wú xiàn wǎng lù。",
+    "example_vietnamese": "Quán cà phê này cung cấp wifi miễn phí."
+  },
+  {
+    "id": 777,
+    "example_hanzi": "牆上掛著一面很大的鏡子。",
+    "example_pinyin": "qiáng shàng guà zhe yí miàn hěn dà de jìng zi。",
+    "example_vietnamese": "Trên tường treo một tấm gương rất lớn."
+  },
+  {
+    "id": 778,
+    "example_hanzi": "他家就在學校的東面。",
+    "example_pinyin": "tā jiā jiù zài xué xiào de dōng miàn。",
+    "example_vietnamese": "Nhà anh ấy ở phía đông trường học."
+  },
+  {
+    "id": 779,
+    "example_hanzi": "這間房子的面積大約是一百平方公尺。",
+    "example_pinyin": "zhè jiān fáng zi de miàn jī dà yuē shì yì bǎi píng fāng gōng chǐ。",
+    "example_vietnamese": "Diện tích căn nhà này khoảng một trăm mét vuông."
+  },
+  {
+    "id": 780,
+    "example_hanzi": "在老師面前，他不敢說謊。",
+    "example_pinyin": "zài lǎo shī miàn qián， tā bù gǎn shuō huǎng。",
+    "example_vietnamese": "Trước mặt thầy giáo, cậu ấy không dám nói dối."
+  },
+  {
+    "id": 781,
+    "example_hanzi": "媽媽煮了一碗熱騰騰的麵條給我當早餐。",
+    "example_pinyin": "mā ma zhǔ le yì wǎn rè téng téng de miàn tiáo gěi wǒ dāng zǎo cān。",
+    "example_vietnamese": "Mẹ nấu cho tôi một bát mì nóng hổi để ăn sáng."
+  },
+  {
+    "id": 782,
+    "example_hanzi": "這篇小說生動地描寫了鄉下的生活。",
+    "example_pinyin": "zhè piān xiǎo shuō shēng dòng de miáo xiě le xiāng xià de shēng huó。",
+    "example_vietnamese": "Truyện ngắn này miêu tả sinh động cuộc sống ở nông thôn."
+  },
+  {
+    "id": 783,
+    "example_hanzi": "這場比賽只剩下十秒就結束了。",
+    "example_pinyin": "zhè chǎng bǐ sài zhǐ shèng xià shí miǎo jiù jié shù le。",
+    "example_vietnamese": "Trận đấu này chỉ còn mười giây nữa là kết thúc."
+  },
+  {
+    "id": 784,
+    "example_hanzi": "過年的時候，很多人會去廟裡拜拜。",
+    "example_pinyin": "guò nián de shí hou， hěn duō rén huì qù miào lǐ bài bai。",
+    "example_vietnamese": "Vào dịp Tết, nhiều người thường đến miếu để cúng bái."
+  },
+  {
+    "id": 785,
+    "example_hanzi": "今年是民國一百一十三年。",
+    "example_pinyin": "jīn nián shì mín guó yì bǎi yì shí sān nián。",
+    "example_vietnamese": "Năm nay là năm Dân Quốc thứ một trăm mười ba."
+  },
+  {
+    "id": 786,
+    "example_hanzi": "台灣是一個由多個民族組成的社會。",
+    "example_pinyin": "tái wān shì yí gè yóu duō gè mín zú zǔ chéng de shè huì。",
+    "example_vietnamese": "Đài Loan là một xã hội được hình thành từ nhiều dân tộc."
+  },
+  {
+    "id": 787,
+    "example_hanzi": "這次比賽總共有五十名選手參加。",
+    "example_pinyin": "zhè cì bǐ sài zǒng gòng yǒu wǔ shí míng xuǎn shǒu cān jiā。",
+    "example_vietnamese": "Cuộc thi lần này có tổng cộng năm mươi thí sinh tham gia."
+  },
+  {
+    "id": 788,
+    "example_hanzi": "老師要我們找出句子裡的名詞。",
+    "example_pinyin": "lǎo shī yào wǒ men zhǎo chū jù zi lǐ de míng cí。",
+    "example_vietnamese": "Thầy giáo yêu cầu chúng tôi tìm ra các danh từ trong câu."
+  },
+  {
+    "id": 789,
+    "example_hanzi": "你解釋了半天，我終於明白了。",
+    "example_pinyin": "nǐ jiě shì le bàn tiān， wǒ zhōng yú míng bái le。",
+    "example_vietnamese": "Bạn giải thích cả một hồi lâu, cuối cùng tôi cũng hiểu rồi."
+  },
+  {
+    "id": 790,
+    "example_hanzi": "這幾年他的中文進步得非常明顯。",
+    "example_pinyin": "zhè jǐ nián tā de zhōng wén jìn bù de fēi cháng míng xiǎn。",
+    "example_vietnamese": "Mấy năm nay tiếng Trung của anh ấy tiến bộ rất rõ rệt."
+  },
+  {
+    "id": 791,
+    "example_hanzi": "那位電影明星走在路上，馬上被大家認出來了。",
+    "example_pinyin": "nà wèi diàn yǐng míng xīng zǒu zài lù shàng， mǎ shàng bèi dà jiā rèn chū lái le。",
+    "example_vietnamese": "Ngôi sao điện ảnh đó vừa đi trên đường liền bị mọi người nhận ra ngay."
+  },
+  {
+    "id": 792,
+    "example_hanzi": "醫生盡全力救回了他的命。",
+    "example_pinyin": "yī shēng jìn quán lì jiù huí le tā de mìng。",
+    "example_vietnamese": "Bác sĩ đã dốc hết sức để cứu sống anh ấy."
+  },
+  {
+    "id": 793,
+    "example_hanzi": "小孩子好奇地伸手摸了摸那隻小狗。",
+    "example_pinyin": "xiǎo hái zi hào qí de shēn shǒu mō le mō nà zhī xiǎo gǒu。",
+    "example_vietnamese": "Đứa trẻ tò mò đưa tay sờ sờ con chó nhỏ đó."
+  },
+  {
+    "id": 794,
+    "example_hanzi": "他每天騎摩托車去上班。",
+    "example_pinyin": "tā měi tiān qí mó tuō chē qù shàng bān。",
+    "example_vietnamese": "Hằng ngày anh ấy đi làm bằng xe gắn máy."
+  },
+  {
+    "id": 795,
+    "example_hanzi": "剛搬到這個城市時，我對這裡感到很陌生。",
+    "example_pinyin": "gāng bān dào zhè ge chéng shì shí， wǒ duì zhè lǐ gǎn dào hěn mò shēng。",
+    "example_vietnamese": "Khi mới chuyển đến thành phố này, tôi cảm thấy rất xa lạ với nơi đây."
+  },
+  {
+    "id": 796,
+    "example_hanzi": "他在某個地方看過這部電影的海報。",
+    "example_pinyin": "tā zài mǒu gè dì fāng kàn guò zhè bù diàn yǐng de hǎi bào。",
+    "example_vietnamese": "Anh ấy đã xem áp phích của bộ phim này ở một nơi nào đó."
+  },
+  {
+    "id": 797,
+    "example_hanzi": "五行之中，木代表生長與希望。",
+    "example_pinyin": "wǔ xíng zhī zhōng， mù dài biǎo shēng zhǎng yǔ xī wàng。",
+    "example_vietnamese": "Trong ngũ hành, Mộc tượng trưng cho sự sinh trưởng và hy vọng."
+  },
+  {
+    "id": 798,
+    "example_hanzi": "爺爺用一塊木頭刻了一隻小鳥。",
+    "example_pinyin": "yé ye yòng yí kuài mù tou kè le yì zhī xiǎo niǎo。",
+    "example_vietnamese": "Ông nội dùng một khúc gỗ khắc thành một con chim nhỏ."
+  },
+  {
+    "id": 799,
+    "example_hanzi": "他學中文的目的是想去中國工作。",
+    "example_pinyin": "tā xué zhōng wén de mù dì shì xiǎng qù zhōng guó gōng zuò。",
+    "example_vietnamese": "Mục đích anh ấy học tiếng Trung là muốn sang Trung Quốc làm việc."
+  },
+  {
+    "id": 800,
+    "example_hanzi": "目前公司還沒有決定要不要擴大規模。",
+    "example_pinyin": "mù qián gōng sī hái méi yǒu jué dìng yào bú yào kuò dà guī mó。",
+    "example_vietnamese": "Hiện nay công ty vẫn chưa quyết định có mở rộng quy mô hay không."
+  },
+  {
+    "id": 802,
+    "example_hanzi": "做紅燒肉是媽媽最拿手的菜。",
+    "example_pinyin": "zuò hóng shāo ròu shì mā ma zuì ná shǒu de cài。",
+    "example_vietnamese": "Làm thịt kho là món sở trường nhất của mẹ."
+  },
+  {
+    "id": 803,
+    "example_hanzi": "你昨天在超市買了哪些東西？",
+    "example_pinyin": "nǐ zuó tiān zài chāo shì mǎi le nǎ xiē dōng xi？",
+    "example_vietnamese": "Hôm qua bạn đã mua những gì ở siêu thị vậy?"
+  },
+  {
+    "id": 804,
+    "example_hanzi": "你要是不喜歡吃辣，那我們就換一家餐廳吧。",
+    "example_pinyin": "nǐ yào shi bù xǐ huan chī là， nà wǒ men jiù huàn yì jiā cān tīng ba。",
+    "example_vietnamese": "Nếu bạn không thích ăn cay, vậy thì chúng ta đổi sang quán khác nhé."
+  },
+  {
+    "id": 805,
+    "example_hanzi": "如果明天下雨，那麼運動會就要延期了。",
+    "example_pinyin": "rú guǒ míng tiān xià yǔ， nà me yùn dòng huì jiù yào yán qī le。",
+    "example_vietnamese": "Nếu ngày mai trời mưa, thì hội thao sẽ phải hoãn lại."
+  },
+  {
+    "id": 806,
+    "example_hanzi": "你不要那樣看著我，我會不好意思。",
+    "example_pinyin": "nǐ bú yào nà yàng kàn zhe wǒ， wǒ huì bù hǎo yì si。",
+    "example_vietnamese": "Bạn đừng nhìn tôi như thế, tôi sẽ ngại đấy."
+  },
+  {
+    "id": 807,
+    "example_hanzi": "事情不是你想的那樣。",
+    "example_pinyin": "shì qing bú shì nǐ xiǎng de nà yàng。",
+    "example_vietnamese": "Sự việc không phải như những gì bạn nghĩ."
+  },
+  {
+    "id": 808,
+    "example_hanzi": "你可要小心哪！",
+    "example_pinyin": "nǐ kě yào xiǎo xīn na！",
+    "example_vietnamese": "Bạn phải cẩn thận đấy nhé!"
+  },
+  {
+    "id": 809,
+    "example_hanzi": "小寶寶餓了，就會哭著要喝奶。",
+    "example_pinyin": "xiǎo bǎo bao è le， jiù huì kū zhe yào hē nǎi。",
+    "example_vietnamese": "Em bé đói bụng thì sẽ khóc đòi uống sữa."
+  },
+  {
+    "id": 810,
+    "example_hanzi": "下課後，同學們常常一起去買珍珠奶茶。",
+    "example_pinyin": "xià kè hòu， tóng xué men cháng cháng yì qǐ qù mǎi zhēn zhū nǎi chá。",
+    "example_vietnamese": "Sau giờ học, các bạn học thường cùng nhau đi mua trà sữa trân châu."
+  },
+  {
+    "id": 811,
+    "example_hanzi": "教小孩子讀書需要很大的耐心。",
+    "example_pinyin": "jiāo xiǎo hái zi dú shū xū yào hěn dà de nài xīn。",
+    "example_vietnamese": "Dạy trẻ nhỏ học chữ cần rất nhiều sự kiên nhẫn."
+  },
+  {
+    "id": 812,
+    "example_hanzi": "冬天的時候，很多候鳥會飛到南方過冬。",
+    "example_pinyin": "dōng tiān de shí hou， hěn duō hòu niǎo huì fēi dào nán fāng guò dōng。",
+    "example_vietnamese": "Vào mùa đông, nhiều loài chim di cư sẽ bay về phương Nam để trú đông."
+  },
+  {
+    "id": 813,
+    "example_hanzi": "難怪你今天這麼開心，原來是考試考得很好。",
+    "example_pinyin": "nán guài nǐ jīn tiān zhè me kāi xīn， yuán lái shì kǎo shì kǎo de hěn hǎo。",
+    "example_vietnamese": "Thảo nào hôm nay bạn vui như vậy, hoá ra là thi được điểm cao."
+  },
+  {
+    "id": 814,
+    "example_hanzi": "這件衣服的顏色配得很難看。",
+    "example_pinyin": "zhè jiàn yī fu de yán sè pèi de hěn nán kàn。",
+    "example_vietnamese": "Màu sắc của bộ quần áo này phối rất khó coi."
+  },
+  {
+    "id": 815,
+    "example_hanzi": "醫生說他的腦部受到了一點小傷。",
+    "example_pinyin": "yī shēng shuō tā de nǎo bù shòu dào le yì diǎn xiǎo shāng。",
+    "example_vietnamese": "Bác sĩ nói não của anh ấy bị tổn thương nhẹ."
+  },
+  {
+    "id": 816,
+    "example_hanzi": "這個問題有點複雜，讓我動動腦子想一想。",
+    "example_pinyin": "zhè ge wèn tí yǒu diǎn fù zá， ràng wǒ dòng dòng nǎo zi xiǎng yi xiǎng。",
+    "example_vietnamese": "Vấn đề này hơi phức tạp, để tôi động não suy nghĩ một chút."
+  },
+  {
+    "id": 817,
+    "example_hanzi": "我每天早上七點都會被鬧鐘吵醒。",
+    "example_pinyin": "wǒ měi tiān zǎo shang qī diǎn dōu huì bèi nào zhōng chǎo xǐng。",
+    "example_vietnamese": "Mỗi sáng bảy giờ tôi đều bị đồng hồ báo thức đánh thức."
+  },
+  {
+    "id": 818,
+    "example_hanzi": "這件事必須在三天內完成。",
+    "example_pinyin": "zhè jiàn shì bì xū zài sān tiān nèi wán chéng。",
+    "example_vietnamese": "Việc này phải hoàn thành trong vòng ba ngày."
+  },
+  {
+    "id": 819,
+    "example_hanzi": "這本書的內容非常豐富，值得一讀。",
+    "example_pinyin": "zhè běn shū de nèi róng fēi cháng fēng fù， zhí de yì dú。",
+    "example_vietnamese": "Nội dung cuốn sách này rất phong phú, đáng để đọc."
+  },
+  {
+    "id": 820,
+    "example_hanzi": "你明天能不能來參加我的生日派對？",
+    "example_pinyin": "nǐ míng tiān néng bù néng lái cān jiā wǒ de shēng rì pài duì？",
+    "example_vietnamese": "Ngày mai bạn có thể đến dự tiệc sinh nhật của tôi không?"
+  },
+  {
+    "id": 821,
+    "example_hanzi": "只要努力練習，你一定能夠說一口流利的中文。",
+    "example_pinyin": "zhǐ yào nǔ lì liàn xí， nǐ yí dìng néng gòu shuō yì kǒu liú lì de zhōng wén。",
+    "example_vietnamese": "Chỉ cần chăm chỉ luyện tập, bạn chắc chắn sẽ có thể nói tiếng Trung lưu loát."
+  },
+  {
+    "id": 822,
+    "example_hanzi": "這份工作需要很強的溝通能力。",
+    "example_pinyin": "zhè fèn gōng zuò xū yào hěn qiáng de gōu tōng néng lì。",
+    "example_vietnamese": "Công việc này đòi hỏi khả năng giao tiếp rất tốt."
+  },
+  {
+    "id": 823,
+    "example_hanzi": "我在台灣已經住了三年了。",
+    "example_pinyin": "wǒ zài tái wān yǐ jīng zhù le sān nián le。",
+    "example_vietnamese": "Tôi đã sống ở Đài Loan được ba năm rồi."
+  },
+  {
+    "id": 824,
+    "example_hanzi": "這首歌是八十年代非常流行的老歌。",
+    "example_pinyin": "zhè shǒu gē shì bā shí nián dài fēi cháng liú xíng de lǎo gē。",
+    "example_vietnamese": "Bài hát này là ca khúc rất thịnh hành vào thập niên tám mươi."
+  },
+  {
+    "id": 825,
+    "example_hanzi": "報名這項比賽沒有年齡的限制。",
+    "example_pinyin": "bào míng zhè xiàng bǐ sài méi yǒu nián líng de xiàn zhì。",
+    "example_vietnamese": "Đăng ký tham gia cuộc thi này không giới hạn độ tuổi."
+  },
+  {
+    "id": 826,
+    "example_hanzi": "這個地區年年都會舉辦熱鬧的燈會。",
+    "example_pinyin": "zhè ge dì qū nián nián dōu huì jǔ bàn rè nao de dēng huì。",
+    "example_vietnamese": "Khu vực này năm nào cũng tổ chức lễ hội đèn lồng náo nhiệt."
+  },
+  {
+    "id": 827,
+    "example_hanzi": "弟弟正在房間裡專心念書，準備明天的考試。",
+    "example_pinyin": "dì di zhèng zài fáng jiān lǐ zhuān xīn niàn shū， zhǔn bèi míng tiān de kǎo shì。",
+    "example_vietnamese": "Em trai đang chăm chú học bài trong phòng để chuẩn bị cho kỳ thi ngày mai."
+  },
+  {
+    "id": 828,
+    "example_hanzi": "這個地方以農業為主要的經濟來源。",
+    "example_pinyin": "zhè ge dì fang yǐ nóng yè wéi zhǔ yào de jīng jì lái yuán。",
+    "example_vietnamese": "Nơi này chủ yếu dựa vào nông nghiệp làm nguồn kinh tế chính."
+  },
+  {
+    "id": 829,
+    "example_hanzi": "各位先生女士，歡迎來到今天的音樂會。",
+    "example_pinyin": "gè wèi xiān sheng nǚ shì， huān yíng lái dào jīn tiān de yīn yuè huì。",
+    "example_vietnamese": "Kính chào quý ông quý bà, chào mừng đến với buổi hòa nhạc hôm nay."
+  },
+  {
+    "id": 831,
+    "example_hanzi": "喔，原來你也是台北人啊！",
+    "example_pinyin": "ō， yuán lái nǐ yě shì tái běi rén a！",
+    "example_vietnamese": "Ồ, hoá ra bạn cũng là người Đài Bắc à!"
+  },
+  {
+    "id": 832,
+    "example_hanzi": "哦，我懂了，原來是這麼一回事。",
+    "example_pinyin": "ó， wǒ dǒng le， yuán lái shì zhè me yì huí shì。",
+    "example_vietnamese": "À, tôi hiểu rồi, hoá ra là chuyện như vậy."
+  },
+  {
+    "id": 833,
+    "example_hanzi": "噢，我知道問題出在哪裡了。",
+    "example_pinyin": "ō， wǒ zhī dào wèn tí chū zài nǎ lǐ le。",
+    "example_vietnamese": "Ồ, tôi biết vấn đề nằm ở đâu rồi."
+  },
+  {
+    "id": 835,
+    "example_hanzi": "老師拍了拍我的肩膀，鼓勵我繼續努力。",
+    "example_pinyin": "lǎo shī pāi le pāi wǒ de jiān bǎng， gǔ lì wǒ jì xù nǔ lì。",
+    "example_vietnamese": "Thầy giáo vỗ vỗ vai tôi, động viên tôi tiếp tục cố gắng."
+  },
+  {
+    "id": 836,
+    "example_hanzi": "大家請排好隊，一個一個上車。",
+    "example_pinyin": "dà jiā qǐng pái hǎo duì， yí gè yí gè shàng chē。",
+    "example_vietnamese": "Mọi người vui lòng xếp hàng ngay ngắn, lần lượt lên xe."
+  },
+  {
+    "id": 837,
+    "example_hanzi": "門口掛著一塊寫著「休息中」的牌子。",
+    "example_pinyin": "mén kǒu guà zhe yí kuài xiě zhe「xiū xi zhōng」de pái zi。",
+    "example_vietnamese": "Trước cửa treo một tấm biển ghi \"đang nghỉ\"."
+  },
+  {
+    "id": 838,
+    "example_hanzi": "全家人都盼望著他能平安回來。",
+    "example_pinyin": "quán jiā rén dōu pàn wàng zhe tā néng píng ān huí lái。",
+    "example_vietnamese": "Cả nhà đều mong mỏi anh ấy trở về bình an."
+  },
+  {
+    "id": 839,
+    "example_hanzi": "圖書館旁有一個很安靜的小公園。",
+    "example_pinyin": "tú shū guǎn páng yǒu yí gè hěn ān jìng de xiǎo gōng yuán。",
+    "example_vietnamese": "Bên cạnh thư viện có một công viên nhỏ rất yên tĩnh."
+  },
+  {
+    "id": 840,
+    "example_hanzi": "週末我會陪媽媽去菜市場買菜。",
+    "example_pinyin": "zhōu mò wǒ huì péi mā ma qù cài shì chǎng mǎi cài。",
+    "example_vietnamese": "Cuối tuần tôi sẽ đi cùng mẹ ra chợ mua rau."
+  },
+  {
+    "id": 841,
+    "example_hanzi": "父母應該從小培養孩子閱讀的習慣。",
+    "example_pinyin": "fù mǔ yīng gāi cóng xiǎo péi yǎng hái zi yuè dú de xí guàn。",
+    "example_vietnamese": "Cha mẹ nên bồi dưỡng thói quen đọc sách cho con từ nhỏ."
+  },
+  {
+    "id": 842,
+    "example_hanzi": "這件白色上衣配黑色褲子很好看。",
+    "example_pinyin": "zhè jiàn bái sè shàng yī pèi hēi sè kù zi hěn hǎo kàn。",
+    "example_vietnamese": "Chiếc áo trắng này phối với quần đen rất đẹp."
+  },
+  {
+    "id": 843,
+    "example_hanzi": "這次活動需要大家互相配合才能順利完成。",
+    "example_pinyin": "zhè cì huó dòng xū yào dà jiā hù xiāng pèi hé cái néng shùn lì wán chéng。",
+    "example_vietnamese": "Hoạt động lần này cần mọi người phối hợp với nhau mới có thể hoàn thành suôn sẻ."
+  },
+  {
+    "id": 844,
+    "example_hanzi": "小心一點，別碰到桌上的花瓶。",
+    "example_pinyin": "xiǎo xīn yì diǎn， bié pèng dào zhuō shàng de huā píng。",
+    "example_vietnamese": "Cẩn thận một chút, đừng chạm vào bình hoa trên bàn."
+  },
+  {
+    "id": 845,
+    "example_hanzi": "我在路上碰到了一個好久不見的老朋友。",
+    "example_pinyin": "wǒ zài lù shàng pèng dào le yí gè hǎo jiǔ bú jiàn de lǎo péng you。",
+    "example_vietnamese": "Trên đường tôi tình cờ gặp một người bạn cũ đã lâu không gặp."
+  },
+  {
+    "id": 846,
+    "example_hanzi": "我們出門的時候剛好碰上下大雨。",
+    "example_pinyin": "wǒ men chū mén de shí hou gāng hǎo pèng shàng xià dà yǔ。",
+    "example_vietnamese": "Lúc chúng tôi ra ngoài thì vừa đúng lúc gặp phải trời mưa to."
+  },
+  {
+    "id": 847,
+    "example_hanzi": "老闆在會議上批評了這次企劃案的內容。",
+    "example_pinyin": "lǎo bǎn zài huì yì shàng pī píng le zhè cì qǐ huà àn de nèi róng。",
+    "example_vietnamese": "Ông chủ đã phê bình nội dung của kế hoạch lần này trong cuộc họp."
+  },
+  {
+    "id": 848,
+    "example_hanzi": "這種蘋果的皮很薄，可以直接吃。",
+    "example_pinyin": "zhè zhǒng píng guǒ de pí hěn báo， kě yǐ zhí jiē chī。",
+    "example_vietnamese": "Vỏ của loại táo này rất mỏng, có thể ăn trực tiếp."
+  },
+  {
+    "id": 849,
+    "example_hanzi": "他繫了一條黑色的皮帶配這套西裝。",
+    "example_pinyin": "tā jì le yì tiáo hēi sè de pí dài pèi zhè tào xī zhuāng。",
+    "example_vietnamese": "Anh ấy thắt một chiếc dây lưng màu đen để phối với bộ vest này."
+  },
+  {
+    "id": 850,
+    "example_hanzi": "夏天要多擦防曬乳，保護皮膚。",
+    "example_pinyin": "xià tiān yào duō cā fáng shài rǔ， bǎo hù pí fū。",
+    "example_vietnamese": "Vào mùa hè nên thoa kem chống nắng thường xuyên để bảo vệ da."
+  },
+  {
+    "id": 851,
+    "example_hanzi": "他每天上班都穿著一雙黑色的皮鞋。",
+    "example_pinyin": "tā měi tiān shàng bān dōu chuān zhe yì shuāng hēi sè de pí xié。",
+    "example_vietnamese": "Ngày nào đi làm anh ấy cũng mang một đôi giày da màu đen."
+  },
+  {
+    "id": 852,
+    "example_hanzi": "老師這週要我們寫一篇作文。",
+    "example_pinyin": "lǎo shī zhè zhōu yào wǒ men xiě yì piān zuò wén。",
+    "example_vietnamese": "Tuần này thầy giáo yêu cầu chúng tôi viết một bài văn."
+  },
+  {
+    "id": 853,
+    "example_hanzi": "他被一個假裝銀行職員的騙子騙走了不少錢。",
+    "example_pinyin": "tā bèi yí gè jiǎ zhuāng yín háng zhí yuán de piàn zi piàn zǒu le bù shǎo qián。",
+    "example_vietnamese": "Anh ấy đã bị một tên lừa đảo giả danh nhân viên ngân hàng lừa mất không ít tiền."
+  },
+  {
+    "id": 854,
+    "example_hanzi": "這家工廠生產的產品品質一向很穩定。",
+    "example_pinyin": "zhè jiā gōng chǎng shēng chǎn de chǎn pǐn pǐn zhí yí xiàng hěn wěn dìng。",
+    "example_vietnamese": "Chất lượng sản phẩm do nhà máy này sản xuất luôn ổn định."
+  },
+  {
+    "id": 855,
+    "example_hanzi": "這間套房大約有八坪大。",
+    "example_pinyin": "zhè jiān tào fáng dà yuē yǒu bā píng dà。",
+    "example_vietnamese": "Căn phòng trọ này rộng khoảng tám bình (đơn vị diện tích Đài Loan)."
+  },
+  {
+    "id": 856,
+    "example_hanzi": "這條路修得又平又直，開車很舒服。",
+    "example_pinyin": "zhè tiáo lù xiū de yòu píng yòu zhí， kāi chē hěn shū fu。",
+    "example_vietnamese": "Con đường này được sửa vừa bằng phẳng vừa thẳng, lái xe rất thoải mái."
+  },
+  {
+    "id": 857,
+    "example_hanzi": "祝你旅途平安，早日回來。",
+    "example_pinyin": "zhù nǐ lǚ tú píng ān， zǎo rì huí lái。",
+    "example_vietnamese": "Chúc bạn đi đường bình an, sớm ngày trở về."
+  },
+  {
+    "id": 858,
+    "example_hanzi": "法律面前，人人平等。",
+    "example_pinyin": "fǎ lǜ miàn qián， rén rén píng děng。",
+    "example_vietnamese": "Trước pháp luật, mọi người đều bình đẳng."
+  },
+  {
+    "id": 859,
+    "example_hanzi": "平時他很少喝酒，只有過節才會喝一點。",
+    "example_pinyin": "píng shí tā hěn shǎo hē jiǔ， zhǐ yǒu guò jié cái huì hē yì diǎn。",
+    "example_vietnamese": "Bình thường anh ấy rất ít khi uống rượu, chỉ có dịp lễ mới uống một chút."
+  },
+  {
+    "id": 860,
+    "example_hanzi": "這片平原土地肥沃，非常適合種稻米。",
+    "example_pinyin": "zhè piàn píng yuán tǔ dì féi wò， fēi cháng shì hé zhòng dào mǐ。",
+    "example_vietnamese": "Vùng đồng bằng này đất đai màu mỡ, rất thích hợp để trồng lúa."
+  },
+  {
+    "id": 861,
+    "example_hanzi": "這個瓶子裝滿了他從海邊撿回來的貝殼。",
+    "example_pinyin": "zhè ge píng zi zhuāng mǎn le tā cóng hǎi biān jiǎn huí lái de bèi ké。",
+    "example_vietnamese": "Chiếc bình này đựng đầy vỏ sò mà anh ấy nhặt được từ bờ biển."
+  },
+  {
+    "id": 862,
+    "example_hanzi": "他不小心把碗打破了。",
+    "example_pinyin": "tā bù xiǎo xīn bǎ wǎn dǎ pò le。",
+    "example_vietnamese": "Anh ấy vô ý làm vỡ cái bát."
+  },
+  {
+    "id": 863,
+    "example_hanzi": "亂丟垃圾會破壞環境的美觀。",
+    "example_pinyin": "luàn diū lā jī huì pò huài huán jìng de měi guān。",
+    "example_vietnamese": "Xả rác bừa bãi sẽ phá hoại vẻ đẹp của môi trường."
+  },
+  {
+    "id": 864,
+    "example_hanzi": "這串葡萄又甜又新鮮。",
+    "example_pinyin": "zhè chuàn pú tao yòu tián yòu xīn xiān。",
+    "example_vietnamese": "Chùm nho này vừa ngọt vừa tươi."
+  },
+  {
+    "id": 865,
+    "example_hanzi": "現在使用手機付款已經非常普遍了。",
+    "example_pinyin": "xiàn zài shǐ yòng shǒu jī fù kuǎn yǐ jīng fēi cháng pǔ biàn le。",
+    "example_vietnamese": "Hiện nay việc thanh toán bằng điện thoại di động đã rất phổ biến."
+  },
+  {
+    "id": 867,
+    "example_hanzi": "老師發現有同學在欺負轉學生，馬上出面制止。",
+    "example_pinyin": "lǎo shī fā xiàn yǒu tóng xué zài qī fù zhuǎn xué shēng， mǎ shàng chū miàn zhì zhǐ。",
+    "example_vietnamese": "Thầy giáo phát hiện có bạn học đang bắt nạt học sinh chuyển trường liền ra can ngăn ngay."
+  },
+  {
+    "id": 868,
+    "example_hanzi": "首先要感謝大家的幫忙，其次是感謝主辦單位的用心。",
+    "example_pinyin": "shǒu xiān yào gǎn xiè dà jiā de bāng máng， qí cì shì gǎn xiè zhǔ bàn dān wèi de yòng xīn。",
+    "example_vietnamese": "Trước tiên xin cảm ơn sự giúp đỡ của mọi người, tiếp theo là cảm ơn sự tận tâm của ban tổ chức."
+  },
+  {
+    "id": 869,
+    "example_hanzi": "他看起來很嚴肅，其實個性非常溫柔。",
+    "example_pinyin": "tā kàn qǐ lái hěn yán sù， qí shí gè xìng fēi cháng wēn róu。",
+    "example_vietnamese": "Anh ấy trông có vẻ nghiêm túc, nhưng thực ra tính cách rất dịu dàng."
+  },
+  {
+    "id": 870,
+    "example_hanzi": "這班有三十個學生，其中十個是外國人。",
+    "example_pinyin": "zhè bān yǒu sān shí gè xué sheng， qí zhōng shí gè shì wài guó rén。",
+    "example_vietnamese": "Lớp này có ba mươi học sinh, trong đó mười người là người nước ngoài."
+  },
+  {
+    "id": 871,
+    "example_hanzi": "這本雜誌每個月出版一期。",
+    "example_pinyin": "zhè běn zá zhì měi gè yuè chū bǎn yì qí。",
+    "example_vietnamese": "Tạp chí này mỗi tháng xuất bản một kỳ."
+  },
+  {
+    "id": 872,
+    "example_hanzi": "放假期間，公司大門會暫時關閉。",
+    "example_pinyin": "fàng jià qí jiān， gōng sī dà mén huì zàn shí guān bì。",
+    "example_vietnamese": "Trong thời gian nghỉ lễ, cổng chính công ty sẽ tạm thời đóng cửa."
+  },
+  {
+    "id": 873,
+    "example_hanzi": "從明天起，這條路將開始施工。",
+    "example_pinyin": "cóng míng tiān qǐ， zhè tiáo lù jiāng kāi shǐ shī gōng。",
+    "example_vietnamese": "Từ ngày mai trở đi, con đường này sẽ bắt đầu thi công."
+  },
+  {
+    "id": 874,
+    "example_hanzi": "他一早就起床，去公園運動。",
+    "example_pinyin": "tā yì zǎo jiù qǐ chuáng， qù gōng yuán yùn dòng。",
+    "example_vietnamese": "Anh ấy dậy từ sáng sớm rồi đi công viên tập thể dục."
+  },
+  {
+    "id": 875,
+    "example_hanzi": "這件事說起來簡單，做起來卻很難。",
+    "example_pinyin": "zhè jiàn shì shuō qǐ lái jiǎn dān， zuò qǐ lái què hěn nán。",
+    "example_vietnamese": "Việc này nói thì nghe đơn giản, nhưng làm thì lại rất khó."
+  },
+  {
+    "id": 876,
+    "example_hanzi": "山上的空氣特別新鮮。",
+    "example_pinyin": "shān shàng de kōng qì tè bié xīn xiān。",
+    "example_vietnamese": "Không khí trên núi đặc biệt trong lành."
+  },
+  {
+    "id": 877,
+    "example_hanzi": "他被弟弟的話氣得說不出話來。",
+    "example_pinyin": "tā bèi dì di de huà qì de shuō bù chū huà lái。",
+    "example_vietnamese": "Anh ấy bị lời nói của em trai làm cho tức đến không nói nên lời."
+  },
+  {
+    "id": 878,
+    "example_hanzi": "這幾天氣溫下降了不少，記得多穿一點。",
+    "example_pinyin": "zhè jǐ tiān qì wēn xià jiàng le bù shǎo， jì de duō chuān yì diǎn。",
+    "example_vietnamese": "Mấy ngày nay nhiệt độ giảm khá nhiều, nhớ mặc thêm áo ấm."
+  },
+  {
+    "id": 879,
+    "example_hanzi": "天氣這麼熱，來一杯冰汽水最舒服了。",
+    "example_pinyin": "tiān qì zhè me rè， lái yì bēi bīng qì shuǐ zuì shū fu le。",
+    "example_vietnamese": "Trời nóng thế này, uống một ly nước có ga đá lạnh là thoải mái nhất."
+  },
+  {
+    "id": 880,
+    "example_hanzi": "這家企業每年都會招募不少新員工。",
+    "example_pinyin": "zhè jiā qǐ yè měi nián dōu huì zhāo mù bù shǎo xīn yuán gōng。",
+    "example_vietnamese": "Doanh nghiệp này mỗi năm đều tuyển dụng không ít nhân viên mới."
+  },
+  {
+    "id": 881,
+    "example_hanzi": "請在這份合約的最後簽名。",
+    "example_pinyin": "qǐng zài zhè fèn hé yuē de zuì hòu qiān míng。",
+    "example_vietnamese": "Xin vui lòng ký tên vào cuối bản hợp đồng này."
+  },
+  {
+    "id": 882,
+    "example_hanzi": "去美國旅遊之前，我需要先申請簽證。",
+    "example_pinyin": "qù měi guó lǚ yóu zhī qián， wǒ xū yào xiān shēn qǐng qiān zhèng。",
+    "example_vietnamese": "Trước khi đi du lịch Mỹ, tôi cần xin visa trước."
+  },
+  {
+    "id": 883,
+    "example_hanzi": "雖然成績優秀，他還是非常謙虛。",
+    "example_pinyin": "suī rán chéng jī yōu xiù， tā hái shi fēi cháng qiān xū。",
+    "example_vietnamese": "Mặc dù thành tích xuất sắc, anh ấy vẫn rất khiêm tốn."
+  },
+  {
+    "id": 884,
+    "example_hanzi": "前三名的選手可以獲得獎金。",
+    "example_pinyin": "qián sān míng de xuǎn shǒu kě yǐ huò dé jiǎng jīn。",
+    "example_vietnamese": "Ba thí sinh đứng đầu sẽ nhận được tiền thưởng."
+  },
+  {
+    "id": 885,
+    "example_hanzi": "車站前有很多賣小吃的攤販。",
+    "example_pinyin": "chē zhàn qián yǒu hěn duō mài xiǎo chī de tān fàn。",
+    "example_vietnamese": "Phía trước nhà ga có rất nhiều quầy hàng bán đồ ăn vặt."
+  },
+  {
+    "id": 886,
+    "example_hanzi": "我們前年去日本旅行過一次。",
+    "example_pinyin": "wǒ men qián nián qù rì běn lǚ xíng guò yí cì。",
+    "example_vietnamese": "Năm kia chúng tôi đã đi du lịch Nhật Bản một lần."
+  },
+  {
+    "id": 887,
+    "example_hanzi": "這條河很淺，小孩子也可以安全地玩水。",
+    "example_pinyin": "zhè tiáo hé hěn qiǎn， xiǎo hái zi yě kě yǐ ān quán de wán shuǐ。",
+    "example_vietnamese": "Con sông này rất cạn, trẻ con cũng có thể chơi nước an toàn."
+  },
+  {
+    "id": 888,
+    "example_hanzi": "警察昨晚抓到了搶劫銀行的強盜。",
+    "example_pinyin": "jǐng chá zuó wǎn zhuā dào le qiǎng jié yín háng de qiáng dào。",
+    "example_vietnamese": "Tối qua cảnh sát đã bắt được tên cướp cướp ngân hàng."
+  },
+  {
+    "id": 889,
+    "example_hanzi": "老師一再強調考試前要複習重點。",
+    "example_pinyin": "lǎo shī yí zài qiáng diào kǎo shì qián yào fù xí zhòng diǎn。",
+    "example_vietnamese": "Thầy giáo liên tục nhấn mạnh trước khi thi phải ôn lại những điểm quan trọng."
+  },
+  {
+    "id": 890,
+    "example_hanzi": "小偷搶了她的皮包就跑了。",
+    "example_pinyin": "xiǎo tōu qiǎng le tā de pí bāo jiù pǎo le。",
+    "example_vietnamese": "Tên trộm giật lấy túi xách của cô ấy rồi bỏ chạy."
+  },
+  {
+    "id": 891,
+    "example_hanzi": "媽媽親了親寶寶的臉頰。",
+    "example_pinyin": "mā ma qīn le qīn bǎo bao de liǎn jiá。",
+    "example_vietnamese": "Mẹ hôn hôn lên má của em bé."
+  },
+  {
+    "id": 892,
+    "example_hanzi": "這裡的服務人員都非常親切。",
+    "example_pinyin": "zhè lǐ de fú wù rén yuán dōu fēi cháng qīn qiè。",
+    "example_vietnamese": "Nhân viên phục vụ ở đây đều rất thân thiện."
+  },
+  {
+    "id": 893,
+    "example_hanzi": "這件毛衣是奶奶親手織的。",
+    "example_pinyin": "zhè jiàn máo yī shì nǎi nai qīn shǒu zhī de。",
+    "example_vietnamese": "Chiếc áo len này là do bà tự tay đan."
+  },
+  {
+    "id": 894,
+    "example_hanzi": "我親眼看到那場車禍發生的經過。",
+    "example_pinyin": "wǒ qīn yǎn kàn dào nà chǎng chē huò fā shēng de jīng guò。",
+    "example_vietnamese": "Tôi đã tận mắt chứng kiến toàn bộ quá trình xảy ra vụ tai nạn đó."
+  },
+  {
+    "id": 895,
+    "example_hanzi": "校長親自到機場迎接來訪的貴賓。",
+    "example_pinyin": "xiào zhǎng qīn zì dào jī chǎng yíng jiē lái fǎng de guì bīn。",
+    "example_vietnamese": "Hiệu trưởng đích thân ra sân bay đón vị khách quý đến thăm."
+  },
+  {
+    "id": 896,
+    "example_hanzi": "這條溪水清得可以看到水底的石頭。",
+    "example_pinyin": "zhè tiáo xī shuǐ qīng de kě yǐ kàn dào shuǐ dǐ de shí tou。",
+    "example_vietnamese": "Dòng suối này trong đến mức có thể nhìn thấy đá dưới đáy nước."
+  },
+  {
+    "id": 897,
+    "example_hanzi": "這場活動主要是為了鼓勵年輕的青年創業。",
+    "example_pinyin": "zhè chǎng huó dòng zhǔ yào shì wèi le gǔ lì nián qīng de qīng nián chuàng yè。",
+    "example_vietnamese": "Hoạt động này chủ yếu nhằm khuyến khích thanh niên trẻ khởi nghiệp."
+  },
+  {
+    "id": 898,
+    "example_hanzi": "這部電影特別受到青少年的喜愛。",
+    "example_pinyin": "zhè bù diàn yǐng tè bié shòu dào qīng shào nián de xǐ ài。",
+    "example_vietnamese": "Bộ phim này đặc biệt được thanh thiếu niên yêu thích."
+  },
+  {
+    "id": 899,
+    "example_hanzi": "考完試以後，他終於覺得輕鬆多了。",
+    "example_pinyin": "kǎo wán shì yǐ hòu， tā zhōng yú jué de qīng sōng duō le。",
+    "example_vietnamese": "Sau khi thi xong, cuối cùng anh ấy cũng cảm thấy nhẹ nhõm hơn nhiều."
+  },
+  {
+    "id": 900,
+    "example_hanzi": "今天天氣很晴朗，很適合出去踏青。",
+    "example_pinyin": "jīn tiān tiān qì hěn qíng lǎng， hěn shì hé chū qù tà qīng。",
+    "example_vietnamese": "Hôm nay trời rất quang đãng, rất thích hợp để đi dạo ngoài trời."
+  },
+  {
+    "id": 901,
+    "example_hanzi": "他們兩個人之間的情，早就超過了普通朋友。",
+    "example_pinyin": "tā men liǎng gè rén zhī jiān de qíng， zǎo jiù chāo guò le pǔ tōng péng you。",
+    "example_vietnamese": "Tình cảm giữa hai người họ đã sớm vượt qua ranh giới bạn bè bình thường."
+  },
+  {
+    "id": 902,
+    "example_hanzi": "二月十四號是全世界情人的節日。",
+    "example_pinyin": "èr yuè shí sì hào shì quán shì jiè qíng rén de jié rì。",
+    "example_vietnamese": "Ngày 14 tháng 2 là ngày lễ của các đôi tình nhân trên toàn thế giới."
+  },
+  {
+    "id": 903,
+    "example_hanzi": "如果遇到緊急情況，請立刻打電話給我。",
+    "example_pinyin": "rú guǒ yù dào jǐn jí qíng kuàng， qǐng lì kè dǎ diàn huà gěi wǒ。",
+    "example_vietnamese": "Nếu gặp phải tình huống khẩn cấp, hãy gọi điện cho tôi ngay lập tức."
+  },
+  {
+    "id": 904,
+    "example_hanzi": "老師仔細說明了目前班上的學習情形。",
+    "example_pinyin": "lǎo shī zǐ xì shuō míng le mù qián bān shàng de xué xí qíng xíng。",
+    "example_vietnamese": "Thầy giáo giải thích chi tiết về tình hình học tập hiện tại của lớp."
+  },
+  {
+    "id": 905,
+    "example_hanzi": "我想請教您一個關於文法的問題。",
+    "example_pinyin": "wǒ xiǎng qǐng jiào nín yí gè guān yú wén fǎ de wèn tí。",
+    "example_vietnamese": "Tôi muốn xin thầy chỉ bảo cho một vấn đề về ngữ pháp."
+  },
+  {
+    "id": 906,
+    "example_hanzi": "他向老闆請求多放一天假。",
+    "example_pinyin": "tā xiàng lǎo bǎn qǐng qiú duō fàng yì tiān jià。",
+    "example_vietnamese": "Anh ấy đề nghị ông chủ cho nghỉ thêm một ngày."
+  },
+  {
+    "id": 907,
+    "example_hanzi": "他小時候家裡很窮，但一直很努力讀書。",
+    "example_pinyin": "tā xiǎo shí hou jiā lǐ hěn qióng， dàn yì zhí hěn nǔ lì dú shū。",
+    "example_vietnamese": "Hồi nhỏ nhà anh ấy rất nghèo, nhưng luôn chăm chỉ học hành."
+  },
+  {
+    "id": 908,
+    "example_hanzi": "他跪下來求媽媽原諒他的錯誤。",
+    "example_pinyin": "tā guì xià lái qiú mā ma yuán liàng tā de cuò wù。",
+    "example_vietnamese": "Anh ấy quỳ xuống cầu xin mẹ tha thứ cho lỗi lầm của mình."
+  },
+  {
+    "id": 909,
+    "example_hanzi": "弟弟最喜歡的運動是踢球。",
+    "example_pinyin": "dì di zuì xǐ huan de yùn dòng shì tī qiú。",
+    "example_vietnamese": "Môn thể thao mà em trai thích nhất là đá bóng."
+  },
+  {
+    "id": 910,
+    "example_hanzi": "每到週末，球場上總是擠滿了人。",
+    "example_pinyin": "měi dào zhōu mò， qiú chǎng shàng zǒng shì jǐ mǎn le rén。",
+    "example_vietnamese": "Cứ đến cuối tuần là sân bóng lại đông nghịt người."
+  },
+  {
+    "id": 911,
+    "example_hanzi": "昨天晚上的球賽真是精彩極了。",
+    "example_pinyin": "zuó tiān wǎn shang de qiú sài zhēn shì jīng cǎi jí le。",
+    "example_vietnamese": "Trận đấu bóng tối qua thật sự vô cùng hấp dẫn."
+  },
+  {
+    "id": 912,
+    "example_hanzi": "那位球員今天一連進了三顆球。",
+    "example_pinyin": "nà wèi qiú yuán jīn tiān yì lián jìn le sān kē qiú。",
+    "example_vietnamese": "Cầu thủ đó hôm nay liên tiếp ghi được ba bàn thắng."
+  },
+  {
+    "id": 913,
+    "example_hanzi": "人工智慧可能會取代部分傳統工作。",
+    "example_pinyin": "rén gōng zhì huì kě néng huì qǔ dài bù fen chuán tǒng gōng zuò。",
+    "example_vietnamese": "Trí tuệ nhân tạo có thể sẽ thay thế một số công việc truyền thống."
+  },
+  {
+    "id": 914,
+    "example_hanzi": "他把垃圾拿出去丟了。",
+    "example_pinyin": "tā bǎ lā jī ná chū qu diū le。",
+    "example_vietnamese": "Anh ấy mang rác ra ngoài vứt rồi."
+  },
+  {
+    "id": 915,
+    "example_hanzi": "去年冬天特別冷。",
+    "example_pinyin": "qù nián dōng tiān tè bié lěng。",
+    "example_vietnamese": "Mùa đông năm ngoái đặc biệt lạnh."
+  },
+  {
+    "id": 916,
+    "example_hanzi": "他的爺爺去年因病去世了。",
+    "example_pinyin": "tā de yé ye qù nián yīn bìng qù shì le。",
+    "example_vietnamese": "Ông nội anh ấy năm ngoái đã qua đời vì bệnh."
+  },
+  {
+    "id": 917,
+    "example_hanzi": "全班同學都通過了這次考試。",
+    "example_pinyin": "quán bān tóng xué dōu tōng guò le zhè cì kǎo shì。",
+    "example_vietnamese": "Toàn bộ học sinh trong lớp đều đã vượt qua kỳ thi lần này."
+  },
+  {
+    "id": 918,
+    "example_hanzi": "這種病毒短短幾個月就傳到了全球各地。",
+    "example_pinyin": "zhè zhǒng bìng dú duǎn duǎn jǐ gè yuè jiù chuán dào le quán qiú gè dì。",
+    "example_vietnamese": "Loại virus này chỉ trong vài tháng ngắn ngủi đã lan ra khắp toàn cầu."
+  },
+  {
+    "id": 919,
+    "example_hanzi": "跑完馬拉松以後，他全身都痠痛得不得了。",
+    "example_pinyin": "pǎo wán mǎ lā sōng yǐ hòu， tā quán shēn dōu suān tòng de bù dé liǎo。",
+    "example_vietnamese": "Sau khi chạy xong marathon, toàn thân anh ấy đau nhức không chịu nổi."
+  },
+  {
+    "id": 920,
+    "example_hanzi": "每個人都有優點跟缺點。",
+    "example_pinyin": "měi gè rén dōu yǒu yōu diǎn gēn quē diǎn。",
+    "example_vietnamese": "Mỗi người đều có ưu điểm và khuyết điểm."
+  },
+  {
+    "id": 921,
+    "example_hanzi": "他明明很累，卻還是堅持把工作做完。",
+    "example_pinyin": "tā míng míng hěn lèi， què hái shi jiān chí bǎ gōng zuò zuò wán。",
+    "example_vietnamese": "Rõ ràng anh ấy rất mệt, nhưng vẫn kiên trì hoàn thành công việc."
+  },
+  {
+    "id": 922,
+    "example_hanzi": "你確定明天有空一起去看電影嗎？",
+    "example_pinyin": "nǐ què dìng míng tiān yǒu kòng yì qǐ qù kàn diàn yǐng ma？",
+    "example_vietnamese": "Bạn có chắc chắn ngày mai rảnh để cùng đi xem phim không?"
+  },
+  {
+    "id": 923,
+    "example_hanzi": "出發前請再確認一次機票和護照。",
+    "example_pinyin": "chū fā qián qǐng zài què rèn yí cì jī piào hàn hù zhào。",
+    "example_vietnamese": "Trước khi khởi hành hãy xác nhận lại vé máy bay và hộ chiếu một lần nữa."
+  },
+  {
+    "id": 925,
+    "example_hanzi": "公車上，他主動讓座給一位老太太。",
+    "example_pinyin": "gōng chē shàng， tā zhǔ dòng ràng zuò gěi yí wèi lǎo tài tai。",
+    "example_vietnamese": "Trên xe buýt, anh ấy chủ động nhường ghế cho một bà cụ."
+  },
+  {
+    "id": 926,
+    "example_hanzi": "棒球場外常常有攤販在賣熱狗。",
+    "example_pinyin": "bàng qiú chǎng wài cháng cháng yǒu tān fàn zài mài rè gǒu。",
+    "example_vietnamese": "Bên ngoài sân bóng chày thường có quầy hàng bán bánh hotdog."
+  },
+  {
+    "id": 927,
+    "example_hanzi": "這台機器隨時都有熱水可以泡茶。",
+    "example_pinyin": "zhè tái jī qì suí shí dōu yǒu rè shuǐ kě yǐ pào chá。",
+    "example_vietnamese": "Chiếc máy này lúc nào cũng có nước nóng để pha trà."
+  },
+  {
+    "id": 928,
+    "example_hanzi": "人家已經跟你說了好幾次，你怎麼還不懂？",
+    "example_pinyin": "rén jiā yǐ jīng gēn nǐ shuō le hǎo jǐ cì， nǐ zěn me hái bù dǒng？",
+    "example_vietnamese": "Người ta đã nói với bạn bao nhiêu lần rồi, sao bạn vẫn chưa hiểu vậy?"
+  },
+  {
+    "id": 929,
+    "example_hanzi": "這裡的風景美得就像人間仙境。",
+    "example_pinyin": "zhè lǐ de fēng jǐng měi de jiù xiàng rén jiān xiān jìng。",
+    "example_vietnamese": "Phong cảnh nơi đây đẹp như chốn tiên cảnh giữa nhân gian."
+  },
+  {
+    "id": 930,
+    "example_hanzi": "這個城市的人口這幾年增加得很快。",
+    "example_pinyin": "zhè ge chéng shì de rén kǒu zhè jǐ nián zēng jiā de hěn kuài。",
+    "example_vietnamese": "Dân số thành phố này mấy năm gần đây tăng rất nhanh."
+  },
+  {
+    "id": 931,
+    "example_hanzi": "環境污染已經嚴重威脅到人類的健康。",
+    "example_pinyin": "huán jìng wū rǎn yǐ jīng yán zhòng wēi xié dào rén lèi de jiàn kāng。",
+    "example_vietnamese": "Ô nhiễm môi trường đã đe dọa nghiêm trọng đến sức khỏe của loài người."
+  },
+  {
+    "id": 932,
+    "example_hanzi": "節慶期間，人們都會回到家鄉和家人團聚。",
+    "example_pinyin": "jié qìng qī jiān， rén men dōu huì huí dào jiā xiāng hàn jiā rén tuán jù。",
+    "example_vietnamese": "Vào dịp lễ hội, mọi người đều trở về quê hương đoàn tụ cùng gia đình."
+  },
+  {
+    "id": 933,
+    "example_hanzi": "政府的政策應該以人民的利益為優先。",
+    "example_pinyin": "zhèng fǔ de zhèng cè yīng gāi yǐ rén mín de lì yì wéi yōu xiān。",
+    "example_vietnamese": "Chính sách của chính phủ nên lấy lợi ích của nhân dân làm ưu tiên hàng đầu."
+  },
+  {
+    "id": 934,
+    "example_hanzi": "這件事人人都知道，早就不是秘密了。",
+    "example_pinyin": "zhè jiàn shì rén rén dōu zhī dào， zǎo jiù bú shì mì mì le。",
+    "example_vietnamese": "Chuyện này ai cũng biết cả rồi, sớm đã không còn là bí mật nữa."
+  },
+  {
+    "id": 935,
+    "example_hanzi": "這場演唱會的參加人數超過了五萬人。",
+    "example_pinyin": "zhè chǎng yǎn chàng huì de cān jiā rén shù chāo guò le wǔ wàn rén。",
+    "example_vietnamese": "Số người tham gia buổi hòa nhạc này vượt quá năm mươi nghìn người."
+  },
+  {
+    "id": 936,
+    "example_hanzi": "這本小說裡的每個人物都刻劃得很生動。",
+    "example_pinyin": "zhè běn xiǎo shuō lǐ de měi gè rén wù dōu kè huà de hěn shēng dòng。",
+    "example_vietnamese": "Mỗi nhân vật trong cuốn tiểu thuyết này đều được khắc họa rất sống động."
+  },
+  {
+    "id": 937,
+    "example_hanzi": "他痛得要命，還是忍著沒有哭出來。",
+    "example_pinyin": "tā tòng de yào mìng， hái shi rěn zhe méi yǒu kū chū lái。",
+    "example_vietnamese": "Anh ấy đau đến mức không chịu nổi nhưng vẫn nhẫn nhịn không khóc ra."
+  },
+  {
+    "id": 938,
+    "example_hanzi": "面對困難的時候，我們需要多一點忍耐。",
+    "example_pinyin": "miàn duì kùn nan de shí hou， wǒ men xū yào duō yì diǎn rěn nài。",
+    "example_vietnamese": "Khi đối mặt với khó khăn, chúng ta cần thêm một chút nhẫn nại."
+  },
+  {
+    "id": 939,
+    "example_hanzi": "他終於認了錯，向大家道歉。",
+    "example_pinyin": "tā zhōng yú rèn le cuò， xiàng dà jiā dào qiàn。",
+    "example_vietnamese": "Cuối cùng anh ấy đã nhận lỗi và xin lỗi mọi người."
+  },
+  {
+    "id": 940,
+    "example_hanzi": "好久不見，你還認得我嗎？",
+    "example_pinyin": "hǎo jiǔ bú jiàn， nǐ hái rèn de wǒ ma？",
+    "example_vietnamese": "Lâu rồi không gặp, bạn còn nhận ra tôi không?"
+  },
+  {
+    "id": 941,
+    "example_hanzi": "這次的任務非常艱鉅，需要大家一起努力。",
+    "example_pinyin": "zhè cì de rèn wù fēi cháng jiān jù， xū yào dà jiā yì qǐ nǔ lì。",
+    "example_vietnamese": "Nhiệm vụ lần này vô cùng gian nan, cần mọi người cùng nhau nỗ lực."
+  },
+  {
+    "id": 942,
+    "example_hanzi": "請不要隨便把垃圾扔在路邊。",
+    "example_pinyin": "qǐng bú yào suí biàn bǎ lā jī rēng zài lù biān。",
+    "example_vietnamese": "Xin đừng tùy tiện vứt rác bên đường."
+  },
+  {
+    "id": 943,
+    "example_hanzi": "雖然已經道歉了，她仍不肯原諒他。",
+    "example_pinyin": "suī rán yǐ jīng dào qiàn le， tā réng bù kěn yuán liàng tā。",
+    "example_vietnamese": "Mặc dù đã xin lỗi rồi, cô ấy vẫn không chịu tha thứ cho anh ấy."
+  },
+  {
+    "id": 944,
+    "example_hanzi": "過了這麼多年，他仍然記得那個夏天。",
+    "example_pinyin": "guò le zhè me duō nián， tā réng rán jì de nà ge xià tiān。",
+    "example_vietnamese": "Qua bao nhiêu năm rồi, anh ấy vẫn còn nhớ mùa hè năm đó."
+  },
+  {
+    "id": 945,
+    "example_hanzi": "我們一大早就爬到山頂去看日出。",
+    "example_pinyin": "wǒ men yí dà zǎo jiù pá dào shān dǐng qù kàn rì chū。",
+    "example_vietnamese": "Chúng tôi leo lên đỉnh núi từ sáng sớm để ngắm mặt trời mọc."
+  },
+  {
+    "id": 946,
+    "example_hanzi": "她每天晚上睡覺前都會寫日記。",
+    "example_pinyin": "tā měi tiān wǎn shang shuì jiào qián dōu huì xiě rì jì。",
+    "example_vietnamese": "Tối nào trước khi ngủ cô ấy cũng viết nhật ký."
+  },
+  {
+    "id": 947,
+    "example_hanzi": "這幾年的日子過得平平淡淡，卻很幸福。",
+    "example_pinyin": "zhè jǐ nián de rì zi guò de píng píng dàn dàn， què hěn xìng fú。",
+    "example_vietnamese": "Những năm gần đây cuộc sống trôi qua bình dị nhưng lại rất hạnh phúc."
+  },
+  {
+    "id": 948,
+    "example_hanzi": "如你所說，這件事確實不太容易解決。",
+    "example_pinyin": "rú nǐ suǒ shuō， zhè jiàn shì què shí bú tài róng yì jiě jué。",
+    "example_vietnamese": "Đúng như bạn nói, việc này thực sự không dễ giải quyết."
+  },
+  {
+    "id": 949,
+    "example_hanzi": "沒想到事情會演變成如此。",
+    "example_pinyin": "méi xiǎng dào shì qing huì yǎn biàn chéng rú cǐ。",
+    "example_vietnamese": "Không ngờ sự việc lại diễn biến thành ra như vậy."
+  },
+  {
+    "id": 950,
+    "example_hanzi": "這次會議的內容整理如下。",
+    "example_pinyin": "zhè cì huì yì de nèi róng zhěng lǐ rú xià。",
+    "example_vietnamese": "Nội dung cuộc họp lần này được tổng hợp như sau."
+  },
+  {
+    "id": 951,
+    "example_hanzi": "祝你新年快樂，事事如意。",
+    "example_pinyin": "zhù nǐ xīn nián kuài lè， shì shì rú yì。",
+    "example_vietnamese": "Chúc bạn năm mới vui vẻ, mọi việc như ý."
+  },
+  {
+    "id": 952,
+    "example_hanzi": "他生病以後，身體變得很虛弱。",
+    "example_pinyin": "tā shēng bìng yǐ hòu， shēn tǐ biàn de hěn xū ruò。",
+    "example_vietnamese": "Sau khi bị bệnh, cơ thể anh ấy trở nên rất yếu ớt."
+  },
+  {
+    "id": 954,
+    "example_hanzi": "出門前記得帶把傘，今天可能會下雨。",
+    "example_pinyin": "chū mén qián jì de dài bǎ sǎn， jīn tiān kě néng huì xià yǔ。",
+    "example_vietnamese": "Trước khi ra ngoài nhớ mang theo ô, hôm nay có thể sẽ mưa."
+  },
+  {
+    "id": 955,
+    "example_hanzi": "這部電影描述一名警察追查殺人犯的過程。",
+    "example_pinyin": "zhè bù diàn yǐng miáo shù yì míng jǐng chá zhuī chá shā rén fàn de guò chéng。",
+    "example_vietnamese": "Bộ phim này kể về quá trình một cảnh sát truy tìm kẻ giết người."
+  },
+  {
+    "id": 956,
+    "example_hanzi": "媽媽把衣服拿到陽台上晒。",
+    "example_pinyin": "mā ma bǎ yī fu ná dào yáng tái shàng shài。",
+    "example_vietnamese": "Mẹ mang quần áo ra ban công phơi nắng."
+  },
+  {
+    "id": 957,
+    "example_hanzi": "這個山區的天氣變化非常快。",
+    "example_pinyin": "zhè ge shān qū de tiān qì biàn huà fēi cháng kuài。",
+    "example_vietnamese": "Thời tiết ở vùng núi này thay đổi rất nhanh."
+  },
+  {
+    "id": 958,
+    "example_hanzi": "你說的那些話，深深傷害了她的心。",
+    "example_pinyin": "nǐ shuō de nà xiē huà， shēn shēn shāng hài le tā de xīn。",
+    "example_vietnamese": "Những lời bạn nói đã làm tổn thương sâu sắc đến trái tim cô ấy."
+  },
+  {
+    "id": 959,
+    "example_hanzi": "這家超市的商品種類非常齊全。",
+    "example_pinyin": "zhè jiā chāo shì de shāng pǐn zhǒng lèi fēi cháng qí quán。",
+    "example_vietnamese": "Chủng loại hàng hóa của siêu thị này rất đầy đủ."
+  },
+  {
+    "id": 960,
+    "example_hanzi": "那位商人靠賣茶葉賺了不少錢。",
+    "example_pinyin": "nà wèi shāng rén kào mài chá yè zhuàn le bù shǎo qián。",
+    "example_vietnamese": "Vị thương nhân đó kiếm được không ít tiền nhờ bán trà."
+  },
+  {
+    "id": 961,
+    "example_hanzi": "這條街是全市最熱鬧的商業區。",
+    "example_pinyin": "zhè tiáo jiē shì quán shì zuì rè nao de shāng yè qū。",
+    "example_vietnamese": "Con phố này là khu thương mại náo nhiệt nhất thành phố."
+  },
+  {
+    "id": 962,
+    "example_hanzi": "上一堂課教的文法你都記得嗎？",
+    "example_pinyin": "shàng yì táng kè jiāo de wén fǎ nǐ dōu jì de ma？",
+    "example_vietnamese": "Ngữ pháp đã học trong tiết trước bạn còn nhớ hết không?"
+  },
+  {
+    "id": 963,
+    "example_hanzi": "桌子上放著一杯熱茶。",
+    "example_pinyin": "zhuō zi shàng fàng zhe yì bēi rè chá。",
+    "example_vietnamese": "Trên bàn đặt một tách trà nóng."
+  },
+  {
+    "id": 964,
+    "example_hanzi": "他因為貪小便宜而上當受騙。",
+    "example_pinyin": "tā yīn wèi tān xiǎo pián yi ér shàng dàng shòu piàn。",
+    "example_vietnamese": "Anh ấy vì ham lợi nhỏ mà bị mắc lừa."
+  },
+  {
+    "id": 965,
+    "example_hanzi": "有些人相信上帝會保佑他們。",
+    "example_pinyin": "yǒu xiē rén xiāng xìn shàng dì huì bǎo yòu tā men。",
+    "example_vietnamese": "Một số người tin rằng Thượng Đế sẽ phù hộ cho họ."
+  },
+  {
+    "id": 966,
+    "example_hanzi": "週末我常常和朋友一起上街逛逛。",
+    "example_pinyin": "zhōu mò wǒ cháng cháng hàn péng you yì qǐ shàng jiē guàng guang。",
+    "example_vietnamese": "Cuối tuần tôi thường cùng bạn bè ra phố dạo chơi."
+  },
+  {
+    "id": 967,
+    "example_hanzi": "他今天穿了一件白色的上衣。",
+    "example_pinyin": "tā jīn tiān chuān le yí jiàn bái sè de shàng yī。",
+    "example_vietnamese": "Hôm nay anh ấy mặc một chiếc áo màu trắng."
+  },
+  {
+    "id": 968,
+    "example_hanzi": "農夫在田裡燒稻草。",
+    "example_pinyin": "nóng fū zài tián lǐ shāo dào cǎo。",
+    "example_vietnamese": "Người nông dân đốt rơm rạ trên đồng."
+  },
+  {
+    "id": 969,
+    "example_hanzi": "你少說一句，別再刺激他了。",
+    "example_pinyin": "nǐ shǎo shuō yí jù， bié zài cì jī tā le。",
+    "example_vietnamese": "Bạn nói ít lại một câu đi, đừng kích động anh ấy nữa."
+  },
+  {
+    "id": 970,
+    "example_hanzi": "山上有很多不同種類的蛇。",
+    "example_pinyin": "shān shàng yǒu hěn duō bù tóng zhǒng lèi de shé。",
+    "example_vietnamese": "Trên núi có rất nhiều loài rắn khác nhau."
+  },
+  {
+    "id": 971,
+    "example_hanzi": "這間健身房的設備非常新，也很齊全。",
+    "example_pinyin": "zhè jiān jiàn shēn fáng de shè bèi fēi cháng xīn， yě hěn qí quán。",
+    "example_vietnamese": "Thiết bị của phòng tập gym này rất mới và cũng rất đầy đủ."
+  },
+  {
+    "id": 972,
+    "example_hanzi": "這棟大樓的設計得過國際大獎。",
+    "example_pinyin": "zhè dòng dà lóu de shè jì dé guò guó jì dà jiǎng。",
+    "example_vietnamese": "Bản thiết kế của tòa nhà này đã từng đoạt giải thưởng quốc tế lớn."
+  },
+  {
+    "id": 973,
+    "example_hanzi": "這位建築師設計了不少著名的建築物。",
+    "example_pinyin": "zhè wèi jiàn zhù shī shè jì le bù shǎo zhù míng de jiàn zhù wù。",
+    "example_vietnamese": "Kiến trúc sư này đã thiết kế không ít công trình nổi tiếng."
+  },
+  {
+    "id": 974,
+    "example_hanzi": "這個湖非常深，游泳的時候要特別小心。",
+    "example_pinyin": "zhè ge hú fēi cháng shēn， yóu yǒng de shí hou yào tè bié xiǎo xīn。",
+    "example_vietnamese": "Cái hồ này rất sâu, khi bơi phải đặc biệt cẩn thận."
+  },
+  {
+    "id": 975,
+    "example_hanzi": "這篇報導對這個議題做了非常深入的分析。",
+    "example_pinyin": "zhè piān bào dǎo duì zhè ge yì tí zuò le fēi cháng shēn rù de fēn xī。",
+    "example_vietnamese": "Bài báo cáo này đã phân tích rất sâu sắc về vấn đề này."
+  },
+  {
+    "id": 976,
+    "example_hanzi": "不管發生什麼事，我都會陪在你身邊。",
+    "example_pinyin": "bù guǎn fā shēng shén me shì， wǒ dōu huì péi zài nǐ shēn biān。",
+    "example_vietnamese": "Cho dù có chuyện gì xảy ra, tôi cũng sẽ luôn ở bên cạnh bạn."
+  },
+  {
+    "id": 977,
+    "example_hanzi": "他的身高有一百八十公分。",
+    "example_pinyin": "tā de shēn gāo yǒu yì bǎi bā shí gōng fēn。",
+    "example_vietnamese": "Chiều cao của anh ấy là một trăm tám mươi centimet."
+  },
+  {
+    "id": 978,
+    "example_hanzi": "我身上沒帶多少現金。",
+    "example_pinyin": "wǒ shēn shàng méi dài duō shǎo xiàn jīn。",
+    "example_vietnamese": "Trên người tôi không mang theo nhiều tiền mặt."
+  },
+  {
+    "id": 979,
+    "example_hanzi": "他忙到甚至連吃飯的時間都沒有。",
+    "example_pinyin": "tā máng dào shèn zhì lián chī fàn de shí jiān dōu méi yǒu。",
+    "example_vietnamese": "Anh ấy bận đến mức thậm chí không có cả thời gian ăn cơm."
+  },
+  {
+    "id": 980,
+    "example_hanzi": "他工作表現優秀，很快就升為經理。",
+    "example_pinyin": "tā gōng zuò biǎo xiàn yōu xiù， hěn kuài jiù shēng wéi jīng lǐ。",
+    "example_vietnamese": "Anh ấy làm việc xuất sắc nên nhanh chóng được thăng chức lên quản lý."
+  },
+  {
+    "id": 981,
+    "example_hanzi": "遠處傳來幾聲狗叫。",
+    "example_pinyin": "yuǎn chù chuán lái jǐ shēng gǒu jiào。",
+    "example_vietnamese": "Từ xa vọng lại vài tiếng chó sủa."
+  },
+  {
+    "id": 982,
+    "example_hanzi": "中文的聲調對很多外國學生來說是最難的部分。",
+    "example_pinyin": "zhōng wén de shēng diào duì hěn duō wài guó xué sheng lái shuō shì zuì nán de bù fen。",
+    "example_vietnamese": "Thanh điệu tiếng Trung là phần khó nhất đối với nhiều học sinh nước ngoài."
+  },
+  {
+    "id": 983,
+    "example_hanzi": "她昨天晚上在醫院生了一個女兒。",
+    "example_pinyin": "tā zuó tiān wǎn shang zài yī yuàn shēng le yí gè nǚ ér。",
+    "example_vietnamese": "Tối qua cô ấy đã sinh một bé gái ở bệnh viện."
+  },
+  {
+    "id": 984,
+    "example_hanzi": "這間工廠專門生產電動汽車的零件。",
+    "example_pinyin": "zhè jiān gōng chǎng zhuān mén shēng chǎn diàn dòng qì chē de líng jiàn。",
+    "example_vietnamese": "Nhà máy này chuyên sản xuất linh kiện cho xe hơi điện."
+  },
+  {
+    "id": 985,
+    "example_hanzi": "老師用生動的例子解釋了這個文法。",
+    "example_pinyin": "lǎo shī yòng shēng dòng de lì zi jiě shì le zhè ge wén fǎ。",
+    "example_vietnamese": "Thầy giáo đã dùng ví dụ sinh động để giải thích ngữ pháp này."
+  },
+  {
+    "id": 986,
+    "example_hanzi": "他一個人在國外生活了將近十年。",
+    "example_pinyin": "tā yí gè rén zài guó wài shēng huó le jiāng jìn shí nián。",
+    "example_vietnamese": "Anh ấy đã sống một mình ở nước ngoài gần mười năm."
+  },
+  {
+    "id": 987,
+    "example_hanzi": "每一個生命都值得被尊重。",
+    "example_pinyin": "měi yí gè shēng mìng dōu zhí de bèi zūn zhòng。",
+    "example_vietnamese": "Mỗi một sinh mệnh đều đáng được tôn trọng."
+  },
+  {
+    "id": 988,
+    "example_hanzi": "這家餐廳的生意一直很好。",
+    "example_pinyin": "zhè jiā cān tīng de shēng yì yì zhí hěn hǎo。",
+    "example_vietnamese": "Việc buôn bán của quán ăn này luôn rất tốt."
+  },
+  {
+    "id": 989,
+    "example_hanzi": "這一課有不少生字需要背。",
+    "example_pinyin": "zhè yí kè yǒu bù shǎo shēng zì xū yào bèi。",
+    "example_vietnamese": "Bài học này có không ít từ mới cần phải học thuộc."
+  },
+  {
+    "id": 990,
+    "example_hanzi": "犯了錯以後，他開始省思自己的行為。",
+    "example_pinyin": "fàn le cuò yǐ hòu， tā kāi shǐ shěng sī zì jǐ de xíng wéi。",
+    "example_vietnamese": "Sau khi phạm lỗi, anh ấy bắt đầu tự kiểm điểm hành vi của mình."
+  },
+  {
+    "id": 991,
+    "example_hanzi": "為了省錢，她決定自己帶便當上班。",
+    "example_pinyin": "wèi le shěng qián， tā jué dìng zì jǐ dài biàn dāng shàng bān。",
+    "example_vietnamese": "Để tiết kiệm tiền, cô ấy quyết định tự mang cơm hộp đi làm."
+  },
+  {
+    "id": 992,
+    "example_hanzi": "冰箱裡只剩三顆雞蛋了。",
+    "example_pinyin": "bīng xiāng lǐ zhǐ shèng sān kē jī dàn le。",
+    "example_vietnamese": "Trong tủ lạnh chỉ còn lại ba quả trứng."
+  },
+  {
+    "id": 993,
+    "example_hanzi": "蛋糕被大家吃完了，只剩下一小塊。",
+    "example_pinyin": "dàn gāo bèi dà jiā chī wán le， zhǐ shèng xia yì xiǎo kuài。",
+    "example_vietnamese": "Bánh kem bị mọi người ăn hết rồi, chỉ còn lại một miếng nhỏ."
+  },
+  {
+    "id": 994,
+    "example_hanzi": "外面下雨了，我的鞋子全濕了。",
+    "example_pinyin": "wài mian xià yǔ le， wǒ de xié zi quán shī le。",
+    "example_vietnamese": "Bên ngoài trời mưa, giày của tôi ướt hết cả rồi."
+  },
+  {
+    "id": 995,
+    "example_hanzi": "他失戀以後，整整一個星期都沒什麼精神。",
+    "example_pinyin": "tā shī liàn yǐ hòu， zhěng zhěng yí gè xīng qī dōu méi shén me jīng shen。",
+    "example_vietnamese": "Sau khi thất tình, cả tuần liền anh ấy không còn tinh thần gì cả."
+  },
+  {
+    "id": 996,
+    "example_hanzi": "這場意外讓他永遠失去了左腿。",
+    "example_pinyin": "zhè chǎng yì wài ràng tā yǒng yuǎn shī qù le zuǒ tuǐ。",
+    "example_vietnamese": "Vụ tai nạn này khiến anh ấy vĩnh viễn mất đi chân trái."
+  },
+  {
+    "id": 997,
+    "example_hanzi": "動物園裡的獅子正在悠閒地睡午覺。",
+    "example_pinyin": "dòng wù yuán lǐ de shī zi zhèng zài yōu xián de shuì wǔ jiào。",
+    "example_vietnamese": "Con sư tử trong sở thú đang ngủ trưa thư thái."
+  },
+  {
+    "id": 998,
+    "example_hanzi": "這次比賽的結果十分令人滿意。",
+    "example_pinyin": "zhè cì bǐ sài de jié guǒ shí fēn lìng rén mǎn yì。",
+    "example_vietnamese": "Kết quả cuộc thi lần này vô cùng khiến người ta hài lòng."
+  },
+  {
+    "id": 999,
+    "example_hanzi": "小男孩撿起一顆石頭丟進河裡。",
+    "example_pinyin": "xiǎo nán hái jiǎn qǐ yì kē shí tou diū jìn hé lǐ。",
+    "example_vietnamese": "Cậu bé nhặt một viên đá rồi ném xuống sông."
+  },
+  {
+    "id": 1000,
+    "example_hanzi": "這個國家的經濟主要依靠石油出口。",
+    "example_pinyin": "zhè ge guó jiā de jīng jì zhǔ yào yī kào shí yóu chū kǒu。",
+    "example_vietnamese": "Kinh tế của quốc gia này chủ yếu dựa vào xuất khẩu dầu mỏ."
+  },
+  {
+    "id": 1001,
+    "example_hanzi": "考試時，請把手機關機。",
+    "example_pinyin": "kǎo shì shí， qǐng bǎ shǒu jī guān jī。",
+    "example_vietnamese": "Khi thi, xin vui lòng tắt điện thoại di động."
+  },
+  {
+    "id": 1002,
+    "example_hanzi": "現在已經是網路時代了。",
+    "example_pinyin": "xiàn zài yǐ jīng shì wǎng lù shí dài le。",
+    "example_vietnamese": "Hiện nay đã là thời đại internet rồi."
+  },
+  {
+    "id": 1003,
+    "example_hanzi": "那是我人生中最難忘的時刻。",
+    "example_pinyin": "nà shì wǒ rén shēng zhōng zuì nán wàng de shí kè。",
+    "example_vietnamese": "Đó là thời khắc khó quên nhất trong cuộc đời tôi."
+  },
+  {
+    "id": 1004,
+    "example_hanzi": "說實話，我一開始並不喜歡這份工作。",
+    "example_pinyin": "shuō shí huà， wǒ yì kāi shǐ bìng bù xǐ huan zhè fèn gōng zuò。",
+    "example_vietnamese": "Nói thật, ban đầu tôi không thích công việc này."
+  },
+  {
+    "id": 1005,
+    "example_hanzi": "這個計畫聽起來很好，但不太實際。",
+    "example_pinyin": "zhè ge jì huà tīng qǐ lái hěn hǎo， dàn bú tài shí jì。",
+    "example_vietnamese": "Kế hoạch này nghe có vẻ hay, nhưng không thực tế lắm."
+  },
+  {
+    "id": 1006,
+    "example_hanzi": "這支球隊的實力比去年強很多。",
+    "example_pinyin": "zhè zhī qiú duì de shí lì bǐ qù nián qiáng hěn duō。",
+    "example_vietnamese": "Thực lực của đội bóng này mạnh hơn nhiều so với năm ngoái."
+  },
+  {
+    "id": 1007,
+    "example_hanzi": "這項新政策將從下個月開始實行。",
+    "example_pinyin": "zhè xiàng xīn zhèng cè jiāng cóng xià ge yuè kāi shǐ shí xíng。",
+    "example_vietnamese": "Chính sách mới này sẽ bắt đầu được thi hành từ tháng sau."
+  },
+  {
+    "id": 1008,
+    "example_hanzi": "這道菜實在太好吃了。",
+    "example_pinyin": "zhè dào cài shí zài tài hǎo chī le。",
+    "example_vietnamese": "Món ăn này thực sự quá ngon."
+  },
+  {
+    "id": 1009,
+    "example_hanzi": "這次的失敗使得他更加努力練習。",
+    "example_pinyin": "zhè cì de shī bài shǐ de tā gèng jiā nǔ lì liàn xí。",
+    "example_vietnamese": "Thất bại lần này khiến anh ấy càng thêm nỗ lực luyện tập."
+  },
+  {
+    "id": 1010,
+    "example_hanzi": "上課的時候請不要使用手機。",
+    "example_pinyin": "shàng kè de shí hou qǐng bú yào shǐ yòng shǒu jī。",
+    "example_vietnamese": "Trong giờ học xin đừng sử dụng điện thoại di động."
+  },
+  {
+    "id": 1011,
+    "example_hanzi": "不管你信不信，這就是事實。",
+    "example_pinyin": "bù guǎn nǐ xìn bú xìn， zhè jiù shì shì shí。",
+    "example_vietnamese": "Dù bạn có tin hay không, đây chính là sự thật."
+  },
+  {
+    "id": 1012,
+    "example_hanzi": "他放棄了穩定的工作，去追求自己的事業。",
+    "example_pinyin": "tā fàng qì le wěn dìng de gōng zuò， qù zhuī qiú zì jǐ de shì yè。",
+    "example_vietnamese": "Anh ấy từ bỏ công việc ổn định để theo đuổi sự nghiệp của riêng mình."
+  },
+  {
+    "id": 1013,
+    "example_hanzi": "剛到國外的時候，他花了很長時間才適應那裡的生活。",
+    "example_pinyin": "gāng dào guó wài de shí hou， tā huā le hěn cháng shí jiān cái shì yìng nà lǐ de shēng huó。",
+    "example_vietnamese": "Khi mới đến nước ngoài, anh ấy đã mất rất nhiều thời gian mới thích nghi được với cuộc sống ở đó."
+  },
+  {
+    "id": 1014,
+    "example_hanzi": "市長昨天出席了這場開幕典禮。",
+    "example_pinyin": "shì zhǎng zuó tiān chū xí le zhè chǎng kāi mù diǎn lǐ。",
+    "example_vietnamese": "Thị trưởng đã tham dự lễ khai mạc này vào hôm qua."
+  },
+  {
+    "id": 1015,
+    "example_hanzi": "這趟旅行讓我有很多意外的收穫。",
+    "example_pinyin": "zhè tàng lǚ xíng ràng wǒ yǒu hěn duō yì wài de shōu huò。",
+    "example_vietnamese": "Chuyến du lịch này mang lại cho tôi rất nhiều thu hoạch bất ngờ."
+  },
+  {
+    "id": 1016,
+    "example_hanzi": "爺爺每天早上都會打開收音機聽新聞。",
+    "example_pinyin": "yé ye měi tiān zǎo shang dōu huì dǎ kāi shōu yīn jī tīng xīn wén。",
+    "example_vietnamese": "Sáng nào ông nội cũng mở đài radio để nghe tin tức."
+  },
+  {
+    "id": 1017,
+    "example_hanzi": "他對這一帶的路很熟。",
+    "example_pinyin": "tā duì zhè yí dài de lù hěn shú。",
+    "example_vietnamese": "Anh ấy rất quen thuộc với đường xá ở khu vực này."
+  }
+]
