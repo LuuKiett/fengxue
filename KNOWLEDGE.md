@@ -371,6 +371,11 @@ result.
   needed an added `.eq('mode', activeMode)` / `mode` upsert field — grep for
   `activeMode` there before adding a new progress-touching code path. Level-select
   cards show two independent progress rings (Flashcard + Điền Từ) per level.
+- **Điền Từ (fill_in) word pool is restricted to learned flashcard words**:
+  - The pool of words available to study in `fill_in` mode is restricted to words that the user has already studied and marked complete in `flashcard` mode (extracted from the `word_order` array up to `current_index` of the flashcard progress).
+  - Syncing happens during `startLevel` and `continueNextStage`: already completed `fill_in` words are retained at the beginning of the `fill_in` progress `word_order` array, while newly learned flashcard words are appended in a shuffled order.
+  - If no flashcards are learned, or if all learned words have been completed in `fill_in`, the page displays a warning card instead of the stage size presets. A direct "restart" helper exists to reset `fill_in` mode back to the learned flashcards pool.
+  - Custom stage sizes and presets are capped by the remaining reviewable learned words (`learnedFlashcard - learnedFillIn`).
 - **`/review-dictionary` never called `ensureProfile()`** (only `/vocabulary` and the
   import API route did) — a user whose very first page after signup is
   `/review-dictionary` had no `profiles` row yet, so the first `dictionary_progress`

@@ -202,12 +202,17 @@ export default function ReviewDictionaryPage() {
 
       const levels = sortLevels(Object.keys(counts))
       setLevelInfos(
-        levels.map((level) => ({
-          level,
-          total: counts[level],
-          learnedFlashcard: Math.min(progressByLevelMode[level]?.['flashcard'] || 0, counts[level]),
-          learnedFillIn: Math.min(progressByLevelMode[level]?.['fill_in'] || 0, counts[level]),
-        }))
+        levels.map((level) => {
+          const total = counts[level] || 0
+          const learnedFlashcard = Math.min(progressByLevelMode[level]?.['flashcard'] || 0, total)
+          const learnedFillIn = Math.min(progressByLevelMode[level]?.['fill_in'] || 0, learnedFlashcard)
+          return {
+            level,
+            total,
+            learnedFlashcard,
+            learnedFillIn,
+          }
+        })
       )
     } catch (err) {
       console.error('Lỗi khi tải danh sách cấp độ:', err)
@@ -239,36 +244,97 @@ export default function ReviewDictionaryPage() {
       const allIds = allWords.map((w) => w.id)
       if (allIds.length === 0) { setLoading(false); return }
 
-      let { data: progress } = await supabase
-        .from('dictionary_progress')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('level', level)
-        .eq('mode', activeMode)
-        .maybeSingle()
+      if (activeMode === 'fill_in') {
+        let { data: flashcardProgress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', level)
+          .eq('mode', 'flashcard')
+          .maybeSingle()
 
-      const storedIds: string[] = progress ? progress.word_order : []
-      const idsMatch =
-        progress && storedIds.length === allIds.length &&
-        new Set(storedIds).size === new Set(allIds).size &&
-        [...new Set(storedIds)].every((id) => allIds.includes(id))
+        const learnedIds = flashcardProgress
+          ? flashcardProgress.word_order.slice(0, flashcardProgress.current_index)
+          : []
 
-      if (!progress || !idsMatch) {
-        const wordOrder = shuffleArray(allIds)
+        if (learnedIds.length === 0) {
+          setLoading(false)
+          return
+        }
+
+        let { data: fillInProgress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', level)
+          .eq('mode', 'fill_in')
+          .maybeSingle()
+
+        let newWordOrder: string[] = []
+        let newCurrentIndex = 0
+
+        if (fillInProgress) {
+          const completedFillInIds = fillInProgress.word_order
+            .slice(0, fillInProgress.current_index)
+            .filter((id: string) => learnedIds.includes(id))
+
+          const remainingLearnedIds = learnedIds.filter((id: string) => !completedFillInIds.includes(id))
+          newWordOrder = [...completedFillInIds, ...shuffleArray(remainingLearnedIds)]
+          newCurrentIndex = completedFillInIds.length
+        } else {
+          newWordOrder = shuffleArray(learnedIds)
+          newCurrentIndex = 0
+        }
+
         const { data: upserted } = await supabase
           .from('dictionary_progress')
           .upsert(
-            { user_id: user.id, level, mode: activeMode, word_order: wordOrder, current_index: 0 },
+            {
+              user_id: user.id,
+              level,
+              mode: 'fill_in',
+              word_order: newWordOrder,
+              current_index: newCurrentIndex,
+              updated_at: new Date().toISOString()
+            },
             { onConflict: 'user_id,level,mode' }
           )
           .select('*')
           .single()
-        progress = upserted
+
+        if (!upserted) { setLoading(false); return }
+        await loadStage(level, upserted.word_order, upserted.current_index, learnedIds.length, size)
+      } else {
+        let { data: progress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', level)
+          .eq('mode', activeMode)
+          .maybeSingle()
+
+        const storedIds: string[] = progress ? progress.word_order : []
+        const idsMatch =
+          progress && storedIds.length === allIds.length &&
+          new Set(storedIds).size === new Set(allIds).size &&
+          [...new Set(storedIds)].every((id) => allIds.includes(id))
+
+        if (!progress || !idsMatch) {
+          const wordOrder = shuffleArray(allIds)
+          const { data: upserted } = await supabase
+            .from('dictionary_progress')
+            .upsert(
+              { user_id: user.id, level, mode: activeMode, word_order: wordOrder, current_index: 0 },
+              { onConflict: 'user_id,level,mode' }
+            )
+            .select('*')
+            .single()
+          progress = upserted
+        }
+
+        if (!progress) { setLoading(false); return }
+        await loadStage(level, progress.word_order, progress.current_index, allIds.length, size)
       }
-
-      if (!progress) { setLoading(false); return }
-
-      await loadStage(level, progress.word_order, progress.current_index, allIds.length, size)
     } catch (err) {
       console.error('Lỗi khi bắt đầu ôn tập:', err)
     } finally {
@@ -412,6 +478,57 @@ export default function ReviewDictionaryPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+
+      if (activeMode === 'fill_in') {
+        let { data: flashcardProgress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', activeLevel)
+          .eq('mode', 'flashcard')
+          .maybeSingle()
+
+        const learnedIds = flashcardProgress
+          ? flashcardProgress.word_order.slice(0, flashcardProgress.current_index)
+          : []
+
+        let { data: fillInProgress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', activeLevel)
+          .eq('mode', 'fill_in')
+          .maybeSingle()
+
+        if (fillInProgress) {
+          const completedFillInIds = fillInProgress.word_order
+            .slice(0, fillInProgress.current_index)
+            .filter((id: string) => learnedIds.includes(id))
+
+          const remainingLearnedIds = learnedIds.filter((id: string) => !completedFillInIds.includes(id))
+          const newWordOrder = [...completedFillInIds, ...shuffleArray(remainingLearnedIds)]
+          const newCurrentIndex = completedFillInIds.length
+
+          const { data: upserted } = await supabase
+            .from('dictionary_progress')
+            .update({
+              word_order: newWordOrder,
+              current_index: newCurrentIndex,
+              updated_at: new Date().toISOString()
+            })
+            .eq('user_id', user.id)
+            .eq('level', activeLevel)
+            .eq('mode', 'fill_in')
+            .select('*')
+            .single()
+
+          if (upserted) {
+            await loadStage(activeLevel, upserted.word_order, upserted.current_index, learnedIds.length, stageSize)
+            return
+          }
+        }
+      }
+
       const { data: progress } = await supabase
         .from('dictionary_progress')
         .select('*')
@@ -433,16 +550,31 @@ export default function ReviewDictionaryPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const allWords = await fetchAllRows<{ id: string }>((from, to) =>
-        supabase
-          .from('dictionary_words')
-          .select('id')
-          .eq('level', activeLevel)
-          .range(from, to)
-      )
+      let wordOrder: string[] = []
 
-      const allIds = allWords.map((w) => w.id)
-      const wordOrder = shuffleArray(allIds)
+      if (activeMode === 'fill_in') {
+        let { data: flashcardProgress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', activeLevel)
+          .eq('mode', 'flashcard')
+          .maybeSingle()
+        const learnedIds = flashcardProgress
+          ? flashcardProgress.word_order.slice(0, flashcardProgress.current_index)
+          : []
+        wordOrder = shuffleArray(learnedIds)
+      } else {
+        const allWords = await fetchAllRows<{ id: string }>((from, to) =>
+          supabase
+            .from('dictionary_words')
+            .select('id')
+            .eq('level', activeLevel)
+            .range(from, to)
+        )
+        const allIds = allWords.map((w) => w.id)
+        wordOrder = shuffleArray(allIds)
+      }
 
       await supabase
         .from('dictionary_progress')
@@ -467,6 +599,52 @@ export default function ReviewDictionaryPage() {
     }
   }
 
+  const handleRestartFillInDirectly = async (level: string) => {
+    setLoading(true)
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      let { data: flashcardProgress } = await supabase
+        .from('dictionary_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('level', level)
+        .eq('mode', 'flashcard')
+        .maybeSingle()
+      const learnedIds = flashcardProgress
+        ? flashcardProgress.word_order.slice(0, flashcardProgress.current_index)
+        : []
+
+      const wordOrder = shuffleArray(learnedIds)
+
+      await supabase
+        .from('dictionary_progress')
+        .upsert(
+          {
+            user_id: user.id,
+            level,
+            mode: 'fill_in',
+            word_order: wordOrder,
+            current_index: 0,
+            updated_at: new Date().toISOString()
+          },
+          { onConflict: 'user_id,level,mode' }
+        )
+
+      setLevelInfos((prev) =>
+        prev.map((l) =>
+          l.level === level
+            ? { ...l, learnedFillIn: 0 }
+            : l
+        )
+      )
+      setPendingLevel(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const triggerGrandConfetti = () => {
     const duration = 3 * 1000
     const end = Date.now() + duration
@@ -482,6 +660,13 @@ export default function ReviewDictionaryPage() {
     if (matchingType === 'hanzi_pinyin') return 'Vòng 1: Chữ Hán ↔ Phiên âm'
     return 'Vòng 2: Chữ Hán ↔ Nghĩa Việt'
   }
+
+  const info = levelInfos.find((l) => l.level === pendingLevel)
+  const learnedFlashcard = info?.learnedFlashcard ?? 0
+  const learnedFillIn = info?.learnedFillIn ?? 0
+  const remaining = activeMode === 'fill_in'
+    ? (learnedFlashcard - learnedFillIn)
+    : (info ? (info.total - info.learnedFlashcard) : 0)
 
   return (
     <div className="space-y-6">
@@ -562,6 +747,38 @@ export default function ReviewDictionaryPage() {
                 </div>
               )}
             </>
+          ) : remaining === 0 ? (
+            <div className="cartoon-card p-6 bg-white space-y-4 text-center">
+              <button
+                onClick={() => setPendingLevel(null)}
+                className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1 mx-auto"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn cấp độ
+              </button>
+              <div className="py-6 space-y-3">
+                <span className="text-4xl block">⚠️</span>
+                <h4 className="font-black text-slate-800 text-base">Không có từ nào để ôn tập</h4>
+                <p className="text-slate-500 text-xs font-semibold max-w-sm mx-auto">
+                  {activeMode === 'fill_in'
+                    ? learnedFlashcard === 0
+                      ? 'Bạn chưa học từ nào ở chế độ Flashcard. Vui lòng học Flashcard trước khi làm bài tập Điền Từ.'
+                      : 'Bạn đã hoàn thành bài tập Điền Từ cho tất cả các từ đã học ở Flashcard. Hãy tiếp tục học thêm từ mới ở Flashcard!'
+                    : 'Bạn đã học hết tất cả các từ trong cấp độ này bằng Flashcard!'}
+                </p>
+                {activeMode === 'fill_in' && learnedFlashcard > 0 && (
+                  <button
+                    onClick={async () => {
+                      if (window.confirm('Bạn có muốn ôn lại từ đầu chế độ Điền Từ cho cấp độ này không?')) {
+                        await handleRestartFillInDirectly(pendingLevel)
+                      }
+                    }}
+                    className="cartoon-btn py-2.5 px-5 text-xs inline-flex items-center gap-1 mx-auto"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" /> Học lại từ đầu Điền Từ
+                  </button>
+                )}
+              </div>
+            </div>
           ) : (
             <div className="cartoon-card p-6 bg-white space-y-4">
               <button
@@ -590,50 +807,112 @@ export default function ReviewDictionaryPage() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {STAGE_SIZE_PRESETS.map((n) => {
-                  const total = levelInfos.find((l) => l.level === pendingLevel)?.total ?? 0
-                  const stages = total ? Math.ceil(total / n) : 0
-                  const active = !customStageSize && stageSizeChoice === n
-                  return (
+              {/* Display limit stats block */}
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+                {activeMode === 'fill_in' ? (
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div>
+                      <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">Đã học (Flashcard)</span>
+                      <span className="text-sm font-black text-slate-700">{learnedFlashcard} từ</span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">Đã điền từ</span>
+                      <span className="text-sm font-black text-slate-700">{learnedFillIn} từ</span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">Có thể ôn</span>
+                      <span className="text-sm font-black text-emerald-600">{remaining} từ</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div>
+                      <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">Tổng số từ</span>
+                      <span className="text-sm font-black text-slate-700">{info?.total ?? 0} từ</span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">Đã học</span>
+                      <span className="text-sm font-black text-slate-700">{learnedFlashcard} từ</span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">Chưa học</span>
+                      <span className="text-sm font-black text-emerald-600">{remaining} từ</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-xs font-bold text-slate-500 block">Chọn số từ đợt này:</span>
+                <div className="flex flex-wrap gap-2">
+                  {STAGE_SIZE_PRESETS.filter(n => n <= remaining).map((n) => {
+                    const stages = Math.ceil(remaining / n)
+                    const active = !customStageSize && stageSizeChoice === n
+                    return (
+                      <button
+                        key={n}
+                        onClick={() => { setStageSizeChoice(n); setCustomStageSize('') }}
+                        className={`cursor-pointer px-4 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${
+                          active
+                            ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
+                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-blue-200'
+                        }`}
+                      >
+                        <span className="block">{n} từ</span>
+                        <span className={`block text-[10px] font-bold normal-case ${active ? 'text-white/80' : 'text-slate-400'}`}>
+                          ≈ {stages} đợt
+                        </span>
+                      </button>
+                    )
+                  })}
+                  {!STAGE_SIZE_PRESETS.includes(remaining) && (
                     <button
-                      key={n}
-                      onClick={() => { setStageSizeChoice(n); setCustomStageSize('') }}
+                      onClick={() => { setStageSizeChoice(remaining); setCustomStageSize('') }}
                       className={`cursor-pointer px-4 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${
-                        active
+                        !customStageSize && stageSizeChoice === remaining
                           ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
                           : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-blue-200'
                       }`}
                     >
-                      <span className="block">{n} từ</span>
-                      {stages > 0 && (
-                        <span className={`block text-[10px] font-bold normal-case ${active ? 'text-white/80' : 'text-slate-400'}`}>
-                          ≈ {stages} đợt
-                        </span>
-                      )}
+                      <span className="block">{remaining} từ</span>
+                      <span className="block text-[10px] font-bold normal-case opacity-80">
+                        Tất cả còn lại
+                      </span>
                     </button>
-                  )
-                })}
+                  )}
+                </div>
               </div>
 
-              <div>
-                <label className="text-xs font-bold text-slate-500 block mb-1">Hoặc nhập số tùy chỉnh:</label>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-500 block">
+                  Hoặc nhập số tùy chỉnh (Tối đa {remaining} từ):
+                </label>
                 <input
                   type="number"
-                  min={5}
-                  max={200}
+                  min={1}
+                  max={remaining}
                   value={customStageSize}
-                  onChange={(e) => setCustomStageSize(e.target.value)}
-                  placeholder="VD: 25"
-                  className="w-32 px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-sm"
+                  onChange={(e) => {
+                    const val = e.target.value
+                    if (val === '') {
+                      setCustomStageSize('')
+                      return
+                    }
+                    const num = parseInt(val, 10)
+                    if (!isNaN(num)) {
+                      setCustomStageSize(Math.min(remaining, Math.max(1, num)).toString())
+                    }
+                  }}
+                  placeholder={`VD: ${Math.min(25, remaining)}`}
+                  className="w-36 px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-sm"
                 />
               </div>
 
               <button
                 onClick={() => {
                   const size = customStageSize
-                    ? Math.max(5, Math.min(200, parseInt(customStageSize, 10) || DEFAULT_STAGE_SIZE))
-                    : stageSizeChoice
+                    ? Math.max(1, Math.min(remaining, parseInt(customStageSize, 10) || DEFAULT_STAGE_SIZE))
+                    : Math.min(remaining, stageSizeChoice)
                   const level = pendingLevel
                   setPendingLevel(null)
                   startLevel(level, size)
@@ -663,7 +942,9 @@ export default function ReviewDictionaryPage() {
                       setActiveMode('flashcard')
                       setPendingLevel(modeSelectLevel)
                       setModeSelectLevel(null)
-                      setStageSizeChoice(DEFAULT_STAGE_SIZE)
+                      const targetInfo = levelInfos.find((l) => l.level === modeSelectLevel)
+                      const rem = targetInfo ? (targetInfo.total - targetInfo.learnedFlashcard) : DEFAULT_STAGE_SIZE
+                      setStageSizeChoice(Math.min(rem, DEFAULT_STAGE_SIZE))
                       setCustomStageSize('')
                     }}
                     className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
@@ -679,7 +960,9 @@ export default function ReviewDictionaryPage() {
                       setActiveMode('fill_in')
                       setPendingLevel(modeSelectLevel)
                       setModeSelectLevel(null)
-                      setStageSizeChoice(DEFAULT_STAGE_SIZE)
+                      const targetInfo = levelInfos.find((l) => l.level === modeSelectLevel)
+                      const rem = targetInfo ? (targetInfo.learnedFlashcard - targetInfo.learnedFillIn) : DEFAULT_STAGE_SIZE
+                      setStageSizeChoice(Math.min(rem, DEFAULT_STAGE_SIZE))
                       setCustomStageSize('')
                     }}
                     className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
