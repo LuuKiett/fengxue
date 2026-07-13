@@ -347,7 +347,7 @@ export default function ReviewPage() {
   const weekdayHeaders = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4">
+    <div className="space-y-6">
       {/* Title */}
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
         <span>🔥</span> Ôn Tập Tổng Hợp
@@ -355,7 +355,7 @@ export default function ReviewPage() {
 
       {step === 'select' ? (
         /* DATE SELECTION SCREEN */
-        <div className="space-y-6">
+        <div className="space-y-6 max-w-4xl mx-auto px-4">
           <div className="bg-gradient-to-r from-blue-400 to-sky-500 text-white p-6 rounded-[24px] shadow-sm space-y-4">
             <h3 className="text-xl font-extrabold flex items-center gap-2">
               <Sparkles className="w-6 h-6 animate-pulse" /> Ôn Tập Đa Ngày
@@ -494,7 +494,7 @@ export default function ReviewPage() {
         </div>
       ) : step === 'flashcard' ? (
         /* FLASHCARD MERGED STUDY */
-        <div className="space-y-6">
+        <div className="space-y-6 max-w-9xl mx-auto px-4">
           <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
