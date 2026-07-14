@@ -1,0 +1,7026 @@
+[
+  {
+    "level": "A1",
+    "topicKey": "home-living",
+    "icon": "🏠",
+    "label": "Nhà cửa & Đời sống",
+    "words": [
+      {
+        "hanzi": "下雪",
+        "hanziVariant": null,
+        "pinyin": "xiàxuě",
+        "vietnamese": "tuyết rơi",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E4%B8%8B%E9%9B%AA"
+      },
+      {
+        "hanzi": "世界",
+        "hanziVariant": null,
+        "pinyin": "shìjiè",
+        "vietnamese": "thế giới",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%96%E7%95%8C"
+      },
+      {
+        "hanzi": "乾淨",
+        "hanziVariant": "干净",
+        "pinyin": "gānjìng",
+        "vietnamese": "sạch sẽ",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B9%BE%E6%B7%A8"
+      },
+      {
+        "hanzi": "傢俱",
+        "hanziVariant": "家具",
+        "pinyin": "jiājù",
+        "vietnamese": "đồ nội thất",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%82%A2%E4%BF%B1"
+      },
+      {
+        "hanzi": "冰箱",
+        "hanziVariant": null,
+        "pinyin": "bīngxiāng",
+        "vietnamese": "tủ lạnh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%86%B0%E7%AE%B1"
+      },
+      {
+        "hanzi": "冷氣(機)",
+        "hanziVariant": "冷气(机)",
+        "pinyin": "lěngqì(jī)",
+        "vietnamese": "máy lạnh, máy điều hòa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%86%B7%E6%B0%A3(%E6%A9%9F)"
+      },
+      {
+        "hanzi": "台",
+        "hanziVariant": null,
+        "pinyin": "tái",
+        "vietnamese": "cái, chiếc (máy móc)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%8F%B0"
+      },
+      {
+        "hanzi": "地",
+        "hanziVariant": null,
+        "pinyin": "dì",
+        "vietnamese": "đất, mặt đất",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%B0"
+      },
+      {
+        "hanzi": "大樓",
+        "hanziVariant": "大楼",
+        "pinyin": "dàlóu",
+        "vietnamese": "tòa nhà lớn, cao ốc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%A7%E6%A8%93"
+      },
+      {
+        "hanzi": "太陽",
+        "hanziVariant": "太阳",
+        "pinyin": "tàiyáng",
+        "vietnamese": "mặt trời",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%AA%E9%99%BD"
+      },
+      {
+        "hanzi": "客廳",
+        "hanziVariant": "客厅",
+        "pinyin": "kètīng",
+        "vietnamese": "phòng khách",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AE%A2%E5%BB%B3"
+      },
+      {
+        "hanzi": "屋(子)",
+        "hanziVariant": "廚房",
+        "pinyin": "wū(zi)",
+        "vietnamese": "nhà, căn nhà",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B1%8B(%E5%AD%90)"
+      },
+      {
+        "hanzi": "房租",
+        "hanziVariant": null,
+        "pinyin": "fángzū",
+        "vietnamese": "tiền thuê nhà",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%88%BF%E7%A7%9F"
+      },
+      {
+        "hanzi": "掛",
+        "hanziVariant": "挂",
+        "pinyin": "guà",
+        "vietnamese": "treo",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8E%9B"
+      },
+      {
+        "hanzi": "搬",
+        "hanziVariant": null,
+        "pinyin": "bān",
+        "vietnamese": "dọn, chuyển",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%90%AC"
+      },
+      {
+        "hanzi": "有空",
+        "hanziVariant": null,
+        "pinyin": "yǒukòng",
+        "vietnamese": "có thời gian rảnh",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9C%89%E7%A9%BA"
+      },
+      {
+        "hanzi": "樓上",
+        "hanziVariant": "楼上",
+        "pinyin": "lóushàng",
+        "vietnamese": "tầng trên, trên lầu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A8%93%E4%B8%8A"
+      },
+      {
+        "hanzi": "樓下",
+        "hanziVariant": "楼下",
+        "pinyin": "lóuxià",
+        "vietnamese": "tầng dưới, dưới lầu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A8%93%E4%B8%8B"
+      },
+      {
+        "hanzi": "樓梯",
+        "hanziVariant": "楼梯",
+        "pinyin": "lóutī",
+        "vietnamese": "cầu thang bộ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A8%93%E6%A2%AF"
+      },
+      {
+        "hanzi": "樹",
+        "hanziVariant": "树",
+        "pinyin": "shù",
+        "vietnamese": "cây",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A8%B9"
+      },
+      {
+        "hanzi": "沙發",
+        "hanziVariant": "沙发",
+        "pinyin": "shāfā",
+        "vietnamese": "ghế sô pha",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B2%99%E7%99%BC"
+      },
+      {
+        "hanzi": "河",
+        "hanziVariant": null,
+        "pinyin": "hé",
+        "vietnamese": "sông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B2%B3"
+      },
+      {
+        "hanzi": "洗",
+        "hanziVariant": null,
+        "pinyin": "xǐ",
+        "vietnamese": "rửa, giặt",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%B4%97"
+      },
+      {
+        "hanzi": "洗澡",
+        "hanziVariant": null,
+        "pinyin": "xǐzǎo",
+        "vietnamese": "tắm",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%B4%97%E6%BE%A1"
+      },
+      {
+        "hanzi": "海",
+        "hanziVariant": null,
+        "pinyin": "hǎi",
+        "vietnamese": "biển",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B5%B7"
+      },
+      {
+        "hanzi": "湖",
+        "hanziVariant": null,
+        "pinyin": "hú",
+        "vietnamese": "hồ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B9%96"
+      },
+      {
+        "hanzi": "火",
+        "hanziVariant": null,
+        "pinyin": "huǒ",
+        "vietnamese": "lửa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%81%AB"
+      },
+      {
+        "hanzi": "燈",
+        "hanziVariant": "灯",
+        "pinyin": "dēng",
+        "vietnamese": "đèn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%87%88"
+      },
+      {
+        "hanzi": "狗",
+        "hanziVariant": "發現",
+        "pinyin": "gǒu",
+        "vietnamese": "chó, con chó",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%8B%97"
+      },
+      {
+        "hanzi": "盒",
+        "hanziVariant": null,
+        "pinyin": "hé",
+        "vietnamese": "hộp, cái hộp",
+        "pos": "M / N",
+        "dictHref": "/dictionary/%E7%9B%92"
+      },
+      {
+        "hanzi": "租",
+        "hanziVariant": null,
+        "pinyin": "zū",
+        "vietnamese": "thuê",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%A7%9F"
+      },
+      {
+        "hanzi": "窗(子)",
+        "hanziVariant": null,
+        "pinyin": "chuāng(zi)",
+        "vietnamese": "cửa sổ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%AA%97(%E5%AD%90)"
+      },
+      {
+        "hanzi": "脫",
+        "hanziVariant": "脱",
+        "pinyin": "tuō",
+        "vietnamese": "cởi, bỏ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%84%AB"
+      },
+      {
+        "hanzi": "草",
+        "hanziVariant": null,
+        "pinyin": "cǎo",
+        "vietnamese": "cỏ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%8D%89"
+      },
+      {
+        "hanzi": "貓",
+        "hanziVariant": "猫",
+        "pinyin": "māo",
+        "vietnamese": "mèo, con mèo",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%B2%93"
+      },
+      {
+        "hanzi": "長",
+        "hanziVariant": "长",
+        "pinyin": "zhǎng",
+        "vietnamese": "lớn lên, mọc",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%95%B7"
+      },
+      {
+        "hanzi": "間",
+        "hanziVariant": "间",
+        "pinyin": "jiān",
+        "vietnamese": "gian, phòng (lượng từ)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%96%93"
+      },
+      {
+        "hanzi": "關",
+        "hanziVariant": "关",
+        "pinyin": "guān",
+        "vietnamese": "đóng, tắt",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%97%9C"
+      },
+      {
+        "hanzi": "隻",
+        "hanziVariant": "只",
+        "pinyin": "zhī",
+        "vietnamese": "con (lượng từ)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%9A%BB"
+      },
+      {
+        "hanzi": "雪",
+        "hanziVariant": null,
+        "pinyin": "xuě",
+        "vietnamese": "tuyết",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%AA"
+      },
+      {
+        "hanzi": "電",
+        "hanziVariant": "电",
+        "pinyin": "diàn",
+        "vietnamese": "điện",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%BB"
+      },
+      {
+        "hanzi": "餐",
+        "hanziVariant": null,
+        "pinyin": "cān",
+        "vietnamese": "bữa ăn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A4%90"
+      },
+      {
+        "hanzi": "馬",
+        "hanziVariant": "马",
+        "pinyin": "mǎ",
+        "vietnamese": "ngựa, con ngựa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A6%AC"
+      },
+      {
+        "hanzi": "鳥",
+        "hanziVariant": "鸟",
+        "pinyin": "niǎo",
+        "vietnamese": "chim, con chim",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%B3%A5"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "school",
+    "icon": "📚",
+    "label": "Học tập & Giáo dục",
+    "words": [
+      {
+        "hanzi": "上學",
+        "hanziVariant": "上学",
+        "pinyin": "shàngxué",
+        "vietnamese": "đi học",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E4%B8%8A%E5%AD%B8"
+      },
+      {
+        "hanzi": "交",
+        "hanziVariant": null,
+        "pinyin": "jiāo",
+        "vietnamese": "giao, nộp",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%BA%A4"
+      },
+      {
+        "hanzi": "作業",
+        "hanziVariant": "作业",
+        "pinyin": "zuòyè",
+        "vietnamese": "bài tập về nhà",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BD%9C%E6%A5%AD"
+      },
+      {
+        "hanzi": "借",
+        "hanziVariant": null,
+        "pinyin": "jiè",
+        "vietnamese": "mượn, vay",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%80%9F"
+      },
+      {
+        "hanzi": "加",
+        "hanziVariant": null,
+        "pinyin": "jiā",
+        "vietnamese": "thêm, cộng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%8A%A0"
+      },
+      {
+        "hanzi": "參加",
+        "hanziVariant": "参加",
+        "pinyin": "cānjiā",
+        "vietnamese": "tham gia",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%8F%83%E5%8A%A0"
+      },
+      {
+        "hanzi": "句",
+        "hanziVariant": null,
+        "pinyin": "jù",
+        "vietnamese": "câu (lượng từ)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%8F%A5"
+      },
+      {
+        "hanzi": "回答",
+        "hanziVariant": null,
+        "pinyin": "huídá",
+        "vietnamese": "trả lời, câu trả lời",
+        "pos": "V / N",
+        "dictHref": "/dictionary/%E5%9B%9E%E7%AD%94"
+      },
+      {
+        "hanzi": "圖",
+        "hanziVariant": "图",
+        "pinyin": "tú",
+        "vietnamese": "bức tranh, bản đồ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%96"
+      },
+      {
+        "hanzi": "圖書館",
+        "hanziVariant": "图书馆",
+        "pinyin": "túshūguǎn",
+        "vietnamese": "thư viện",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%96%E6%9B%B8%E9%A4%A8"
+      },
+      {
+        "hanzi": "字典",
+        "hanziVariant": null,
+        "pinyin": "zìdiǎn",
+        "vietnamese": "từ điển",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AD%97%E5%85%B8"
+      },
+      {
+        "hanzi": "學習",
+        "hanziVariant": "学习",
+        "pinyin": "xuéxí",
+        "vietnamese": "học, học tập",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%AD%B8%E7%BF%92"
+      },
+      {
+        "hanzi": "小學",
+        "hanziVariant": "小学",
+        "pinyin": "xiǎoxué",
+        "vietnamese": "trường tiểu học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B0%8F%E5%AD%B8"
+      },
+      {
+        "hanzi": "年級",
+        "hanziVariant": "年级",
+        "pinyin": "niánjí",
+        "vietnamese": "lớp, khối lớp (năm thứ)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B9%B4%E7%B4%9A"
+      },
+      {
+        "hanzi": "忘",
+        "hanziVariant": null,
+        "pinyin": "wàng",
+        "vietnamese": "quên",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%BF%98"
+      },
+      {
+        "hanzi": "想法",
+        "hanziVariant": null,
+        "pinyin": "xiǎngfǎ",
+        "vietnamese": "suy nghĩ, ý tưởng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%83%B3%E6%B3%95"
+      },
+      {
+        "hanzi": "成績",
+        "hanziVariant": "成绩",
+        "pinyin": "chéngjī",
+        "vietnamese": "thành tích, kết quả học tập",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%88%90%E7%B8%BE"
+      },
+      {
+        "hanzi": "文化",
+        "hanziVariant": null,
+        "pinyin": "wénhuà",
+        "vietnamese": "văn hóa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%87%E5%8C%96"
+      },
+      {
+        "hanzi": "方法",
+        "hanziVariant": null,
+        "pinyin": "fāngfǎ",
+        "vietnamese": "phương pháp",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%B9%E6%B3%95"
+      },
+      {
+        "hanzi": "有用",
+        "hanziVariant": null,
+        "pinyin": "yǒuyòng",
+        "vietnamese": "có ích, hữu dụng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9C%89%E7%94%A8"
+      },
+      {
+        "hanzi": "棒",
+        "hanziVariant": null,
+        "pinyin": "bàng",
+        "vietnamese": "giỏi, tuyệt vời",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%A3%92"
+      },
+      {
+        "hanzi": "決定",
+        "hanziVariant": "决定",
+        "pinyin": "juédìng",
+        "vietnamese": "quyết định",
+        "pos": "N / Vp",
+        "dictHref": "/dictionary/%E6%B1%BA%E5%AE%9A"
+      },
+      {
+        "hanzi": "注意",
+        "hanziVariant": null,
+        "pinyin": "zhùyì",
+        "vietnamese": "chú ý",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E6%B3%A8%E6%84%8F"
+      },
+      {
+        "hanzi": "洗手間",
+        "hanziVariant": "洗手间",
+        "pinyin": "xǐshǒujiān",
+        "vietnamese": "nhà vệ sinh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B4%97%E6%89%8B%E9%96%93"
+      },
+      {
+        "hanzi": "清楚",
+        "hanziVariant": null,
+        "pinyin": "qīngchǔ",
+        "vietnamese": "rõ ràng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B8%85%E6%A5%9A"
+      },
+      {
+        "hanzi": "班",
+        "hanziVariant": null,
+        "pinyin": "bān",
+        "vietnamese": "lớp",
+        "pos": "M / N",
+        "dictHref": "/dictionary/%E7%8F%AD"
+      },
+      {
+        "hanzi": "答",
+        "hanziVariant": null,
+        "pinyin": "dá",
+        "vietnamese": "trả lời, đáp",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%AD%94"
+      },
+      {
+        "hanzi": "算",
+        "hanziVariant": null,
+        "pinyin": "suàn",
+        "vietnamese": "tính toán",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%AE%97"
+      },
+      {
+        "hanzi": "練習",
+        "hanziVariant": "练习",
+        "pinyin": "liànxí",
+        "vietnamese": "luyện tập, bài tập",
+        "pos": "V / N",
+        "dictHref": "/dictionary/%E7%B7%B4%E7%BF%92"
+      },
+      {
+        "hanzi": "行",
+        "hanziVariant": null,
+        "pinyin": "xíng",
+        "vietnamese": "được, ổn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%A1%8C"
+      },
+      {
+        "hanzi": "記得",
+        "hanziVariant": "记得",
+        "pinyin": "jìde",
+        "vietnamese": "nhớ",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E8%A8%98%E5%BE%97"
+      },
+      {
+        "hanzi": "認為",
+        "hanziVariant": "认为",
+        "pinyin": "rènwéi",
+        "vietnamese": "cho rằng, cho là",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%AA%8D%E7%82%BA"
+      },
+      {
+        "hanzi": "語言",
+        "hanziVariant": "语言",
+        "pinyin": "yǔyán",
+        "vietnamese": "ngôn ngữ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%AA%9E%E8%A8%80"
+      },
+      {
+        "hanzi": "課本",
+        "hanziVariant": "课本",
+        "pinyin": "kèběn",
+        "vietnamese": "sách giáo khoa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%AA%B2%E6%9C%AC"
+      },
+      {
+        "hanzi": "講",
+        "hanziVariant": "讲",
+        "pinyin": "jiǎng",
+        "vietnamese": "nói, giảng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%AC%9B"
+      },
+      {
+        "hanzi": "讀書",
+        "hanziVariant": "读书",
+        "pinyin": "dúshū",
+        "vietnamese": "đọc sách, đi học",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E8%AE%80%E6%9B%B8"
+      },
+      {
+        "hanzi": "辦法",
+        "hanziVariant": "办法",
+        "pinyin": "bànfǎ",
+        "vietnamese": "biện pháp, cách",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%BE%A6%E6%B3%95"
+      },
+      {
+        "hanzi": "進步",
+        "hanziVariant": "进步",
+        "pinyin": "jìnbù",
+        "vietnamese": "tiến bộ",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E9%80%B2%E6%AD%A5"
+      },
+      {
+        "hanzi": "還",
+        "hanziVariant": "还",
+        "pinyin": "hái",
+        "vietnamese": "trả, hoàn lại",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%82%84"
+      },
+      {
+        "hanzi": "開學",
+        "hanziVariant": "开学",
+        "pinyin": "kāixué",
+        "vietnamese": "khai giảng, bắt đầu đi học",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E9%96%8B%E5%AD%B8"
+      },
+      {
+        "hanzi": "高中",
+        "hanziVariant": null,
+        "pinyin": "gāozhōng",
+        "vietnamese": "trường trung học phổ thông, cấp 3",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%AB%98%E4%B8%AD"
+      },
+      {
+        "hanzi": "黑板",
+        "hanziVariant": null,
+        "pinyin": "hēibǎn",
+        "vietnamese": "bảng đen",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%BB%91%E6%9D%BF"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "communication",
+    "icon": "💬",
+    "label": "Thông tin & Giao tiếp",
+    "words": [
+      {
+        "hanzi": "一會兒",
+        "hanziVariant": "一会儿",
+        "pinyin": "yīhuǐér",
+        "vietnamese": "một lát, một chốc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%80%E6%9C%83%E5%85%92"
+      },
+      {
+        "hanzi": "冬天",
+        "hanziVariant": null,
+        "pinyin": "dōngtiān",
+        "vietnamese": "mùa đông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%86%AC%E5%A4%A9"
+      },
+      {
+        "hanzi": "別人",
+        "hanziVariant": "别人",
+        "pinyin": "biérén",
+        "vietnamese": "người khác",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%88%A5%E4%BA%BA"
+      },
+      {
+        "hanzi": "剛剛",
+        "hanziVariant": "刚刚",
+        "pinyin": "gānggāng",
+        "vietnamese": "vừa, vừa mới",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%89%9B%E5%89%9B"
+      },
+      {
+        "hanzi": "可愛",
+        "hanziVariant": "可爱",
+        "pinyin": "kě&#x27;ài",
+        "vietnamese": "dễ thương, đáng yêu",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%8F%AF%E6%84%9B"
+      },
+      {
+        "hanzi": "名",
+        "hanziVariant": null,
+        "pinyin": "míng",
+        "vietnamese": "người (lượng từ)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%90%8D"
+      },
+      {
+        "hanzi": "哪",
+        "hanziVariant": null,
+        "pinyin": "na",
+        "vietnamese": "trợ từ nghi vấn cuối câu",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%93%AA"
+      },
+      {
+        "hanzi": "哭",
+        "hanziVariant": null,
+        "pinyin": "kū",
+        "vietnamese": "khóc",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E5%93%AD"
+      },
+      {
+        "hanzi": "在",
+        "hanziVariant": null,
+        "pinyin": "zài",
+        "vietnamese": "đang (chỉ sự tiếp diễn)",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%9C%A8"
+      },
+      {
+        "hanzi": "地址",
+        "hanziVariant": null,
+        "pinyin": "dìzhǐ",
+        "vietnamese": "địa chỉ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%B0%E5%9D%80"
+      },
+      {
+        "hanzi": "城市",
+        "hanziVariant": null,
+        "pinyin": "chéngshì",
+        "vietnamese": "thành phố, thành thị",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9F%8E%E5%B8%82"
+      },
+      {
+        "hanzi": "夏天",
+        "hanziVariant": "大人",
+        "pinyin": "xiàtiān",
+        "vietnamese": "mùa hè, mùa hạ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%8F%E5%A4%A9"
+      },
+      {
+        "hanzi": "女生",
+        "hanziVariant": null,
+        "pinyin": "nǚshēng",
+        "vietnamese": "con gái, nữ sinh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A5%B3%E7%94%9F"
+      },
+      {
+        "hanzi": "奶奶",
+        "hanziVariant": null,
+        "pinyin": "nǎinai",
+        "vietnamese": "bà nội",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A5%B6%E5%A5%B6"
+      },
+      {
+        "hanzi": "家庭",
+        "hanziVariant": null,
+        "pinyin": "jiātíng",
+        "vietnamese": "gia đình",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AE%B6%E5%BA%AD"
+      },
+      {
+        "hanzi": "市",
+        "hanziVariant": null,
+        "pinyin": "shì",
+        "vietnamese": "thành phố",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B8%82"
+      },
+      {
+        "hanzi": "年輕",
+        "hanziVariant": "年轻",
+        "pinyin": "niánqīng",
+        "vietnamese": "trẻ, trẻ tuổi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%B9%B4%E8%BC%95"
+      },
+      {
+        "hanzi": "從前",
+        "hanziVariant": "从前",
+        "pinyin": "cóngqián",
+        "vietnamese": "trước đây, ngày xưa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%BE%9E%E5%89%8D"
+      },
+      {
+        "hanzi": "春天",
+        "hanziVariant": null,
+        "pinyin": "chūntiān",
+        "vietnamese": "mùa xuân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%98%A5%E5%A4%A9"
+      },
+      {
+        "hanzi": "更",
+        "hanziVariant": null,
+        "pinyin": "gèng",
+        "vietnamese": "càng, hơn nữa",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9B%B4"
+      },
+      {
+        "hanzi": "爺爺",
+        "hanziVariant": "爷爷",
+        "pinyin": "yéye",
+        "vietnamese": "ông nội",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%88%BA%E7%88%BA"
+      },
+      {
+        "hanzi": "生氣",
+        "hanziVariant": "生气",
+        "pinyin": "shēngqì",
+        "vietnamese": "tức giận, nổi giận",
+        "pos": "Vs-sep",
+        "dictHref": "/dictionary/%E7%94%9F%E6%B0%A3"
+      },
+      {
+        "hanzi": "男生",
+        "hanziVariant": null,
+        "pinyin": "nánshēng",
+        "vietnamese": "con trai, nam sinh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%94%B7%E7%94%9F"
+      },
+      {
+        "hanzi": "當然",
+        "hanziVariant": "当然",
+        "pinyin": "dāngrán",
+        "vietnamese": "đương nhiên, dĩ nhiên",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%95%B6%E7%84%B6"
+      },
+      {
+        "hanzi": "相信",
+        "hanziVariant": null,
+        "pinyin": "xiāngxìn",
+        "vietnamese": "tin tưởng, tin",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E7%9B%B8%E4%BF%A1"
+      },
+      {
+        "hanzi": "禮拜",
+        "hanziVariant": "礼拜",
+        "pinyin": "lǐbài",
+        "vietnamese": "tuần, chủ nhật",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%A6%AE%E6%8B%9C"
+      },
+      {
+        "hanzi": "秋天",
+        "hanziVariant": null,
+        "pinyin": "qiūtiān",
+        "vietnamese": "mùa thu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%A7%8B%E5%A4%A9"
+      },
+      {
+        "hanzi": "笑",
+        "hanziVariant": null,
+        "pinyin": "xiào",
+        "vietnamese": "cười",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E7%AC%91"
+      },
+      {
+        "hanzi": "結婚",
+        "hanziVariant": "结婚",
+        "pinyin": "jiéhūn",
+        "vietnamese": "kết hôn, cưới",
+        "pos": "Vp-sep",
+        "dictHref": "/dictionary/%E7%B5%90%E5%A9%9A"
+      },
+      {
+        "hanzi": "緊張",
+        "hanziVariant": "紧张",
+        "pinyin": "jǐnzhāng",
+        "vietnamese": "căng thẳng, hồi hộp",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%B7%8A%E5%BC%B5"
+      },
+      {
+        "hanzi": "習慣",
+        "hanziVariant": "习惯",
+        "pinyin": "xíguàn",
+        "vietnamese": "thói quen, quen",
+        "pos": "N / Vs",
+        "dictHref": "/dictionary/%E7%BF%92%E6%85%A3"
+      },
+      {
+        "hanzi": "老人",
+        "hanziVariant": null,
+        "pinyin": "lǎorén",
+        "vietnamese": "người già",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%80%81%E4%BA%BA"
+      },
+      {
+        "hanzi": "聰明",
+        "hanziVariant": "聪明",
+        "pinyin": "cōngmíng",
+        "vietnamese": "thông minh",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%81%B0%E6%98%8E"
+      },
+      {
+        "hanzi": "號碼",
+        "hanziVariant": "号码",
+        "pinyin": "hàomǎ",
+        "vietnamese": "số, mã số",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%99%9F%E7%A2%BC"
+      },
+      {
+        "hanzi": "街",
+        "hanziVariant": null,
+        "pinyin": "jiē",
+        "vietnamese": "phố, đường phố",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A1%97"
+      },
+      {
+        "hanzi": "辛苦",
+        "hanziVariant": null,
+        "pinyin": "xīnkǔ",
+        "vietnamese": "vất vả, cực khổ",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%BE%9B%E8%8B%A6"
+      },
+      {
+        "hanzi": "難過",
+        "hanziVariant": "难过",
+        "pinyin": "nánguò",
+        "vietnamese": "buồn, buồn bã",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%9B%A3%E9%81%8E"
+      },
+      {
+        "hanzi": "零",
+        "hanziVariant": "電子郵件",
+        "pinyin": "líng",
+        "vietnamese": "số không",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%B6"
+      },
+      {
+        "hanzi": "願意",
+        "hanziVariant": "愿意",
+        "pinyin": "yuànyì",
+        "vietnamese": "bằng lòng, đồng ý",
+        "pos": "Vaux",
+        "dictHref": "/dictionary/%E9%A1%98%E6%84%8F"
+      },
+      {
+        "hanzi": "高興",
+        "hanziVariant": "高兴",
+        "pinyin": "gāoxìng",
+        "vietnamese": "vui vẻ, vui mừng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%AB%98%E8%88%88"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "shopping",
+    "icon": "🛍️",
+    "label": "Mua sắm & Quần áo",
+    "words": [
+      {
+        "hanzi": "付",
+        "hanziVariant": null,
+        "pinyin": "fù",
+        "vietnamese": "trả, thanh toán",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%BB%98"
+      },
+      {
+        "hanzi": "信用卡",
+        "hanziVariant": null,
+        "pinyin": "xìnyòngkǎ",
+        "vietnamese": "thẻ tín dụng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BF%A1%E7%94%A8%E5%8D%A1"
+      },
+      {
+        "hanzi": "全部",
+        "hanziVariant": null,
+        "pinyin": "quánbù",
+        "vietnamese": "toàn bộ, tất cả",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E5%85%A8%E9%83%A8"
+      },
+      {
+        "hanzi": "其他",
+        "hanziVariant": null,
+        "pinyin": "qítā",
+        "vietnamese": "khác",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E5%85%B6%E4%BB%96"
+      },
+      {
+        "hanzi": "商店",
+        "hanziVariant": null,
+        "pinyin": "shāngdiàn",
+        "vietnamese": "cửa hàng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%95%86%E5%BA%97"
+      },
+      {
+        "hanzi": "外套",
+        "hanziVariant": null,
+        "pinyin": "wàitào",
+        "vietnamese": "áo khoác",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%96%E5%A5%97"
+      },
+      {
+        "hanzi": "大衣",
+        "hanziVariant": null,
+        "pinyin": "dàyī",
+        "vietnamese": "áo khoác ngoài, áo măng tô",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%A7%E8%A1%A3"
+      },
+      {
+        "hanzi": "奇怪",
+        "hanziVariant": null,
+        "pinyin": "qíguài",
+        "vietnamese": "kỳ lạ, kỳ quái",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%A5%87%E6%80%AA"
+      },
+      {
+        "hanzi": "好像",
+        "hanziVariant": null,
+        "pinyin": "hǎoxiàng",
+        "vietnamese": "dường như, có vẻ như",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%A5%BD%E5%83%8F"
+      },
+      {
+        "hanzi": "小心",
+        "hanziVariant": null,
+        "pinyin": "xiǎoxīn",
+        "vietnamese": "cẩn thận",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%B0%8F%E5%BF%83"
+      },
+      {
+        "hanzi": "差不多",
+        "hanziVariant": null,
+        "pinyin": "chàbùduō",
+        "vietnamese": "gần như, xấp xỉ",
+        "pos": "Vs / Adv",
+        "dictHref": "/dictionary/%E5%B7%AE%E4%B8%8D%E5%A4%9A"
+      },
+      {
+        "hanzi": "市場",
+        "hanziVariant": "市场",
+        "pinyin": "shìchǎng",
+        "vietnamese": "chợ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B8%82%E5%A0%B4"
+      },
+      {
+        "hanzi": "帽(子)",
+        "hanziVariant": null,
+        "pinyin": "mào(zi)",
+        "vietnamese": "mũ, nón",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B8%BD(%E5%AD%90)"
+      },
+      {
+        "hanzi": "戴",
+        "hanziVariant": null,
+        "pinyin": "dài",
+        "vietnamese": "đeo, đội, mang",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%88%B4"
+      },
+      {
+        "hanzi": "所有",
+        "hanziVariant": null,
+        "pinyin": "suǒyǒu",
+        "vietnamese": "tất cả, toàn bộ",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E6%89%80%E6%9C%89"
+      },
+      {
+        "hanzi": "手錶",
+        "hanziVariant": "手表",
+        "pinyin": "shǒubiǎo",
+        "vietnamese": "đồng hồ đeo tay",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%89%8B%E9%8C%B6"
+      },
+      {
+        "hanzi": "書店",
+        "hanziVariant": "书店",
+        "pinyin": "shūdiàn",
+        "vietnamese": "hiệu sách",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9B%B8%E5%BA%97"
+      },
+      {
+        "hanzi": "樣子",
+        "hanziVariant": "样子",
+        "pinyin": "yàngzi",
+        "vietnamese": "kiểu dáng, vẻ ngoài",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A8%A3%E5%AD%90"
+      },
+      {
+        "hanzi": "比較",
+        "hanziVariant": "比较",
+        "pinyin": "bǐjiào",
+        "vietnamese": "tương đối, hơn",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%AF%94%E8%BC%83"
+      },
+      {
+        "hanzi": "特別",
+        "hanziVariant": "特别",
+        "pinyin": "tèbié",
+        "vietnamese": "đặc biệt",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%89%B9%E5%88%A5"
+      },
+      {
+        "hanzi": "白色",
+        "hanziVariant": null,
+        "pinyin": "báisè",
+        "vietnamese": "màu trắng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%99%BD%E8%89%B2"
+      },
+      {
+        "hanzi": "皮包",
+        "hanziVariant": null,
+        "pinyin": "píbāo",
+        "vietnamese": "túi da",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%9A%AE%E5%8C%85"
+      },
+      {
+        "hanzi": "簡單",
+        "hanziVariant": "简单",
+        "pinyin": "jiǎndān",
+        "vietnamese": "đơn giản",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%B0%A1%E5%96%AE"
+      },
+      {
+        "hanzi": "聲音",
+        "hanziVariant": "声音",
+        "pinyin": "shēngyīn",
+        "vietnamese": "âm thanh, tiếng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%81%B2%E9%9F%B3"
+      },
+      {
+        "hanzi": "裙(子)",
+        "hanziVariant": null,
+        "pinyin": "qún(zi)",
+        "vietnamese": "váy, đầm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A3%99(%E5%AD%90)"
+      },
+      {
+        "hanzi": "褲(子)",
+        "hanziVariant": "裤(子)",
+        "pinyin": "kù(zi)",
+        "vietnamese": "quần",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A4%B2(%E5%AD%90)"
+      },
+      {
+        "hanzi": "襪(子)",
+        "hanziVariant": "袜(子)",
+        "pinyin": "wà(zi)",
+        "vietnamese": "tất, vớ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A5%AA(%E5%AD%90)"
+      },
+      {
+        "hanzi": "試",
+        "hanziVariant": "试",
+        "pinyin": "shì",
+        "vietnamese": "thử",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%A9%A6"
+      },
+      {
+        "hanzi": "賣",
+        "hanziVariant": "卖",
+        "pinyin": "mài",
+        "vietnamese": "bán",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%B3%A3"
+      },
+      {
+        "hanzi": "輕",
+        "hanziVariant": "轻",
+        "pinyin": "qīng",
+        "vietnamese": "nhẹ",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%BC%95"
+      },
+      {
+        "hanzi": "重",
+        "hanziVariant": null,
+        "pinyin": "zhòng",
+        "vietnamese": "nặng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%87%8D"
+      },
+      {
+        "hanzi": "重要",
+        "hanziVariant": null,
+        "pinyin": "zhòngyào",
+        "vietnamese": "quan trọng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%87%8D%E8%A6%81"
+      },
+      {
+        "hanzi": "雙",
+        "hanziVariant": "双",
+        "pinyin": "shuāng",
+        "vietnamese": "đôi, cặp",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%9B%99"
+      },
+      {
+        "hanzi": "需要",
+        "hanziVariant": null,
+        "pinyin": "xūyào",
+        "vietnamese": "cần, cần phải",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E9%9C%80%E8%A6%81"
+      },
+      {
+        "hanzi": "顏色",
+        "hanziVariant": "颜色",
+        "pinyin": "yánsè",
+        "vietnamese": "màu sắc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A1%8F%E8%89%B2"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "travel",
+    "icon": "✈️",
+    "label": "Du lịch & Giao thông",
+    "words": [
+      {
+        "hanzi": "一直",
+        "hanziVariant": null,
+        "pinyin": "yīzhí",
+        "vietnamese": "liên tục, thẳng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E4%B8%80%E7%9B%B4"
+      },
+      {
+        "hanzi": "中間",
+        "hanziVariant": "中间",
+        "pinyin": "zhōngjiān",
+        "vietnamese": "ở giữa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%AD%E9%96%93"
+      },
+      {
+        "hanzi": "北",
+        "hanziVariant": null,
+        "pinyin": "běi",
+        "vietnamese": "phía bắc, miền bắc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8C%97"
+      },
+      {
+        "hanzi": "十字路口",
+        "hanziVariant": null,
+        "pinyin": "shízìlùkǒu",
+        "vietnamese": "ngã tư",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8D%81%E5%AD%97%E8%B7%AF%E5%8F%A3"
+      },
+      {
+        "hanzi": "南",
+        "hanziVariant": null,
+        "pinyin": "nán",
+        "vietnamese": "phía nam, miền nam",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8D%97"
+      },
+      {
+        "hanzi": "參觀",
+        "hanziVariant": "参观",
+        "pinyin": "cānguān",
+        "vietnamese": "tham quan",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%8F%83%E8%A7%80"
+      },
+      {
+        "hanzi": "向",
+        "hanziVariant": null,
+        "pinyin": "xiàng",
+        "vietnamese": "hướng về, về phía",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E5%90%91"
+      },
+      {
+        "hanzi": "地圖",
+        "hanziVariant": "地图",
+        "pinyin": "dìtú",
+        "vietnamese": "bản đồ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%B0%E5%9C%96"
+      },
+      {
+        "hanzi": "對面",
+        "hanziVariant": "对面",
+        "pinyin": "duìmiàn",
+        "vietnamese": "phía đối diện",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B0%8D%E9%9D%A2"
+      },
+      {
+        "hanzi": "往",
+        "hanziVariant": null,
+        "pinyin": "wǎng",
+        "vietnamese": "hướng về, về phía",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E5%BE%80"
+      },
+      {
+        "hanzi": "掉",
+        "hanziVariant": null,
+        "pinyin": "diào",
+        "vietnamese": "rơi, rớt",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E6%8E%89"
+      },
+      {
+        "hanzi": "放",
+        "hanziVariant": "旅行",
+        "pinyin": "fàng",
+        "vietnamese": "đặt, để",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%94%BE"
+      },
+      {
+        "hanzi": "旅館",
+        "hanziVariant": "旅馆",
+        "pinyin": "lǚguǎn",
+        "vietnamese": "nhà nghỉ, khách sạn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%97%85%E9%A4%A8"
+      },
+      {
+        "hanzi": "最後",
+        "hanziVariant": "最后",
+        "pinyin": "zuìhòu",
+        "vietnamese": "cuối cùng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9C%80%E5%BE%8C"
+      },
+      {
+        "hanzi": "東",
+        "hanziVariant": "东",
+        "pinyin": "dōng",
+        "vietnamese": "phía đông, miền đông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9D%B1"
+      },
+      {
+        "hanzi": "汽車",
+        "hanziVariant": "汽车",
+        "pinyin": "qìchē",
+        "vietnamese": "ô tô, xe hơi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B1%BD%E8%BB%8A"
+      },
+      {
+        "hanzi": "照片",
+        "hanziVariant": null,
+        "pinyin": "zhàopiān",
+        "vietnamese": "ảnh, bức ảnh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%85%A7%E7%89%87"
+      },
+      {
+        "hanzi": "照相",
+        "hanziVariant": null,
+        "pinyin": "zhàoxiàng",
+        "vietnamese": "chụp ảnh",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E7%85%A7%E7%9B%B8"
+      },
+      {
+        "hanzi": "照相機",
+        "hanziVariant": "照相机",
+        "pinyin": "zhàoxiàngjī",
+        "vietnamese": "máy ảnh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%85%A7%E7%9B%B8%E6%A9%9F"
+      },
+      {
+        "hanzi": "經過",
+        "hanziVariant": "经过",
+        "pinyin": "jīngguò",
+        "vietnamese": "đi qua, trải qua",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%B6%93%E9%81%8E"
+      },
+      {
+        "hanzi": "袋子",
+        "hanziVariant": null,
+        "pinyin": "dàizi",
+        "vietnamese": "túi, bao",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A2%8B%E5%AD%90"
+      },
+      {
+        "hanzi": "西",
+        "hanziVariant": null,
+        "pinyin": "xī",
+        "vietnamese": "phía tây, miền tây",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A5%BF"
+      },
+      {
+        "hanzi": "路口",
+        "hanziVariant": null,
+        "pinyin": "lùkǒu",
+        "vietnamese": "giao lộ, ngã đường",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%B7%AF%E5%8F%A3"
+      },
+      {
+        "hanzi": "車站",
+        "hanziVariant": "车站",
+        "pinyin": "chēzhàn",
+        "vietnamese": "bến xe, ga tàu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%BB%8A%E7%AB%99"
+      },
+      {
+        "hanzi": "轉",
+        "hanziVariant": "转",
+        "pinyin": "zhuǎn",
+        "vietnamese": "rẽ, chuyển",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%BD%89"
+      },
+      {
+        "hanzi": "近",
+        "hanziVariant": null,
+        "pinyin": "jìn",
+        "vietnamese": "gần",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%BF%91"
+      },
+      {
+        "hanzi": "送",
+        "hanziVariant": null,
+        "pinyin": "sòng",
+        "vietnamese": "đưa, tiễn, tặng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%80%81"
+      },
+      {
+        "hanzi": "遠",
+        "hanziVariant": "远",
+        "pinyin": "yuǎn",
+        "vietnamese": "xa",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%81%A0"
+      },
+      {
+        "hanzi": "離開",
+        "hanziVariant": "离开",
+        "pinyin": "líkāi",
+        "vietnamese": "rời khỏi, rời đi",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E9%9B%A2%E9%96%8B"
+      },
+      {
+        "hanzi": "風景",
+        "hanziVariant": "风景",
+        "pinyin": "fēngjǐng",
+        "vietnamese": "phong cảnh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A2%A8%E6%99%AF"
+      },
+      {
+        "hanzi": "飛機場",
+        "hanziVariant": "飞机场",
+        "pinyin": "fēijīchǎng",
+        "vietnamese": "sân bay, phi trường",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A3%9B%E6%A9%9F%E5%A0%B4"
+      },
+      {
+        "hanzi": "飯店",
+        "hanziVariant": "饭店",
+        "pinyin": "fàndiàn",
+        "vietnamese": "khách sạn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A3%AF%E5%BA%97"
+      },
+      {
+        "hanzi": "馬路",
+        "hanziVariant": "马路",
+        "pinyin": "mǎlù",
+        "vietnamese": "đường cái, đường bộ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A6%AC%E8%B7%AF"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "entertainment",
+    "icon": "🎭",
+    "label": "Giải trí & Văn hóa",
+    "words": [
+      {
+        "hanzi": "上網",
+        "hanziVariant": "上网",
+        "pinyin": "shàngwǎng",
+        "vietnamese": "lên mạng",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E4%B8%8A%E7%B6%B2"
+      },
+      {
+        "hanzi": "各",
+        "hanziVariant": null,
+        "pinyin": "gè",
+        "vietnamese": "mỗi, các",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E5%90%84"
+      },
+      {
+        "hanzi": "報紙",
+        "hanziVariant": "报纸",
+        "pinyin": "bàozhǐ",
+        "vietnamese": "báo, báo giấy",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A0%B1%E7%B4%99"
+      },
+      {
+        "hanzi": "場",
+        "hanziVariant": "场",
+        "pinyin": "chǎng",
+        "vietnamese": "trận, buổi (biểu diễn)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%A0%B4"
+      },
+      {
+        "hanzi": "已經",
+        "hanziVariant": "已经",
+        "pinyin": "yǐjīng",
+        "vietnamese": "đã, rồi",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%B7%B2%E7%B6%93"
+      },
+      {
+        "hanzi": "平常",
+        "hanziVariant": null,
+        "pinyin": "píngcháng",
+        "vietnamese": "bình thường, ngày thường",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B9%B3%E5%B8%B8"
+      },
+      {
+        "hanzi": "後來",
+        "hanziVariant": "后来",
+        "pinyin": "hòulái",
+        "vietnamese": "sau này, về sau",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%BE%8C%E4%BE%86"
+      },
+      {
+        "hanzi": "才",
+        "hanziVariant": null,
+        "pinyin": "cái",
+        "vietnamese": "mới, vừa mới",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%89%8D"
+      },
+      {
+        "hanzi": "故事",
+        "hanziVariant": null,
+        "pinyin": "gùshi",
+        "vietnamese": "câu chuyện",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%95%85%E4%BA%8B"
+      },
+      {
+        "hanzi": "新年",
+        "hanziVariant": null,
+        "pinyin": "xīnnián",
+        "vietnamese": "năm mới",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%B0%E5%B9%B4"
+      },
+      {
+        "hanzi": "有時候",
+        "hanziVariant": "有时候",
+        "pinyin": "yǒushíhou",
+        "vietnamese": "có lúc, thỉnh thoảng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9C%89%E6%99%82%E5%80%99"
+      },
+      {
+        "hanzi": "棒球",
+        "hanziVariant": "次",
+        "pinyin": "bàngqiú",
+        "vietnamese": "bóng chày",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A3%92%E7%90%83"
+      },
+      {
+        "hanzi": "比賽",
+        "hanziVariant": "比赛",
+        "pinyin": "bǐsài",
+        "vietnamese": "thi đấu, trận đấu",
+        "pos": "Vi / N",
+        "dictHref": "/dictionary/%E6%AF%94%E8%B3%BD"
+      },
+      {
+        "hanzi": "活動",
+        "hanziVariant": "活动",
+        "pinyin": "huódòng",
+        "vietnamese": "hoạt động",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B4%BB%E5%8B%95"
+      },
+      {
+        "hanzi": "游泳",
+        "hanziVariant": null,
+        "pinyin": "yóuyǒng",
+        "vietnamese": "bơi, bơi lội",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%B8%B8%E6%B3%B3"
+      },
+      {
+        "hanzi": "票",
+        "hanziVariant": null,
+        "pinyin": "piào",
+        "vietnamese": "vé",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%A5%A8"
+      },
+      {
+        "hanzi": "籃球",
+        "hanziVariant": "篮球",
+        "pinyin": "lánqiú",
+        "vietnamese": "bóng rổ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B1%83%E7%90%83"
+      },
+      {
+        "hanzi": "網球",
+        "hanziVariant": "网球",
+        "pinyin": "wǎngqiú",
+        "vietnamese": "quần vợt, tennis",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B6%B2%E7%90%83"
+      },
+      {
+        "hanzi": "網站",
+        "hanziVariant": "网站",
+        "pinyin": "wǎngzhàn",
+        "vietnamese": "trang web, website",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B6%B2%E7%AB%99"
+      },
+      {
+        "hanzi": "網路",
+        "hanziVariant": "网路",
+        "pinyin": "wǎnglù",
+        "vietnamese": "mạng, internet",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B6%B2%E8%B7%AF"
+      },
+      {
+        "hanzi": "總是",
+        "hanziVariant": "总是",
+        "pinyin": "zǒngshì",
+        "vietnamese": "luôn luôn",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%B8%BD%E6%98%AF"
+      },
+      {
+        "hanzi": "聊天",
+        "hanziVariant": null,
+        "pinyin": "liáotiān",
+        "vietnamese": "trò chuyện, tán gẫu",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E8%81%8A%E5%A4%A9"
+      },
+      {
+        "hanzi": "腳踏車",
+        "hanziVariant": "脚踏车",
+        "pinyin": "jiǎotàchē",
+        "vietnamese": "xe đạp",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%85%B3%E8%B8%8F%E8%BB%8A"
+      },
+      {
+        "hanzi": "變",
+        "hanziVariant": "变",
+        "pinyin": "biàn",
+        "vietnamese": "thay đổi, biến thành",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%AE%8A"
+      },
+      {
+        "hanzi": "足球",
+        "hanziVariant": null,
+        "pinyin": "zúqiú",
+        "vietnamese": "bóng đá",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%B6%B3%E7%90%83"
+      },
+      {
+        "hanzi": "跑",
+        "hanziVariant": null,
+        "pinyin": "pǎo",
+        "vietnamese": "chạy, chạy bộ",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E8%B7%91"
+      },
+      {
+        "hanzi": "踢",
+        "hanziVariant": "過年",
+        "pinyin": "tī",
+        "vietnamese": "đá",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%B8%A2"
+      },
+      {
+        "hanzi": "部",
+        "hanziVariant": null,
+        "pinyin": "bù",
+        "vietnamese": "bộ (phim, tiểu thuyết)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%83%A8"
+      },
+      {
+        "hanzi": "開始",
+        "hanziVariant": "开始",
+        "pinyin": "kāishǐ",
+        "vietnamese": "bắt đầu",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E9%96%8B%E5%A7%8B"
+      },
+      {
+        "hanzi": "電影院",
+        "hanziVariant": "电影院",
+        "pinyin": "diànyǐngyuàn",
+        "vietnamese": "rạp chiếu phim",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%BB%E5%BD%B1%E9%99%A2"
+      },
+      {
+        "hanzi": "音樂",
+        "hanziVariant": "音乐",
+        "pinyin": "yīnyuè",
+        "vietnamese": "âm nhạc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9F%B3%E6%A8%82"
+      },
+      {
+        "hanzi": "騎",
+        "hanziVariant": "骑",
+        "pinyin": "qí",
+        "vietnamese": "cưỡi, đi (xe đạp, xe máy)",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%A8%8E"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "relationships",
+    "icon": "❤️",
+    "label": "Tình cảm & Quan hệ",
+    "words": [
+      {
+        "hanzi": "不好意思",
+        "hanziVariant": null,
+        "pinyin": "bùhǎoyìsi",
+        "vietnamese": "ngại, xấu hổ, xin lỗi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%A5%BD%E6%84%8F%E6%80%9D"
+      },
+      {
+        "hanzi": "不客氣",
+        "hanziVariant": "不客气",
+        "pinyin": "bùkèqì",
+        "vietnamese": "đừng khách sáo, không có gì",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%AE%A2%E6%B0%A3"
+      },
+      {
+        "hanzi": "事情",
+        "hanziVariant": null,
+        "pinyin": "shìqíng",
+        "vietnamese": "sự việc, chuyện",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BA%8B%E6%83%85"
+      },
+      {
+        "hanzi": "信",
+        "hanziVariant": null,
+        "pinyin": "xìn",
+        "vietnamese": "thư",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BF%A1"
+      },
+      {
+        "hanzi": "信封",
+        "hanziVariant": null,
+        "pinyin": "xìnfēng",
+        "vietnamese": "phong bì, bao thư",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BF%A1%E5%B0%81"
+      },
+      {
+        "hanzi": "啊",
+        "hanziVariant": null,
+        "pinyin": "ā",
+        "vietnamese": "à, á (trợ từ cuối câu)",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%95%8A"
+      },
+      {
+        "hanzi": "喂",
+        "hanziVariant": null,
+        "pinyin": "wéi",
+        "vietnamese": "a lô (khi nghe điện thoại)",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%96%82"
+      },
+      {
+        "hanzi": "壞",
+        "hanziVariant": "坏",
+        "pinyin": "huài",
+        "vietnamese": "hỏng, xấu",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%A3%9E"
+      },
+      {
+        "hanzi": "客人",
+        "hanziVariant": null,
+        "pinyin": "kèrén",
+        "vietnamese": "khách, khách hàng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AE%A2%E4%BA%BA"
+      },
+      {
+        "hanzi": "客氣",
+        "hanziVariant": "客气",
+        "pinyin": "kèqi",
+        "vietnamese": "khách sáo, khách khí",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%AE%A2%E6%B0%A3"
+      },
+      {
+        "hanzi": "寄",
+        "hanziVariant": "小朋友",
+        "pinyin": "jì",
+        "vietnamese": "gửi",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%AF%84"
+      },
+      {
+        "hanzi": "幫",
+        "hanziVariant": "帮",
+        "pinyin": "bāng",
+        "vietnamese": "giúp, giúp đỡ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%B9%AB"
+      },
+      {
+        "hanzi": "幫助",
+        "hanziVariant": "帮助",
+        "pinyin": "bāngzhù",
+        "vietnamese": "giúp đỡ, sự giúp đỡ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%B9%AB%E5%8A%A9"
+      },
+      {
+        "hanzi": "幫忙",
+        "hanziVariant": "帮忙",
+        "pinyin": "bāngmáng",
+        "vietnamese": "giúp đỡ",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E5%B9%AB%E5%BF%99"
+      },
+      {
+        "hanzi": "怎麼辦",
+        "hanziVariant": "怎么办",
+        "pinyin": "zěnmebàn",
+        "vietnamese": "làm thế nào bây giờ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%80%8E%E9%BA%BC%E8%BE%A6"
+      },
+      {
+        "hanzi": "拉",
+        "hanziVariant": null,
+        "pinyin": "lā",
+        "vietnamese": "kéo",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8B%89"
+      },
+      {
+        "hanzi": "接",
+        "hanziVariant": null,
+        "pinyin": "jiē",
+        "vietnamese": "nhận, đón",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8E%A5"
+      },
+      {
+        "hanzi": "最近",
+        "hanziVariant": null,
+        "pinyin": "zuìjìn",
+        "vietnamese": "gần đây",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9C%80%E8%BF%91"
+      },
+      {
+        "hanzi": "歡迎",
+        "hanziVariant": "欢迎",
+        "pinyin": "huānyíng",
+        "vietnamese": "hoan nghênh, chào mừng",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E6%AD%A1%E8%BF%8E"
+      },
+      {
+        "hanzi": "禮物",
+        "hanziVariant": "礼物",
+        "pinyin": "lǐwù",
+        "vietnamese": "quà, quà tặng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%A6%AE%E7%89%A9"
+      },
+      {
+        "hanzi": "聽說",
+        "hanziVariant": "听说",
+        "pinyin": "tīngshuō",
+        "vietnamese": "nghe nói",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%81%BD%E8%AA%AA"
+      },
+      {
+        "hanzi": "見面",
+        "hanziVariant": "见面",
+        "pinyin": "jiànmiàn",
+        "vietnamese": "gặp mặt",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E8%A6%8B%E9%9D%A2"
+      },
+      {
+        "hanzi": "認識",
+        "hanziVariant": "认识",
+        "pinyin": "rènshí",
+        "vietnamese": "quen, quen biết",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E8%AA%8D%E8%AD%98"
+      },
+      {
+        "hanzi": "銀行",
+        "hanziVariant": "银行",
+        "pinyin": "yínháng",
+        "vietnamese": "ngân hàng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%8A%80%E8%A1%8C"
+      },
+      {
+        "hanzi": "錢包",
+        "hanziVariant": "钱包",
+        "pinyin": "qiánbāo",
+        "vietnamese": "ví tiền",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%8C%A2%E5%8C%85"
+      },
+      {
+        "hanzi": "麻煩",
+        "hanziVariant": "麻烦",
+        "pinyin": "máfan",
+        "vietnamese": "phiền phức, làm phiền",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%BA%BB%E7%85%A9"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "function-words",
+    "icon": "🔧",
+    "label": "Từ chức năng & Hư từ",
+    "words": [
+      {
+        "hanzi": "一下(子)",
+        "hanziVariant": null,
+        "pinyin": "yīxià(zi)",
+        "vietnamese": "một lát, đột nhiên",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%80%E4%B8%8B(%E5%AD%90)"
+      },
+      {
+        "hanzi": "不過",
+        "hanziVariant": "不过",
+        "pinyin": "bùguò",
+        "vietnamese": "nhưng, tuy nhiên, chỉ là",
+        "pos": "Adv / Conj",
+        "dictHref": "/dictionary/%E4%B8%8D%E9%81%8E"
+      },
+      {
+        "hanzi": "以為",
+        "hanziVariant": "以为",
+        "pinyin": "yǐwéi",
+        "vietnamese": "tưởng rằng, cho là (sai)",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%BB%A5%E7%82%BA"
+      },
+      {
+        "hanzi": "但是",
+        "hanziVariant": null,
+        "pinyin": "dànshì",
+        "vietnamese": "nhưng, nhưng mà",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%BD%86%E6%98%AF"
+      },
+      {
+        "hanzi": "呀",
+        "hanziVariant": null,
+        "pinyin": "yā",
+        "vietnamese": "trợ từ cuối câu",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%91%80"
+      },
+      {
+        "hanzi": "啦",
+        "hanziVariant": null,
+        "pinyin": "la",
+        "vietnamese": "trợ từ cuối câu",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%95%A6"
+      },
+      {
+        "hanzi": "地",
+        "hanziVariant": null,
+        "pinyin": "dì",
+        "vietnamese": "trợ từ kết cấu",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%9C%B0"
+      },
+      {
+        "hanzi": "或是",
+        "hanziVariant": null,
+        "pinyin": "huòshì",
+        "vietnamese": "hoặc, hoặc là",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E6%88%96%E6%98%AF"
+      },
+      {
+        "hanzi": "把",
+        "hanziVariant": null,
+        "pinyin": "bǎ",
+        "vietnamese": "giới từ chỉ đối tượng",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E6%8A%8A"
+      },
+      {
+        "hanzi": "替",
+        "hanziVariant": null,
+        "pinyin": "tì",
+        "vietnamese": "thay, thay thế",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E6%9B%BF"
+      },
+      {
+        "hanzi": "有的",
+        "hanziVariant": null,
+        "pinyin": "yǒude",
+        "vietnamese": "có cái, một số",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E6%9C%89%E7%9A%84"
+      },
+      {
+        "hanzi": "本來",
+        "hanziVariant": "本来",
+        "pinyin": "běnlái",
+        "vietnamese": "vốn dĩ, ban đầu",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9C%AC%E4%BE%86"
+      },
+      {
+        "hanzi": "要是",
+        "hanziVariant": null,
+        "pinyin": "yàoshì",
+        "vietnamese": "nếu, nếu như",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E8%A6%81%E6%98%AF"
+      },
+      {
+        "hanzi": "讓",
+        "hanziVariant": "让",
+        "pinyin": "ràng",
+        "vietnamese": "để, cho phép, nhường",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E8%AE%93"
+      },
+      {
+        "hanzi": "這麼",
+        "hanziVariant": "这么",
+        "pinyin": "zhème",
+        "vietnamese": "như thế này, vậy",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E9%80%99%E9%BA%BC"
+      },
+      {
+        "hanzi": "過",
+        "hanziVariant": "过",
+        "pinyin": "guò",
+        "vietnamese": "qua, đi qua, ăn (lễ)",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%81%8E"
+      },
+      {
+        "hanzi": "那麼",
+        "hanziVariant": "那么",
+        "pinyin": "nàme",
+        "vietnamese": "như vậy, thế thì",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E9%82%A3%E9%BA%BC"
+      },
+      {
+        "hanzi": "雖然",
+        "hanziVariant": "虽然",
+        "pinyin": "suīrán",
+        "vietnamese": "tuy, tuy rằng",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E9%9B%96%E7%84%B6"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "restaurant",
+    "icon": "🍽️",
+    "label": "Nhà hàng & Ăn uống",
+    "words": [
+      {
+        "hanzi": "一半",
+        "hanziVariant": null,
+        "pinyin": "yībàn",
+        "vietnamese": "một nửa",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E4%B8%80%E5%8D%8A"
+      },
+      {
+        "hanzi": "三明治",
+        "hanziVariant": null,
+        "pinyin": "sānmíngzhì",
+        "vietnamese": "bánh sandwich",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%89%E6%98%8E%E6%B2%BB"
+      },
+      {
+        "hanzi": "份",
+        "hanziVariant": null,
+        "pinyin": "fèn",
+        "vietnamese": "phần, suất",
+        "pos": "M",
+        "dictHref": "/dictionary/%E4%BB%BD"
+      },
+      {
+        "hanzi": "冰淇淋",
+        "hanziVariant": null,
+        "pinyin": "bīngqílín",
+        "vietnamese": "kem",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%86%B0%E6%B7%87%E6%B7%8B"
+      },
+      {
+        "hanzi": "味道",
+        "hanziVariant": null,
+        "pinyin": "wèidào",
+        "vietnamese": "mùi vị, hương vị",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%91%B3%E9%81%93"
+      },
+      {
+        "hanzi": "啤酒",
+        "hanziVariant": null,
+        "pinyin": "píjiǔ",
+        "vietnamese": "bia",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%95%A4%E9%85%92"
+      },
+      {
+        "hanzi": "支",
+        "hanziVariant": null,
+        "pinyin": "zhī",
+        "vietnamese": "cây, que (bút, kem)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E6%94%AF"
+      },
+      {
+        "hanzi": "漢堡",
+        "hanziVariant": "汉堡",
+        "pinyin": "hànbǎo",
+        "vietnamese": "bánh hamburger",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%BC%A2%E5%A0%A1"
+      },
+      {
+        "hanzi": "瓶",
+        "hanziVariant": null,
+        "pinyin": "píng",
+        "vietnamese": "chai, bình",
+        "pos": "M / N",
+        "dictHref": "/dictionary/%E7%93%B6"
+      },
+      {
+        "hanzi": "紅茶",
+        "hanziVariant": "红茶",
+        "pinyin": "hóngchá",
+        "vietnamese": "hồng trà, trà đen",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B4%85%E8%8C%B6"
+      },
+      {
+        "hanzi": "苦",
+        "hanziVariant": "辣",
+        "pinyin": "kǔ",
+        "vietnamese": "đắng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%8B%A6"
+      },
+      {
+        "hanzi": "道",
+        "hanziVariant": null,
+        "pinyin": "dào",
+        "vietnamese": "món (ăn)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%81%93"
+      },
+      {
+        "hanzi": "酸",
+        "hanziVariant": null,
+        "pinyin": "suān",
+        "vietnamese": "chua",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%85%B8"
+      },
+      {
+        "hanzi": "香",
+        "hanziVariant": null,
+        "pinyin": "xiāng",
+        "vietnamese": "thơm",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%A6%99"
+      },
+      {
+        "hanzi": "鹹",
+        "hanziVariant": "咸",
+        "pinyin": "xián",
+        "vietnamese": "mặn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%B9%B9"
+      },
+      {
+        "hanzi": "點心",
+        "hanziVariant": "点心",
+        "pinyin": "diǎnxīn",
+        "vietnamese": "bánh điểm tâm, đồ ăn nhẹ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%BB%9E%E5%BF%83"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "work-finance",
+    "icon": "💼",
+    "label": "Công việc & Tài chính",
+    "words": [
+      {
+        "hanzi": "上班",
+        "hanziVariant": null,
+        "pinyin": "shàngbān",
+        "vietnamese": "đi làm",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E4%B8%8A%E7%8F%AD"
+      },
+      {
+        "hanzi": "下班",
+        "hanziVariant": null,
+        "pinyin": "xiàbān",
+        "vietnamese": "tan làm, tan ca",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E4%B8%8B%E7%8F%AD"
+      },
+      {
+        "hanzi": "公司",
+        "hanziVariant": null,
+        "pinyin": "gōngsī",
+        "vietnamese": "công ty",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%AC%E5%8F%B8"
+      },
+      {
+        "hanzi": "努力",
+        "hanziVariant": null,
+        "pinyin": "nǔlì",
+        "vietnamese": "nỗ lực, cố gắng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%8A%AA%E5%8A%9B"
+      },
+      {
+        "hanzi": "司機",
+        "hanziVariant": "司机",
+        "pinyin": "sījī",
+        "vietnamese": "tài xế, lái xe",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8F%B8%E6%A9%9F"
+      },
+      {
+        "hanzi": "如果",
+        "hanziVariant": null,
+        "pinyin": "rúguǒ",
+        "vietnamese": "nếu, nếu như",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E5%A6%82%E6%9E%9C"
+      },
+      {
+        "hanzi": "工人",
+        "hanziVariant": null,
+        "pinyin": "gōngrén",
+        "vietnamese": "công nhân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B7%A5%E4%BA%BA"
+      },
+      {
+        "hanzi": "打算",
+        "hanziVariant": null,
+        "pinyin": "dǎsuàn",
+        "vietnamese": "dự định, tính toán",
+        "pos": "Vaux",
+        "dictHref": "/dictionary/%E6%89%93%E7%AE%97"
+      },
+      {
+        "hanzi": "機會",
+        "hanziVariant": "机会",
+        "pinyin": "jīhuì",
+        "vietnamese": "cơ hội",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A9%9F%E6%9C%83"
+      },
+      {
+        "hanzi": "準備",
+        "hanziVariant": "准备",
+        "pinyin": "zhǔnbèi",
+        "vietnamese": "chuẩn bị",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%BA%96%E5%82%99"
+      },
+      {
+        "hanzi": "能力",
+        "hanziVariant": null,
+        "pinyin": "nénglì",
+        "vietnamese": "năng lực",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%83%BD%E5%8A%9B"
+      },
+      {
+        "hanzi": "計畫",
+        "hanziVariant": "计划",
+        "pinyin": "jìhuà",
+        "vietnamese": "kế hoạch, lên kế hoạch",
+        "pos": "V / N",
+        "dictHref": "/dictionary/%E8%A8%88%E7%95%AB"
+      },
+      {
+        "hanzi": "護士",
+        "hanziVariant": "护士",
+        "pinyin": "hùshì",
+        "vietnamese": "y tá",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%AD%B7%E5%A3%AB"
+      },
+      {
+        "hanzi": "辦公室",
+        "hanziVariant": "办公室",
+        "pinyin": "bàngōngshì",
+        "vietnamese": "văn phòng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%BE%A6%E5%85%AC%E5%AE%A4"
+      },
+      {
+        "hanzi": "醫院",
+        "hanziVariant": "医院",
+        "pinyin": "yīyuàn",
+        "vietnamese": "bệnh viện",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%86%AB%E9%99%A2"
+      }
+    ]
+  },
+  {
+    "level": "A1",
+    "topicKey": "health",
+    "icon": "🩺",
+    "label": "Y tế & Sức khỏe",
+    "words": [
+      {
+        "hanzi": "健康",
+        "hanziVariant": null,
+        "pinyin": "jiànkāng",
+        "vietnamese": "khỏe mạnh, sức khỏe",
+        "pos": "Vs / N",
+        "dictHref": "/dictionary/%E5%81%A5%E5%BA%B7"
+      },
+      {
+        "hanzi": "心",
+        "hanziVariant": null,
+        "pinyin": "xīn",
+        "vietnamese": "tim, tấm lòng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%BF%83"
+      },
+      {
+        "hanzi": "手指(頭)",
+        "hanziVariant": "手指(头)",
+        "pinyin": "shǒuzhǐ(tou)",
+        "vietnamese": "ngón tay",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%89%8B%E6%8C%87(%E9%A0%AD)"
+      },
+      {
+        "hanzi": "渴",
+        "hanziVariant": null,
+        "pinyin": "kě",
+        "vietnamese": "khát",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B8%B4"
+      },
+      {
+        "hanzi": "病人",
+        "hanziVariant": null,
+        "pinyin": "bìngrén",
+        "vietnamese": "bệnh nhân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%97%85%E4%BA%BA"
+      },
+      {
+        "hanzi": "眼鏡",
+        "hanziVariant": "眼镜",
+        "pinyin": "yǎnjìng",
+        "vietnamese": "kính mắt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%9C%BC%E9%8F%A1"
+      },
+      {
+        "hanzi": "臉",
+        "hanziVariant": "脸",
+        "pinyin": "liǎn",
+        "vietnamese": "mặt, gương mặt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%87%89"
+      },
+      {
+        "hanzi": "舒服",
+        "hanziVariant": null,
+        "pinyin": "shūfu",
+        "vietnamese": "thoải mái, dễ chịu",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%88%92%E6%9C%8D"
+      },
+      {
+        "hanzi": "頭髮",
+        "hanziVariant": "头发",
+        "pinyin": "tóufǎ",
+        "vietnamese": "tóc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A0%AD%E9%AB%AE"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "function-words",
+    "icon": "🔧",
+    "label": "Từ chức năng & Hư từ",
+    "words": [
+      {
+        "hanzi": "一切",
+        "hanziVariant": null,
+        "pinyin": "yīqiè",
+        "vietnamese": "tất cả, mọi thứ",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E4%B8%80%E5%88%87"
+      },
+      {
+        "hanzi": "不但",
+        "hanziVariant": null,
+        "pinyin": "bùdàn",
+        "vietnamese": "không những, không chỉ",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%B8%8D%E4%BD%86"
+      },
+      {
+        "hanzi": "不得了",
+        "hanziVariant": null,
+        "pinyin": "bùdéle",
+        "vietnamese": "ghê gớm, kinh khủng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%BE%97%E4%BA%86"
+      },
+      {
+        "hanzi": "不必",
+        "hanziVariant": null,
+        "pinyin": "bùbì",
+        "vietnamese": "không cần, không nhất thiết",
+        "pos": "Vaux",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%BF%85"
+      },
+      {
+        "hanzi": "不用",
+        "hanziVariant": null,
+        "pinyin": "bùyòng",
+        "vietnamese": "không cần",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E4%B8%8D%E7%94%A8"
+      },
+      {
+        "hanzi": "不管",
+        "hanziVariant": null,
+        "pinyin": "bùguǎn",
+        "vietnamese": "bất kể, bất luận",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%B8%8D%E7%AE%A1"
+      },
+      {
+        "hanzi": "且",
+        "hanziVariant": null,
+        "pinyin": "qiě",
+        "vietnamese": "và, hơn nữa",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%B8%94"
+      },
+      {
+        "hanzi": "也許",
+        "hanziVariant": "也许",
+        "pinyin": "yěxǔ",
+        "vietnamese": "có lẽ, có thể",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E4%B9%9F%E8%A8%B1"
+      },
+      {
+        "hanzi": "倍",
+        "hanziVariant": null,
+        "pinyin": "bèi",
+        "vietnamese": "lần, bội số",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%80%8D"
+      },
+      {
+        "hanzi": "其中",
+        "hanziVariant": null,
+        "pinyin": "qízhōng",
+        "vietnamese": "trong đó",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E5%85%B6%E4%B8%AD"
+      },
+      {
+        "hanzi": "其實",
+        "hanziVariant": "其实",
+        "pinyin": "qíshí",
+        "vietnamese": "thực ra, kỳ thực",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%85%B6%E5%AF%A6"
+      },
+      {
+        "hanzi": "別的",
+        "hanziVariant": "别的",
+        "pinyin": "biéde",
+        "vietnamese": "cái khác",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E5%88%A5%E7%9A%84"
+      },
+      {
+        "hanzi": "包括",
+        "hanziVariant": null,
+        "pinyin": "bāokuò",
+        "vietnamese": "bao gồm",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E5%8C%85%E6%8B%AC"
+      },
+      {
+        "hanzi": "原來",
+        "hanziVariant": "原来",
+        "pinyin": "yuánlái",
+        "vietnamese": "hóa ra, thì ra",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%8E%9F%E4%BE%86"
+      },
+      {
+        "hanzi": "另",
+        "hanziVariant": null,
+        "pinyin": "lìng",
+        "vietnamese": "khác",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E5%8F%A6"
+      },
+      {
+        "hanzi": "另外",
+        "hanziVariant": null,
+        "pinyin": "lìngwài",
+        "vietnamese": "ngoài ra, mặt khác",
+        "pos": "Conj / Det",
+        "dictHref": "/dictionary/%E5%8F%A6%E5%A4%96"
+      },
+      {
+        "hanzi": "只好",
+        "hanziVariant": null,
+        "pinyin": "zhǐhǎo",
+        "vietnamese": "đành phải, chỉ còn cách",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%8F%AA%E5%A5%BD"
+      },
+      {
+        "hanzi": "只要",
+        "hanziVariant": null,
+        "pinyin": "zhǐyào",
+        "vietnamese": "chỉ cần",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E5%8F%AA%E8%A6%81"
+      },
+      {
+        "hanzi": "可能",
+        "hanziVariant": null,
+        "pinyin": "kěnéng",
+        "vietnamese": "khả năng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8F%AF%E8%83%BD"
+      },
+      {
+        "hanzi": "同樣",
+        "hanziVariant": "同样",
+        "pinyin": "tóngyàng",
+        "vietnamese": "tương tự, giống nhau",
+        "pos": "Adv / Vs-attr",
+        "dictHref": "/dictionary/%E5%90%8C%E6%A8%A3"
+      },
+      {
+        "hanzi": "哇",
+        "hanziVariant": null,
+        "pinyin": "wā",
+        "vietnamese": "wow, à (thán từ)",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%93%87"
+      },
+      {
+        "hanzi": "多麼",
+        "hanziVariant": "多么",
+        "pinyin": "duōme",
+        "vietnamese": "biết bao, dường nào",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%A4%9A%E9%BA%BC"
+      },
+      {
+        "hanzi": "大概",
+        "hanziVariant": null,
+        "pinyin": "dàgài",
+        "vietnamese": "khoảng, đại khái",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%A4%A7%E6%A6%82"
+      },
+      {
+        "hanzi": "完全",
+        "hanziVariant": null,
+        "pinyin": "wánquán",
+        "vietnamese": "hoàn toàn",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%AE%8C%E5%85%A8"
+      },
+      {
+        "hanzi": "尤其",
+        "hanziVariant": null,
+        "pinyin": "yóuqí",
+        "vietnamese": "đặc biệt là, nhất là",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%B0%A4%E5%85%B6"
+      },
+      {
+        "hanzi": "左右",
+        "hanziVariant": null,
+        "pinyin": "zuǒyòu",
+        "vietnamese": "khoảng, xung quanh, trái phải",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E5%B7%A6%E5%8F%B3"
+      },
+      {
+        "hanzi": "已",
+        "hanziVariant": null,
+        "pinyin": "yǐ",
+        "vietnamese": "đã",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%B7%B2"
+      },
+      {
+        "hanzi": "從來",
+        "hanziVariant": "从来",
+        "pinyin": "cónglái",
+        "vietnamese": "từ trước đến nay (thường dùng với phủ định)",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%BE%9E%E4%BE%86"
+      },
+      {
+        "hanzi": "必須",
+        "hanziVariant": "必须",
+        "pinyin": "bìxū",
+        "vietnamese": "phải, cần phải",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%BF%85%E9%A0%88"
+      },
+      {
+        "hanzi": "或者",
+        "hanziVariant": null,
+        "pinyin": "huòzhě",
+        "vietnamese": "hoặc là (dùng trong câu trần thuật)",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E6%88%96%E8%80%85"
+      },
+      {
+        "hanzi": "接著",
+        "hanziVariant": null,
+        "pinyin": "jiēzhe",
+        "vietnamese": "tiếp theo, sau đó",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%8E%A5%E8%91%97"
+      },
+      {
+        "hanzi": "整",
+        "hanziVariant": null,
+        "pinyin": "zhěng",
+        "vietnamese": "cả, toàn bộ, tròn",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E6%95%B4"
+      },
+      {
+        "hanzi": "最好",
+        "hanziVariant": null,
+        "pinyin": "zuìhǎo",
+        "vietnamese": "tốt nhất là",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9C%80%E5%A5%BD"
+      },
+      {
+        "hanzi": "極",
+        "hanziVariant": "极",
+        "pinyin": "jí",
+        "vietnamese": "cực kỳ, vô cùng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%A5%B5"
+      },
+      {
+        "hanzi": "樣",
+        "hanziVariant": "样",
+        "pinyin": "yàng",
+        "vietnamese": "kiểu, loại",
+        "pos": "M",
+        "dictHref": "/dictionary/%E6%A8%A3"
+      },
+      {
+        "hanzi": "正",
+        "hanziVariant": null,
+        "pinyin": "zhèng",
+        "vietnamese": "đang, đúng lúc",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%AD%A3"
+      },
+      {
+        "hanzi": "步",
+        "hanziVariant": null,
+        "pinyin": "bù",
+        "vietnamese": "bước",
+        "pos": "M",
+        "dictHref": "/dictionary/%E6%AD%A5"
+      },
+      {
+        "hanzi": "比方",
+        "hanziVariant": null,
+        "pinyin": "bǐfāng",
+        "vietnamese": "ví dụ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AF%94%E6%96%B9"
+      },
+      {
+        "hanzi": "比方說",
+        "hanziVariant": "比方说",
+        "pinyin": "bǐfāngshuō",
+        "vietnamese": "ví dụ như",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E6%AF%94%E6%96%B9%E8%AA%AA"
+      },
+      {
+        "hanzi": "沒想到",
+        "hanziVariant": "没想到",
+        "pinyin": "méixiǎngdào",
+        "vietnamese": "không ngờ tới",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%B2%92%E6%83%B3%E5%88%B0"
+      },
+      {
+        "hanzi": "泡",
+        "hanziVariant": null,
+        "pinyin": "pào",
+        "vietnamese": "pha (trà, cà phê), ngâm",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%B3%A1"
+      },
+      {
+        "hanzi": "煩",
+        "hanziVariant": "烦",
+        "pinyin": "fán",
+        "vietnamese": "phiền, phiền muộn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%85%A9"
+      },
+      {
+        "hanzi": "當",
+        "hanziVariant": "当",
+        "pinyin": "dāng",
+        "vietnamese": "làm, đảm nhận, khi",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E7%95%B6"
+      },
+      {
+        "hanzi": "當時",
+        "hanziVariant": "当时",
+        "pinyin": "dāngshí",
+        "vietnamese": "lúc đó, khi đó",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%95%B6%E6%99%82"
+      },
+      {
+        "hanzi": "直接",
+        "hanziVariant": null,
+        "pinyin": "zhíjiē",
+        "vietnamese": "trực tiếp",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%9B%B4%E6%8E%A5"
+      },
+      {
+        "hanzi": "相當",
+        "hanziVariant": "相当",
+        "pinyin": "xiāngdāng",
+        "vietnamese": "tương đối, khá",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%9B%B8%E7%95%B6"
+      },
+      {
+        "hanzi": "空",
+        "hanziVariant": null,
+        "pinyin": "kòng",
+        "vietnamese": "rảnh rỗi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%A9%BA"
+      },
+      {
+        "hanzi": "立刻",
+        "hanziVariant": null,
+        "pinyin": "lìkè",
+        "vietnamese": "lập tức, ngay lập tức",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%AB%8B%E5%88%BB"
+      },
+      {
+        "hanzi": "等",
+        "hanziVariant": null,
+        "pinyin": "děng",
+        "vietnamese": "vân vân",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E7%AD%89"
+      },
+      {
+        "hanzi": "等到",
+        "hanziVariant": null,
+        "pinyin": "děngdào",
+        "vietnamese": "đợi đến khi",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E7%AD%89%E5%88%B0"
+      },
+      {
+        "hanzi": "結果",
+        "hanziVariant": "结果",
+        "pinyin": "jiéguǒ",
+        "vietnamese": "kết quả là, rốt cuộc",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E7%B5%90%E6%9E%9C"
+      },
+      {
+        "hanzi": "總",
+        "hanziVariant": "总",
+        "pinyin": "zǒng",
+        "vietnamese": "luôn luôn, tổng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%B8%BD"
+      },
+      {
+        "hanzi": "而且",
+        "hanziVariant": null,
+        "pinyin": "érqiě",
+        "vietnamese": "hơn nữa, mà còn",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E8%80%8C%E4%B8%94"
+      },
+      {
+        "hanzi": "越",
+        "hanziVariant": null,
+        "pinyin": "yuè",
+        "vietnamese": "càng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E8%B6%8A"
+      },
+      {
+        "hanzi": "這樣",
+        "hanziVariant": "这样",
+        "pinyin": "zhèyàng",
+        "vietnamese": "như thế này, như vậy",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%80%99%E6%A8%A3"
+      },
+      {
+        "hanzi": "連",
+        "hanziVariant": "连",
+        "pinyin": "lián",
+        "vietnamese": "ngay cả, đến cả",
+        "pos": "Conj / Vst",
+        "dictHref": "/dictionary/%E9%80%A3"
+      },
+      {
+        "hanzi": "還好",
+        "hanziVariant": "还好",
+        "pinyin": "háihǎo",
+        "vietnamese": "cũng được, tạm ổn",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E9%82%84%E5%A5%BD"
+      },
+      {
+        "hanzi": "那樣",
+        "hanziVariant": "那样",
+        "pinyin": "nàyàng",
+        "vietnamese": "như thế kia, như vậy",
+        "pos": "Adv / Vs",
+        "dictHref": "/dictionary/%E9%82%A3%E6%A8%A3"
+      },
+      {
+        "hanzi": "需",
+        "hanziVariant": null,
+        "pinyin": "xū",
+        "vietnamese": "cần",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E9%9C%80"
+      },
+      {
+        "hanzi": "須",
+        "hanziVariant": "须",
+        "pinyin": "xū",
+        "vietnamese": "phải, cần phải",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E9%A0%88"
+      },
+      {
+        "hanzi": "類",
+        "hanziVariant": "类",
+        "pinyin": "lèi",
+        "vietnamese": "loại",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%A1%9E"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "school",
+    "icon": "📚",
+    "label": "Học tập & Giáo dục",
+    "words": [
+      {
+        "hanzi": "中學",
+        "hanziVariant": "中学",
+        "pinyin": "zhōngxué",
+        "vietnamese": "trung học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%AD%E5%AD%B8"
+      },
+      {
+        "hanzi": "乘",
+        "hanziVariant": null,
+        "pinyin": "chéng",
+        "vietnamese": "nhân (phép tính)",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%B9%98"
+      },
+      {
+        "hanzi": "以上",
+        "hanziVariant": null,
+        "pinyin": "yǐshàng",
+        "vietnamese": "trở lên, trên",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BB%A5%E4%B8%8A"
+      },
+      {
+        "hanzi": "以下",
+        "hanziVariant": null,
+        "pinyin": "yǐxià",
+        "vietnamese": "trở xuống, dưới",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BB%A5%E4%B8%8B"
+      },
+      {
+        "hanzi": "位子",
+        "hanziVariant": null,
+        "pinyin": "wèizi",
+        "vietnamese": "chỗ ngồi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BD%8D%E5%AD%90"
+      },
+      {
+        "hanzi": "作文",
+        "hanziVariant": null,
+        "pinyin": "zuòwén",
+        "vietnamese": "bài văn, làm văn",
+        "pos": "N / Vi",
+        "dictHref": "/dictionary/%E4%BD%9C%E6%96%87"
+      },
+      {
+        "hanzi": "例(子)",
+        "hanziVariant": null,
+        "pinyin": "lì(zi)",
+        "vietnamese": "ví dụ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BE%8B(%E5%AD%90)"
+      },
+      {
+        "hanzi": "例如",
+        "hanziVariant": null,
+        "pinyin": "lìrú",
+        "vietnamese": "ví dụ, chẳng hạn như",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E4%BE%8B%E5%A6%82"
+      },
+      {
+        "hanzi": "假",
+        "hanziVariant": null,
+        "pinyin": "jià",
+        "vietnamese": "kỳ nghỉ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%81%87"
+      },
+      {
+        "hanzi": "加上",
+        "hanziVariant": null,
+        "pinyin": "jiāshàng",
+        "vietnamese": "thêm vào, cộng thêm",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%8A%A0%E4%B8%8A"
+      },
+      {
+        "hanzi": "原因",
+        "hanziVariant": null,
+        "pinyin": "yuányīn",
+        "vietnamese": "nguyên nhân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8E%9F%E5%9B%A0"
+      },
+      {
+        "hanzi": "同意",
+        "hanziVariant": "國小",
+        "pinyin": "tóngyì",
+        "vietnamese": "đồng ý",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E5%90%8C%E6%84%8F"
+      },
+      {
+        "hanzi": "大學生",
+        "hanziVariant": "大学生",
+        "pinyin": "dàxuéshēng",
+        "vietnamese": "sinh viên đại học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%A7%E5%AD%B8%E7%94%9F"
+      },
+      {
+        "hanzi": "學期",
+        "hanziVariant": "学期",
+        "pinyin": "xuéqī",
+        "vietnamese": "học kỳ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AD%B8%E6%9C%9F"
+      },
+      {
+        "hanzi": "學院",
+        "hanziVariant": "学院",
+        "pinyin": "xuéyuàn",
+        "vietnamese": "học viện, trường đại học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AD%B8%E9%99%A2"
+      },
+      {
+        "hanzi": "室友",
+        "hanziVariant": null,
+        "pinyin": "shìyǒu",
+        "vietnamese": "bạn cùng phòng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AE%A4%E5%8F%8B"
+      },
+      {
+        "hanzi": "寒假",
+        "hanziVariant": null,
+        "pinyin": "hánjià",
+        "vietnamese": "kỳ nghỉ đông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AF%92%E5%81%87"
+      },
+      {
+        "hanzi": "尺",
+        "hanziVariant": null,
+        "pinyin": "chǐ",
+        "vietnamese": "thước kẻ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B0%BA"
+      },
+      {
+        "hanzi": "建議",
+        "hanziVariant": "建议",
+        "pinyin": "jiànyì",
+        "vietnamese": "gợi ý, đề nghị, kiến nghị",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E5%BB%BA%E8%AD%B0"
+      },
+      {
+        "hanzi": "忘記",
+        "hanziVariant": "忘记",
+        "pinyin": "wàngjì",
+        "vietnamese": "quên",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E5%BF%98%E8%A8%98"
+      },
+      {
+        "hanzi": "念書",
+        "hanziVariant": "念书",
+        "pinyin": "niànshū",
+        "vietnamese": "đi học, học bài",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E5%BF%B5%E6%9B%B8"
+      },
+      {
+        "hanzi": "意見",
+        "hanziVariant": "意见",
+        "pinyin": "yìjiàn",
+        "vietnamese": "ý kiến",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%84%8F%E8%A6%8B"
+      },
+      {
+        "hanzi": "操場",
+        "hanziVariant": "操场",
+        "pinyin": "cāochǎng",
+        "vietnamese": "sân thể dục, sân vận động",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%93%8D%E5%A0%B4"
+      },
+      {
+        "hanzi": "改",
+        "hanziVariant": null,
+        "pinyin": "gǎi",
+        "vietnamese": "sửa, thay đổi",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%94%B9"
+      },
+      {
+        "hanzi": "放假",
+        "hanziVariant": null,
+        "pinyin": "fàngjià",
+        "vietnamese": "nghỉ lễ, nghỉ học",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%94%BE%E5%81%87"
+      },
+      {
+        "hanzi": "教授",
+        "hanziVariant": null,
+        "pinyin": "jiàoshòu",
+        "vietnamese": "giáo sư",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%95%99%E6%8E%88"
+      },
+      {
+        "hanzi": "教育",
+        "hanziVariant": null,
+        "pinyin": "jiàoyù",
+        "vietnamese": "giáo dục",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E6%95%99%E8%82%B2"
+      },
+      {
+        "hanzi": "數學",
+        "hanziVariant": "数学",
+        "pinyin": "shùxué",
+        "vietnamese": "toán học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%95%B8%E5%AD%B8"
+      },
+      {
+        "hanzi": "文法",
+        "hanziVariant": "春假",
+        "pinyin": "wénfǎ",
+        "vietnamese": "ngữ pháp",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%87%E6%B3%95"
+      },
+      {
+        "hanzi": "暑假",
+        "hanziVariant": null,
+        "pinyin": "shǔjià",
+        "vietnamese": "kỳ nghỉ hè",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9A%91%E5%81%87"
+      },
+      {
+        "hanzi": "書包",
+        "hanziVariant": "书包",
+        "pinyin": "shūbāo",
+        "vietnamese": "cặp sách",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9B%B8%E5%8C%85"
+      },
+      {
+        "hanzi": "書架",
+        "hanziVariant": "书架",
+        "pinyin": "shūjià",
+        "vietnamese": "giá sách, kệ sách",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9B%B8%E6%9E%B6"
+      },
+      {
+        "hanzi": "書桌",
+        "hanziVariant": "书桌",
+        "pinyin": "shūzhuō",
+        "vietnamese": "bàn học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9B%B8%E6%A1%8C"
+      },
+      {
+        "hanzi": "書法",
+        "hanziVariant": "书法",
+        "pinyin": "shūfǎ",
+        "vietnamese": "thư pháp",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9B%B8%E6%B3%95"
+      },
+      {
+        "hanzi": "有意思",
+        "hanziVariant": null,
+        "pinyin": "yǒuyìsi",
+        "vietnamese": "thú vị, có ý nghĩa",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9C%89%E6%84%8F%E6%80%9D"
+      },
+      {
+        "hanzi": "有趣",
+        "hanziVariant": null,
+        "pinyin": "yǒuqù",
+        "vietnamese": "thú vị, hay",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9C%89%E8%B6%A3"
+      },
+      {
+        "hanzi": "服務",
+        "hanziVariant": "服务",
+        "pinyin": "fúwù",
+        "vietnamese": "phục vụ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%9C%8D%E5%8B%99"
+      },
+      {
+        "hanzi": "本子",
+        "hanziVariant": null,
+        "pinyin": "běnzi",
+        "vietnamese": "quyển vở",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9C%AC%E5%AD%90"
+      },
+      {
+        "hanzi": "查",
+        "hanziVariant": null,
+        "pinyin": "chá",
+        "vietnamese": "tra, kiểm tra",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%9F%A5"
+      },
+      {
+        "hanzi": "校園",
+        "hanziVariant": "校园",
+        "pinyin": "xiàoyuán",
+        "vietnamese": "khuôn viên trường học",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A0%A1%E5%9C%92"
+      },
+      {
+        "hanzi": "歷史",
+        "hanziVariant": "历史",
+        "pinyin": "lìshǐ",
+        "vietnamese": "lịch sử",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AD%B7%E5%8F%B2"
+      },
+      {
+        "hanzi": "減",
+        "hanziVariant": "减",
+        "pinyin": "jiǎn",
+        "vietnamese": "trừ, giảm",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E6%B8%9B"
+      },
+      {
+        "hanzi": "漢字",
+        "hanziVariant": "汉字",
+        "pinyin": "hànzì",
+        "vietnamese": "chữ Hán",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%BC%A2%E5%AD%97"
+      },
+      {
+        "hanzi": "無聊",
+        "hanziVariant": "无聊",
+        "pinyin": "wúliáo",
+        "vietnamese": "nhàm chán, vô vị",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%84%A1%E8%81%8A"
+      },
+      {
+        "hanzi": "用功",
+        "hanziVariant": null,
+        "pinyin": "yònggōng",
+        "vietnamese": "chăm chỉ, siêng năng (học)",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%94%A8%E5%8A%9F"
+      },
+      {
+        "hanzi": "畢業",
+        "hanziVariant": "毕业",
+        "pinyin": "bìyè",
+        "vietnamese": "tốt nghiệp",
+        "pos": "Vp-sep",
+        "dictHref": "/dictionary/%E7%95%A2%E6%A5%AD"
+      },
+      {
+        "hanzi": "知識",
+        "hanziVariant": "知识",
+        "pinyin": "zhīshí",
+        "vietnamese": "kiến thức, tri thức",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%9F%A5%E8%AD%98"
+      },
+      {
+        "hanzi": "研究",
+        "hanziVariant": null,
+        "pinyin": "yánjiū",
+        "vietnamese": "nghiên cứu",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E7%A0%94%E7%A9%B6"
+      },
+      {
+        "hanzi": "程度",
+        "hanziVariant": null,
+        "pinyin": "chéngdù",
+        "vietnamese": "trình độ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%A8%8B%E5%BA%A6"
+      },
+      {
+        "hanzi": "答案",
+        "hanziVariant": null,
+        "pinyin": "dá&#x27;àn",
+        "vietnamese": "đáp án",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%AD%94%E6%A1%88"
+      },
+      {
+        "hanzi": "考",
+        "hanziVariant": null,
+        "pinyin": "kǎo",
+        "vietnamese": "thi, kiểm tra",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%80%83"
+      },
+      {
+        "hanzi": "英語",
+        "hanziVariant": "英语",
+        "pinyin": "yīngyǔ",
+        "vietnamese": "tiếng Anh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%8B%B1%E8%AA%9E"
+      },
+      {
+        "hanzi": "討論",
+        "hanziVariant": "讨论",
+        "pinyin": "tǎolùn",
+        "vietnamese": "thảo luận",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%A8%8E%E8%AB%96"
+      },
+      {
+        "hanzi": "詞",
+        "hanziVariant": "词",
+        "pinyin": "cí",
+        "vietnamese": "từ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A9%9E"
+      },
+      {
+        "hanzi": "趕快",
+        "hanziVariant": "赶快",
+        "pinyin": "gǎnkuài",
+        "vietnamese": "nhanh lên, mau chóng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E8%B6%95%E5%BF%AB"
+      },
+      {
+        "hanzi": "遍",
+        "hanziVariant": null,
+        "pinyin": "biàn",
+        "vietnamese": "lần, lượt",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%81%8D"
+      },
+      {
+        "hanzi": "選擇",
+        "hanziVariant": "选择",
+        "pinyin": "xuǎnzé",
+        "vietnamese": "lựa chọn, sự lựa chọn",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E9%81%B8%E6%93%87"
+      },
+      {
+        "hanzi": "題",
+        "hanziVariant": "题",
+        "pinyin": "tí",
+        "vietnamese": "câu hỏi, đề (lượng từ)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%A1%8C"
+      },
+      {
+        "hanzi": "題目",
+        "hanziVariant": "题目",
+        "pinyin": "tímù",
+        "vietnamese": "đề mục, câu hỏi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A1%8C%E7%9B%AE"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "home-living",
+    "icon": "🏠",
+    "label": "Nhà cửa & Đời sống",
+    "words": [
+      {
+        "hanzi": "乾",
+        "hanziVariant": "干",
+        "pinyin": "gān",
+        "vietnamese": "khô, cạn",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E4%B9%BE"
+      },
+      {
+        "hanzi": "亂",
+        "hanziVariant": "乱",
+        "pinyin": "luàn",
+        "vietnamese": "lộn xộn, bừa bộn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%BA%82"
+      },
+      {
+        "hanzi": "傘",
+        "hanziVariant": "伞",
+        "pinyin": "sǎn",
+        "vietnamese": "ô, dù",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%82%98"
+      },
+      {
+        "hanzi": "內",
+        "hanziVariant": "内",
+        "pinyin": "nèi",
+        "vietnamese": "bên trong, nội",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%A7"
+      },
+      {
+        "hanzi": "刷(子)",
+        "hanziVariant": null,
+        "pinyin": "shuā(zi)",
+        "vietnamese": "bàn chải, chải, đánh",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E5%88%B7(%E5%AD%90)"
+      },
+      {
+        "hanzi": "吵",
+        "hanziVariant": null,
+        "pinyin": "chǎo",
+        "vietnamese": "ồn ào",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%90%B5"
+      },
+      {
+        "hanzi": "垃圾",
+        "hanziVariant": null,
+        "pinyin": "lājī",
+        "vietnamese": "rác",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9E%83%E5%9C%BE"
+      },
+      {
+        "hanzi": "夢",
+        "hanziVariant": "梦",
+        "pinyin": "mèng",
+        "vietnamese": "giấc mơ, giấc mộng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%A2"
+      },
+      {
+        "hanzi": "大門",
+        "hanziVariant": "大门",
+        "pinyin": "dàmén",
+        "vietnamese": "cửa chính, cổng lớn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%A7%E9%96%80"
+      },
+      {
+        "hanzi": "季節",
+        "hanziVariant": "季节",
+        "pinyin": "jìjié",
+        "vietnamese": "mùa, mùa trong năm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AD%A3%E7%AF%80"
+      },
+      {
+        "hanzi": "層",
+        "hanziVariant": "层",
+        "pinyin": "céng",
+        "vietnamese": "tầng",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%B1%A4"
+      },
+      {
+        "hanzi": "底",
+        "hanziVariant": "底下",
+        "pinyin": "dǐ",
+        "vietnamese": "đáy, cuối",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%BA%95"
+      },
+      {
+        "hanzi": "度",
+        "hanziVariant": null,
+        "pinyin": "dù",
+        "vietnamese": "độ (nhiệt độ, góc)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%BA%A6"
+      },
+      {
+        "hanzi": "座",
+        "hanziVariant": null,
+        "pinyin": "zuò",
+        "vietnamese": "tòa, ngọn (núi, nhà)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%BA%A7"
+      },
+      {
+        "hanzi": "房屋",
+        "hanziVariant": null,
+        "pinyin": "fángwū",
+        "vietnamese": "nhà cửa, nhà ở",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%88%BF%E5%B1%8B"
+      },
+      {
+        "hanzi": "房東",
+        "hanziVariant": "房东",
+        "pinyin": "fángdōng",
+        "vietnamese": "chủ nhà (cho thuê)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%88%BF%E6%9D%B1"
+      },
+      {
+        "hanzi": "打開",
+        "hanziVariant": "打开",
+        "pinyin": "dǎkāi",
+        "vietnamese": "mở ra",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E6%89%93%E9%96%8B"
+      },
+      {
+        "hanzi": "拖鞋",
+        "hanziVariant": null,
+        "pinyin": "tuōxié",
+        "vietnamese": "dép lê",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%8B%96%E9%9E%8B"
+      },
+      {
+        "hanzi": "搬家",
+        "hanziVariant": null,
+        "pinyin": "bānjiā",
+        "vietnamese": "chuyển nhà",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%90%AC%E5%AE%B6"
+      },
+      {
+        "hanzi": "日記",
+        "hanziVariant": "日记",
+        "pinyin": "rìjì",
+        "vietnamese": "nhật ký",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%97%A5%E8%A8%98"
+      },
+      {
+        "hanzi": "星星",
+        "hanziVariant": null,
+        "pinyin": "xīngxing",
+        "vietnamese": "ngôi sao",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%98%9F%E6%98%9F"
+      },
+      {
+        "hanzi": "晴天",
+        "hanziVariant": null,
+        "pinyin": "qíngtiān",
+        "vietnamese": "ngày nắng, trời quang",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%99%B4%E5%A4%A9"
+      },
+      {
+        "hanzi": "暖和",
+        "hanziVariant": null,
+        "pinyin": "nuǎnhuo",
+        "vietnamese": "ấm áp",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9A%96%E5%92%8C"
+      },
+      {
+        "hanzi": "書房",
+        "hanziVariant": "书房",
+        "pinyin": "shūfáng",
+        "vietnamese": "phòng đọc sách, phòng làm việc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9B%B8%E6%88%BF"
+      },
+      {
+        "hanzi": "月亮",
+        "hanziVariant": null,
+        "pinyin": "yuèliàng",
+        "vietnamese": "mặt trăng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9C%88%E4%BA%AE"
+      },
+      {
+        "hanzi": "朵",
+        "hanziVariant": null,
+        "pinyin": "duǒ",
+        "vietnamese": "đóa, bông (hoa)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E6%9C%B5"
+      },
+      {
+        "hanzi": "枕頭",
+        "hanziVariant": "枕头",
+        "pinyin": "zhěntou",
+        "vietnamese": "cái gối",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9E%95%E9%A0%AD"
+      },
+      {
+        "hanzi": "櫃(子)",
+        "hanziVariant": "柜(子)",
+        "pinyin": "guì(zi)",
+        "vietnamese": "tủ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AB%83(%E5%AD%90)"
+      },
+      {
+        "hanzi": "毛巾",
+        "hanziVariant": "汙染",
+        "pinyin": "máojīn",
+        "vietnamese": "khăn mặt, khăn lông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AF%9B%E5%B7%BE"
+      },
+      {
+        "hanzi": "洗衣機",
+        "hanziVariant": "洗衣机",
+        "pinyin": "xǐyījī",
+        "vietnamese": "máy giặt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B4%97%E8%A1%A3%E6%A9%9F"
+      },
+      {
+        "hanzi": "流",
+        "hanziVariant": null,
+        "pinyin": "liú",
+        "vietnamese": "chảy",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%B5%81"
+      },
+      {
+        "hanzi": "流汗",
+        "hanziVariant": null,
+        "pinyin": "liúhàn",
+        "vietnamese": "đổ mồ hôi",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%B5%81%E6%B1%97"
+      },
+      {
+        "hanzi": "浴室",
+        "hanziVariant": null,
+        "pinyin": "yùshì",
+        "vietnamese": "phòng tắm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B5%B4%E5%AE%A4"
+      },
+      {
+        "hanzi": "涼",
+        "hanziVariant": "凉",
+        "pinyin": "liáng",
+        "vietnamese": "mát, nguội",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B6%BC"
+      },
+      {
+        "hanzi": "涼快",
+        "hanziVariant": "凉快",
+        "pinyin": "liángkuài",
+        "vietnamese": "mát mẻ",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B6%BC%E5%BF%AB"
+      },
+      {
+        "hanzi": "深",
+        "hanziVariant": null,
+        "pinyin": "shēn",
+        "vietnamese": "sâu, đậm (màu)",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B7%B1"
+      },
+      {
+        "hanzi": "淺",
+        "hanziVariant": "浅",
+        "pinyin": "qiǎn",
+        "vietnamese": "nông, cạn, nhạt (màu)",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B7%BA"
+      },
+      {
+        "hanzi": "濕",
+        "hanziVariant": "湿",
+        "pinyin": "shī",
+        "vietnamese": "ẩm, ướt",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%BF%95"
+      },
+      {
+        "hanzi": "照顧",
+        "hanziVariant": "照顾",
+        "pinyin": "zhàogù",
+        "vietnamese": "chăm sóc",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%85%A7%E9%A1%A7"
+      },
+      {
+        "hanzi": "熱鬧",
+        "hanziVariant": "热闹",
+        "pinyin": "rènao",
+        "vietnamese": "náo nhiệt, sôi nổi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%86%B1%E9%AC%A7"
+      },
+      {
+        "hanzi": "牙膏",
+        "hanziVariant": null,
+        "pinyin": "yágāo",
+        "vietnamese": "kem đánh răng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%89%99%E8%86%8F"
+      },
+      {
+        "hanzi": "環保",
+        "hanziVariant": "环保",
+        "pinyin": "huánbǎo",
+        "vietnamese": "bảo vệ môi trường",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%92%B0%E4%BF%9D"
+      },
+      {
+        "hanzi": "環境",
+        "hanziVariant": "环境",
+        "pinyin": "huánjìng",
+        "vietnamese": "môi trường",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%92%B0%E5%A2%83"
+      },
+      {
+        "hanzi": "生活",
+        "hanziVariant": null,
+        "pinyin": "shēnghuó",
+        "vietnamese": "cuộc sống, sinh hoạt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%94%9F%E6%B4%BB"
+      },
+      {
+        "hanzi": "發生",
+        "hanziVariant": "发生",
+        "pinyin": "fāshēng",
+        "vietnamese": "xảy ra, phát sinh",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E7%99%BC%E7%94%9F"
+      },
+      {
+        "hanzi": "箱",
+        "hanziVariant": "籃(子)",
+        "pinyin": "xiāng",
+        "vietnamese": "hòm, vali, thùng",
+        "pos": "M / N",
+        "dictHref": "/dictionary/%E7%AE%B1"
+      },
+      {
+        "hanzi": "肥皂",
+        "hanziVariant": null,
+        "pinyin": "féizào",
+        "vietnamese": "xà phòng, xà bông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%82%A5%E7%9A%82"
+      },
+      {
+        "hanzi": "臥室",
+        "hanziVariant": "卧室",
+        "pinyin": "wòshì",
+        "vietnamese": "phòng ngủ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%87%A5%E5%AE%A4"
+      },
+      {
+        "hanzi": "臥房",
+        "hanziVariant": "卧房",
+        "pinyin": "wòfáng",
+        "vietnamese": "phòng ngủ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%87%A5%E6%88%BF"
+      },
+      {
+        "hanzi": "自然",
+        "hanziVariant": null,
+        "pinyin": "zìrán",
+        "vietnamese": "tự nhiên",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%87%AA%E7%84%B6"
+      },
+      {
+        "hanzi": "蚊(子)",
+        "hanziVariant": null,
+        "pinyin": "wén(zi)",
+        "vietnamese": "muỗi, con muỗi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%9A%8A(%E5%AD%90)"
+      },
+      {
+        "hanzi": "衛生紙",
+        "hanziVariant": "卫生纸",
+        "pinyin": "wèishēngzhǐ",
+        "vietnamese": "giấy vệ sinh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A1%9B%E7%94%9F%E7%B4%99"
+      },
+      {
+        "hanzi": "鄉下",
+        "hanziVariant": "乡下",
+        "pinyin": "xiāngxià",
+        "vietnamese": "nông thôn, quê",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%84%89%E4%B8%8B"
+      },
+      {
+        "hanzi": "鄰居",
+        "hanziVariant": "邻居",
+        "pinyin": "línjū",
+        "vietnamese": "hàng xóm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%84%B0%E5%B1%85"
+      },
+      {
+        "hanzi": "開水",
+        "hanziVariant": "开水",
+        "pinyin": "kāishuǐ",
+        "vietnamese": "nước sôi, nước đun sôi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%96%8B%E6%B0%B4"
+      },
+      {
+        "hanzi": "院(子)",
+        "hanziVariant": "颱風",
+        "pinyin": "yuàn(zi)",
+        "vietnamese": "sân, sân trong",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%99%A2(%E5%AD%90)"
+      },
+      {
+        "hanzi": "餐桌",
+        "hanziVariant": null,
+        "pinyin": "cānzhuō",
+        "vietnamese": "bàn ăn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A4%90%E6%A1%8C"
+      },
+      {
+        "hanzi": "鬧鐘",
+        "hanziVariant": "闹钟",
+        "pinyin": "nàozhōng",
+        "vietnamese": "đồng hồ báo thức",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%AC%A7%E9%90%98"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "communication",
+    "icon": "💬",
+    "label": "Thông tin & Giao tiếp",
+    "words": [
+      {
+        "hanzi": "不久",
+        "hanziVariant": null,
+        "pinyin": "bùjiǔ",
+        "vietnamese": "không lâu, chẳng bao lâu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%8D%E4%B9%85"
+      },
+      {
+        "hanzi": "不同",
+        "hanziVariant": null,
+        "pinyin": "bùtóng",
+        "vietnamese": "không giống, khác nhau",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%90%8C"
+      },
+      {
+        "hanzi": "伯伯",
+        "hanziVariant": null,
+        "pinyin": "bóbo",
+        "vietnamese": "bác trai (anh của bố)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BC%AF%E4%BC%AF"
+      },
+      {
+        "hanzi": "伯母",
+        "hanziVariant": null,
+        "pinyin": "bómǔ",
+        "vietnamese": "bác gái (vợ của anh trai bố)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BC%AF%E6%AF%8D"
+      },
+      {
+        "hanzi": "伯父",
+        "hanziVariant": null,
+        "pinyin": "bófù",
+        "vietnamese": "bác trai (anh của bố)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BC%AF%E7%88%B6"
+      },
+      {
+        "hanzi": "住址",
+        "hanziVariant": null,
+        "pinyin": "zhùzhǐ",
+        "vietnamese": "địa chỉ cư trú",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BD%8F%E5%9D%80"
+      },
+      {
+        "hanzi": "傳真",
+        "hanziVariant": "传真",
+        "pinyin": "chuánzhēn",
+        "vietnamese": "máy fax, bản fax",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%82%B3%E7%9C%9F"
+      },
+      {
+        "hanzi": "傷心",
+        "hanziVariant": "伤心",
+        "pinyin": "shāngxīn",
+        "vietnamese": "đau lòng, buồn bã",
+        "pos": "Vs-sep",
+        "dictHref": "/dictionary/%E5%82%B7%E5%BF%83"
+      },
+      {
+        "hanzi": "兄弟",
+        "hanziVariant": null,
+        "pinyin": "xiōngdì",
+        "vietnamese": "anh em",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%84%E5%BC%9F"
+      },
+      {
+        "hanzi": "出生",
+        "hanziVariant": null,
+        "pinyin": "chūshēng",
+        "vietnamese": "ra đời, sinh ra",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%87%BA%E7%94%9F"
+      },
+      {
+        "hanzi": "剛才",
+        "hanziVariant": "刚才",
+        "pinyin": "gāngcái",
+        "vietnamese": "vừa rồi, lúc nãy",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%89%9B%E6%89%8D"
+      },
+      {
+        "hanzi": "半夜",
+        "hanziVariant": "叔叔",
+        "pinyin": "bànyè",
+        "vietnamese": "nửa đêm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8D%8A%E5%A4%9C"
+      },
+      {
+        "hanzi": "外公",
+        "hanziVariant": null,
+        "pinyin": "wàigōng",
+        "vietnamese": "ông ngoại",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%96%E5%85%AC"
+      },
+      {
+        "hanzi": "外婆",
+        "hanziVariant": null,
+        "pinyin": "wàipó",
+        "vietnamese": "bà ngoại",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%96%E5%A9%86"
+      },
+      {
+        "hanzi": "夜",
+        "hanziVariant": null,
+        "pinyin": "yè",
+        "vietnamese": "đêm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%9C"
+      },
+      {
+        "hanzi": "夜晚",
+        "hanziVariant": null,
+        "pinyin": "yèwǎn",
+        "vietnamese": "ban đêm, đêm khuya",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%9C%E6%99%9A"
+      },
+      {
+        "hanzi": "女人",
+        "hanziVariant": null,
+        "pinyin": "nǚrén",
+        "vietnamese": "phụ nữ, đàn bà",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A5%B3%E4%BA%BA"
+      },
+      {
+        "hanzi": "姑姑",
+        "hanziVariant": null,
+        "pinyin": "gūgu",
+        "vietnamese": "cô (chị em gái của bố)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A7%91%E5%A7%91"
+      },
+      {
+        "hanzi": "孫女",
+        "hanziVariant": "孙女",
+        "pinyin": "sūnnǚ",
+        "vietnamese": "cháu gái (con của con trai)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AD%AB%E5%A5%B3"
+      },
+      {
+        "hanzi": "孫子",
+        "hanziVariant": "孙子",
+        "pinyin": "sūnzi",
+        "vietnamese": "cháu trai (con của con trai)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AD%AB%E5%AD%90"
+      },
+      {
+        "hanzi": "害怕",
+        "hanziVariant": null,
+        "pinyin": "hàipà",
+        "vietnamese": "sợ hãi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%AE%B3%E6%80%95"
+      },
+      {
+        "hanzi": "害羞",
+        "hanziVariant": null,
+        "pinyin": "hàixiū",
+        "vietnamese": "xấu hổ, e thẹn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%AE%B3%E7%BE%9E"
+      },
+      {
+        "hanzi": "差",
+        "hanziVariant": null,
+        "pinyin": "chà",
+        "vietnamese": "kém, tồi",
+        "pos": "Vs-pred",
+        "dictHref": "/dictionary/%E5%B7%AE"
+      },
+      {
+        "hanzi": "帥",
+        "hanziVariant": "帅",
+        "pinyin": "shuài",
+        "vietnamese": "đẹp trai, soái",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%B8%A5"
+      },
+      {
+        "hanzi": "年紀",
+        "hanziVariant": "年纪",
+        "pinyin": "niánjì",
+        "vietnamese": "tuổi, tuổi tác",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B9%B4%E7%B4%80"
+      },
+      {
+        "hanzi": "幸福",
+        "hanziVariant": null,
+        "pinyin": "xìngfú",
+        "vietnamese": "hạnh phúc",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%B9%B8%E7%A6%8F"
+      },
+      {
+        "hanzi": "心情",
+        "hanziVariant": null,
+        "pinyin": "xīnqíng",
+        "vietnamese": "tâm trạng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%BF%83%E6%83%85"
+      },
+      {
+        "hanzi": "急",
+        "hanziVariant": null,
+        "pinyin": "jí",
+        "vietnamese": "vội, gấp, lo lắng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%80%A5"
+      },
+      {
+        "hanzi": "擔心",
+        "hanziVariant": "担心",
+        "pinyin": "dānxīn",
+        "vietnamese": "lo lắng",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E6%93%94%E5%BF%83"
+      },
+      {
+        "hanzi": "日子",
+        "hanziVariant": null,
+        "pinyin": "rìzi",
+        "vietnamese": "ngày, cuộc sống",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%97%A5%E5%AD%90"
+      },
+      {
+        "hanzi": "早點",
+        "hanziVariant": "早点",
+        "pinyin": "zǎodiǎn",
+        "vietnamese": "sớm một chút",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%97%A9%E9%BB%9E"
+      },
+      {
+        "hanzi": "春季",
+        "hanziVariant": null,
+        "pinyin": "chūnjì",
+        "vietnamese": "mùa xuân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%98%A5%E5%AD%A3"
+      },
+      {
+        "hanzi": "時",
+        "hanziVariant": "时",
+        "pinyin": "shí",
+        "vietnamese": "lúc, khi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%99%82"
+      },
+      {
+        "hanzi": "正好",
+        "hanziVariant": null,
+        "pinyin": "zhènghǎo",
+        "vietnamese": "vừa hay, đúng lúc",
+        "pos": "Adv / Vs",
+        "dictHref": "/dictionary/%E6%AD%A3%E5%A5%BD"
+      },
+      {
+        "hanzi": "母親",
+        "hanziVariant": "母亲",
+        "pinyin": "mǔqīn",
+        "vietnamese": "mẹ, má (trang trọng)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AF%8D%E8%A6%AA"
+      },
+      {
+        "hanzi": "母語",
+        "hanziVariant": "母语",
+        "pinyin": "mǔyǔ",
+        "vietnamese": "tiếng mẹ đẻ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AF%8D%E8%AA%9E"
+      },
+      {
+        "hanzi": "父母",
+        "hanziVariant": null,
+        "pinyin": "fùmǔ",
+        "vietnamese": "bố mẹ, phụ huynh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%88%B6%E6%AF%8D"
+      },
+      {
+        "hanzi": "父親",
+        "hanziVariant": "父亲",
+        "pinyin": "fùqīn",
+        "vietnamese": "cha, bố (trang trọng)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%88%B6%E8%A6%AA"
+      },
+      {
+        "hanzi": "男人",
+        "hanziVariant": null,
+        "pinyin": "nánrén",
+        "vietnamese": "đàn ông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%94%B7%E4%BA%BA"
+      },
+      {
+        "hanzi": "白天",
+        "hanziVariant": null,
+        "pinyin": "báitian",
+        "vietnamese": "ban ngày",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%99%BD%E5%A4%A9"
+      },
+      {
+        "hanzi": "禮貌",
+        "hanziVariant": "礼貌",
+        "pinyin": "lǐmào",
+        "vietnamese": "lễ phép, lịch sự",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%A6%AE%E8%B2%8C"
+      },
+      {
+        "hanzi": "笨",
+        "hanziVariant": null,
+        "pinyin": "bèn",
+        "vietnamese": "ngốc, đần độn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%AC%A8"
+      },
+      {
+        "hanzi": "美麗",
+        "hanziVariant": "美丽",
+        "pinyin": "měilì",
+        "vietnamese": "xinh đẹp, mỹ lệ",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%BE%8E%E9%BA%97"
+      },
+      {
+        "hanzi": "表",
+        "hanziVariant": null,
+        "pinyin": "biǎo",
+        "vietnamese": "bảng, biểu, đồng hồ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A1%A8"
+      },
+      {
+        "hanzi": "認真",
+        "hanziVariant": "认真",
+        "pinyin": "rènzhēn",
+        "vietnamese": "nghiêm túc, chăm chỉ",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%AA%8D%E7%9C%9F"
+      },
+      {
+        "hanzi": "身邊",
+        "hanziVariant": "身边",
+        "pinyin": "shēnbiān",
+        "vietnamese": "bên cạnh, bên người",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%BA%AB%E9%82%8A"
+      },
+      {
+        "hanzi": "鐘",
+        "hanziVariant": "钟",
+        "pinyin": "zhōng",
+        "vietnamese": "giờ (khoảng thời gian)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%90%98"
+      },
+      {
+        "hanzi": "長大",
+        "hanziVariant": "长大",
+        "pinyin": "zhǎngdà",
+        "vietnamese": "trưởng thành, lớn lên",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E9%95%B7%E5%A4%A7"
+      },
+      {
+        "hanzi": "開心",
+        "hanziVariant": "开心",
+        "pinyin": "kāixīn",
+        "vietnamese": "vui vẻ, phấn khởi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%96%8B%E5%BF%83"
+      },
+      {
+        "hanzi": "關係",
+        "hanziVariant": "关系",
+        "pinyin": "guānxì",
+        "vietnamese": "mối quan hệ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%97%9C%E4%BF%82"
+      },
+      {
+        "hanzi": "關心",
+        "hanziVariant": "关心",
+        "pinyin": "guānxīn",
+        "vietnamese": "quan tâm",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E9%97%9C%E5%BF%83"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "relationships",
+    "icon": "❤️",
+    "label": "Tình cảm & Quan hệ",
+    "words": [
+      {
+        "hanzi": "一塊",
+        "hanziVariant": "一块",
+        "pinyin": "yīkuài",
+        "vietnamese": "cùng nhau, cùng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E4%B8%80%E5%A1%8A"
+      },
+      {
+        "hanzi": "丟",
+        "hanziVariant": "丢",
+        "pinyin": "diū",
+        "vietnamese": "mất, vứt",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%B8%9F"
+      },
+      {
+        "hanzi": "主人",
+        "hanziVariant": null,
+        "pinyin": "zhǔrén",
+        "vietnamese": "chủ nhà, chủ nhân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%BB%E4%BA%BA"
+      },
+      {
+        "hanzi": "保護",
+        "hanziVariant": "保护",
+        "pinyin": "bǎohù",
+        "vietnamese": "bảo vệ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%BF%9D%E8%AD%B7"
+      },
+      {
+        "hanzi": "信箱",
+        "hanziVariant": null,
+        "pinyin": "xìnxiāng",
+        "vietnamese": "hòm thư",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BF%A1%E7%AE%B1"
+      },
+      {
+        "hanzi": "偷",
+        "hanziVariant": null,
+        "pinyin": "tōu",
+        "vietnamese": "ăn trộm, ăn cắp",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%81%B7"
+      },
+      {
+        "hanzi": "傳統",
+        "hanziVariant": "传统",
+        "pinyin": "chuántǒng",
+        "vietnamese": "truyền thống",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%82%B3%E7%B5%B1"
+      },
+      {
+        "hanzi": "出門",
+        "hanziVariant": "出门",
+        "pinyin": "chūmén",
+        "vietnamese": "ra ngoài, ra khỏi nhà",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E5%87%BA%E9%96%80"
+      },
+      {
+        "hanzi": "利用",
+        "hanziVariant": null,
+        "pinyin": "lìyòng",
+        "vietnamese": "lợi dụng, sử dụng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%88%A9%E7%94%A8"
+      },
+      {
+        "hanzi": "可惜",
+        "hanziVariant": null,
+        "pinyin": "kěxī",
+        "vietnamese": "đáng tiếc",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%8F%AF%E6%83%9C"
+      },
+      {
+        "hanzi": "合作",
+        "hanziVariant": null,
+        "pinyin": "hézuò",
+        "vietnamese": "hợp tác",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%90%88%E4%BD%9C"
+      },
+      {
+        "hanzi": "同時",
+        "hanziVariant": "同时",
+        "pinyin": "tóngshí",
+        "vietnamese": "đồng thời, cùng lúc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%90%8C%E6%99%82"
+      },
+      {
+        "hanzi": "壞處",
+        "hanziVariant": "坏处",
+        "pinyin": "huàichù",
+        "vietnamese": "chỗ xấu, tác hại",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A3%9E%E8%99%95"
+      },
+      {
+        "hanzi": "好處",
+        "hanziVariant": "好处",
+        "pinyin": "hǎochù",
+        "vietnamese": "chỗ tốt, lợi ích",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A5%BD%E8%99%95"
+      },
+      {
+        "hanzi": "封",
+        "hanziVariant": null,
+        "pinyin": "fēng",
+        "vietnamese": "bức (thư), phong (thư",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%B0%81"
+      },
+      {
+        "hanzi": "帶來",
+        "hanziVariant": "带来",
+        "pinyin": "dàilái",
+        "vietnamese": "mang đến, đem lại",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%B8%B6%E4%BE%86"
+      },
+      {
+        "hanzi": "弄",
+        "hanziVariant": null,
+        "pinyin": "nòng",
+        "vietnamese": "làm, gây ra",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%BC%84"
+      },
+      {
+        "hanzi": "換",
+        "hanziVariant": "换",
+        "pinyin": "huàn",
+        "vietnamese": "đổi, thay",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8F%9B"
+      },
+      {
+        "hanzi": "放心",
+        "hanziVariant": null,
+        "pinyin": "fàngxīn",
+        "vietnamese": "yên tâm",
+        "pos": "Vs-sep",
+        "dictHref": "/dictionary/%E6%94%BE%E5%BF%83"
+      },
+      {
+        "hanzi": "方面",
+        "hanziVariant": null,
+        "pinyin": "fāngmiàn",
+        "vietnamese": "phương diện, mặt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%B9%E9%9D%A2"
+      },
+      {
+        "hanzi": "春節",
+        "hanziVariant": "春节",
+        "pinyin": "chūnjié",
+        "vietnamese": "Tết Nguyên Đán, Tết Âm lịch",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%98%A5%E7%AF%80"
+      },
+      {
+        "hanzi": "有名",
+        "hanziVariant": null,
+        "pinyin": "yǒumíng",
+        "vietnamese": "nổi tiếng, có danh",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9C%89%E5%90%8D"
+      },
+      {
+        "hanzi": "法律",
+        "hanziVariant": null,
+        "pinyin": "fǎlǜ",
+        "vietnamese": "pháp luật",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B3%95%E5%BE%8B"
+      },
+      {
+        "hanzi": "派對",
+        "hanziVariant": "派对",
+        "pinyin": "pàiduì",
+        "vietnamese": "tiệc tùng, bữa tiệc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B4%BE%E5%B0%8D"
+      },
+      {
+        "hanzi": "滿",
+        "hanziVariant": "满",
+        "pinyin": "mǎn",
+        "vietnamese": "đầy, đủ, mãn",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E6%BB%BF"
+      },
+      {
+        "hanzi": "現代",
+        "hanziVariant": "现代",
+        "pinyin": "xiàndài",
+        "vietnamese": "hiện đại",
+        "pos": "N / Vs",
+        "dictHref": "/dictionary/%E7%8F%BE%E4%BB%A3"
+      },
+      {
+        "hanzi": "留",
+        "hanziVariant": null,
+        "pinyin": "liú",
+        "vietnamese": "để lại, ở lại",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%95%99"
+      },
+      {
+        "hanzi": "當中",
+        "hanziVariant": "当中",
+        "pinyin": "dāngzhōng",
+        "vietnamese": "trong số, giữa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%95%B6%E4%B8%AD"
+      },
+      {
+        "hanzi": "目的",
+        "hanziVariant": "社會",
+        "pinyin": "mùdì",
+        "vietnamese": "mục đích",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%9B%AE%E7%9A%84"
+      },
+      {
+        "hanzi": "祝",
+        "hanziVariant": null,
+        "pinyin": "zhù",
+        "vietnamese": "chúc, cầu chúc",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%A5%9D"
+      },
+      {
+        "hanzi": "節日",
+        "hanziVariant": "节日",
+        "pinyin": "jiérì",
+        "vietnamese": "ngày lễ, ngày tết",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%AF%80%E6%97%A5"
+      },
+      {
+        "hanzi": "約",
+        "hanziVariant": "约",
+        "pinyin": "yuē",
+        "vietnamese": "hẹn, ước hẹn",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%B4%84"
+      },
+      {
+        "hanzi": "約會",
+        "hanziVariant": "约会",
+        "pinyin": "yuēhuì",
+        "vietnamese": "cuộc hẹn, hẹn hò",
+        "pos": "N / Vi",
+        "dictHref": "/dictionary/%E7%B4%84%E6%9C%83"
+      },
+      {
+        "hanzi": "老太太",
+        "hanziVariant": null,
+        "pinyin": "lǎotàitai",
+        "vietnamese": "bà cụ, bà lão",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%80%81%E5%A4%AA%E5%A4%AA"
+      },
+      {
+        "hanzi": "自由",
+        "hanziVariant": null,
+        "pinyin": "zìyóu",
+        "vietnamese": "tự do",
+        "pos": "N / Vs",
+        "dictHref": "/dictionary/%E8%87%AA%E7%94%B1"
+      },
+      {
+        "hanzi": "要求",
+        "hanziVariant": null,
+        "pinyin": "yāoqiú",
+        "vietnamese": "yêu cầu",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E8%A6%81%E6%B1%82"
+      },
+      {
+        "hanzi": "請客",
+        "hanziVariant": "请客",
+        "pinyin": "qǐngkè",
+        "vietnamese": "mời khách, đãi khách",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E8%AB%8B%E5%AE%A2"
+      },
+      {
+        "hanzi": "郵件",
+        "hanziVariant": "邮件",
+        "pinyin": "yóujiàn",
+        "vietnamese": "thư tín, bưu phẩm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%83%B5%E4%BB%B6"
+      },
+      {
+        "hanzi": "郵票",
+        "hanziVariant": "邮票",
+        "pinyin": "yóupiào",
+        "vietnamese": "tem thư",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%83%B5%E7%A5%A8"
+      },
+      {
+        "hanzi": "除夕",
+        "hanziVariant": null,
+        "pinyin": "chúxì",
+        "vietnamese": "đêm giao thừa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%99%A4%E5%A4%95"
+      },
+      {
+        "hanzi": "陪",
+        "hanziVariant": null,
+        "pinyin": "péi",
+        "vietnamese": "đi cùng, ở cùng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%99%AA"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "shopping",
+    "icon": "🛍️",
+    "label": "Mua sắm & Quần áo",
+    "words": [
+      {
+        "hanzi": "一般",
+        "hanziVariant": null,
+        "pinyin": "yībān",
+        "vietnamese": "bình thường, phổ thông",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%80%E8%88%AC"
+      },
+      {
+        "hanzi": "上衣",
+        "hanziVariant": null,
+        "pinyin": "shàngyī",
+        "vietnamese": "áo (phần thân trên)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%8A%E8%A1%A3"
+      },
+      {
+        "hanzi": "任何",
+        "hanziVariant": null,
+        "pinyin": "rènhé",
+        "vietnamese": "bất kỳ, bất cứ",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E4%BB%BB%E4%BD%95"
+      },
+      {
+        "hanzi": "內衣",
+        "hanziVariant": "内衣",
+        "pinyin": "nèiyī",
+        "vietnamese": "đồ lót, nội y",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%A7%E8%A1%A3"
+      },
+      {
+        "hanzi": "刷卡",
+        "hanziVariant": null,
+        "pinyin": "shuākǎ",
+        "vietnamese": "quẹt thẻ",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E5%88%B7%E5%8D%A1"
+      },
+      {
+        "hanzi": "口袋",
+        "hanziVariant": null,
+        "pinyin": "kǒudài",
+        "vietnamese": "túi quần, túi áo",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8F%A3%E8%A2%8B"
+      },
+      {
+        "hanzi": "合適",
+        "hanziVariant": "合适",
+        "pinyin": "héshì",
+        "vietnamese": "thích hợp, vừa vặn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%90%88%E9%81%A9"
+      },
+      {
+        "hanzi": "商人",
+        "hanziVariant": null,
+        "pinyin": "shāngrén",
+        "vietnamese": "thương nhân, doanh nhân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%95%86%E4%BA%BA"
+      },
+      {
+        "hanzi": "困難",
+        "hanziVariant": "困难",
+        "pinyin": "kùnnán",
+        "vietnamese": "khó khăn",
+        "pos": "N / Vs",
+        "dictHref": "/dictionary/%E5%9B%B0%E9%9B%A3"
+      },
+      {
+        "hanzi": "夜市",
+        "hanziVariant": null,
+        "pinyin": "yèshì",
+        "vietnamese": "chợ đêm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%9C%E5%B8%82"
+      },
+      {
+        "hanzi": "套",
+        "hanziVariant": null,
+        "pinyin": "tào",
+        "vietnamese": "bộ, bộ com-lê",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%A5%97"
+      },
+      {
+        "hanzi": "存",
+        "hanziVariant": "店員",
+        "pinyin": "cún",
+        "vietnamese": "gửi, cất, tiết kiệm",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%AD%98"
+      },
+      {
+        "hanzi": "得到",
+        "hanziVariant": null,
+        "pinyin": "dédào",
+        "vietnamese": "đạt được, nhận được",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E5%BE%97%E5%88%B0"
+      },
+      {
+        "hanzi": "手套",
+        "hanziVariant": null,
+        "pinyin": "shǒutào",
+        "vietnamese": "găng tay, bao tay",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%89%8B%E5%A5%97"
+      },
+      {
+        "hanzi": "打折",
+        "hanziVariant": null,
+        "pinyin": "dǎzhé",
+        "vietnamese": "giảm giá",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%89%93%E6%8A%98"
+      },
+      {
+        "hanzi": "排隊",
+        "hanziVariant": "排队",
+        "pinyin": "páiduì",
+        "vietnamese": "xếp hàng",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%8E%92%E9%9A%8A"
+      },
+      {
+        "hanzi": "提",
+        "hanziVariant": null,
+        "pinyin": "tí",
+        "vietnamese": "xách, nhấc, đề cập",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8F%90"
+      },
+      {
+        "hanzi": "有錢",
+        "hanziVariant": "有钱",
+        "pinyin": "yǒuqián",
+        "vietnamese": "có tiền, giàu có",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%9C%89%E9%8C%A2"
+      },
+      {
+        "hanzi": "死",
+        "hanziVariant": null,
+        "pinyin": "sǐ",
+        "vietnamese": "chết",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E6%AD%BB"
+      },
+      {
+        "hanzi": "毛",
+        "hanziVariant": null,
+        "pinyin": "máo",
+        "vietnamese": "hào (một phần mười của đồng)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E6%AF%9B"
+      },
+      {
+        "hanzi": "毛衣",
+        "hanziVariant": null,
+        "pinyin": "máoyī",
+        "vietnamese": "áo len",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AF%9B%E8%A1%A3"
+      },
+      {
+        "hanzi": "流行",
+        "hanziVariant": null,
+        "pinyin": "liúxíng",
+        "vietnamese": "thịnh hành, phổ biến",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%B5%81%E8%A1%8C"
+      },
+      {
+        "hanzi": "生意",
+        "hanziVariant": null,
+        "pinyin": "shēngyì",
+        "vietnamese": "việc kinh doanh, buôn bán",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%94%9F%E6%84%8F"
+      },
+      {
+        "hanzi": "百貨公司",
+        "hanziVariant": "百货公司",
+        "pinyin": "bǎihuògōngsī",
+        "vietnamese": "trung tâm thương mại",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%99%BE%E8%B2%A8%E5%85%AC%E5%8F%B8"
+      },
+      {
+        "hanzi": "皮鞋",
+        "hanziVariant": null,
+        "pinyin": "píxié",
+        "vietnamese": "giày da",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%9A%AE%E9%9E%8B"
+      },
+      {
+        "hanzi": "破",
+        "hanziVariant": null,
+        "pinyin": "pò",
+        "vietnamese": "rách, hỏng, vỡ",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E7%A0%B4"
+      },
+      {
+        "hanzi": "紅色",
+        "hanziVariant": "红色",
+        "pinyin": "hóngsè",
+        "vietnamese": "màu đỏ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B4%85%E8%89%B2"
+      },
+      {
+        "hanzi": "綠色",
+        "hanziVariant": "绿色",
+        "pinyin": "lǜsè",
+        "vietnamese": "màu xanh lá cây",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B6%A0%E8%89%B2"
+      },
+      {
+        "hanzi": "老闆娘",
+        "hanziVariant": "老板娘",
+        "pinyin": "lǎobǎnniáng",
+        "vietnamese": "bà chủ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%80%81%E9%97%86%E5%A8%98"
+      },
+      {
+        "hanzi": "藍色",
+        "hanziVariant": "蓝色",
+        "pinyin": "lánsè",
+        "vietnamese": "màu xanh lam",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%97%8D%E8%89%B2"
+      },
+      {
+        "hanzi": "袋",
+        "hanziVariant": null,
+        "pinyin": "dài",
+        "vietnamese": "túi, bao",
+        "pos": "M",
+        "dictHref": "/dictionary/%E8%A2%8B"
+      },
+      {
+        "hanzi": "許多",
+        "hanziVariant": "许多",
+        "pinyin": "xǔduō",
+        "vietnamese": "rất nhiều",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E8%A8%B1%E5%A4%9A"
+      },
+      {
+        "hanzi": "逛",
+        "hanziVariant": null,
+        "pinyin": "guàng",
+        "vietnamese": "dạo, đi dạo",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%80%9B"
+      },
+      {
+        "hanzi": "逛街",
+        "hanziVariant": null,
+        "pinyin": "guàngjiē",
+        "vietnamese": "dạo phố, đi mua sắm",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E9%80%9B%E8%A1%97"
+      },
+      {
+        "hanzi": "適合",
+        "hanziVariant": "适合",
+        "pinyin": "shìhé",
+        "vietnamese": "thích hợp, phù hợp",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E9%81%A9%E5%90%88"
+      },
+      {
+        "hanzi": "雨衣",
+        "hanziVariant": null,
+        "pinyin": "yǔyī",
+        "vietnamese": "áo mưa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%A8%E8%A1%A3"
+      },
+      {
+        "hanzi": "零用錢",
+        "hanziVariant": "零用钱",
+        "pinyin": "língyòngqián",
+        "vietnamese": "tiền tiêu vặt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%B6%E7%94%A8%E9%8C%A2"
+      },
+      {
+        "hanzi": "零錢",
+        "hanziVariant": "零钱",
+        "pinyin": "língqián",
+        "vietnamese": "tiền lẻ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%B6%E9%8C%A2"
+      },
+      {
+        "hanzi": "高級",
+        "hanziVariant": "高级",
+        "pinyin": "gāojí",
+        "vietnamese": "cao cấp",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%AB%98%E7%B4%9A"
+      },
+      {
+        "hanzi": "黑色",
+        "hanziVariant": null,
+        "pinyin": "hēisè",
+        "vietnamese": "màu đen",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%BB%91%E8%89%B2"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "travel",
+    "icon": "✈️",
+    "label": "Du lịch & Giao thông",
+    "words": [
+      {
+        "hanzi": "上",
+        "hanziVariant": null,
+        "pinyin": "shàng",
+        "vietnamese": "lên",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%B8%8A"
+      },
+      {
+        "hanzi": "下",
+        "hanziVariant": null,
+        "pinyin": "xià",
+        "vietnamese": "xuống",
+        "pos": "V",
+        "dictHref": "/dictionary/%E4%B8%8B"
+      },
+      {
+        "hanzi": "中心",
+        "hanziVariant": null,
+        "pinyin": "zhōngxīn",
+        "vietnamese": "trung tâm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%B8%AD%E5%BF%83"
+      },
+      {
+        "hanzi": "亞洲",
+        "hanziVariant": "亚洲",
+        "pinyin": "yàzhōu",
+        "vietnamese": "Châu Á",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BA%9E%E6%B4%B2"
+      },
+      {
+        "hanzi": "交通",
+        "hanziVariant": null,
+        "pinyin": "jiāotōng",
+        "vietnamese": "giao thông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BA%A4%E9%80%9A"
+      },
+      {
+        "hanzi": "停",
+        "hanziVariant": null,
+        "pinyin": "tíng",
+        "vietnamese": "dừng, đỗ",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%81%9C"
+      },
+      {
+        "hanzi": "停車場",
+        "hanziVariant": "停车场",
+        "pinyin": "tíngchēchǎng",
+        "vietnamese": "bãi đỗ xe",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%81%9C%E8%BB%8A%E5%A0%B4"
+      },
+      {
+        "hanzi": "入口",
+        "hanziVariant": null,
+        "pinyin": "rùkǒu",
+        "vietnamese": "lối vào",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%A5%E5%8F%A3"
+      },
+      {
+        "hanzi": "公路",
+        "hanziVariant": null,
+        "pinyin": "gōnglù",
+        "vietnamese": "đường quốc lộ, đường cao tốc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%AC%E8%B7%AF"
+      },
+      {
+        "hanzi": "出口",
+        "hanziVariant": null,
+        "pinyin": "chūkǒu",
+        "vietnamese": "lối ra",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%87%BA%E5%8F%A3"
+      },
+      {
+        "hanzi": "到處",
+        "hanziVariant": "到处",
+        "pinyin": "dàochù",
+        "vietnamese": "khắp nơi",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%88%B0%E8%99%95"
+      },
+      {
+        "hanzi": "加油",
+        "hanziVariant": "動",
+        "pinyin": "jiāyóu",
+        "vietnamese": "đổ xăng, cố lên",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E5%8A%A0%E6%B2%B9"
+      },
+      {
+        "hanzi": "地鐵",
+        "hanziVariant": "地铁",
+        "pinyin": "dìtiě",
+        "vietnamese": "tàu điện ngầm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%B0%E9%90%B5"
+      },
+      {
+        "hanzi": "地點",
+        "hanziVariant": "地点",
+        "pinyin": "dìdiǎn",
+        "vietnamese": "địa điểm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%9C%B0%E9%BB%9E"
+      },
+      {
+        "hanzi": "大陸",
+        "hanziVariant": "大陆",
+        "pinyin": "dàlù",
+        "vietnamese": "đại lục, lục địa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A4%A7%E9%99%B8"
+      },
+      {
+        "hanzi": "巴士",
+        "hanziVariant": null,
+        "pinyin": "bāshì",
+        "vietnamese": "xe buýt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B7%B4%E5%A3%AB"
+      },
+      {
+        "hanzi": "市區",
+        "hanziVariant": "市区",
+        "pinyin": "shìqū",
+        "vietnamese": "khu vực nội thành, trung tâm thành phố",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B8%82%E5%8D%80"
+      },
+      {
+        "hanzi": "拍照",
+        "hanziVariant": null,
+        "pinyin": "pāizhào",
+        "vietnamese": "chụp ảnh",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%8B%8D%E7%85%A7"
+      },
+      {
+        "hanzi": "捷運",
+        "hanziVariant": "捷运",
+        "pinyin": "jiéyùn",
+        "vietnamese": "tàu điện ngầm (ở Đài Loan)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%8D%B7%E9%81%8B"
+      },
+      {
+        "hanzi": "揹包",
+        "hanziVariant": null,
+        "pinyin": "bēibāo",
+        "vietnamese": "ba lô",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%8F%B9%E5%8C%85"
+      },
+      {
+        "hanzi": "搭",
+        "hanziVariant": null,
+        "pinyin": "dā",
+        "vietnamese": "đi, đáp (phương tiện)",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%90%AD"
+      },
+      {
+        "hanzi": "方向",
+        "hanziVariant": null,
+        "pinyin": "fāngxiàng",
+        "vietnamese": "phương hướng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%B9%E5%90%91"
+      },
+      {
+        "hanzi": "時差",
+        "hanziVariant": "时差",
+        "pinyin": "shíchā",
+        "vietnamese": "sự chênh lệch múi giờ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%99%82%E5%B7%AE"
+      },
+      {
+        "hanzi": "月台",
+        "hanziVariant": null,
+        "pinyin": "yuètái",
+        "vietnamese": "sân ga",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9C%88%E5%8F%B0"
+      },
+      {
+        "hanzi": "東方",
+        "hanziVariant": "东方",
+        "pinyin": "dōngfāng",
+        "vietnamese": "phương Đông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%9D%B1%E6%96%B9"
+      },
+      {
+        "hanzi": "標準",
+        "hanziVariant": "标准",
+        "pinyin": "biāozhǔn",
+        "vietnamese": "tiêu chuẩn, đạt chuẩn",
+        "pos": "N / Vs",
+        "dictHref": "/dictionary/%E6%A8%99%E6%BA%96"
+      },
+      {
+        "hanzi": "歐洲",
+        "hanziVariant": "欧洲",
+        "pinyin": "ōuzhōu",
+        "vietnamese": "Châu Âu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%AD%90%E6%B4%B2"
+      },
+      {
+        "hanzi": "油",
+        "hanziVariant": null,
+        "pinyin": "yóu",
+        "vietnamese": "dầu, xăng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B2%B9"
+      },
+      {
+        "hanzi": "溫泉",
+        "hanziVariant": "温泉",
+        "pinyin": "wēnquán",
+        "vietnamese": "suối nước nóng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%BA%AB%E6%B3%89"
+      },
+      {
+        "hanzi": "美洲",
+        "hanziVariant": null,
+        "pinyin": "měizhōu",
+        "vietnamese": "Châu Mỹ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%BE%8E%E6%B4%B2"
+      },
+      {
+        "hanzi": "船",
+        "hanziVariant": null,
+        "pinyin": "chuán",
+        "vietnamese": "thuyền, tàu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%88%B9"
+      },
+      {
+        "hanzi": "行李",
+        "hanziVariant": null,
+        "pinyin": "xínglǐ",
+        "vietnamese": "hành lý",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A1%8C%E6%9D%8E"
+      },
+      {
+        "hanzi": "起",
+        "hanziVariant": null,
+        "pinyin": "qǐ",
+        "vietnamese": "lên, dậy",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E8%B5%B7"
+      },
+      {
+        "hanzi": "這些",
+        "hanziVariant": "这些",
+        "pinyin": "zhèxiē",
+        "vietnamese": "những cái này",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E9%80%99%E4%BA%9B"
+      },
+      {
+        "hanzi": "速度",
+        "hanziVariant": null,
+        "pinyin": "sùdù",
+        "vietnamese": "tốc độ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%80%9F%E5%BA%A6"
+      },
+      {
+        "hanzi": "那些",
+        "hanziVariant": null,
+        "pinyin": "nàxiē",
+        "vietnamese": "những cái kia",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E9%82%A3%E4%BA%9B"
+      },
+      {
+        "hanzi": "鎖",
+        "hanziVariant": "锁",
+        "pinyin": "suǒ",
+        "vietnamese": "ổ khóa, khóa",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E9%8E%96"
+      },
+      {
+        "hanzi": "鑰匙",
+        "hanziVariant": "钥匙",
+        "pinyin": "yàoshi",
+        "vietnamese": "chìa khóa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%91%B0%E5%8C%99"
+      },
+      {
+        "hanzi": "飛",
+        "hanziVariant": "飞",
+        "pinyin": "fēi",
+        "vietnamese": "bay",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E9%A3%9B"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "entertainment",
+    "icon": "🎭",
+    "label": "Giải trí & Văn hóa",
+    "words": [
+      {
+        "hanzi": "假日",
+        "hanziVariant": null,
+        "pinyin": "jiàrì",
+        "vietnamese": "ngày nghỉ, ngày lễ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%81%87%E6%97%A5"
+      },
+      {
+        "hanzi": "可怕",
+        "hanziVariant": null,
+        "pinyin": "kěpà",
+        "vietnamese": "đáng sợ, kinh khủng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%8F%AF%E6%80%95"
+      },
+      {
+        "hanzi": "吉他",
+        "hanziVariant": null,
+        "pinyin": "jítā",
+        "vietnamese": "đàn ghi-ta",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%90%89%E4%BB%96"
+      },
+      {
+        "hanzi": "完",
+        "hanziVariant": null,
+        "pinyin": "wán",
+        "vietnamese": "xong, hoàn thành",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%AE%8C"
+      },
+      {
+        "hanzi": "座位",
+        "hanziVariant": null,
+        "pinyin": "zuòwèi",
+        "vietnamese": "chỗ ngồi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%BA%A7%E4%BD%8D"
+      },
+      {
+        "hanzi": "情形",
+        "hanziVariant": null,
+        "pinyin": "qíngxíng",
+        "vietnamese": "tình hình, hoàn cảnh",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%83%85%E5%BD%A2"
+      },
+      {
+        "hanzi": "慢跑",
+        "hanziVariant": null,
+        "pinyin": "mànpǎo",
+        "vietnamese": "chạy bộ",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E6%85%A2%E8%B7%91"
+      },
+      {
+        "hanzi": "抓",
+        "hanziVariant": null,
+        "pinyin": "zhuā",
+        "vietnamese": "bắt, tóm, gãi",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8A%93"
+      },
+      {
+        "hanzi": "拍",
+        "hanziVariant": null,
+        "pinyin": "pāi",
+        "vietnamese": "chụp (ảnh), vỗ, đập",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8B%8D"
+      },
+      {
+        "hanzi": "收",
+        "hanziVariant": null,
+        "pinyin": "shōu",
+        "vietnamese": "thu, nhận",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%94%B6"
+      },
+      {
+        "hanzi": "散步",
+        "hanziVariant": null,
+        "pinyin": "sànbù",
+        "vietnamese": "đi dạo, tản bộ",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%95%A3%E6%AD%A5"
+      },
+      {
+        "hanzi": "新聞",
+        "hanziVariant": "新闻",
+        "pinyin": "xīnwén",
+        "vietnamese": "tin tức",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%96%B0%E8%81%9E"
+      },
+      {
+        "hanzi": "消息",
+        "hanziVariant": null,
+        "pinyin": "xiāoxī",
+        "vietnamese": "tin tức, thông tin",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B6%88%E6%81%AF"
+      },
+      {
+        "hanzi": "游泳池",
+        "hanziVariant": null,
+        "pinyin": "yóuyǒngchí",
+        "vietnamese": "hồ bơi, bể bơi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B8%B8%E6%B3%B3%E6%B1%A0"
+      },
+      {
+        "hanzi": "爬",
+        "hanziVariant": null,
+        "pinyin": "pá",
+        "vietnamese": "leo, trèo, bò",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E7%88%AC"
+      },
+      {
+        "hanzi": "畫家",
+        "hanziVariant": "画家",
+        "pinyin": "huàjiā",
+        "vietnamese": "họa sĩ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%95%AB%E5%AE%B6"
+      },
+      {
+        "hanzi": "看起來",
+        "hanziVariant": "看起来",
+        "pinyin": "kànqǐlái",
+        "vietnamese": "trông có vẻ, dường như",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%9C%8B%E8%B5%B7%E4%BE%86"
+      },
+      {
+        "hanzi": "結束",
+        "hanziVariant": "结束",
+        "pinyin": "jiéshù",
+        "vietnamese": "kết thúc",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E7%B5%90%E6%9D%9F"
+      },
+      {
+        "hanzi": "經常",
+        "hanziVariant": "经常",
+        "pinyin": "jīngcháng",
+        "vietnamese": "thường xuyên",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%B6%93%E5%B8%B8"
+      },
+      {
+        "hanzi": "美術",
+        "hanziVariant": "美术",
+        "pinyin": "měishù",
+        "vietnamese": "mỹ thuật",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%BE%8E%E8%A1%93"
+      },
+      {
+        "hanzi": "聊",
+        "hanziVariant": null,
+        "pinyin": "liáo",
+        "vietnamese": "trò chuyện, tán gẫu",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%81%8A"
+      },
+      {
+        "hanzi": "興趣",
+        "hanziVariant": "兴趣",
+        "pinyin": "xìngqù",
+        "vietnamese": "hứng thú, sở thích",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%88%88%E8%B6%A3"
+      },
+      {
+        "hanzi": "舞",
+        "hanziVariant": null,
+        "pinyin": "wǔ",
+        "vietnamese": "điệu nhảy, vũ điệu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%88%9E"
+      },
+      {
+        "hanzi": "茶館",
+        "hanziVariant": "茶馆",
+        "pinyin": "cháguǎn",
+        "vietnamese": "quán trà",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%8C%B6%E9%A4%A8"
+      },
+      {
+        "hanzi": "談",
+        "hanziVariant": "谈",
+        "pinyin": "tán",
+        "vietnamese": "nói chuyện, bàn bạc",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%AB%87"
+      },
+      {
+        "hanzi": "輕鬆",
+        "hanziVariant": "轻松",
+        "pinyin": "qīngsōng",
+        "vietnamese": "nhẹ nhàng, thoải mái",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%BC%95%E9%AC%86"
+      },
+      {
+        "hanzi": "遊",
+        "hanziVariant": "游",
+        "pinyin": "yóu",
+        "vietnamese": "bơi",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E9%81%8A"
+      },
+      {
+        "hanzi": "遲到",
+        "hanziVariant": "迟到",
+        "pinyin": "chídào",
+        "vietnamese": "đến muộn, đến trễ",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E9%81%B2%E5%88%B0"
+      },
+      {
+        "hanzi": "野餐",
+        "hanziVariant": null,
+        "pinyin": "yěcān",
+        "vietnamese": "dã ngoại, đi picnic",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E9%87%8E%E9%A4%90"
+      },
+      {
+        "hanzi": "門票",
+        "hanziVariant": "门票",
+        "pinyin": "ménpiào",
+        "vietnamese": "vé vào cửa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%96%80%E7%A5%A8"
+      },
+      {
+        "hanzi": "雜誌",
+        "hanziVariant": "杂志",
+        "pinyin": "zázhì",
+        "vietnamese": "tạp chí",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9B%9C%E8%AA%8C"
+      },
+      {
+        "hanzi": "體育",
+        "hanziVariant": "体育",
+        "pinyin": "tǐyù",
+        "vietnamese": "thể dục, thể thao",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%AB%94%E8%82%B2"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "restaurant",
+    "icon": "🍽️",
+    "label": "Nhà hàng & Ăn uống",
+    "words": [
+      {
+        "hanzi": "光",
+        "hanziVariant": null,
+        "pinyin": "guāng",
+        "vietnamese": "hết, nhẵn",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%85%89"
+      },
+      {
+        "hanzi": "口",
+        "hanziVariant": null,
+        "pinyin": "kǒu",
+        "vietnamese": "miếng, ngụm",
+        "pos": "M",
+        "dictHref": "/dictionary/%E5%8F%A3"
+      },
+      {
+        "hanzi": "可樂",
+        "hanziVariant": "可乐",
+        "pinyin": "kělè",
+        "vietnamese": "cô-ca cô-la",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%8F%AF%E6%A8%82"
+      },
+      {
+        "hanzi": "味",
+        "hanziVariant": null,
+        "pinyin": "wèi",
+        "vietnamese": "vị, mùi vị",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%91%B3"
+      },
+      {
+        "hanzi": "嚐",
+        "hanziVariant": "尝",
+        "pinyin": "cháng",
+        "vietnamese": "nếm, thử",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%9A%90"
+      },
+      {
+        "hanzi": "奶茶",
+        "hanziVariant": null,
+        "pinyin": "nǎichá",
+        "vietnamese": "trà sữa",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%A5%B6%E8%8C%B6"
+      },
+      {
+        "hanzi": "客滿",
+        "hanziVariant": "客满",
+        "pinyin": "kèmǎn",
+        "vietnamese": "hết chỗ, đông khách",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E5%AE%A2%E6%BB%BF"
+      },
+      {
+        "hanzi": "小費",
+        "hanziVariant": "小费",
+        "pinyin": "xiǎofèi",
+        "vietnamese": "tiền boa, tiền tip",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B0%8F%E8%B2%BB"
+      },
+      {
+        "hanzi": "汽水",
+        "hanziVariant": null,
+        "pinyin": "qìshuǐ",
+        "vietnamese": "nước ngọt có ga",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B1%BD%E6%B0%B4"
+      },
+      {
+        "hanzi": "沙拉",
+        "hanziVariant": null,
+        "pinyin": "shālā",
+        "vietnamese": "sa lát",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B2%99%E6%8B%89"
+      },
+      {
+        "hanzi": "烏龍茶",
+        "hanziVariant": "乌龙茶",
+        "pinyin": "wūlóngchá",
+        "vietnamese": "trà ô long",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%83%8F%E9%BE%8D%E8%8C%B6"
+      },
+      {
+        "hanzi": "熱狗",
+        "hanziVariant": "热狗",
+        "pinyin": "règǒu",
+        "vietnamese": "xúc xích, hotdog",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%86%B1%E7%8B%97"
+      },
+      {
+        "hanzi": "牛排",
+        "hanziVariant": null,
+        "pinyin": "niúpái",
+        "vietnamese": "bít tết bò",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%89%9B%E6%8E%92"
+      },
+      {
+        "hanzi": "甜點",
+        "hanziVariant": "甜点",
+        "pinyin": "tiándiǎn",
+        "vietnamese": "món tráng miệng, đồ ngọt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%94%9C%E9%BB%9E"
+      },
+      {
+        "hanzi": "臭",
+        "hanziVariant": null,
+        "pinyin": "chòu",
+        "vietnamese": "thối, hôi",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%87%AD"
+      },
+      {
+        "hanzi": "訂",
+        "hanziVariant": "订",
+        "pinyin": "dìng",
+        "vietnamese": "đặt, đặt trước",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%A8%82"
+      },
+      {
+        "hanzi": "訂位",
+        "hanziVariant": "订位",
+        "pinyin": "dìngwèi",
+        "vietnamese": "đặt chỗ",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E8%A8%82%E4%BD%8D"
+      },
+      {
+        "hanzi": "豆漿",
+        "hanziVariant": "豆浆",
+        "pinyin": "dòujiāng",
+        "vietnamese": "sữa đậu nành",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%B1%86%E6%BC%BF"
+      },
+      {
+        "hanzi": "餅乾",
+        "hanziVariant": "饼干",
+        "pinyin": "bǐnggān",
+        "vietnamese": "bánh quy",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A4%85%E4%B9%BE"
+      },
+      {
+        "hanzi": "饅頭",
+        "hanziVariant": "馒头",
+        "pinyin": "mántou",
+        "vietnamese": "bánh màn thầu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%A5%85%E9%A0%AD"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "health",
+    "icon": "🩺",
+    "label": "Y tế & Sức khỏe",
+    "words": [
+      {
+        "hanzi": "保險",
+        "hanziVariant": "保险",
+        "pinyin": "bǎoxiǎn",
+        "vietnamese": "bảo hiểm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BF%9D%E9%9A%AA"
+      },
+      {
+        "hanzi": "咳嗽",
+        "hanziVariant": null,
+        "pinyin": "késòu",
+        "vietnamese": "ho",
+        "pos": "Vi",
+        "dictHref": "/dictionary/%E5%92%B3%E5%97%BD"
+      },
+      {
+        "hanzi": "影響",
+        "hanziVariant": "影响",
+        "pinyin": "yǐngxiǎng",
+        "vietnamese": "ảnh hưởng",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E5%BD%B1%E9%9F%BF"
+      },
+      {
+        "hanzi": "感覺",
+        "hanziVariant": "感觉",
+        "pinyin": "gǎnjué",
+        "vietnamese": "cảm giác, cảm thấy",
+        "pos": "N / Vst",
+        "dictHref": "/dictionary/%E6%84%9F%E8%A6%BA"
+      },
+      {
+        "hanzi": "掛號",
+        "hanziVariant": "挂号",
+        "pinyin": "guàhào",
+        "vietnamese": "đăng ký khám bệnh",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%8E%9B%E8%99%9F"
+      },
+      {
+        "hanzi": "救命",
+        "hanziVariant": null,
+        "pinyin": "jiùmìng",
+        "vietnamese": "cứu mạng, cứu với",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%95%91%E5%91%BD"
+      },
+      {
+        "hanzi": "救護車",
+        "hanziVariant": "救护车",
+        "pinyin": "jiùhùchē",
+        "vietnamese": "xe cứu thương",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%95%91%E8%AD%B7%E8%BB%8A"
+      },
+      {
+        "hanzi": "正常",
+        "hanziVariant": null,
+        "pinyin": "zhèngcháng",
+        "vietnamese": "bình thường",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%AD%A3%E5%B8%B8"
+      },
+      {
+        "hanzi": "汗",
+        "hanziVariant": null,
+        "pinyin": "hàn",
+        "vietnamese": "mồ hôi",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B1%97"
+      },
+      {
+        "hanzi": "牙刷",
+        "hanziVariant": null,
+        "pinyin": "yáshuā",
+        "vietnamese": "bàn chải đánh răng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%89%99%E5%88%B7"
+      },
+      {
+        "hanzi": "疼",
+        "hanziVariant": null,
+        "pinyin": "téng",
+        "vietnamese": "đau, nhức",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%96%BC"
+      },
+      {
+        "hanzi": "發燒",
+        "hanziVariant": "发烧",
+        "pinyin": "fāshāo",
+        "vietnamese": "phát sốt",
+        "pos": "Vp-sep",
+        "dictHref": "/dictionary/%E7%99%BC%E7%87%92"
+      },
+      {
+        "hanzi": "背",
+        "hanziVariant": null,
+        "pinyin": "bèi",
+        "vietnamese": "lưng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%83%8C"
+      },
+      {
+        "hanzi": "脖(子)",
+        "hanziVariant": null,
+        "pinyin": "bó(zi)",
+        "vietnamese": "cổ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%84%96(%E5%AD%90)"
+      },
+      {
+        "hanzi": "腿",
+        "hanziVariant": null,
+        "pinyin": "tuǐ",
+        "vietnamese": "chân, cẳng chân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%85%BF"
+      },
+      {
+        "hanzi": "臉色",
+        "hanziVariant": "脸色",
+        "pinyin": "liǎnsè",
+        "vietnamese": "sắc mặt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%87%89%E8%89%B2"
+      },
+      {
+        "hanzi": "藥房",
+        "hanziVariant": "药房",
+        "pinyin": "yàofáng",
+        "vietnamese": "hiệu thuốc, nhà thuốc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%97%A5%E6%88%BF"
+      },
+      {
+        "hanzi": "頭痛",
+        "hanziVariant": "头痛",
+        "pinyin": "tóutòng",
+        "vietnamese": "đau đầu",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E9%A0%AD%E7%97%9B"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "work-finance",
+    "icon": "💼",
+    "label": "Công việc & Tài chính",
+    "words": [
+      {
+        "hanzi": "做法",
+        "hanziVariant": null,
+        "pinyin": "zuòfǎ",
+        "vietnamese": "cách làm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%81%9A%E6%B3%95"
+      },
+      {
+        "hanzi": "加班",
+        "hanziVariant": null,
+        "pinyin": "jiābān",
+        "vietnamese": "tăng ca, làm thêm giờ",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E5%8A%A0%E7%8F%AD"
+      },
+      {
+        "hanzi": "危險",
+        "hanziVariant": "危险",
+        "pinyin": "wēixiǎn",
+        "vietnamese": "nguy hiểm",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%8D%B1%E9%9A%AA"
+      },
+      {
+        "hanzi": "嚴重",
+        "hanziVariant": "严重",
+        "pinyin": "yánzhòng",
+        "vietnamese": "nghiêm trọng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%9A%B4%E9%87%8D"
+      },
+      {
+        "hanzi": "報告",
+        "hanziVariant": "报告",
+        "pinyin": "bàogào",
+        "vietnamese": "báo cáo, bản báo cáo",
+        "pos": "V / N",
+        "dictHref": "/dictionary/%E5%A0%B1%E5%91%8A"
+      },
+      {
+        "hanzi": "安全",
+        "hanziVariant": null,
+        "pinyin": "ānquán",
+        "vietnamese": "an toàn, sự an toàn",
+        "pos": "Vs / N",
+        "dictHref": "/dictionary/%E5%AE%89%E5%85%A8"
+      },
+      {
+        "hanzi": "成功",
+        "hanziVariant": null,
+        "pinyin": "chénggōng",
+        "vietnamese": "thành công",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%88%90%E5%8A%9F"
+      },
+      {
+        "hanzi": "打工",
+        "hanziVariant": null,
+        "pinyin": "dǎgōng",
+        "vietnamese": "làm thêm, làm thuê",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%89%93%E5%B7%A5"
+      },
+      {
+        "hanzi": "教書",
+        "hanziVariant": "教书",
+        "pinyin": "jiāoshū",
+        "vietnamese": "dạy học",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E6%95%99%E6%9B%B8"
+      },
+      {
+        "hanzi": "正式",
+        "hanziVariant": null,
+        "pinyin": "zhèngshì",
+        "vietnamese": "chính thức",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%AD%A3%E5%BC%8F"
+      },
+      {
+        "hanzi": "看法",
+        "hanziVariant": "管理",
+        "pinyin": "kànfǎ",
+        "vietnamese": "cách nhìn, quan điểm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%9C%8B%E6%B3%95"
+      },
+      {
+        "hanzi": "經理",
+        "hanziVariant": "经理",
+        "pinyin": "jīnglǐ",
+        "vietnamese": "giám đốc, quản lý",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B6%93%E7%90%86"
+      },
+      {
+        "hanzi": "資料",
+        "hanziVariant": "资料",
+        "pinyin": "zīliào",
+        "vietnamese": "tài liệu, dữ liệu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%B3%87%E6%96%99"
+      },
+      {
+        "hanzi": "辦",
+        "hanziVariant": "办",
+        "pinyin": "bàn",
+        "vietnamese": "làm, giải quyết",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%BE%A6"
+      },
+      {
+        "hanzi": "選",
+        "hanziVariant": "选",
+        "pinyin": "xuǎn",
+        "vietnamese": "chọn, lựa chọn",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%81%B8"
+      },
+      {
+        "hanzi": "開會",
+        "hanziVariant": "开会",
+        "pinyin": "kāihuì",
+        "vietnamese": "họp, mở cuộc họp",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E9%96%8B%E6%9C%83"
+      }
+    ]
+  },
+  {
+    "level": "A2",
+    "topicKey": "food",
+    "icon": "🥗",
+    "label": "Thực phẩm & Rau củ quả",
+    "words": [
+      {
+        "hanzi": "冰塊",
+        "hanziVariant": "冰块",
+        "pinyin": "bīngkuài",
+        "vietnamese": "đá viên, cục nước đá",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%86%B0%E5%A1%8A"
+      },
+      {
+        "hanzi": "新鮮",
+        "hanziVariant": "新鲜",
+        "pinyin": "xīnxiān",
+        "vietnamese": "tươi, tươi mới",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E6%96%B0%E9%AE%AE"
+      },
+      {
+        "hanzi": "橘(子)",
+        "hanziVariant": null,
+        "pinyin": "jú(zi)",
+        "vietnamese": "quả quýt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A9%98(%E5%AD%90)"
+      },
+      {
+        "hanzi": "海鮮",
+        "hanziVariant": "海鲜",
+        "pinyin": "hǎixiān",
+        "vietnamese": "hải sản",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B5%B7%E9%AE%AE"
+      },
+      {
+        "hanzi": "火腿",
+        "hanziVariant": null,
+        "pinyin": "huǒtuǐ",
+        "vietnamese": "thịt nguội, giăm bông",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%81%AB%E8%85%BF"
+      },
+      {
+        "hanzi": "熟",
+        "hanziVariant": null,
+        "pinyin": "shú",
+        "vietnamese": "chín (thức ăn, trái cây)",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E7%86%9F"
+      },
+      {
+        "hanzi": "米",
+        "hanziVariant": null,
+        "pinyin": "mǐ",
+        "vietnamese": "gạo",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%B1%B3"
+      },
+      {
+        "hanzi": "芒果",
+        "hanziVariant": "葡萄",
+        "pinyin": "mángguǒ",
+        "vietnamese": "quả xoài",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%8A%92%E6%9E%9C"
+      },
+      {
+        "hanzi": "豆腐",
+        "hanziVariant": null,
+        "pinyin": "dòufu",
+        "vietnamese": "đậu phụ, đậu hũ",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%B1%86%E8%85%90"
+      },
+      {
+        "hanzi": "顆",
+        "hanziVariant": "颗",
+        "pinyin": "kē",
+        "vietnamese": "hạt, viên",
+        "pos": "M",
+        "dictHref": "/dictionary/%E9%A1%86"
+      },
+      {
+        "hanzi": "鹽",
+        "hanziVariant": "盐",
+        "pinyin": "yán",
+        "vietnamese": "muối",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%B9%BD"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "function-words",
+    "icon": "🔧",
+    "label": "Từ chức năng & Hư từ",
+    "words": [
+      {
+        "hanzi": "不少",
+        "hanziVariant": null,
+        "pinyin": "bùshǎo",
+        "vietnamese": "không ít, khá nhiều",
+        "pos": "Det / Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%B0%91"
+      },
+      {
+        "hanzi": "不見(了)",
+        "hanziVariant": "不见(了)",
+        "pinyin": "bùjiàn(le)",
+        "vietnamese": "biến mất, không thấy đâu",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E4%B8%8D%E8%A6%8B(%E4%BA%86)"
+      },
+      {
+        "hanzi": "不足",
+        "hanziVariant": null,
+        "pinyin": "bùzú",
+        "vietnamese": "không đủ, thiếu",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E8%B6%B3"
+      },
+      {
+        "hanzi": "即便",
+        "hanziVariant": null,
+        "pinyin": "jíbiàn",
+        "vietnamese": "cho dù, ngay cả khi",
+        "pos": "CONJ",
+        "dictHref": "/dictionary/%E5%8D%B3%E4%BE%BF"
+      },
+      {
+        "hanzi": "哎",
+        "hanziVariant": null,
+        "pinyin": "āi",
+        "vietnamese": "ôi, này (thán từ)",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%93%8E"
+      },
+      {
+        "hanzi": "唉",
+        "hanziVariant": null,
+        "pinyin": "āi",
+        "vietnamese": "haiz, ôi (than thở)",
+        "pos": "Ptc",
+        "dictHref": "/dictionary/%E5%94%89"
+      },
+      {
+        "hanzi": "嘗試",
+        "hanziVariant": "尝试",
+        "pinyin": "chángshì",
+        "vietnamese": "thử, cố gắng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%98%97%E8%A9%A6"
+      },
+      {
+        "hanzi": "增添",
+        "hanziVariant": null,
+        "pinyin": "zēngtiān",
+        "vietnamese": "thêm vào, tăng thêm",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%A2%9E%E6%B7%BB"
+      },
+      {
+        "hanzi": "大幅",
+        "hanziVariant": null,
+        "pinyin": "dàfú",
+        "vietnamese": "lớn, đáng kể",
+        "pos": "ADV",
+        "dictHref": "/dictionary/%E5%A4%A7%E5%B9%85"
+      },
+      {
+        "hanzi": "差別",
+        "hanziVariant": "差别",
+        "pinyin": "chābié",
+        "vietnamese": "sự khác biệt",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B7%AE%E5%88%A5"
+      },
+      {
+        "hanzi": "差異",
+        "hanziVariant": "差异",
+        "pinyin": "chāyì",
+        "vietnamese": "sự khác biệt, chênh lệch",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%B7%AE%E7%95%B0"
+      },
+      {
+        "hanzi": "成",
+        "hanziVariant": null,
+        "pinyin": "chéng",
+        "vietnamese": "trở thành, thành",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E6%88%90"
+      },
+      {
+        "hanzi": "承載",
+        "hanziVariant": "承载",
+        "pinyin": "chéngzài",
+        "vietnamese": "gánh chịu, mang theo",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%89%BF%E8%BC%89"
+      },
+      {
+        "hanzi": "比",
+        "hanziVariant": "產生",
+        "pinyin": "bǐ",
+        "vietnamese": "so sánh, đọ sức",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%AF%94"
+      },
+      {
+        "hanzi": "表現",
+        "hanziVariant": "表现",
+        "pinyin": "biǎoxiàn",
+        "vietnamese": "biểu hiện, thể hiện, thành tích",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E8%A1%A8%E7%8F%BE"
+      },
+      {
+        "hanzi": "變",
+        "hanziVariant": "变",
+        "pinyin": "biàn",
+        "vietnamese": "trở nên, thay đổi",
+        "pos": "Vp",
+        "dictHref": "/dictionary/%E8%AE%8A"
+      },
+      {
+        "hanzi": "變化",
+        "hanziVariant": "变化",
+        "pinyin": "biànhuà",
+        "vietnamese": "biến hóa, sự thay đổi",
+        "pos": "N / Vs",
+        "dictHref": "/dictionary/%E8%AE%8A%E5%8C%96"
+      },
+      {
+        "hanzi": "變成",
+        "hanziVariant": "变成",
+        "pinyin": "biànchéng",
+        "vietnamese": "biến thành, trở thành",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E8%AE%8A%E6%88%90"
+      },
+      {
+        "hanzi": "變更",
+        "hanziVariant": "变更",
+        "pinyin": "biàngēng",
+        "vietnamese": "thay đổi, đổi",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%AE%8A%E6%9B%B4"
+      },
+      {
+        "hanzi": "超過",
+        "hanziVariant": "超过",
+        "pinyin": "chāoguò",
+        "vietnamese": "vượt quá, hơn",
+        "pos": "Vpt",
+        "dictHref": "/dictionary/%E8%B6%85%E9%81%8E"
+      },
+      {
+        "hanzi": "逼",
+        "hanziVariant": null,
+        "pinyin": "bī",
+        "vietnamese": "ép, bức",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%80%BC"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "communication",
+    "icon": "💬",
+    "label": "Thông tin & Giao tiếp",
+    "words": [
+      {
+        "hanzi": "不如",
+        "hanziVariant": null,
+        "pinyin": "bùrú",
+        "vietnamese": "không bằng, chi bằng",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%A6%82"
+      },
+      {
+        "hanzi": "不得不",
+        "hanziVariant": null,
+        "pinyin": "bùdébù",
+        "vietnamese": "không thể không, đành phải",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%BE%97%E4%B8%8D"
+      },
+      {
+        "hanzi": "不斷",
+        "hanziVariant": "不断",
+        "pinyin": "bùduàn",
+        "vietnamese": "không ngừng, liên tục",
+        "pos": "Adv / Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E6%96%B7"
+      },
+      {
+        "hanzi": "不用說",
+        "hanziVariant": "不用说",
+        "pinyin": "bùyòngshuō",
+        "vietnamese": "khỏi phải nói, đương nhiên",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%B8%8D%E7%94%A8%E8%AA%AA"
+      },
+      {
+        "hanzi": "不論",
+        "hanziVariant": "不论",
+        "pinyin": "bùlùn",
+        "vietnamese": "bất luận, cho dù",
+        "pos": "Conj",
+        "dictHref": "/dictionary/%E4%B8%8D%E8%AB%96"
+      },
+      {
+        "hanzi": "包含",
+        "hanziVariant": null,
+        "pinyin": "bāohán",
+        "vietnamese": "bao gồm, bao hàm",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E5%8C%85%E5%90%AB"
+      },
+      {
+        "hanzi": "嚴峻",
+        "hanziVariant": "严峻",
+        "pinyin": "yánjùn",
+        "vietnamese": "nghiêm trọng, nghiêm khắc",
+        "pos": "ADJ",
+        "dictHref": "/dictionary/%E5%9A%B4%E5%B3%BB"
+      },
+      {
+        "hanzi": "差點",
+        "hanziVariant": "差点",
+        "pinyin": "chàdiǎn",
+        "vietnamese": "suýt nữa, tí nữa",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E5%B7%AE%E9%BB%9E"
+      },
+      {
+        "hanzi": "把",
+        "hanziVariant": null,
+        "pinyin": "bǎ",
+        "vietnamese": "cái (lượng từ cho vật có tay cầm)",
+        "pos": "M",
+        "dictHref": "/dictionary/%E6%8A%8A"
+      },
+      {
+        "hanzi": "按",
+        "hanziVariant": null,
+        "pinyin": "àn",
+        "vietnamese": "theo, dựa theo",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E6%8C%89"
+      },
+      {
+        "hanzi": "按照",
+        "hanziVariant": null,
+        "pinyin": "ànzhào",
+        "vietnamese": "dựa theo, chiểu theo",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E6%8C%89%E7%85%A7"
+      },
+      {
+        "hanzi": "曾",
+        "hanziVariant": null,
+        "pinyin": "céng",
+        "vietnamese": "từng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9B%BE"
+      },
+      {
+        "hanzi": "曾經",
+        "hanziVariant": "曾经",
+        "pinyin": "céngjīng",
+        "vietnamese": "từng, đã từng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E6%9B%BE%E7%B6%93"
+      },
+      {
+        "hanzi": "本",
+        "hanziVariant": "本人",
+        "pinyin": "běn",
+        "vietnamese": "này, bản (thân)",
+        "pos": "Det",
+        "dictHref": "/dictionary/%E6%9C%AC"
+      },
+      {
+        "hanzi": "比如",
+        "hanziVariant": null,
+        "pinyin": "bǐrú",
+        "vietnamese": "ví dụ, ví dụ như",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E6%AF%94%E5%A6%82"
+      },
+      {
+        "hanzi": "畢竟",
+        "hanziVariant": "毕竟",
+        "pinyin": "bìjìng",
+        "vietnamese": "rốt cuộc, suy cho cùng",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%95%A2%E7%AB%9F"
+      },
+      {
+        "hanzi": "筆",
+        "hanziVariant": "笔",
+        "pinyin": "bǐ",
+        "vietnamese": "khoản (tiền), bút (viết",
+        "pos": "M",
+        "dictHref": "/dictionary/%E7%AD%86"
+      },
+      {
+        "hanzi": "表示",
+        "hanziVariant": null,
+        "pinyin": "biǎoshì",
+        "vietnamese": "biểu thị, tỏ rõ",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%A1%A8%E7%A4%BA"
+      },
+      {
+        "hanzi": "表達",
+        "hanziVariant": "表达",
+        "pinyin": "biǎodá",
+        "vietnamese": "biểu đạt, diễn đạt",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%A1%A8%E9%81%94"
+      },
+      {
+        "hanzi": "趁",
+        "hanziVariant": null,
+        "pinyin": "chèn",
+        "vietnamese": "nhân lúc, tranh thủ",
+        "pos": "Prep",
+        "dictHref": "/dictionary/%E8%B6%81"
+      },
+      {
+        "hanzi": "超級",
+        "hanziVariant": "超级",
+        "pinyin": "chāojí",
+        "vietnamese": "siêu cấp, siêu",
+        "pos": "Vs-attr",
+        "dictHref": "/dictionary/%E8%B6%85%E7%B4%9A"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "relationships",
+    "icon": "❤️",
+    "label": "Tình cảm & Quan hệ",
+    "words": [
+      {
+        "hanzi": "不幸",
+        "hanziVariant": null,
+        "pinyin": "bùxìng",
+        "vietnamese": "bất hạnh, không may",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E5%B9%B8"
+      },
+      {
+        "hanzi": "不滿",
+        "hanziVariant": "不满",
+        "pinyin": "bùmǎn",
+        "vietnamese": "bất mãn, không hài lòng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%B8%8D%E6%BB%BF"
+      },
+      {
+        "hanzi": "凝聚",
+        "hanziVariant": null,
+        "pinyin": "níngjù",
+        "vietnamese": "ngưng tụ, đoàn kết",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%87%9D%E8%81%9A"
+      },
+      {
+        "hanzi": "包容",
+        "hanziVariant": null,
+        "pinyin": "bāoróng",
+        "vietnamese": "bao dung, khoan dung",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%8C%85%E5%AE%B9"
+      },
+      {
+        "hanzi": "吵架",
+        "hanziVariant": null,
+        "pinyin": "chǎojià",
+        "vietnamese": "cãi nhau",
+        "pos": "V-sep",
+        "dictHref": "/dictionary/%E5%90%B5%E6%9E%B6"
+      },
+      {
+        "hanzi": "安心",
+        "hanziVariant": null,
+        "pinyin": "ānxīn",
+        "vietnamese": "yên tâm, an lòng",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%AE%89%E5%BF%83"
+      },
+      {
+        "hanzi": "寶貝",
+        "hanziVariant": "宝贝",
+        "pinyin": "bǎobèi",
+        "vietnamese": "bảo bối, cục cưng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%AF%B6%E8%B2%9D"
+      },
+      {
+        "hanzi": "弱勢",
+        "hanziVariant": "弱势",
+        "pinyin": "ruòshì",
+        "vietnamese": "yếu thế, thiệt thòi",
+        "pos": "ADJ",
+        "dictHref": "/dictionary/%E5%BC%B1%E5%8B%A2"
+      },
+      {
+        "hanzi": "愛",
+        "hanziVariant": "爱",
+        "pinyin": "ài",
+        "vietnamese": "tình yêu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%84%9B"
+      },
+      {
+        "hanzi": "愛心",
+        "hanziVariant": "爱心",
+        "pinyin": "àixīn",
+        "vietnamese": "lòng yêu thương, tình thương",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%84%9B%E5%BF%83"
+      },
+      {
+        "hanzi": "愛情",
+        "hanziVariant": "爱情",
+        "pinyin": "àiqíng",
+        "vietnamese": "tình yêu, ái tình",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%84%9B%E6%83%85"
+      },
+      {
+        "hanzi": "愛惜",
+        "hanziVariant": "爱惜",
+        "pinyin": "àixī",
+        "vietnamese": "yêu quý, trân trọng",
+        "pos": "Vst",
+        "dictHref": "/dictionary/%E6%84%9B%E6%83%9C"
+      },
+      {
+        "hanzi": "抱怨",
+        "hanziVariant": null,
+        "pinyin": "bàoyuàn",
+        "vietnamese": "phàn nàn, oán trách",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8A%B1%E6%80%A8"
+      },
+      {
+        "hanzi": "榜樣",
+        "hanziVariant": "榜样",
+        "pinyin": "bǎngyàng",
+        "vietnamese": "tấm gương, gương mẫu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%A6%9C%E6%A8%A3"
+      },
+      {
+        "hanzi": "氛圍",
+        "hanziVariant": "氛围",
+        "pinyin": "fēnwéi",
+        "vietnamese": "bầu không khí",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B0%9B%E5%9C%8D"
+      },
+      {
+        "hanzi": "背景",
+        "hanziVariant": null,
+        "pinyin": "bèijǐng",
+        "vietnamese": "bối cảnh, nền",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%83%8C%E6%99%AF"
+      },
+      {
+        "hanzi": "認同",
+        "hanziVariant": "认同",
+        "pinyin": "rèntóng",
+        "vietnamese": "nhận đồng, bản sắc",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%AA%8D%E5%90%8C"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "law",
+    "icon": "⚖️",
+    "label": "Hành chính & Luật pháp",
+    "words": [
+      {
+        "hanzi": "兩岸",
+        "hanziVariant": "两岸",
+        "pinyin": "liǎng&#x27;àn",
+        "vietnamese": "hai bờ eo biển (Đài-Trung)",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%A9%E5%B2%B8"
+      },
+      {
+        "hanzi": "共識",
+        "hanziVariant": "共识",
+        "pinyin": "gòngshí",
+        "vietnamese": "đồng thuận",
+        "pos": "N",
+        "dictHref": "/dictionary/%E5%85%B1%E8%AD%98"
+      },
+      {
+        "hanzi": "宣導",
+        "hanziVariant": "宣导",
+        "pinyin": "xuāndǎo",
+        "vietnamese": "tuyên truyền, phổ biến",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%AE%A3%E5%B0%8E"
+      },
+      {
+        "hanzi": "情勢",
+        "hanziVariant": "情势",
+        "pinyin": "qíngshì",
+        "vietnamese": "tình hình, tình thế",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%83%85%E5%8B%A2"
+      },
+      {
+        "hanzi": "民意",
+        "hanziVariant": null,
+        "pinyin": "mínyì",
+        "vietnamese": "dân ý, ý dân",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B0%91%E6%84%8F"
+      },
+      {
+        "hanzi": "法規",
+        "hanziVariant": "法规",
+        "pinyin": "fǎguī",
+        "vietnamese": "pháp quy, quy định",
+        "pos": "N",
+        "dictHref": "/dictionary/%E6%B3%95%E8%A6%8F"
+      },
+      {
+        "hanzi": "詐騙",
+        "hanziVariant": "诈骗",
+        "pinyin": "zhàpiàn",
+        "vietnamese": "lừa đảo",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%A9%90%E9%A8%99"
+      },
+      {
+        "hanzi": "辦理",
+        "hanziVariant": "办理",
+        "pinyin": "bànlǐ",
+        "vietnamese": "làm (thủ tục), giải quyết",
+        "pos": "V",
+        "dictHref": "/dictionary/%E8%BE%A6%E7%90%86"
+      },
+      {
+        "hanzi": "避免",
+        "hanziVariant": null,
+        "pinyin": "bìmiǎn",
+        "vietnamese": "tránh, phòng tránh",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%81%BF%E5%85%8D"
+      },
+      {
+        "hanzi": "部門",
+        "hanziVariant": "部门",
+        "pinyin": "bùmén",
+        "vietnamese": "bộ phận, phòng ban",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%83%A8%E9%96%80"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "home-living",
+    "icon": "🏠",
+    "label": "Nhà cửa & Đời sống",
+    "words": [
+      {
+        "hanzi": "包",
+        "hanziVariant": null,
+        "pinyin": "bāo",
+        "vietnamese": "bao, bọc, gói",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%8C%85"
+      },
+      {
+        "hanzi": "安定",
+        "hanziVariant": null,
+        "pinyin": "āndìng",
+        "vietnamese": "ổn định, yên ổn",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%AE%89%E5%AE%9A"
+      },
+      {
+        "hanzi": "安排",
+        "hanziVariant": null,
+        "pinyin": "ānpái",
+        "vietnamese": "sắp xếp, sự sắp xếp",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E5%AE%89%E6%8E%92"
+      },
+      {
+        "hanzi": "布",
+        "hanziVariant": null,
+        "pinyin": "bù",
+        "vietnamese": "bài trí, sắp xếp, trang trí",
+        "pos": "V",
+        "dictHref": "/dictionary/%E5%B8%83"
+      },
+      {
+        "hanzi": "必要",
+        "hanziVariant": null,
+        "pinyin": "bìyào",
+        "vietnamese": "cần thiết, tất yếu",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%BF%85%E8%A6%81"
+      },
+      {
+        "hanzi": "把握",
+        "hanziVariant": "擦",
+        "pinyin": "bǎwò",
+        "vietnamese": "nắm chắc, nắm bắt",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8A%8A%E6%8F%A1"
+      },
+      {
+        "hanzi": "擺",
+        "hanziVariant": "摆",
+        "pinyin": "bǎi",
+        "vietnamese": "bày, đặt, sắp xếp",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%93%BA"
+      },
+      {
+        "hanzi": "白",
+        "hanziVariant": null,
+        "pinyin": "bái",
+        "vietnamese": "miễn phí, vô ích, suông",
+        "pos": "Adv",
+        "dictHref": "/dictionary/%E7%99%BD"
+      },
+      {
+        "hanzi": "重建",
+        "hanziVariant": null,
+        "pinyin": "chóngjiàn",
+        "vietnamese": "tái thiết, xây dựng lại",
+        "pos": "V",
+        "dictHref": "/dictionary/%E9%87%8D%E5%BB%BA"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "personality",
+    "icon": "🧠",
+    "label": "Tư duy & Tính cách",
+    "words": [
+      {
+        "hanzi": "保守",
+        "hanziVariant": null,
+        "pinyin": "bǎoshǒu",
+        "vietnamese": "bảo thủ, dè dặt",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E4%BF%9D%E5%AE%88"
+      },
+      {
+        "hanzi": "寶貴",
+        "hanziVariant": "宝贵",
+        "pinyin": "bǎoguì",
+        "vietnamese": "quý báu, quý giá",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E5%AF%B6%E8%B2%B4"
+      },
+      {
+        "hanzi": "猜",
+        "hanziVariant": null,
+        "pinyin": "cāi",
+        "vietnamese": "đoán",
+        "pos": "V",
+        "dictHref": "/dictionary/%E7%8C%9C"
+      },
+      {
+        "hanzi": "理念",
+        "hanziVariant": null,
+        "pinyin": "lǐniàn",
+        "vietnamese": "lý niệm, tư tưởng",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%90%86%E5%BF%B5"
+      },
+      {
+        "hanzi": "被動",
+        "hanziVariant": "被动",
+        "pinyin": "bèidòng",
+        "vietnamese": "bị động",
+        "pos": "Vs",
+        "dictHref": "/dictionary/%E8%A2%AB%E5%8B%95"
+      },
+      {
+        "hanzi": "輩子",
+        "hanziVariant": "辈子",
+        "pinyin": "bèizi",
+        "vietnamese": "đời, kiếp",
+        "pos": "N",
+        "dictHref": "/dictionary/%E8%BC%A9%E5%AD%90"
+      },
+      {
+        "hanzi": "韌性",
+        "hanziVariant": "韧性",
+        "pinyin": "rènxìng",
+        "vietnamese": "tính bền bỉ, sức chống chịu",
+        "pos": "N",
+        "dictHref": "/dictionary/%E9%9F%8C%E6%80%A7"
+      }
+    ]
+  },
+  {
+    "level": "B1",
+    "topicKey": "work-finance",
+    "icon": "💼",
+    "label": "Công việc & Tài chính",
+    "words": [
+      {
+        "hanzi": "便條",
+        "hanziVariant": "便条",
+        "pinyin": "biàntiáo",
+        "vietnamese": "giấy ghi chú, mẩu giấy nhắn",
+        "pos": "N",
+        "dictHref": "/dictionary/%E4%BE%BF%E6%A2%9D"
+      },
+      {
+        "hanzi": "保證",
+        "hanziVariant": "保证",
+        "pinyin": "bǎozhèng",
+        "vietnamese": "bảo đảm, cam đoan, sự bảo đảm",
+        "pos": "N / V",
+        "dictHref": "/dictionary/%E4%BF%9D%E8%AD%89"
+      },
+      {
+        "hanzi": "應對",
+        "hanziVariant": "应对",
+        "pinyin": "yìngduì",
+        "vietnamese": "ứng phó, đối phó",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%87%89%E5%B0%8D"
+      },
+      {
+        "hanzi": "拓展",
+        "hanziVariant": null,
+        "pinyin": "tuòzhǎn",
+        "vietnamese": "mở rộng, phát triển",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8B%93%E5%B1%95"
+      },
+      {
+        "hanzi": "採用",
+        "hanziVariant": "采用",
+        "pinyin": "cǎiyòng",
+        "vietnamese": "áp dụng, sử dụng",
+        "pos": "V",
+        "dictHref": "/dictionary/%E6%8E%A1%E7%94%A8"
+      },
+      {
+        "hanzi": "產品",
+        "hanziVariant": "产品",
+        "pinyin": "chǎnpǐn",
+        "vietnamese": "sản phẩm",
+        "pos": "N",
+        "dictHref": "/dictionary/%E7%94%A2%E5%93%81"
+      },
+      {
+        "hanzi": "跨國",
+        "hanziVariant": "跨国",
+        "pinyin": "kuàguó",
+        "vietnamese": "xuyên quốc gia",
+        "pos": "ADJ",
+        "dictHref": "/dictionary/%E8%B7%A8%E5%9C%8B"
+      }
+    ]
+  }
+]

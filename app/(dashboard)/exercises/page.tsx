@@ -7,7 +7,7 @@ import { getDaysInMonth, toLocalDateString, formatDate } from '@/lib/utils/date'
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check, BookOpen, Layers, Sparkles, X } from 'lucide-react'
 
 interface DateStatus {
-  completedCount: number // out of 2
+  completedCount: number // out of 3 (hanzi_pinyin, hanzi_viet, fill_in)
 }
 
 export default function ExercisesPage() {
@@ -54,8 +54,8 @@ export default function ExercisesPage() {
 
       if (records) {
         records.forEach(r => {
-          // Count only the remaining matching exercise types
-          const matchingTypes = ['hanzi_pinyin', 'hanzi_viet']
+          // The 3 exercise types that make up a fully-completed day on this calendar
+          const matchingTypes = ['hanzi_pinyin', 'hanzi_viet', 'fill_in']
           if (matchingTypes.includes(r.exercise_type)) {
             if (!tempMap[r.date]) {
               tempMap[r.date] = { completedCount: 0 }

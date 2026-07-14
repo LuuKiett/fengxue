@@ -8,6 +8,12 @@ interface DatePickerProps {
   value: string // YYYY-MM-DD
   onChange: (date: string) => void
   className?: string
+  // Optional: map of YYYY-MM-DD -> vocab count, rendered as a small badge on each day
+  // (mirrors the /exercises calendar's per-day word count so /learn shows the same at-a-glance signal).
+  vocabCountMap?: { [dateStr: string]: number }
+  // Fired whenever the visible month changes (including on mount), so a parent that wants
+  // to show vocabCountMap can fetch counts scoped to only the month currently in view.
+  onMonthChange?: (year: number, month: number) => void
 }
 
 const WEEKDAY_HEADERS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
@@ -16,7 +22,7 @@ const MONTH_NAMES = [
   'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12',
 ]
 
-export default function DatePicker({ value, onChange, className }: DatePickerProps) {
+export default function DatePicker({ value, onChange, className, vocabCountMap, onMonthChange }: DatePickerProps) {
   const [open, setOpen] = useState(false)
   const [viewDate, setViewDate] = useState(() => (value ? new Date(value) : new Date()))
   const containerRef = useRef<HTMLDivElement>(null)
@@ -37,6 +43,12 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
 
   const year = viewDate.getFullYear()
   const month = viewDate.getMonth()
+
+  useEffect(() => {
+    onMonthChange?.(year, month)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [year, month])
+
   const days = getDaysInMonth(year, month)
   const startDayOfWeek = days[0].getDay()
   const adjustedStart = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1
@@ -97,18 +109,29 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
               if (!day) return <div key={`empty-${idx}`} className="aspect-square" />
               const dateStr = toLocalDateString(day)
               const isSelected = dateStr === value
+              const vocabCount = vocabCountMap?.[dateStr]
               return (
                 <button
                   key={dateStr}
                   type="button"
                   onClick={() => handlePick(day)}
-                  className={`aspect-square rounded-lg text-xs font-bold transition-all ${
+                  className={`relative aspect-square rounded-lg text-xs font-bold transition-all ${
                     isSelected
                       ? 'bg-[#1877f2] text-white'
                       : 'hover:bg-slate-100 text-slate-700'
                   }`}
                 >
                   {day.getDate()}
+                  {!!vocabCount && (
+                    <span
+                      className={`absolute -top-1 -right-1 min-w-[14px] px-[3px] h-[14px] rounded-full text-[8px] font-black leading-[14px] text-center ${
+                        isSelected ? 'bg-white text-[#1877f2]' : 'bg-emerald-400 text-white'
+                      }`}
+                      title={`${vocabCount} từ vựng`}
+                    >
+                      {vocabCount}
+                    </span>
+                  )}
                 </button>
               )
             })}

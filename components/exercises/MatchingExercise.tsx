@@ -294,7 +294,7 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 } ${isShaking ? 'animate-shake bg-red-50 border-red-200 text-red-600' : ''}`}
               >
-                <span className="font-chinese font-bold text-xl md:text-4xl">{item.text}</span>
+                <span className="font-chinese text-xl md:text-4xl">{item.text}</span>
               </button>
             )
           })}
@@ -323,7 +323,7 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 }`}
               >
-                <span className="font-chinese font-bold text-xl md:text-4xl">{item.text}</span>
+                <span className="font-chinese text-xl md:text-4xl">{item.text}</span>
               </button>
             )
           })}

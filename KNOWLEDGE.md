@@ -436,6 +436,171 @@ must use one of these two patterns, never a bare `.select()`.**
   suggesting every word actually in this app's own dictionary, not just what CC-CEDICT/
   TOCFL happen to rank highly.
 
+## `/learn` calendar vocab-count badges
+
+`components/ui/DatePicker.tsx` (the dropdown calendar used on `/learn` and `/vocabulary`)
+now optionally accepts `vocabCountMap` (dateStr -> count, renders a small badge per day,
+same idea as `/exercises`'s calendar grid) and `onMonthChange(year, month)` (fired on
+mount and whenever the dropdown's viewed month changes). Both are optional so the
+`/vocabulary` usages are unaffected. `/learn/page.tsx` owns the actual fetch
+(`loadMonthVocabCounts`, mirroring `/exercises`'s `loadCompletionData` vocab-count half)
+and passes the result down — the DatePicker component itself stays DB-agnostic.
+
+## Hán tự font (`--font-chinese` / `.font-chinese`)
+
+Switched from **Noto Sans SC** (Simplified Chinese, sans) to **Noto Serif TC**
+(Traditional Chinese, serif) in `app/layout.tsx` + `app/globals.css`, to match the font
+monchinese.me actually uses for hanzi (their `--font-hanzi` defaults to
+`var(--font-hanzi-serif), "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif` —
+confirmed by fetching their compiled CSS). This was a real correctness bug, not just a
+style mismatch: this app teaches TOCFL/Taiwan (Traditional) content, so Simplified-region
+glyph variants were subtly wrong for some characters, not just visually different.
+**Gotcha hit while verifying:** an already-running `next dev` process did not pick up the
+`.font-chinese { font-family: ... }` literal rule in `globals.css` via HMR — the
+Tailwind-generated `--font-chinese`-based utility recompiled fine, but the hardcoded
+rule kept serving the old value until the dev server was fully restarted (`.next/dev`
+cleared). If a future font/global-CSS change looks like it "didn't take" in a
+long-running dev session, restart the dev server before assuming the edit is wrong.
+
+## Topic-based vocabulary learning (`/vocabulary-by-topic`, `topic_vocabulary` table)
+
+New page linked from the sidebar as "Học Theo Chủ Đề", directly below "Ôn Tập Từ Điển".
+Lets a student browse+flashcard vocabulary grouped into the same ~14 life-topic
+categories monchinese.me uses (🏠 Nhà cửa & Đời sống, 📚 Học tập & Giáo dục, 💬 Thông tin
+& Giao tiếp, etc. — canonical order in `lib/utils/topicVocabulary.ts`'s `TOPIC_ORDER`),
+per level A1/A2/B1/B2. monchinese splits each (level, topic) into multiple `#1/#2/#3...`
+sub-collections; those are merged into one group here per explicit user request.
+
+- **Backing table is `topic_vocabulary` (migration `0013_topic_vocabulary`), deliberately
+  NOT a column on `dictionary_words` and NOT new rows mixed into it.** This was a hard
+  requirement — the feature must never risk `dictionary_progress`/`exercise_records` or
+  any other existing student progress data. It has its own RLS read-only policy
+  (`Anyone authenticated can read topic vocabulary`, same shape as `dictionary_words`'s)
+  and no progress/completion tracking of its own — this page is pure browsing/flashcard,
+  not a spaced-repetition system, so there was nothing progress-related to build.
+- **A1/A2/B1 rows (848 words) are scraped from monchinese.me**, per explicit user
+  instruction to source real content (including their example sentences) rather than
+  auto-classifying our own dictionary_words for those levels. `scripts/
+  scrape-monchinese-words.js words` fetches all 60 `/learn/<slug>` collection pages
+  (slugs + topic metadata pre-extracted into `scripts/output/monchinese-slugs.json`,
+  itself derived by regex-scraping monchinese.me/learn's SSR'd HTML — see git history if
+  that ever needs regenerating, e.g. if they add new collections) and regex-parses each
+  word's hanzi/hanzi_variant(simplified)/pinyin/vietnamese/pos/dictionary-link straight
+  out of the server-rendered `<li><details>` markup (no JS execution needed — the list is
+  SSR'd, only individual card *expansion* is client-side). `... examples` then visits
+  every unique word's `/dictionary/<hanzi>` page and pulls the first entry under that
+  page's own "Ví dụ" section (hanzi + Vietnamese translation only — monchinese's
+  dictionary page doesn't print pinyin for examples, only TTS audio). Both steps are
+  idempotent/re-runnable; a 250ms/200ms per-request delay was used to be a reasonably
+  polite scraper. Confirmed 100% example coverage (845/845 unique words) on the one run
+  done so far.
+- **B2 rows (2471 words) are this app's own `dictionary_words` (level='B2'), auto-
+  classified into the same topic taxonomy by keyword** (`scripts/classify-b2-topics.js`),
+  since monchinese.me's `/learn` page has no B2/CEFR-labeled collections at all (only
+  A1/A2/B1, plus non-CEFR "L0/N1/N2" tiers) — confirmed by scraping their page's full
+  level list. This was an explicit user decision among 3 offered options (borrow their
+  N1 tier / auto-classify our own B2 / leave B2 empty), not something to reconsider
+  without asking again. Classification checks `pos` first for grammatical function words
+  (`Conj`/`Prep`/`Det`/`Ptc`/`Vaux` → `function-words`, matching monchinese's "Từ chức
+  năng & Hư từ" bucket), then falls back to Vietnamese-gloss keyword matching against a
+  curated per-topic keyword list, narrowest/most-specific topics checked first (health,
+  law, personality, food... before broad catch-alls like work-finance/home-living/
+  communication). **~79% of B2 words (1945/2471) fall into a catch-all `other` ("Khác")
+  topic** — this is not a keyword-coverage bug to chase further; B2-level vocabulary
+  trends heavily abstract/formal-register (詞彙, 措施, 促進, 傳統...) and genuinely doesn't
+  fit monchinese's beginner-life-topic taxonomy no matter how much the keyword lists are
+  expanded (spot-checked a 60-word sample of the "other" bucket to confirm this before
+  accepting the result). If B2 topic coverage ever needs improving, the leverage is in
+  `TOPIC_KEYWORDS` in `classify-b2-topics.js`, but expect diminishing returns.
+- **Regenerating the seed**: `node scripts/scrape-monchinese-words.js` (or `words`/
+  `examples` individually) → `node scripts/classify-b2-topics.js` → `node scripts/
+  build-topic-vocab-seed.js` → `npx prisma db execute --file scripts/output/
+  topic-vocab-seed.sql`. The seed SQL uses `ON CONFLICT (level, topic_key, hanzi,
+  pinyin) DO UPDATE`, so it's safe to re-run. Only re-run the B2 classification step
+  after `dictionary_words` B2 content changes; only re-run the monchinese scrape if
+  their site content changes (unlikely to need often).
+- **pinyin-pro polyphone workaround extended**: generating pinyin for the scraped
+  monchinese example sentences (which only ship hanzi + Vietnamese, no pinyin) hit a new
+  case beyond the 們/麼/車/還 already documented above — **乾 defaults to the rare "qián"
+  (trigram/surname) reading instead of "gān" (dry)**, which is virtually always the
+  intended reading in everyday vocab like 乾淨/餅乾. Added to the same blanket
+  character-substitution fix, now in `build-topic-vocab-seed.js`'s `POLYPHONE_FIXES`
+  (this project has two independent copies of this workaround now — the original
+  one-off Band A script wasn't kept in the repo, per the earlier note above).
+
+## Điền Từ (fill-in) rolled out to the topic page + `/learn`, `/exercises/[date]`, `/review`
+
+Follow-up session to the topic-vocabulary work above, per explicit user request: "Nối Từ"
+(matching) and "Điền Từ" (fill-in) needed to follow Flashcard on `/vocabulary-by-topic`
+(with per-mode progress persisted and shown on the topic cards), and `/learn`,
+`/exercises/[date]`, `/review` each needed their own Điền Từ addition too.
+
+- **`topic_vocabulary_progress`** (migration `0014`) — mirrors `dictionary_progress`'s
+  shape (`word_order` uuid array + `current_index`) but keyed by `(user_id, level,
+  topic_key, mode)` with **three** modes instead of two: `'flashcard'` (pool = every
+  word in the topic), `'matching'` (pool = words already completed in `'flashcard'`),
+  `'fill_in'` (pool = words already completed in `'matching'`) — a two-step gating
+  chain, extending the exact pattern `dictionary_progress` already used for its single
+  `fill_in`-gated-by-`flashcard` mode. Fully separate table from `dictionary_progress`,
+  so this can never touch the existing Ôn Tập Từ Điển progress.
+- **Two distinct entry paths through `/vocabulary-by-topic`'s mode-select modal**
+  (Flashcard / Nối Từ / Điền Từ, shown on every topic-card click): choosing
+  **"Flashcard"** sets `chainMode=true` and auto-advances Flashcard → Nối Từ → Điền Từ
+  for the *same* stage batch in one sitting (all three progress rows advance together,
+  by the same word count) — `ChainStepTracker` (a 3-icon version of review-dictionary's
+  `StepTracker`) is shown throughout so it's visually obvious this is one pipeline, not
+  three unrelated screens. Choosing **"Nối Từ" or "Điền Từ" directly** sets
+  `chainMode=false` and only drills that single mode's own backlog (words available per
+  the gating chain but not yet done in *that* mode) — only that mode's progress
+  advances, and no `ChainStepTracker` is shown. Both paths share the same stage-size
+  chooser UI as review-dictionary (`STAGE_SIZE_PRESETS`), sized against whichever mode's
+  own "remaining" count is relevant — necessary because topic sizes now range from 4
+  words (B2 travel) to 1945 (B2 "Khác"), and a giant single Nối Từ/Điền Từ batch would
+  be unusable.
+- **Gotcha hit while verifying**: the stage-size chooser's description text
+  originally read `chainMode ? '...' : '...'`, but `chainMode` state isn't set until
+  `startTopic()` actually runs (which only happens after the user clicks "Bắt Đầu
+  Học") — so the chooser screen always showed the *previous* session's chainMode value
+  (stale on first visit, or leftover from whatever mode was last started). Fixed by
+  checking `activeMode === 'flashcard'` directly at that specific call site instead of
+  the `chainMode` state, since `activeMode` is set synchronously the moment a mode
+  button in the modal is clicked. The actual chained-session screens (flashcard/
+  matching/fill_in steps themselves) don't have this bug — `chainMode` is set at the
+  top of `startTopic()`, before any `await`, so it's committed well before `loadStage`
+  flips `step` to render one of those screens.
+- **Topic cards now show 3 compact `ProgressRing`s** (Flashcard/Nối Từ/Điền Từ,
+  `size=30` vs review-dictionary's `size=40` for its 2-ring cards — needed to fit a
+  third ring in the same card width) instead of opening a topic directly; clicking a
+  card now always opens the mode-select modal first. Verified via direct
+  `topic_vocabulary_progress` DB seeding + screenshot that ring percentages compute
+  correctly (`learnedMatching / learnedFlashcard`, `learnedFillIn / learnedMatching` —
+  each ring's denominator is the *parent* mode's learned count, not the topic total,
+  matching the gating chain).
+- **`exercise_records.exercise_type` collision avoided**: `/exercises/[date]` already
+  needed its own new `'fill_in'` type for its 3rd exercise card. `/learn`'s new Điền Từ
+  mode could **not** reuse the same `'fill_in'` string — `exercise_records`' unique key
+  is `(user_id, date, exercise_type)`, so completing Điền Từ on one page would silently
+  mark the *other* page's same-day Điền Từ exercise complete too. `/learn` now writes
+  `'learn_fill_in'` instead (see `EXERCISE_TYPE` map in `learn/page.tsx`), keeping the
+  two fully independent. `/review`'s Điền Từ step doesn't need a new type at all — it
+  folds into the same single `'review_cumulative'` summary record the page already
+  wrote at the end of its (now longer) Flashcard → Nối Từ → Điền Từ pipeline.
+- **Fixed a dormant bug while adding `/exercises/[date]`'s 3rd card**: `/exercises`
+  (the calendar) and `/dashboard` both had `completedCount === 2`/`=== 3` off-by-one
+  mismatches — `/exercises/page.tsx`'s calendar checked `completedCount === 3` for the
+  "fully done" green checkmark but only ever counted 2 exercise types
+  (`hanzi_pinyin`/`hanzi_viet`), so that checkmark could **never** trigger; `/dashboard`
+  was internally consistent at `/2` and `=== 2` but for the same reason under-counted.
+  Both now count `hanzi_pinyin`/`hanzi_viet`/`fill_in` (3 types) and use `=== 3`/`/3` —
+  this was very likely the original intended design (a 3rd exercise type that never got
+  built), not a new threshold invented for this feature.
+- `/exercises/[date]`'s Điền Từ card passes the whole day's `vocabs` array to
+  `FillInExercise` directly (no chunking) since a day's vocab set is naturally small.
+  `/review`'s Điền Từ step likewise passes the whole `mergedVocabs` array at once (no
+  `ITEMS_PER_ROUND` batching like its Matching step uses) — `FillInExercise` renders as
+  a scrollable table, which stays usable at larger counts unlike `MatchingExercise`'s
+  fixed 2-column visual game board, so only Matching genuinely needs chunking.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

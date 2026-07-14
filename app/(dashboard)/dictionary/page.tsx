@@ -177,7 +177,7 @@ export default function DictionaryPage() {
                   <tr key={w.id} className="hover:bg-slate-50 align-top">
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-chinese text-3xl font-bold text-slate-900">{w.hanzi}</span>
+                        <span className="font-chinese text-3xl text-slate-900">{w.hanzi}</span>
                         <button
                           onClick={() => speak(w.hanzi)}
                           className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors"
@@ -211,7 +211,7 @@ export default function DictionaryPage() {
                       {w.example_hanzi ? (
                         <div className="flex items-start gap-1.5">
                           <div className="space-y-1">
-                            <p className="font-chinese font-bold text-3xl text-slate-800 leading-snug">{w.example_hanzi}</p>
+                            <p className="font-chinese text-3xl text-slate-800 leading-snug">{w.example_hanzi}</p>
                             <p className="text-sm text-blue-500 italic">{w.example_pinyin}</p>
                             <p className="text-sm text-slate-500">{w.example_vietnamese}</p>
                           </div>

@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils/date'
 import MatchingExercise from '@/components/exercises/MatchingExercise'
-import { ArrowLeft, CheckCircle2, Dumbbell, Award, Star } from 'lucide-react'
+import FillInExercise from '@/components/exercises/FillInExercise'
+import { ArrowLeft, Award } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 interface VocabItem {
@@ -15,6 +16,8 @@ interface VocabItem {
   pinyin: string
   vietnamese: string
 }
+
+type ExerciseType = 'hanzi_pinyin' | 'hanzi_viet' | 'fill_in'
 
 const SOURCE_LABELS: { [key: string]: string } = {
   study: 'Từ Vựng Tự Học',
@@ -47,12 +50,13 @@ function DateExercisesPageInner() {
   
   // Exercise states: 'list' | 'playing'
   const [mode, setMode] = useState<'list' | 'playing'>('list')
-  const [activeType, setActiveType] = useState<'hanzi_pinyin' | 'hanzi_viet' | null>(null)
-  
+  const [activeType, setActiveType] = useState<ExerciseType | null>(null)
+
   // Completion records
   const [records, setRecords] = useState<{ [key: string]: boolean }>({
     hanzi_pinyin: false,
-    hanzi_viet: false
+    hanzi_viet: false,
+    fill_in: false
   })
 
   const loadData = async () => {
@@ -92,7 +96,8 @@ function DateExercisesPageInner() {
 
       const statusMap = {
         hanzi_pinyin: false,
-        hanzi_viet: false
+        hanzi_viet: false,
+        fill_in: false
       }
 
       if (recs) {
@@ -114,7 +119,7 @@ function DateExercisesPageInner() {
     loadData()
   }, [dateStr, sourceParam])
 
-  const startExercise = (type: 'hanzi_pinyin' | 'hanzi_viet') => {
+  const startExercise = (type: ExerciseType) => {
     setActiveType(type)
     setMode('playing')
   }
@@ -158,9 +163,12 @@ function DateExercisesPageInner() {
     }
   }
 
+  const handleFillInComplete = () => handleExerciseComplete(100)
+
   const getExerciseTitle = (type: string) => {
     if (type === 'hanzi_pinyin') return 'Chữ Hán ↔ Phiên âm (Pinyin)'
     if (type === 'hanzi_viet') return 'Chữ Hán ↔ Nghĩa Việt'
+    if (type === 'fill_in') return 'Điền Từ'
     return ''
   }
 
@@ -232,16 +240,16 @@ function DateExercisesPageInner() {
           <div className="bg-gradient-to-r from-amber-400 to-orange-500 text-white p-6 rounded-[24px] shadow-sm flex items-center justify-between gap-6">
             <div className="space-y-2">
               <h3 className="text-2xl font-extrabold flex items-center gap-2">
-                <Award className="w-7 h-7" /> Thử Thách Nối Từ
+                <Award className="w-7 h-7" /> Thử Thách Luyện Tập
               </h3>
               <p className="font-semibold text-amber-50 max-w-md">
-                Hoàn thành cả 2 bài tập nối từ để nhận dấu tích xanh hoàn tất trên lịch tiến độ tháng nhé! 🌟
+                Hoàn thành cả 3 bài tập để nhận dấu tích xanh hoàn tất trên lịch tiến độ tháng nhé! 🌟
               </p>
             </div>
             <div className="hidden sm:flex text-6xl animate-float">🎓</div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="cartoon-card p-5 bg-white flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between items-start">
@@ -253,7 +261,7 @@ function DateExercisesPageInner() {
                 <h4 className="font-extrabold text-slate-800 text-lg">Chữ Hán ↔ Pinyin</h4>
                 <p className="text-xs text-slate-500 font-semibold">Nối ký tự tiếng Trung với cách viết phiên âm đúng.</p>
               </div>
-              <button 
+              <button
                 onClick={() => startExercise('hanzi_pinyin')}
                 className="cartoon-btn w-full py-2.5 text-xs text-center"
               >
@@ -272,18 +280,40 @@ function DateExercisesPageInner() {
                 <h4 className="font-extrabold text-slate-800 text-lg">Chữ Hán ↔ Nghĩa Việt</h4>
                 <p className="text-xs text-slate-500 font-semibold">Nối mặt chữ với nghĩa tiếng Việt tương ứng.</p>
               </div>
-              <button 
+              <button
                 onClick={() => startExercise('hanzi_viet')}
                 className="cartoon-btn w-full py-2.5 text-xs text-center"
               >
                 {records.hanzi_viet ? 'Luyện Lại 🔄' : 'Bắt Đầu 🚀'}
               </button>
             </div>
+
+            <div className="cartoon-card p-5 bg-white flex flex-col justify-between space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between items-start">
+                  <span className="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center font-bold text-blue-600">3</span>
+                  {records.fill_in && (
+                    <span className="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-[10px] font-black text-emerald-700 rounded-full">XONG</span>
+                  )}
+                </div>
+                <h4 className="font-extrabold text-slate-800 text-lg">Điền Từ</h4>
+                <p className="text-xs text-slate-500 font-semibold">Gõ pinyin để ghép đúng chữ Hán cho từng từ.</p>
+              </div>
+              <button
+                onClick={() => startExercise('fill_in')}
+                className="cartoon-btn w-full py-2.5 text-xs text-center"
+              >
+                {records.fill_in ? 'Luyện Lại 🔄' : 'Bắt Đầu 🚀'}
+              </button>
+            </div>
           </div>
         </div>
+      ) : activeType === 'fill_in' ? (
+        /* PLAYING MODE: Fill-in Exercise */
+        <FillInExercise words={vocabs} onComplete={handleFillInComplete} />
       ) : (
         /* PLAYING MODE: Display Game */
-        <MatchingExercise 
+        <MatchingExercise
           vocabs={vocabs}
           matchType={activeType!}
           onComplete={handleExerciseComplete}

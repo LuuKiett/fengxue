@@ -89,7 +89,7 @@ export default function Flashcard({
           </div>
 
           <div className="flex-1 flex items-center justify-center">
-            <span className="font-chinese font-bold md:text-8xl text-6xl text-slate-800 leading-normal select-none">
+            <span className="font-chinese md:text-8xl text-6xl text-slate-800 leading-normal select-none">
               {hanzi}
             </span>
           </div>
@@ -157,7 +157,7 @@ export default function Flashcard({
                 {examples.map((ex, i) => (
                   <div key={i} className="bg-white/70 border border-blue-100 rounded-xl p-3 space-y-1 text-left">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="font-chinese font-bold text-slate-800 md:text-2xl leading-snug flex-1">
+                      <p className="font-chinese text-slate-800 md:text-2xl leading-snug flex-1">
                         {ex.sentence}
                       </p>
                       <button

@@ -204,12 +204,12 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                     isGraded ? (isCorrect ? 'bg-emerald-50/50' : 'bg-red-50/40') : ''
                   }`}
                 >
-                  <span className="font-chinese font-bold text-2xl text-slate-800 select-none">{w.hanzi}</span>
+                  <span className="font-chinese text-2xl text-slate-800 select-none">{w.hanzi}</span>
 
                   <div className="relative">
                     {isGraded ? (
                       <div className="flex items-center gap-2">
-                        <span className="font-chinese font-bold text-xl text-slate-700">{answer || '—'}</span>
+                        <span className="font-chinese text-xl text-slate-700">{answer || '—'}</span>
                         <button
                           type="button"
                           onClick={() => resetRow(w.id)}
@@ -223,7 +223,7 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                       <>
                         <div className="flex items-center gap-2">
                           {answer && (
-                            <span className="font-chinese font-bold text-lg text-blue-600 shrink-0">{answer}</span>
+                            <span className="font-chinese text-lg text-blue-600 shrink-0">{answer}</span>
                           )}
                           <input
                             type="text"
@@ -269,7 +269,7 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                                 onMouseDown={(e) => { e.preventDefault(); selectSuggestion(w.id, item) }}
                                 className="cursor-pointer w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-blue-50 rounded-xl transition-colors"
                               >
-                                <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
+                                <span className="font-chinese text-lg text-blue-600 min-w-[2rem]">{item.t}</span>
                                 <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
                                 {'composed' in item ? (
                                   <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>

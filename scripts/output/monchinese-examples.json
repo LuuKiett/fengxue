@@ -1,0 +1,3382 @@
+{
+  "下雪": {
+    "exampleHanzi": "外面在下雪。",
+    "exampleVietnamese": "Bên ngoài đang có tuyết rơi."
+  },
+  "世界": {
+    "exampleHanzi": "世界很大。",
+    "exampleVietnamese": "Thế giới rất lớn."
+  },
+  "乾淨": {
+    "exampleHanzi": "這裡很乾淨。",
+    "exampleVietnamese": "Ở đây rất sạch sẽ."
+  },
+  "傢俱": {
+    "exampleHanzi": "這些傢俱很舊。",
+    "exampleVietnamese": "Những đồ nội thất (gia cụ) này rất cũ."
+  },
+  "冰箱": {
+    "exampleHanzi": "冰箱裡有牛奶。",
+    "exampleVietnamese": "Trong tủ lạnh có sữa."
+  },
+  "冷氣(機)": {
+    "exampleHanzi": "這裡有冷氣。",
+    "exampleVietnamese": "Ở đây có máy lạnh (lãnh khí)."
+  },
+  "台": {
+    "exampleHanzi": "一臺電腦。",
+    "exampleVietnamese": "Một chiếc (đài) máy tính."
+  },
+  "地": {
+    "exampleHanzi": "地很滑。",
+    "exampleVietnamese": "Đất rất trơn."
+  },
+  "大樓": {
+    "exampleHanzi": "那大樓很高，很有名。",
+    "exampleVietnamese": "Tòa nhà đó rất cao, rất nổi tiếng."
+  },
+  "太陽": {
+    "exampleHanzi": "太陽出來了。",
+    "exampleVietnamese": "Mặt trời ra rồi."
+  },
+  "客廳": {
+    "exampleHanzi": "客廳很明亮。",
+    "exampleVietnamese": "Phòng khách rất sáng sủa."
+  },
+  "屋(子)": {
+    "exampleHanzi": "這間屋子很大。",
+    "exampleVietnamese": "Căn nhà (ốc tử) này rất lớn."
+  },
+  "房租": {
+    "exampleHanzi": "每個月要交房租。",
+    "exampleVietnamese": "Mỗi tháng phải nộp tiền thuê nhà (phòng tô)."
+  },
+  "掛": {
+    "exampleHanzi": "他把外套掛在門上。",
+    "exampleVietnamese": "Anh ấy treo áo khoác lên trên cửa."
+  },
+  "搬": {
+    "exampleHanzi": "請幫我搬椅子。",
+    "exampleVietnamese": "Vui lòng giúp tôi bê (bàn) chiếc ghế."
+  },
+  "有空": {
+    "exampleHanzi": "你明天有空嗎？",
+    "exampleVietnamese": "Ngày mai bạn có rảnh (hữu không) không?"
+  },
+  "樓上": {
+    "exampleHanzi": "他在樓上睡覺。",
+    "exampleVietnamese": "Anh ấy đang ngủ ở tầng trên (lâu thượng)."
+  },
+  "樓下": {
+    "exampleHanzi": "我們在樓下見面。",
+    "exampleVietnamese": "Chúng ta gặp nhau ở tầng dưới (lâu hạ)."
+  },
+  "樓梯": {
+    "exampleHanzi": "請走樓梯。",
+    "exampleVietnamese": "Vui lòng đi cầu thang bộ (lâu thê)."
+  },
+  "樹": {
+    "exampleHanzi": "這棵樹很高。",
+    "exampleVietnamese": "Cái cây này rất cao."
+  },
+  "沙發": {
+    "exampleHanzi": "客廳有一個沙發，很舒服。",
+    "exampleVietnamese": "Phòng khách có một chiếc sofa, rất thoải mái."
+  },
+  "河": {
+    "exampleHanzi": "河水很清。",
+    "exampleVietnamese": "Nước sông rất trong."
+  },
+  "洗": {
+    "exampleHanzi": "請洗手。",
+    "exampleVietnamese": "Vui lòng rửa tay."
+  },
+  "洗澡": {
+    "exampleHanzi": "他在洗澡。",
+    "exampleVietnamese": "Anh ấy đang tắm."
+  },
+  "海": {
+    "exampleHanzi": "海邊很漂亮。",
+    "exampleVietnamese": "Bờ biển rất đẹp."
+  },
+  "湖": {
+    "exampleHanzi": "湖面很平靜。",
+    "exampleVietnamese": "Mặt hồ rất bình tĩnh (phẳng lặng)."
+  },
+  "火": {
+    "exampleHanzi": "別玩火。",
+    "exampleVietnamese": "Đừng nghịch lửa."
+  },
+  "燈": {
+    "exampleHanzi": "請開燈。",
+    "exampleVietnamese": "Vui lòng bật đèn."
+  },
+  "狗": {
+    "exampleHanzi": "那隻狗在叫。",
+    "exampleVietnamese": "Con chó đó đang sủa."
+  },
+  "盒": {
+    "exampleHanzi": "一盒餅乾。",
+    "exampleVietnamese": "Một hộp bánh quy."
+  },
+  "租": {
+    "exampleHanzi": "我想租一個房間。",
+    "exampleVietnamese": "Tôi muốn thuê một phòng."
+  },
+  "窗(子)": {
+    "exampleHanzi": "請打開窗戶。",
+    "exampleVietnamese": "Vui lòng mở cửa sổ ra."
+  },
+  "脫": {
+    "exampleHanzi": "請脫鞋。",
+    "exampleVietnamese": "Vui lòng cởi giày."
+  },
+  "草": {
+    "exampleHanzi": "草地很綠。",
+    "exampleVietnamese": "Thảm cỏ rất xanh."
+  },
+  "貓": {
+    "exampleHanzi": "我養了一隻貓。",
+    "exampleVietnamese": "Tôi nuôi một con mèo."
+  },
+  "長": {
+    "exampleHanzi": "這個很長。",
+    "exampleVietnamese": "Cái này rất dài."
+  },
+  "間": {
+    "exampleHanzi": "有一間空房。",
+    "exampleVietnamese": "Có một gian phòng trống."
+  },
+  "關": {
+    "exampleHanzi": "請關門。",
+    "exampleVietnamese": "Vui lòng đóng cửa."
+  },
+  "隻": {
+    "exampleHanzi": "樹上有兩隻鳥。",
+    "exampleVietnamese": "Trên cây có hai con chim."
+  },
+  "雪": {
+    "exampleHanzi": "雪白色的。",
+    "exampleVietnamese": "Màu trắng như tuyết."
+  },
+  "電": {
+    "exampleHanzi": "手機沒電了。",
+    "exampleVietnamese": "Điện thoại hết điện rồi."
+  },
+  "餐": {
+    "exampleHanzi": "這餐飯很豐富。",
+    "exampleVietnamese": "Bữa cơm này rất phong phú."
+  },
+  "馬": {
+    "exampleHanzi": "他在騎馬。",
+    "exampleVietnamese": "Anh ấy đang cưỡi ngựa."
+  },
+  "鳥": {
+    "exampleHanzi": "樹上有隻鳥。",
+    "exampleVietnamese": "Trên cây có một con chim."
+  },
+  "上學": {
+    "exampleHanzi": "他走路去上學。",
+    "exampleVietnamese": "Cậu ấy đi bộ đi học."
+  },
+  "交": {
+    "exampleHanzi": "請交作業。",
+    "exampleVietnamese": "Vui lòng nộp bài tập."
+  },
+  "作業": {
+    "exampleHanzi": "請交作業。",
+    "exampleVietnamese": "Vui lòng nộp bài tập."
+  },
+  "借": {
+    "exampleHanzi": "我想借這本書。",
+    "exampleVietnamese": "Tôi muốn mượn cuốn sách này."
+  },
+  "加": {
+    "exampleHanzi": "請加點糖。",
+    "exampleVietnamese": "Vui lòng thêm (gia) chút đường."
+  },
+  "參加": {
+    "exampleHanzi": "我想參加派對。",
+    "exampleVietnamese": "Tôi muốn tham gia bữa tiệc."
+  },
+  "句": {
+    "exampleHanzi": "請唸這三句話。",
+    "exampleVietnamese": "Vui lòng đọc 3 câu này."
+  },
+  "回答": {
+    "exampleHanzi": "請回答我的問題。",
+    "exampleVietnamese": "Vui lòng trả lời câu hỏi của tôi."
+  },
+  "圖": {
+    "exampleHanzi": "這張圖很美。",
+    "exampleVietnamese": "Bức tranh này rất đẹp."
+  },
+  "圖書館": {
+    "exampleHanzi": "圖書館很安靜。",
+    "exampleVietnamese": "Thư viện rất yên tĩnh."
+  },
+  "字典": {
+    "exampleHanzi": "我用字典查字。",
+    "exampleVietnamese": "Tôi dùng từ điển để tra chữ."
+  },
+  "學習": {
+    "exampleHanzi": "我喜歡學習新事物。",
+    "exampleVietnamese": "Tôi thích học tập những sự vật mới."
+  },
+  "小學": {
+    "exampleHanzi": "他在念小學。",
+    "exampleVietnamese": "Cậu ấy đang học tiểu học."
+  },
+  "年級": {
+    "exampleHanzi": "他在五年級。",
+    "exampleVietnamese": "Cậu ấy học lớp 5."
+  },
+  "忘": {
+    "exampleHanzi": "別忘了帶傘。",
+    "exampleVietnamese": "Đừng quên mang ô."
+  },
+  "想法": {
+    "exampleHanzi": "你有什麼想法？",
+    "exampleVietnamese": "Bạn có suy nghĩ (ý tưởng) gì không?"
+  },
+  "成績": {
+    "exampleHanzi": "他的成績很好。",
+    "exampleVietnamese": "Thành tích của cậu ấy rất tốt."
+  },
+  "文化": {
+    "exampleHanzi": "台灣文化很多元。",
+    "exampleVietnamese": "Văn hóa Đài Loan rất đa dạng."
+  },
+  "方法": {
+    "exampleHanzi": "這是最好的方法。",
+    "exampleVietnamese": "Đây là phương pháp tốt nhất."
+  },
+  "有用": {
+    "exampleHanzi": "這本書很有用。",
+    "exampleVietnamese": "Cuốn sách này rất có ích (hữu dụng)."
+  },
+  "棒": {
+    "exampleHanzi": "你真棒！",
+    "exampleVietnamese": "Bạn thật giỏi (bổng)!"
+  },
+  "決定": {
+    "exampleHanzi": "我決定去台灣旅行。",
+    "exampleVietnamese": "Tôi quyết định đi Đài Loan du lịch."
+  },
+  "注意": {
+    "exampleHanzi": "請注意安全。",
+    "exampleVietnamese": "Vui lòng chú ý an toàn."
+  },
+  "洗手間": {
+    "exampleHanzi": "洗手間在哪裡？",
+    "exampleVietnamese": "Nhà vệ sinh ở đâu?"
+  },
+  "清楚": {
+    "exampleHanzi": "請寫清楚一點。",
+    "exampleVietnamese": "Vui lòng viết rõ ràng một chút."
+  },
+  "班": {
+    "exampleHanzi": "他在我們班。",
+    "exampleVietnamese": "Cậu ấy ở lớp chúng tôi."
+  },
+  "答": {
+    "exampleHanzi": "他答錯了。",
+    "exampleVietnamese": "Cậu ấy đáp sai rồi."
+  },
+  "算": {
+    "exampleHanzi": "這就算了吧。",
+    "exampleVietnamese": "Việc này vậy thì thôi đi (tính liễu ba)."
+  },
+  "練習": {
+    "exampleHanzi": "多練習幾次。",
+    "exampleVietnamese": "Luyện tập thêm vài lần nữa."
+  },
+  "行": {
+    "exampleHanzi": "這樣行嗎？",
+    "exampleVietnamese": "Như vậy được (hành) không?"
+  },
+  "記得": {
+    "exampleHanzi": "你還記得我嗎？",
+    "exampleVietnamese": "Bạn còn nhớ tôi không?"
+  },
+  "認為": {
+    "exampleHanzi": "我認為他說得對。",
+    "exampleVietnamese": "Tôi cho rằng (nhận vi) anh ấy nói đúng."
+  },
+  "語言": {
+    "exampleHanzi": "他會三種語言。",
+    "exampleVietnamese": "Cậu ấy biết 3 loại ngôn ngữ."
+  },
+  "課本": {
+    "exampleHanzi": "請打開課本。",
+    "exampleVietnamese": "Vui lòng mở sách giáo khoa ra."
+  },
+  "講": {
+    "exampleHanzi": "請講慢點。",
+    "exampleVietnamese": "Vui lòng nói (giảng) chậm một chút."
+  },
+  "讀書": {
+    "exampleHanzi": "他在臥室讀書。",
+    "exampleVietnamese": "Cậu ấy đang đọc sách trong phòng ngủ."
+  },
+  "辦法": {
+    "exampleHanzi": "你有什麼辦法？",
+    "exampleVietnamese": "Bạn có cách (biện pháp) gì không?"
+  },
+  "進步": {
+    "exampleHanzi": "他的華語進步了。",
+    "exampleVietnamese": "Tiếng Hoa của anh ấy tiến bộ rồi."
+  },
+  "還": {
+    "exampleHanzi": "我還沒吃飯。",
+    "exampleVietnamese": "Tôi vẫn chưa ăn cơm."
+  },
+  "開學": {
+    "exampleHanzi": "明天就開學了。",
+    "exampleVietnamese": "Ngày mai là khai giảng rồi."
+  },
+  "高中": {
+    "exampleHanzi": "高中生活很累。",
+    "exampleVietnamese": "Cuộc sống cấp 3 rất mệt."
+  },
+  "黑板": {
+    "exampleHanzi": "老師在黑板寫字。",
+    "exampleVietnamese": "Thầy giáo đang viết chữ trên bảng đen."
+  },
+  "一會兒": {
+    "exampleHanzi": "請等我一會兒。",
+    "exampleVietnamese": "Vui lòng đợi tôi một lát."
+  },
+  "冬天": {
+    "exampleHanzi": "冬天很冷。",
+    "exampleVietnamese": "Mùa đông rất lạnh."
+  },
+  "別人": {
+    "exampleHanzi": "別管別人說什麼。",
+    "exampleVietnamese": "Đừng quan tâm người khác nói gì."
+  },
+  "剛剛": {
+    "exampleHanzi": "我剛剛到家。",
+    "exampleVietnamese": "Tôi vừa mới về đến nhà."
+  },
+  "可愛": {
+    "exampleHanzi": "小狗很可愛。",
+    "exampleVietnamese": "Con chó nhỏ rất đáng yêu."
+  },
+  "名": {
+    "exampleHanzi": "他是名醫生。",
+    "exampleVietnamese": "Anh ấy là một vị bác sĩ."
+  },
+  "哪": {
+    "exampleHanzi": "你是哪國人？",
+    "exampleVietnamese": "Bạn là người nước nào?"
+  },
+  "哭": {
+    "exampleHanzi": "他哭了。",
+    "exampleVietnamese": "Anh ấy khóc rồi."
+  },
+  "在": {
+    "exampleHanzi": "我就在附近。",
+    "exampleVietnamese": "Tôi đang ở ngay gần đây."
+  },
+  "地址": {
+    "exampleHanzi": "這是我的地址。",
+    "exampleVietnamese": "Đây là địa chỉ của tôi."
+  },
+  "城市": {
+    "exampleHanzi": "這座城市很美。",
+    "exampleVietnamese": "Thành phố này rất đẹp."
+  },
+  "夏天": {
+    "exampleHanzi": "夏天很熱。",
+    "exampleVietnamese": "Mùa hè rất nóng."
+  },
+  "女生": {
+    "exampleHanzi": "那個女生很漂亮。",
+    "exampleVietnamese": "Cô nữ sinh đó rất xinh đẹp."
+  },
+  "奶奶": {
+    "exampleHanzi": "奶奶在廚房。",
+    "exampleVietnamese": "Bà nội ở trong bếp."
+  },
+  "家庭": {
+    "exampleHanzi": "家庭很重要。",
+    "exampleVietnamese": "Gia đình rất quan trọng."
+  },
+  "市": {
+    "exampleHanzi": "我要去市中心。",
+    "exampleVietnamese": "Tôi muốn đi trung tâm thành phố (thị trung tâm)."
+  },
+  "年輕": {
+    "exampleHanzi": "他很年輕。",
+    "exampleVietnamese": "Anh ấy rất trẻ."
+  },
+  "從前": {
+    "exampleHanzi": "從前有一個人。",
+    "exampleVietnamese": "Ngày xưa có một người."
+  },
+  "春天": {
+    "exampleHanzi": "春天來了。",
+    "exampleVietnamese": "Mùa xuân đến rồi."
+  },
+  "更": {
+    "exampleHanzi": "天更黑了。",
+    "exampleVietnamese": "Trời càng tối rồi."
+  },
+  "爺爺": {
+    "exampleHanzi": "我爺爺每天早上去公園。",
+    "exampleVietnamese": "Ông tôi mỗi sáng đi công viên."
+  },
+  "生氣": {
+    "exampleHanzi": "我生氣了。",
+    "exampleVietnamese": "Tôi giận rồi."
+  },
+  "男生": {
+    "exampleHanzi": "那個男生很帥。",
+    "exampleVietnamese": "Cậu nam sinh đó rất đẹp trai."
+  },
+  "當然": {
+    "exampleHanzi": "我當然會去。",
+    "exampleVietnamese": "Tôi đương nhiên sẽ đi."
+  },
+  "相信": {
+    "exampleHanzi": "我相信你。",
+    "exampleVietnamese": "Tôi tin bạn."
+  },
+  "禮拜": {
+    "exampleHanzi": "這禮拜我很忙。",
+    "exampleVietnamese": "Tuần này tôi rất bận."
+  },
+  "秋天": {
+    "exampleHanzi": "秋天涼快了。",
+    "exampleVietnamese": "Mùa thu mát mẻ rồi."
+  },
+  "笑": {
+    "exampleHanzi": "別笑。",
+    "exampleVietnamese": "Đừng cười."
+  },
+  "結婚": {
+    "exampleHanzi": "他們結婚了。",
+    "exampleVietnamese": "Học đã kết hôn rồi."
+  },
+  "緊張": {
+    "exampleHanzi": "我有點緊張。",
+    "exampleVietnamese": "Tôi hơi căng thẳng."
+  },
+  "習慣": {
+    "exampleHanzi": "我已經習慣了。",
+    "exampleVietnamese": "Tôi đã quen rồi."
+  },
+  "老人": {
+    "exampleHanzi": "請禮讓老人。",
+    "exampleVietnamese": "Vui lòng nhường chỗ cho người già."
+  },
+  "聰明": {
+    "exampleHanzi": "他很聰明。",
+    "exampleVietnamese": "Anh ấy rất thông minh."
+  },
+  "號碼": {
+    "exampleHanzi": "請告訴我你的號碼。",
+    "exampleVietnamese": "Vui lòng cho tôi biết số của bạn."
+  },
+  "街": {
+    "exampleHanzi": "這條街很長。",
+    "exampleVietnamese": "Phố này rất dài."
+  },
+  "辛苦": {
+    "exampleHanzi": "爸爸工作很辛苦。",
+    "exampleVietnamese": "Bố làm việc rất vất vả."
+  },
+  "難過": {
+    "exampleHanzi": "別難過。",
+    "exampleVietnamese": "Đừng buồn."
+  },
+  "零": {
+    "exampleHanzi": "現在是零點。",
+    "exampleVietnamese": "Bây giờ là 0 giờ."
+  },
+  "願意": {
+    "exampleHanzi": "我願意幫你。",
+    "exampleVietnamese": "Tôi bằng lòng giúp bạn."
+  },
+  "高興": {
+    "exampleHanzi": "我很高興。",
+    "exampleVietnamese": "Tôi rất vui."
+  },
+  "付": {
+    "exampleHanzi": "請付錢。",
+    "exampleVietnamese": "Vui lòng trả (phó) tiền."
+  },
+  "信用卡": {
+    "exampleHanzi": "我可以用信用卡付錢嗎？",
+    "exampleVietnamese": "Tôi có thể trả tiền bằng thẻ tín dụng không?"
+  },
+  "全部": {
+    "exampleHanzi": "我全部都想要。",
+    "exampleVietnamese": "Tôi muốn toàn bộ (toàn bộ)."
+  },
+  "其他": {
+    "exampleHanzi": "我沒有其他意見。",
+    "exampleVietnamese": "Tôi không có ý kiến khác."
+  },
+  "商店": {
+    "exampleHanzi": "這家商店很有名。",
+    "exampleVietnamese": "Cửa hàng (thương điếm) này rất nổi tiếng."
+  },
+  "外套": {
+    "exampleHanzi": "請穿上你的外套。",
+    "exampleVietnamese": "Vui lòng mặc áo khoác của bạn vào."
+  },
+  "大衣": {
+    "exampleHanzi": "天氣冷，請穿大衣。",
+    "exampleVietnamese": "Trời lạnh, vui lòng mặc áo khoác."
+  },
+  "奇怪": {
+    "exampleHanzi": "這個人很奇怪。",
+    "exampleVietnamese": "Người này rất kỳ lạ."
+  },
+  "好像": {
+    "exampleHanzi": "他好像在那裡看過你。",
+    "exampleVietnamese": "Anh ấy dường như đã từng gặp bạn ở đâu đó."
+  },
+  "小心": {
+    "exampleHanzi": "請小心過馬路。",
+    "exampleVietnamese": "Vui lòng cẩn thận khi băng qua đường."
+  },
+  "差不多": {
+    "exampleHanzi": "兩個人差不多高。",
+    "exampleVietnamese": "Hai người cao xấp xỉ nhau."
+  },
+  "市場": {
+    "exampleHanzi": "媽媽去市場買菜。",
+    "exampleVietnamese": "Mẹ đi chợ (thị trường) mua rau."
+  },
+  "帽(子)": {
+    "exampleHanzi": "我有一個帽子，很好看。",
+    "exampleVietnamese": "Tôi có một chiếc mũ, trông rất đẹp."
+  },
+  "戴": {
+    "exampleHanzi": "他戴著眼鏡。",
+    "exampleVietnamese": "Anh ấy đang đeo kính."
+  },
+  "所有": {
+    "exampleHanzi": "所有的學生都來了。",
+    "exampleVietnamese": "Tất cả (sở hữu) học sinh đều đã đến."
+  },
+  "手錶": {
+    "exampleHanzi": "這隻手錶很漂亮。",
+    "exampleVietnamese": "Chiếc đồng hồ đeo tay này rất đẹp."
+  },
+  "書店": {
+    "exampleHanzi": "書店在捷運站對面。",
+    "exampleVietnamese": "Hiệu sách (thư điếm) ở đối diện ga tàu điện ngầm."
+  },
+  "樣子": {
+    "exampleHanzi": "你穿這件衣服的樣子很好看。",
+    "exampleVietnamese": "Cái vẻ của bạn khi mặc chiếc áo này rất đẹp."
+  },
+  "比較": {
+    "exampleHanzi": "這個比較好。",
+    "exampleVietnamese": "Cái này tương đối tốt."
+  },
+  "特別": {
+    "exampleHanzi": "他的生意很特別。",
+    "exampleVietnamese": "Việc kinh doanh của anh ấy rất đặc biệt."
+  },
+  "白色": {
+    "exampleHanzi": "這件衣服是白色的。",
+    "exampleVietnamese": "Chiếc áo này màu trắng."
+  },
+  "皮包": {
+    "exampleHanzi": "這個皮包很貴。",
+    "exampleVietnamese": "Chiếc túi da này rất đắt."
+  },
+  "簡單": {
+    "exampleHanzi": "這個問題很簡單。",
+    "exampleVietnamese": "Vấn đề này rất đơn giản."
+  },
+  "聲音": {
+    "exampleHanzi": "媽媽的聲音很好聽。",
+    "exampleVietnamese": "Giọng nói của mẹ rất hay."
+  },
+  "裙(子)": {
+    "exampleHanzi": "這條裙子很長。",
+    "exampleVietnamese": "Chiếc váy này rất dài."
+  },
+  "褲(子)": {
+    "exampleHanzi": "這條褲子太大了。",
+    "exampleVietnamese": "Chiếc quần này quá rộng."
+  },
+  "襪(子)": {
+    "exampleHanzi": "這雙襪子不見了。",
+    "exampleVietnamese": "Đôi tất này không thấy đâu nữa."
+  },
+  "試": {
+    "exampleHanzi": "我想試一下這件衣服。",
+    "exampleVietnamese": "Tôi muốn thử một chút chiếc áo này."
+  },
+  "賣": {
+    "exampleHanzi": "這家商店賣麵包。",
+    "exampleVietnamese": "Cửa hàng này bán (mại) bánh mì."
+  },
+  "輕": {
+    "exampleHanzi": "這本書很輕。",
+    "exampleVietnamese": "Cuốn sách này rất nhẹ."
+  },
+  "重": {
+    "exampleHanzi": "這個行李太重了。",
+    "exampleVietnamese": "Hành lý này quá nặng rồi."
+  },
+  "重要": {
+    "exampleHanzi": "這件事很重要。",
+    "exampleVietnamese": "Việc này rất quan trọng."
+  },
+  "雙": {
+    "exampleHanzi": "我買了一雙鞋子。",
+    "exampleVietnamese": "Tôi đã mua một đôi giày."
+  },
+  "需要": {
+    "exampleHanzi": "我需要你的幫助。",
+    "exampleVietnamese": "Tôi cần (nhu yếu) sự giúp đỡ của bạn."
+  },
+  "顏色": {
+    "exampleHanzi": "你喜歡什麼顏色？",
+    "exampleVietnamese": "Bạn thích màu sắc nào?"
+  },
+  "一直": {
+    "exampleHanzi": "他一直跑。",
+    "exampleVietnamese": "Anh ấy cứ chạy mãi."
+  },
+  "中間": {
+    "exampleHanzi": "他坐在我們中間。",
+    "exampleVietnamese": "Anh ấy ngồi ở giữa chúng tôi."
+  },
+  "北": {
+    "exampleHanzi": "台北在台灣的北部。",
+    "exampleVietnamese": "Đài Bắc ở phía Bắc Đài Loan."
+  },
+  "十字路口": {
+    "exampleHanzi": "在十字路口向右轉。",
+    "exampleVietnamese": "Rẽ phải ở ngã tư (thập tự lộ khẩu)."
+  },
+  "南": {
+    "exampleHanzi": "他住在台灣南部。",
+    "exampleVietnamese": "Anh ấy sống ở miền Nam Đài Loan."
+  },
+  "參觀": {
+    "exampleHanzi": "我們去參觀博物館。",
+    "exampleVietnamese": "Chúng tôi đi tham quan bảo tàng."
+  },
+  "向": {
+    "exampleHanzi": "他向我揮手。",
+    "exampleVietnamese": "Anh ấy vẫy tay với (hướng) tôi."
+  },
+  "地圖": {
+    "exampleHanzi": "請看地圖。",
+    "exampleVietnamese": "Vui lòng xem bản đồ."
+  },
+  "對面": {
+    "exampleHanzi": "他在馬路對面。",
+    "exampleVietnamese": "Anh ấy ở phía đối diện (đối diện) đường cái."
+  },
+  "往": {
+    "exampleHanzi": "請往前走。",
+    "exampleVietnamese": "Vui lòng đi về phía trước (vãng tiền)."
+  },
+  "掉": {
+    "exampleHanzi": "我的錢包掉了。",
+    "exampleVietnamese": "Ví của tôi bị rơi rồi."
+  },
+  "放": {
+    "exampleHanzi": "請把鑰匙放在桌上。",
+    "exampleVietnamese": "Vui lòng đặt (phóng) chìa khóa ở trên bàn."
+  },
+  "旅館": {
+    "exampleHanzi": "我們住在青年旅館。",
+    "exampleVietnamese": "Chúng tôi ở trong nhà nghỉ (lữ quán) thanh niên."
+  },
+  "最後": {
+    "exampleHanzi": "他是最後一個離開的。",
+    "exampleVietnamese": "Anh ấy là người cuối cùng rời đi."
+  },
+  "東": {
+    "exampleHanzi": "太陽從東邊升起。",
+    "exampleVietnamese": "Mặt trời mọc ở hướng Đông."
+  },
+  "汽車": {
+    "exampleHanzi": "他買了一部汽車。",
+    "exampleVietnamese": "Anh ấy đã mua một chiếc ô tô (khí xa)."
+  },
+  "照片": {
+    "exampleHanzi": "這張照片很漂亮。",
+    "exampleVietnamese": "Bức ảnh (chiếu phiến) này rất đẹp."
+  },
+  "照相": {
+    "exampleHanzi": "這裡不能照相。",
+    "exampleVietnamese": "Ở đây không được chụp ảnh (chiếu tướng)."
+  },
+  "照相機": {
+    "exampleHanzi": "這是我新買的照相機。",
+    "exampleVietnamese": "Đây là chiếc máy ảnh (chiếu tướng cơ) tôi mới mua."
+  },
+  "經過": {
+    "exampleHanzi": "我經過百貨公司。",
+    "exampleVietnamese": "Tôi đi qua (kinh quá) bách hóa tổng hợp."
+  },
+  "袋子": {
+    "exampleHanzi": "把東西放進袋子。",
+    "exampleVietnamese": "Cho đồ vào trong túi (đại tử)."
+  },
+  "西": {
+    "exampleHanzi": "東西南北，你知道嗎？",
+    "exampleVietnamese": "Đông Tây Nam Bắc, bạn biết không?"
+  },
+  "路口": {
+    "exampleHanzi": "我們在路口等。",
+    "exampleVietnamese": "Chúng tôi đợi ở ngã đường (lộ khẩu)."
+  },
+  "車站": {
+    "exampleHanzi": "火車站就在前面。",
+    "exampleVietnamese": "Ga tàu (xa trám) ở ngay phía trước."
+  },
+  "轉": {
+    "exampleHanzi": "請向右轉。",
+    "exampleVietnamese": "Xin hãy rẽ phải."
+  },
+  "近": {
+    "exampleHanzi": "這家商店離我很近。",
+    "exampleVietnamese": "Cửa hàng này cách tôi rất gần (cận)."
+  },
+  "送": {
+    "exampleHanzi": "我送他去車站。",
+    "exampleVietnamese": "Tôi đưa (tống) anh ấy ra ga tàu."
+  },
+  "遠": {
+    "exampleHanzi": "那個城市離這裡很遠。",
+    "exampleVietnamese": "Thành phố đó cách đây rất xa (viễn)."
+  },
+  "離開": {
+    "exampleHanzi": "他離開了台北。",
+    "exampleVietnamese": "Anh ấy đã rời khỏi (ly khai) Đài Bắc."
+  },
+  "風景": {
+    "exampleHanzi": "這裡的風景很美。",
+    "exampleVietnamese": "Phong cảnh ở đây rất đẹp."
+  },
+  "飛機場": {
+    "exampleHanzi": "我要去飛機場。",
+    "exampleVietnamese": "Tôi muốn đi sân bay (phi cơ tràng)."
+  },
+  "飯店": {
+    "exampleHanzi": "這家飯店很貴。",
+    "exampleVietnamese": "Khách sạn (phạn điếm) này rất đắt."
+  },
+  "馬路": {
+    "exampleHanzi": "馬路上車很多。",
+    "exampleVietnamese": "Trên đường cái (mã lộ) có rất nhiều xe."
+  },
+  "上網": {
+    "exampleHanzi": "他在上網查資料。",
+    "exampleVietnamese": "Anh ấy đang lên mạng tra tư liệu."
+  },
+  "各": {
+    "exampleHanzi": "各國文化不同。",
+    "exampleVietnamese": "Văn hóa các nước khác nhau."
+  },
+  "報紙": {
+    "exampleHanzi": "他在看報紙。",
+    "exampleVietnamese": "Anh ấy đang xem báo (báo chỉ)."
+  },
+  "場": {
+    "exampleHanzi": "這場雨下很大。",
+    "exampleVietnamese": "Trận mưa này mưa rất lớn."
+  },
+  "已經": {
+    "exampleHanzi": "我已經做完了。",
+    "exampleVietnamese": "Tôi đã làm xong rồi."
+  },
+  "平常": {
+    "exampleHanzi": "平常我七點起床。",
+    "exampleVietnamese": "Bình thường tôi thức dậy lúc 7 giờ."
+  },
+  "後來": {
+    "exampleHanzi": "後來 he 沒來。",
+    "exampleVietnamese": "Sau đó anh ấy không đến."
+  },
+  "才": {
+    "exampleHanzi": "他剛才走了。",
+    "exampleVietnamese": "Anh ấy vừa mới đi."
+  },
+  "故事": {
+    "exampleHanzi": "請講個故事。",
+    "exampleVietnamese": "Vui lòng kể một câu chuyện."
+  },
+  "新年": {
+    "exampleHanzi": "新年快樂！",
+    "exampleVietnamese": "Chúc mừng năm mới (tân niên)!"
+  },
+  "有時候": {
+    "exampleHanzi": "有時候我會去遠足。",
+    "exampleVietnamese": "Có lúc tôi sẽ đi dã ngoại."
+  },
+  "棒球": {
+    "exampleHanzi": "棒球是台灣的國球。",
+    "exampleVietnamese": "Bóng chày (bổng cầu) là quốc hồ của Đài Loan."
+  },
+  "比賽": {
+    "exampleHanzi": "你喜歡看比賽嗎？",
+    "exampleVietnamese": "Bạn có thích xem thi đấu không?"
+  },
+  "活動": {
+    "exampleHanzi": "這次活動很有趣。",
+    "exampleVietnamese": "Hoạt động lần này rất thú vị."
+  },
+  "游泳": {
+    "exampleHanzi": "我喜歡游泳。",
+    "exampleVietnamese": "Tôi thích bơi lội."
+  },
+  "票": {
+    "exampleHanzi": "我買到了票。",
+    "exampleVietnamese": "Tôi mua được vé rồi."
+  },
+  "籃球": {
+    "exampleHanzi": "我喜歡打籃球。",
+    "exampleVietnamese": "Tôi thích chơi bóng rổ."
+  },
+  "網球": {
+    "exampleHanzi": "你會打網球嗎？",
+    "exampleVietnamese": "Bạn biết chơi tennis (võng cầu) không?"
+  },
+  "網站": {
+    "exampleHanzi": "這個網站很有名。",
+    "exampleVietnamese": "Trang web này rất nổi tiếng."
+  },
+  "網路": {
+    "exampleHanzi": "家裡的網路斷了。",
+    "exampleVietnamese": "Mạng (võng lộ) ở nhà bị đứt rồi."
+  },
+  "總是": {
+    "exampleHanzi": "他總是遲到。",
+    "exampleVietnamese": "Anh ấy luôn luôn đến muộn."
+  },
+  "聊天": {
+    "exampleHanzi": "我們在喝咖啡聊天。",
+    "exampleVietnamese": "Chúng tôi đang uống cà phê trò chuyện (liêu thiên)."
+  },
+  "腳踏車": {
+    "exampleHanzi": "我騎腳踏車去上學。",
+    "exampleVietnamese": "Tôi cưỡi xe đạp đi học."
+  },
+  "變": {
+    "exampleHanzi": "天氣變冷了，多穿衣服。",
+    "exampleVietnamese": "Thời tiết trở lạnh rồi, mặc thêm áo vào."
+  },
+  "足球": {
+    "exampleHanzi": "他們在踢足球。",
+    "exampleVietnamese": "Họ đang đá bóng (túc cầu)."
+  },
+  "跑": {
+    "exampleHanzi": "別跑！",
+    "exampleVietnamese": "Đừng chạy!"
+  },
+  "踢": {
+    "exampleHanzi": "別踢門。",
+    "exampleVietnamese": "Đừng đá cửa."
+  },
+  "部": {
+    "exampleHanzi": "這部電影很好看。",
+    "exampleVietnamese": "Bộ phim này rất hay."
+  },
+  "開始": {
+    "exampleHanzi": "電影開始了。",
+    "exampleVietnamese": "Phim bắt đầu rồi."
+  },
+  "電影院": {
+    "exampleHanzi": "電影院就在對面。",
+    "exampleVietnamese": "Rạp chiếu phim ở ngay đối diện."
+  },
+  "音樂": {
+    "exampleHanzi": "他喜歡聽音樂。",
+    "exampleVietnamese": "Anh ấy thích nghe nhạc."
+  },
+  "騎": {
+    "exampleHanzi": "他騎馬去那兒。",
+    "exampleVietnamese": "Anh ấy cưỡi ngựa đi đến đó."
+  },
+  "不好意思": {
+    "exampleHanzi": "不好意思，請問路怎麼走？",
+    "exampleVietnamese": "Ngại quá (bất hảo ý tư), xin hỏi đường đi thế nào?"
+  },
+  "不客氣": {
+    "exampleHanzi": "謝謝！不客氣。",
+    "exampleVietnamese": "Cảm ơn! Không có gì (bất khách khí)."
+  },
+  "事情": {
+    "exampleHanzi": "這是一件小事情。",
+    "exampleVietnamese": "Đây là một chuyện (sự tình) nhỏ."
+  },
+  "信": {
+    "exampleHanzi": "我收到一封信。",
+    "exampleVietnamese": "Tôi nhận được một bức thư."
+  },
+  "信封": {
+    "exampleHanzi": "請把信放進信封。",
+    "exampleVietnamese": "Vui lòng cho thư vào phong bì."
+  },
+  "啊": {
+    "exampleHanzi": "快一點啊！",
+    "exampleVietnamese": "Nhanh một chút đi mà (a)!"
+  },
+  "喂": {
+    "exampleHanzi": "喂？請問是哪位？",
+    "exampleVietnamese": "A lô? Xin hỏi là vị nào đấy ạ?"
+  },
+  "壞": {
+    "exampleHanzi": "這個蘋果壞了。",
+    "exampleVietnamese": "Quả táo này hỏng (hoại) rồi."
+  },
+  "客人": {
+    "exampleHanzi": "家裡來了客人。",
+    "exampleVietnamese": "Trong nhà có khách đến."
+  },
+  "客氣": {
+    "exampleHanzi": "他不客氣地坐下了。",
+    "exampleVietnamese": "Anh ấy ngồi xuống một cách không khách sáo."
+  },
+  "寄": {
+    "exampleHanzi": "我想寄一封信。",
+    "exampleVietnamese": "Tôi muốn gửi một bức thư."
+  },
+  "幫": {
+    "exampleHanzi": "我幫你拿鑰匙。",
+    "exampleVietnamese": "Tôi giúp (bang) bạn lấy chìa khóa."
+  },
+  "幫助": {
+    "exampleHanzi": "他幫助我很多。",
+    "exampleVietnamese": "Anh ấy giúp đỡ (bang trợ) tôi rất nhiều."
+  },
+  "幫忙": {
+    "exampleHanzi": "謝謝你幫忙，我很感謝。",
+    "exampleVietnamese": "Cảm ơn bạn đã giúp đỡ, tôi rất biết ơn."
+  },
+  "怎麼辦": {
+    "exampleHanzi": "我該怎麼辦？",
+    "exampleVietnamese": "Tôi nên làm thế nào bây giờ (hành ma biện)?"
+  },
+  "拉": {
+    "exampleHanzi": "請拉開門。",
+    "exampleVietnamese": "Vui lòng kéo (lạp) cửa ra."
+  },
+  "接": {
+    "exampleHanzi": "我去機場接你。",
+    "exampleVietnamese": "Tôi đi sân bay đón bạn."
+  },
+  "最近": {
+    "exampleHanzi": "最近我很忙。",
+    "exampleVietnamese": "Gần đây (tối cận) tôi rất bận."
+  },
+  "歡迎": {
+    "exampleHanzi": "歡迎來到台灣。",
+    "exampleVietnamese": "Hoan nghênh đến với Đài Loan."
+  },
+  "禮物": {
+    "exampleHanzi": "這是送給你的禮物。",
+    "exampleVietnamese": "Đây là món quà tặng cho bạn."
+  },
+  "聽說": {
+    "exampleHanzi": "我聽說他出國了。",
+    "exampleVietnamese": "Tôi nghe nói (thính thuyết) anh ấy đi nước ngoài rồi."
+  },
+  "見面": {
+    "exampleHanzi": "我們明天見面。",
+    "exampleVietnamese": "Ngày mai chúng ta gặp mặt."
+  },
+  "認識": {
+    "exampleHanzi": "我不認識他。",
+    "exampleVietnamese": "Tôi không quen biết (nhận thức) anh ấy."
+  },
+  "銀行": {
+    "exampleHanzi": "他在銀行工作。",
+    "exampleVietnamese": "Anh ấy làm việc ở ngân hàng."
+  },
+  "錢包": {
+    "exampleHanzi": "我的錢包不見了。",
+    "exampleVietnamese": "Ví tiền (tiền bao) của tôi không thấy đâu nữa."
+  },
+  "麻煩": {
+    "exampleHanzi": "這件事很麻煩。",
+    "exampleVietnamese": "Việc này rất phiền phức (ma phiền)."
+  },
+  "一下(子)": {
+    "exampleHanzi": "請等我一下。",
+    "exampleVietnamese": "Vui lòng đợi tôi một lát (nhất hạ tử)."
+  },
+  "不過": {
+    "exampleHanzi": "這件衣服很漂亮，不過很貴。",
+    "exampleVietnamese": "Chiếc áo này rất đẹp, nhưng (bất quá) rất đắt."
+  },
+  "以為": {
+    "exampleHanzi": "我以為今天是星期六。",
+    "exampleVietnamese": "Tôi tưởng rằng (dị vi) hôm nay là thứ Bảy."
+  },
+  "但是": {
+    "exampleHanzi": "我很想去，但是沒時間。",
+    "exampleVietnamese": "Tôi rất muốn đi, nhưng (đản thị) không có thời gian."
+  },
+  "呀": {
+    "exampleHanzi": "快來看呀！",
+    "exampleVietnamese": "Mau lại đây xem này (nha)!"
+  },
+  "啦": {
+    "exampleHanzi": "好啦，我知道了。",
+    "exampleVietnamese": "Được rồi (la), tôi biết rồi."
+  },
+  "或是": {
+    "exampleHanzi": "喝茶或是喝咖啡都可以。",
+    "exampleVietnamese": "Uống trà hoặc là (hoặc thị) uống cà phê đều được."
+  },
+  "把": {
+    "exampleHanzi": "請把門關上。",
+    "exampleVietnamese": "Vui lòng đóng (bả) cửa lại."
+  },
+  "替": {
+    "exampleHanzi": "請替我問候他。",
+    "exampleVietnamese": "Vui lòng thay (thế) tôi gửi lời hỏi thăm anh ấy."
+  },
+  "有的": {
+    "exampleHanzi": "有的同學在看書。",
+    "exampleVietnamese": "Có một số (hữu đích) bạn học đang đọc sách."
+  },
+  "本來": {
+    "exampleHanzi": "我本來想去，但下雨了。",
+    "exampleVietnamese": "Tôi vốn dĩ muốn đi, nhưng trời mưa rồi."
+  },
+  "要是": {
+    "exampleHanzi": "要是下雨，我們就不去了。",
+    "exampleVietnamese": "Nếu như (yếu thị) trời mưa, chúng tôi sẽ không đi nữa."
+  },
+  "讓": {
+    "exampleHanzi": "請讓他進來。",
+    "exampleVietnamese": "Vui lòng để (nhượng) anh ấy vào."
+  },
+  "這麼": {
+    "exampleHanzi": "這麼晚了，你還在工作？",
+    "exampleVietnamese": "Muộn như thế này rồi, bạn vẫn còn đang làm việc sao?"
+  },
+  "過": {
+    "exampleHanzi": "我看過這部電影。",
+    "exampleVietnamese": "Tôi đã xem qua bộ phim này."
+  },
+  "那麼": {
+    "exampleHanzi": "沒關係，那麼我們明天再見。",
+    "exampleVietnamese": "Không sao cả, vậy thì (na ma) chúng ta hẹn gặp lại vào ngày mai."
+  },
+  "雖然": {
+    "exampleHanzi": "雖然天氣冷，我還是去慢跑。",
+    "exampleVietnamese": "Mặc dù (tuy nhiên) trời lạnh, tôi vẫn đi chạy bộ."
+  },
+  "一半": {
+    "exampleHanzi": "這個西瓜我吃了一半。",
+    "exampleVietnamese": "Quả dưa hấu này tôi đã ăn một nửa (nhất bán)."
+  },
+  "三明治": {
+    "exampleHanzi": "我早餐吃三明治。",
+    "exampleVietnamese": "Bữa sáng tôi ăn bánh sandwich."
+  },
+  "份": {
+    "exampleHanzi": "我點了一份套餐。",
+    "exampleVietnamese": "Tôi đã gọi một phần (phần) suất ăn."
+  },
+  "冰淇淋": {
+    "exampleHanzi": "我喜歡吃巧克力冰淇淋。",
+    "exampleVietnamese": "Tôi thích ăn kem sô-cô-la."
+  },
+  "味道": {
+    "exampleHanzi": "這碗麵的味道很特別。",
+    "exampleVietnamese": "Mùi vị (vị đạo) của bát mì này rất đặc biệt."
+  },
+  "啤酒": {
+    "exampleHanzi": "爸爸在喝啤酒。",
+    "exampleVietnamese": "Bố đang uống bia."
+  },
+  "支": {
+    "exampleHanzi": "這支筆很好寫。",
+    "exampleVietnamese": "Chiếc (chi) bút này viết rất tốt."
+  },
+  "漢堡": {
+    "exampleHanzi": "他喜歡吃漢堡。",
+    "exampleVietnamese": "Anh ấy thích ăn hamburger."
+  },
+  "瓶": {
+    "exampleHanzi": "這是一個空瓶子。",
+    "exampleVietnamese": "Đây là một cái chai (bình tử) không."
+  },
+  "紅茶": {
+    "exampleHanzi": "我喜歡喝紅茶。",
+    "exampleVietnamese": "Tôi thích uống hồng trà."
+  },
+  "苦": {
+    "exampleHanzi": "這藥真的很苦。",
+    "exampleVietnamese": "Thuốc này thực sự rất đắng (khổ)."
+  },
+  "道": {
+    "exampleHanzi": "這道菜是媽媽做的。",
+    "exampleVietnamese": "Món (đạo) này là do mẹ làm."
+  },
+  "酸": {
+    "exampleHanzi": "檸檬很酸。",
+    "exampleVietnamese": "Chanh rất chua (toan)."
+  },
+  "香": {
+    "exampleHanzi": "這朵花真香。",
+    "exampleVietnamese": "Bông hoa này thực sự rất thơm (hương)."
+  },
+  "鹹": {
+    "exampleHanzi": "這道菜太鹹了。",
+    "exampleVietnamese": "Món này quá mặn (hàm) rồi."
+  },
+  "點心": {
+    "exampleHanzi": "下午想吃點心嗎？",
+    "exampleVietnamese": "Chiều nay muốn ăn bánh điểm tâm không?"
+  },
+  "上班": {
+    "exampleHanzi": "他九點上班。",
+    "exampleVietnamese": "Anh ấy đi làm lúc 9 giờ."
+  },
+  "下班": {
+    "exampleHanzi": "我下班了。",
+    "exampleVietnamese": "Tôi tan làm rồi."
+  },
+  "公司": {
+    "exampleHanzi": "這是我爸爸的公司。",
+    "exampleVietnamese": "Đây là công ty của bố tôi."
+  },
+  "努力": {
+    "exampleHanzi": "他很努力學習。",
+    "exampleVietnamese": "Anh ấy học tập rất nỗ lực."
+  },
+  "司機": {
+    "exampleHanzi": "請司機開快點。",
+    "exampleVietnamese": "Vui lòng bảo tài xế lái nhanh chút."
+  },
+  "如果": {
+    "exampleHanzi": "如果下雨，我就不去。",
+    "exampleVietnamese": "Nếu trời mưa, tôi sẽ không đi."
+  },
+  "工人": {
+    "exampleHanzi": "那裡有很多工人。",
+    "exampleVietnamese": "Ở đó có rất nhiều công nhân."
+  },
+  "打算": {
+    "exampleHanzi": "他打算出國。",
+    "exampleVietnamese": "Anh ấy dự định ra nước ngoài."
+  },
+  "機會": {
+    "exampleHanzi": "請再給我一次機會。",
+    "exampleVietnamese": "Vui lòng cho tôi thêm một cơ hội nữa."
+  },
+  "準備": {
+    "exampleHanzi": "我準備好了。",
+    "exampleVietnamese": "Tôi chuẩn bị xong rồi."
+  },
+  "能力": {
+    "exampleHanzi": "他很有能力。",
+    "exampleVietnamese": "Anh ấy rất có năng lực."
+  },
+  "計畫": {
+    "exampleHanzi": "這是我的計畫。",
+    "exampleVietnamese": "Đây là kế hoạch của tôi."
+  },
+  "護士": {
+    "exampleHanzi": "護士在幫病人量體溫。",
+    "exampleVietnamese": "Y tá đang giúp bệnh nhân đo thân nhiệt."
+  },
+  "辦公室": {
+    "exampleHanzi": "他在辦公室。",
+    "exampleVietnamese": "Anh ấy ở văn phòng."
+  },
+  "醫院": {
+    "exampleHanzi": "他在醫院工作。",
+    "exampleVietnamese": "Anh ấy làm việc ở bệnh viện."
+  },
+  "健康": {
+    "exampleHanzi": "健康最重要。",
+    "exampleVietnamese": "Sức khỏe (kiện khang) là quan trọng nhất."
+  },
+  "心": {
+    "exampleHanzi": "你要小心，注意安全。",
+    "exampleVietnamese": "Bạn phải cẩn thận, chú ý an toàn."
+  },
+  "手指(頭)": {
+    "exampleHanzi": "他的手指很長。",
+    "exampleVietnamese": "Ngón tay (thủ chỉ) của anh ấy rất dài."
+  },
+  "渴": {
+    "exampleHanzi": "我口渴，想喝水。",
+    "exampleVietnamese": "Tôi khát (khát) nước, muốn uống nước."
+  },
+  "病人": {
+    "exampleHanzi": "那家醫院有很多病人。",
+    "exampleVietnamese": "Bệnh viện đó có rất nhiều bệnh nhân (bệnh nhân)."
+  },
+  "眼鏡": {
+    "exampleHanzi": "我要戴眼鏡。",
+    "exampleVietnamese": "Tôi cần đeo kính (nhãn kính)."
+  },
+  "臉": {
+    "exampleHanzi": "洗個臉比較舒服。",
+    "exampleVietnamese": "Rửa cái mặt (kiểm) thì thoải mái hơn."
+  },
+  "舒服": {
+    "exampleHanzi": "在冷氣房裡很舒服。",
+    "exampleVietnamese": "Ở trong phòng điều hòa rất thoải mái (thư phục)."
+  },
+  "頭髮": {
+    "exampleHanzi": "她的頭髮很長。",
+    "exampleVietnamese": "Tóc (đầu phát) của cô ấy rất dài."
+  },
+  "一切": {
+    "exampleHanzi": "我會好好照顧你的一切。",
+    "exampleVietnamese": "Tôi sẽ chăm sóc tốt mọi thứ của bạn."
+  },
+  "不但": {
+    "exampleHanzi": "他不但會說中文，還會說英文。",
+    "exampleVietnamese": "Anh ấy không những nói được tiếng Trung, mà còn nói được tiếng Anh."
+  },
+  "不得了": {
+    "exampleHanzi": "他們家的飯菜好吃得不得了。",
+    "exampleVietnamese": "Đồ ăn nhà họ ngon kinh khủng."
+  },
+  "不必": {
+    "exampleHanzi": "你不必擔心。",
+    "exampleVietnamese": "Bạn không cần lo lắng."
+  },
+  "不用": {
+    "exampleHanzi": "不用謝。",
+    "exampleVietnamese": "Không cần cảm ơn."
+  },
+  "不管": {
+    "exampleHanzi": "不管下雨還是出太陽，我都會去士林夜市。",
+    "exampleVietnamese": "Bất kể mưa hay nắng, tôi cũng sẽ đi chợ đêm Sĩ Lâm."
+  },
+  "且": {
+    "exampleHanzi": "他聰明且努力。",
+    "exampleVietnamese": "Anh ấy thông minh và chăm chỉ."
+  },
+  "也許": {
+    "exampleHanzi": "也許他會來參加派對。",
+    "exampleVietnamese": "Có lẽ anh ấy sẽ đến tham gia bữa tiệc."
+  },
+  "倍": {
+    "exampleHanzi": "這件衣服比那件貴兩倍。",
+    "exampleVietnamese": "Chiếc váy này đắt gấp đôi chiếc kia."
+  },
+  "其中": {
+    "exampleHanzi": "我有三本書，其中一本是中文書。",
+    "exampleVietnamese": "Tôi có ba cuốn sách, trong đó có một cuốn là sách tiếng Trung."
+  },
+  "其實": {
+    "exampleHanzi": "我以為他很兇，其實他很溫柔。",
+    "exampleVietnamese": "Tôi cứ nghĩ anh ấy rất dữ, thực ra anh ấy rất hiền lành."
+  },
+  "別的": {
+    "exampleHanzi": "你還有別的問題嗎？",
+    "exampleVietnamese": "Bạn còn có vấn đề nào khác không?"
+  },
+  "包括": {
+    "exampleHanzi": "我們班包括我在內有十個人。",
+    "exampleVietnamese": "Lớp chúng tôi bao gồm cả tôi có mười người."
+  },
+  "原來": {
+    "exampleHanzi": "原來是你！我找你好久了。",
+    "exampleVietnamese": "Hóa ra là bạn! Tôi tìm bạn mãi."
+  },
+  "另": {
+    "exampleHanzi": "我想要另一個蘋果。",
+    "exampleVietnamese": "Tôi muốn một quả táo khác."
+  },
+  "另外": {
+    "exampleHanzi": "我買了一件衣服，另外還買了一雙鞋。",
+    "exampleVietnamese": "Tôi mua một bộ quần áo, ngoài ra còn mua một đôi giày."
+  },
+  "只好": {
+    "exampleHanzi": "公車走了，我只好走路回家。",
+    "exampleVietnamese": "Xe buýt đã đi rồi, tôi đành phải đi bộ về nhà."
+  },
+  "只要": {
+    "exampleHanzi": "只要下雨，我就不會出門。",
+    "exampleVietnamese": "Chỉ cần trời mưa, tôi sẽ không ra ngoài."
+  },
+  "可能": {
+    "exampleHanzi": "明天可能會下雨。",
+    "exampleVietnamese": "Ngày mai có thể sẽ mưa."
+  },
+  "同樣": {
+    "exampleHanzi": "我有同樣的鞋子。",
+    "exampleVietnamese": "Tôi có đôi giày tương tự."
+  },
+  "哇": {
+    "exampleHanzi": "哇，這蛋糕真好吃！",
+    "exampleVietnamese": "Wow, cái bánh này ngon quá!"
+  },
+  "多麼": {
+    "exampleHanzi": "這部電影多麼好看啊！",
+    "exampleVietnamese": "Bộ phim này hay biết bao!"
+  },
+  "大概": {
+    "exampleHanzi": "這本書大概有三百頁。",
+    "exampleVietnamese": "Cuốn sách này đại khái có khoảng ba trăm trang."
+  },
+  "完全": {
+    "exampleHanzi": "我完全不懂你在說什麼。",
+    "exampleVietnamese": "Tôi hoàn toàn không hiểu bạn đang nói gì."
+  },
+  "尤其": {
+    "exampleHanzi": "我喜歡吃水果，尤其是芒果。",
+    "exampleVietnamese": "Tôi thích ăn trái cây, đặc biệt là xoài."
+  },
+  "左右": {
+    "exampleHanzi": "他大約三點左右會到。",
+    "exampleVietnamese": "Anh ấy sẽ đến khoảng ba giờ."
+  },
+  "已": {
+    "exampleHanzi": "他已完成作業。",
+    "exampleVietnamese": "Anh ấy đã hoàn thành bài tập."
+  },
+  "從來": {
+    "exampleHanzi": "我從來沒去過臺東。",
+    "exampleVietnamese": "Tôi từ trước đến nay chưa từng đi Đài Đông."
+  },
+  "必須": {
+    "exampleHanzi": "我們必須準時完成這項作業。",
+    "exampleVietnamese": "Chúng ta phải hoàn thành bài tập này đúng giờ."
+  },
+  "或者": {
+    "exampleHanzi": "你想喝茶或者咖啡？",
+    "exampleVietnamese": "Bạn muốn uống trà hay cà phê?"
+  },
+  "接著": {
+    "exampleHanzi": "我先吃飯，接著看電視。",
+    "exampleVietnamese": "Tôi ăn cơm trước, tiếp theo xem TV."
+  },
+  "整": {
+    "exampleHanzi": "我吃了一整顆蘋果。",
+    "exampleVietnamese": "Tôi đã ăn cả một quả táo."
+  },
+  "最好": {
+    "exampleHanzi": "你最好趕快回家。",
+    "exampleVietnamese": "Bạn tốt nhất là nên về nhà nhanh đi."
+  },
+  "極": {
+    "exampleHanzi": "這部電影極好看。",
+    "exampleVietnamese": "Bộ phim này cực kỳ hay."
+  },
+  "樣": {
+    "exampleHanzi": "你喜歡哪一樣？",
+    "exampleVietnamese": "Bạn thích loại nào?"
+  },
+  "正": {
+    "exampleHanzi": "他正在讀書。",
+    "exampleVietnamese": "Anh ấy đang đọc sách."
+  },
+  "步": {
+    "exampleHanzi": "往前走一步。",
+    "exampleVietnamese": "Tiến một bước về phía trước."
+  },
+  "比方": {
+    "exampleHanzi": "給我一個比方。",
+    "exampleVietnamese": "Hãy cho tôi một ví dụ."
+  },
+  "比方說": {
+    "exampleHanzi": "我喜歡吃水果，比方說蘋果。",
+    "exampleVietnamese": "Tôi thích ăn trái cây, ví dụ như táo."
+  },
+  "沒想到": {
+    "exampleHanzi": "沒想到會在這裡遇到你。",
+    "exampleVietnamese": "Không ngờ tới lại gặp bạn ở đây."
+  },
+  "泡": {
+    "exampleHanzi": "我喜歡泡茶。",
+    "exampleVietnamese": "Tôi thích pha trà."
+  },
+  "煩": {
+    "exampleHanzi": "這天氣真煩人。",
+    "exampleVietnamese": "Thời tiết này thật phiền phức."
+  },
+  "當": {
+    "exampleHanzi": "當我回家時，媽媽已經做好飯了。",
+    "exampleVietnamese": "Khi tôi về nhà, mẹ đã nấu cơm xong rồi."
+  },
+  "當時": {
+    "exampleHanzi": "我當時很餓。",
+    "exampleVietnamese": "Lúc đó tôi rất đói."
+  },
+  "直接": {
+    "exampleHanzi": "你直接跟我說。",
+    "exampleVietnamese": "Bạn nói trực tiếp với tôi."
+  },
+  "相當": {
+    "exampleHanzi": "這個問題相當簡單。",
+    "exampleVietnamese": "Vấn đề này tương đối đơn giản."
+  },
+  "空": {
+    "exampleHanzi": "這個杯子是空的。",
+    "exampleVietnamese": "Cái cốc này trống rỗng."
+  },
+  "立刻": {
+    "exampleHanzi": "請你立刻過來。",
+    "exampleVietnamese": "Xin bạn lập tức qua đây."
+  },
+  "等": {
+    "exampleHanzi": "請等我一下。",
+    "exampleVietnamese": "Vui lòng đợi tôi một chút."
+  },
+  "等到": {
+    "exampleHanzi": "等到我下班，我們就可以吃飯了。",
+    "exampleVietnamese": "Đợi đến khi tôi tan làm, chúng ta có thể ăn cơm rồi."
+  },
+  "結果": {
+    "exampleHanzi": "他很努力學習，結果考試及格了。",
+    "exampleVietnamese": "Anh ấy học rất chăm chỉ, kết quả là thi đậu rồi."
+  },
+  "總": {
+    "exampleHanzi": "他總是很忙。",
+    "exampleVietnamese": "Anh ấy luôn bận rộn."
+  },
+  "而且": {
+    "exampleHanzi": "這家牛肉麵很好吃，而且很便宜。",
+    "exampleVietnamese": "Món mì bò này rất ngon, hơn nữa còn rất rẻ."
+  },
+  "越": {
+    "exampleHanzi": "你越努力，就會越成功。",
+    "exampleVietnamese": "Bạn càng cố gắng, sẽ càng thành công."
+  },
+  "這樣": {
+    "exampleHanzi": "你這樣做不對。",
+    "exampleVietnamese": "Bạn làm như thế này là không đúng."
+  },
+  "連": {
+    "exampleHanzi": "他連飯都沒吃就出門了。",
+    "exampleVietnamese": "Anh ấy ngay cả cơm cũng chưa ăn đã ra ngoài rồi."
+  },
+  "還好": {
+    "exampleHanzi": "考試結果還好，我及格了。",
+    "exampleVietnamese": "Kết quả thi cũng được, tôi đã đậu."
+  },
+  "那樣": {
+    "exampleHanzi": "你不要那樣看我。",
+    "exampleVietnamese": "Bạn đừng nhìn tôi như thế kia."
+  },
+  "需": {
+    "exampleHanzi": "我們需多喝水。",
+    "exampleVietnamese": "Chúng ta cần uống nhiều nước."
+  },
+  "須": {
+    "exampleHanzi": "你須準時到。",
+    "exampleVietnamese": "Bạn phải đến đúng giờ."
+  },
+  "類": {
+    "exampleHanzi": "我喜歡這類的書。",
+    "exampleVietnamese": "Tôi thích loại sách này."
+  },
+  "中學": {
+    "exampleHanzi": "他在中學是籃球校隊。",
+    "exampleVietnamese": "Anh ấy là thành viên đội bóng rổ của trường trung học."
+  },
+  "乘": {
+    "exampleHanzi": "三乘四等於十二。",
+    "exampleVietnamese": "Ba nhân bốn bằng mười hai."
+  },
+  "以上": {
+    "exampleHanzi": "十八歲以上才能進去。",
+    "exampleVietnamese": "Trên mười tám tuổi (dĩ thượng) mới được vào."
+  },
+  "以下": {
+    "exampleHanzi": "十歲以下的孩子免門票。",
+    "exampleVietnamese": "Trẻ em dưới mười tuổi (dĩ hạ) được miễn vé vào cổng."
+  },
+  "位子": {
+    "exampleHanzi": "這個位子有人坐嗎？",
+    "exampleVietnamese": "Chỗ ngồi (vị tử) này có người ngồi chưa?"
+  },
+  "作文": {
+    "exampleHanzi": "老師要我們寫一篇作文。",
+    "exampleVietnamese": "Cô giáo yêu cầu chúng tôi viết một bài văn."
+  },
+  "例(子)": {
+    "exampleHanzi": "老師給了我們幾個例句。",
+    "exampleVietnamese": "Giáo viên đã cho chúng tôi vài câu ví dụ."
+  },
+  "例如": {
+    "exampleHanzi": "我喜歡吃水果，例如蘋果和香蕉。",
+    "exampleVietnamese": "Tôi thích ăn trái cây, ví dụ như táo và chuối."
+  },
+  "假": {
+    "exampleHanzi": "我喜歡放假。",
+    "exampleVietnamese": "Tôi thích nghỉ lễ."
+  },
+  "加上": {
+    "exampleHanzi": "把糖加上去，會更好吃。",
+    "exampleVietnamese": "Thêm đường vào sẽ ngon hơn."
+  },
+  "原因": {
+    "exampleHanzi": "他不來的原因是什麼？",
+    "exampleVietnamese": "Nguyên nhân (nguyên nhân) anh ấy không đến là gì?"
+  },
+  "同意": {
+    "exampleHanzi": "我同意他的看法。",
+    "exampleVietnamese": "Tôi đồng ý (đồng ý) với cách nhìn của anh ấy."
+  },
+  "大學生": {
+    "exampleHanzi": "他是個大學生。",
+    "exampleVietnamese": "Anh ấy là một sinh viên đại học."
+  },
+  "學期": {
+    "exampleHanzi": "這個學期過得很快。",
+    "exampleVietnamese": "Học kỳ này trôi qua rất nhanh."
+  },
+  "學院": {
+    "exampleHanzi": "這是一所美術學院。",
+    "exampleVietnamese": "Đây là một học viện mỹ thuật."
+  },
+  "室友": {
+    "exampleHanzi": "我的室友是個外國人。",
+    "exampleVietnamese": "Bạn cùng phòng của tôi là một người nước ngoài."
+  },
+  "寒假": {
+    "exampleHanzi": "寒假快到了，我很開心。",
+    "exampleVietnamese": "Kỳ nghỉ đông sắp đến rồi, tôi rất vui."
+  },
+  "尺": {
+    "exampleHanzi": "請借我一把尺。",
+    "exampleVietnamese": "Vui lòng cho tôi mượn một chiếc thước kẻ (xích)."
+  },
+  "建議": {
+    "exampleHanzi": "你有什麼好建議嗎？",
+    "exampleVietnamese": "Bạn có đề nghị (kiến nghị) gì hay không?"
+  },
+  "忘記": {
+    "exampleHanzi": "我忘記帶鑰匙了。",
+    "exampleVietnamese": "Tôi quên (vong ký) mang chìa khóa rồi."
+  },
+  "念書": {
+    "exampleHanzi": "晚上我喜歡在家念書。",
+    "exampleVietnamese": "Tối tôi thích ở nhà học bài."
+  },
+  "意見": {
+    "exampleHanzi": "你有什麼不同的意見嗎？",
+    "exampleVietnamese": "Bạn có ý kiến (ý kiến) gì khác không?"
+  },
+  "操場": {
+    "exampleHanzi": "我們在操場上踢足球。",
+    "exampleVietnamese": "Chúng tôi đang đá bóng trên sân vận động (thao trường)."
+  },
+  "改": {
+    "exampleHanzi": "這題答案改錯了。",
+    "exampleVietnamese": "Đáp án câu này sửa (cải) sai rồi."
+  },
+  "放假": {
+    "exampleHanzi": "學校明天放假。",
+    "exampleVietnamese": "Ngày mai trường nghỉ."
+  },
+  "教授": {
+    "exampleHanzi": "我的指導教授很親切。",
+    "exampleVietnamese": "Giáo sư hướng dẫn của tôi rất thân thiện."
+  },
+  "教育": {
+    "exampleHanzi": "教育對孩子很重要。",
+    "exampleVietnamese": "Giáo dục (giáo dục) rất quan trọng đối với trẻ em."
+  },
+  "數學": {
+    "exampleHanzi": "他最喜歡的科目是數學。",
+    "exampleVietnamese": "Môn học yêu thích nhất của anh ấy là toán học."
+  },
+  "文法": {
+    "exampleHanzi": "我的中文文法還不太好。",
+    "exampleVietnamese": "Ngữ pháp tiếng Trung của tôi vẫn chưa tốt lắm."
+  },
+  "暑假": {
+    "exampleHanzi": "暑假我要回老家。",
+    "exampleVietnamese": "Kỳ nghỉ hè tôi sẽ về quê."
+  },
+  "書包": {
+    "exampleHanzi": "這是我新買的書包。",
+    "exampleVietnamese": "Đây là chiếc cặp sách (thư bao) tôi mới mua."
+  },
+  "書架": {
+    "exampleHanzi": "書架上有很多漫畫。",
+    "exampleVietnamese": "Trên giá sách (thư giá) có rất nhiều truyện tranh."
+  },
+  "書桌": {
+    "exampleHanzi": "書桌上放了很多書。",
+    "exampleVietnamese": "Trên bàn học (thư trác) để rất nhiều sách."
+  },
+  "書法": {
+    "exampleHanzi": "我想學書法。",
+    "exampleVietnamese": "Tôi muốn học thư pháp."
+  },
+  "有意思": {
+    "exampleHanzi": "這本書真有意思。",
+    "exampleVietnamese": "Cuốn sách này thật thú vị (hữu ý tư)."
+  },
+  "有趣": {
+    "exampleHanzi": "這個遊戲真有趣。",
+    "exampleVietnamese": "Trò chơi này thật thú vị (hữu thú)."
+  },
+  "服務": {
+    "exampleHanzi": "這家餐廳的服務很好。",
+    "exampleVietnamese": "Dịch vụ của nhà hàng này rất tốt."
+  },
+  "本子": {
+    "exampleHanzi": "我在本子上寫字。",
+    "exampleVietnamese": "Tôi viết chữ vào quyển vở (bổn tử)."
+  },
+  "查": {
+    "exampleHanzi": "我要查字典找這個字的發音。",
+    "exampleVietnamese": "Tôi muốn tra từ điển để tìm cách phát âm của từ này."
+  },
+  "校園": {
+    "exampleHanzi": "我們的校園非常。",
+    "exampleVietnamese": "Khuôn viên trường (hiệu viên) của chúng tôi vô cùng rộng lớn."
+  },
+  "歷史": {
+    "exampleHanzi": "我很喜歡上歷史課。",
+    "exampleVietnamese": "Tôi rất thích học môn lịch sử."
+  },
+  "減": {
+    "exampleHanzi": "十減五等於五。",
+    "exampleVietnamese": "Mười trừ năm bằng năm."
+  },
+  "漢字": {
+    "exampleHanzi": "學習漢字很不容易。",
+    "exampleVietnamese": "Học chữ Hán rất không dễ dàng."
+  },
+  "無聊": {
+    "exampleHanzi": "這部電影很無聊。",
+    "exampleVietnamese": "Bộ phim này rất nhàm chán (vô liêu)."
+  },
+  "用功": {
+    "exampleHanzi": "他讀書很用功。",
+    "exampleVietnamese": "Anh ấy học hành rất chăm chỉ (dụng công)."
+  },
+  "畢業": {
+    "exampleHanzi": "我明年就要大學畢業了。",
+    "exampleVietnamese": "Tôi sẽ tốt nghiệp đại học vào năm sau."
+  },
+  "知識": {
+    "exampleHanzi": "我們要多讀書，增加知識。",
+    "exampleVietnamese": "Chúng ta phải đọc nhiều sách, tăng thêm kiến thức (tri thức)."
+  },
+  "研究": {
+    "exampleHanzi": "他正在研究歷史。",
+    "exampleVietnamese": "Anh ấy đang nghiên cứu (nghiên cứu) lịch sử."
+  },
+  "程度": {
+    "exampleHanzi": "他的中文程度不錯。",
+    "exampleVietnamese": "Trình độ (trình độ) tiếng Trung của anh ấy khá tốt."
+  },
+  "答案": {
+    "exampleHanzi": "這道數學題的答案是什麼？",
+    "exampleVietnamese": "Đáp án của bài toán này là gì?"
+  },
+  "考": {
+    "exampleHanzi": "明天我們要考數學。",
+    "exampleVietnamese": "Ngày mai chúng ta sẽ thi toán."
+  },
+  "英語": {
+    "exampleHanzi": "她很會說英語。",
+    "exampleVietnamese": "Cô ấy nói tiếng Anh rất giỏi."
+  },
+  "討論": {
+    "exampleHanzi": "我們正在討論作業。",
+    "exampleVietnamese": "Chúng tôi đang thảo luận (thảo luận) bài tập."
+  },
+  "詞": {
+    "exampleHanzi": "這個詞是什麼意思？",
+    "exampleVietnamese": "Từ này có nghĩa là gì?"
+  },
+  "趕快": {
+    "exampleHanzi": "雨下大了，趕快跑。",
+    "exampleVietnamese": "Mưa to rồi, mau chóng (cản khoái) chạy thôi."
+  },
+  "遍": {
+    "exampleHanzi": "這篇文章我看了三遍。",
+    "exampleVietnamese": "Bài viết này tôi đã đọc ba lần (biến)."
+  },
+  "選擇": {
+    "exampleHanzi": "這是我自己的選擇。",
+    "exampleVietnamese": "Đây là sự lựa chọn (tuyển trạch) của chính tôi."
+  },
+  "題": {
+    "exampleHanzi": "這份考卷有十題。",
+    "exampleVietnamese": "Bài kiểm tra này có mười câu hỏi."
+  },
+  "題目": {
+    "exampleHanzi": "這份考卷的題目很簡單。",
+    "exampleVietnamese": "Các câu hỏi trong bài kiểm tra này rất đơn giản."
+  },
+  "乾": {
+    "exampleHanzi": "衣服已經曬乾了。",
+    "exampleVietnamese": "Quần áo đã phơi khô (kiền) rồi."
+  },
+  "亂": {
+    "exampleHanzi": "他的房間很亂。",
+    "exampleVietnamese": "Phòng của cậu ấy rất lộn xộn (loạn)."
+  },
+  "傘": {
+    "exampleHanzi": "出門記得帶傘。",
+    "exampleVietnamese": "Ra ngoài nhớ mang theo ô (tản)."
+  },
+  "內": {
+    "exampleHanzi": "百貨公司內不能吸菸。",
+    "exampleVietnamese": "Trong (nội) trung tâm thương mại không được hút thuốc."
+  },
+  "刷(子)": {
+    "exampleHanzi": "他用刷子刷鞋子。",
+    "exampleVietnamese": "Cậu ấy dùng bàn chải (sát tử) để chải (sát) giày."
+  },
+  "吵": {
+    "exampleHanzi": "外面很吵，他在睡覺。",
+    "exampleVietnamese": "Bên ngoài rất ồn ào (sào), anh ấy đang ngủ."
+  },
+  "垃圾": {
+    "exampleHanzi": "不要亂丟垃圾。",
+    "exampleVietnamese": "Đừng vứt rác (lạc sắc) bừa bãi."
+  },
+  "夢": {
+    "exampleHanzi": "我昨晚做了一個奇怪的夢。",
+    "exampleVietnamese": "Tối qua tôi đã mơ thấy một giấc mơ (mộng) kỳ lạ."
+  },
+  "大門": {
+    "exampleHanzi": "請關好大門。",
+    "exampleVietnamese": "Vui lòng đóng kỹ cửa chính (đại môn)."
+  },
+  "季節": {
+    "exampleHanzi": "春天是個美麗的季節。",
+    "exampleVietnamese": "Mùa xuân là một mùa (quý tiết) đẹp."
+  },
+  "層": {
+    "exampleHanzi": "這棟樓有五層。",
+    "exampleVietnamese": "Tòa nhà này có năm tầng (tầng)."
+  },
+  "底": {
+    "exampleHanzi": "他在月底要回國。",
+    "exampleVietnamese": "Anh ấy sẽ về nước vào cuối (để) tháng."
+  },
+  "度": {
+    "exampleHanzi": "今天的氣溫是三十度。",
+    "exampleVietnamese": "Nhiệt độ hôm nay là ba mươi độ (độ)."
+  },
+  "座": {
+    "exampleHanzi": "這座山很高。",
+    "exampleVietnamese": "Ngọn (tòa) núi này rất cao."
+  },
+  "房屋": {
+    "exampleHanzi": "台中的房屋很多。",
+    "exampleVietnamese": "Nhà cửa (phòng ốc) ở Đài Trung rất nhiều."
+  },
+  "房東": {
+    "exampleHanzi": "房東太太人很好。",
+    "exampleVietnamese": "Bà chủ nhà (phòng đông) người rất tốt."
+  },
+  "打開": {
+    "exampleHanzi": "請打開窗戶。",
+    "exampleVietnamese": "Vui lòng mở (đả khai) cửa sổ."
+  },
+  "拖鞋": {
+    "exampleHanzi": "進屋請換拖鞋。",
+    "exampleVietnamese": "Vào nhà vui lòng thay dép lê (tha hài)."
+  },
+  "搬家": {
+    "exampleHanzi": "星期六我打算搬家。",
+    "exampleVietnamese": "Thứ bảy tôi dự định chuyển nhà (ban gia)."
+  },
+  "日記": {
+    "exampleHanzi": "我每天晚上都寫日記。",
+    "exampleVietnamese": "Mỗi tối tôi đều viết nhật ký (nhật ký)."
+  },
+  "星星": {
+    "exampleHanzi": "晚上可以看到星星。",
+    "exampleVietnamese": "Buổi tối có thể nhìn thấy ngôi sao (tinh tinh)."
+  },
+  "晴天": {
+    "exampleHanzi": "今天是個晴天。",
+    "exampleVietnamese": "Hôm nay là một ngày nắng (tình thiên)."
+  },
+  "暖和": {
+    "exampleHanzi": "春天的天氣很暖和。",
+    "exampleVietnamese": "Thời tiết mùa xuân rất ấm áp (noãn hòa)."
+  },
+  "書房": {
+    "exampleHanzi": "爸爸在書房看書。",
+    "exampleVietnamese": "Bố đang đọc sách ở phòng làm việc (thư phòng)."
+  },
+  "月亮": {
+    "exampleHanzi": "今天的月亮很圓。",
+    "exampleVietnamese": "Mặt trăng (nguyệt lượng) hôm nay rất tròn."
+  },
+  "朵": {
+    "exampleHanzi": "路邊有一朵紅花。",
+    "exampleVietnamese": "Ven đường có một đóa (đóa) hoa đỏ."
+  },
+  "枕頭": {
+    "exampleHanzi": "我的枕頭很軟。",
+    "exampleVietnamese": "Gối (chẩm đầu) của tôi rất mềm."
+  },
+  "櫃(子)": {
+    "exampleHanzi": "櫃子裡放了我的課本。",
+    "exampleVietnamese": "Trong tủ (quỹ tử) để sách giáo khoa của tôi."
+  },
+  "毛巾": {
+    "exampleHanzi": "這條毛巾很乾淨。",
+    "exampleVietnamese": "Chiếc khăn mặt (mao cân) này rất sạch sẽ."
+  },
+  "洗衣機": {
+    "exampleHanzi": "洗衣機壞了。",
+    "exampleVietnamese": "Máy giặt (tẩy y cơ) hỏng rồi."
+  },
+  "流": {
+    "exampleHanzi": "小河的水流得很慢。",
+    "exampleVietnamese": "Nước của con sông nhỏ chảy (lưu) rất chậm."
+  },
+  "流汗": {
+    "exampleHanzi": "運動以後會流汗。",
+    "exampleVietnamese": "Sau khi vận động sẽ đổ mồ hôi (lưu hãn)."
+  },
+  "浴室": {
+    "exampleHanzi": "我要去浴室洗澡。",
+    "exampleVietnamese": "Tôi đi vào phòng tắm (dục thất) đi tắm."
+  },
+  "涼": {
+    "exampleHanzi": "這杯茶已經涼了。",
+    "exampleVietnamese": "Chén trà này đã nguội (lương) rồi."
+  },
+  "涼快": {
+    "exampleHanzi": "樹下比較涼快。",
+    "exampleVietnamese": "Dưới gốc cây khá mát mẻ (lương khoái)."
+  },
+  "深": {
+    "exampleHanzi": "這件毛衣的顏色很深。",
+    "exampleVietnamese": "Màu của chiếc áo len này rất đậm (thâm)."
+  },
+  "淺": {
+    "exampleHanzi": "這雙鞋子的顏色很淺。",
+    "exampleVietnamese": "Màu của đôi giày này rất nhạt (thiển)."
+  },
+  "濕": {
+    "exampleHanzi": "雨很大，我的鞋子濕了。",
+    "exampleVietnamese": "Mưa rất lớn, giày của tôi bị ướt (thấp) rồi."
+  },
+  "照顧": {
+    "exampleHanzi": "媽媽生病了，我要留在家裡照顧她。",
+    "exampleVietnamese": "Mẹ bị ốm rồi, tôi phải ở nhà để chăm sóc (chiếu cố) bà ấy."
+  },
+  "熱鬧": {
+    "exampleHanzi": "夜市這裡很熱鬧。",
+    "exampleVietnamese": "Ở chợ đêm ở đây rất náo nhiệt (nhiệt nháo)."
+  },
+  "牙膏": {
+    "exampleHanzi": "牙膏快用完了。",
+    "exampleVietnamese": "Kem đánh răng (nha cao) sắp dùng hết rồi."
+  },
+  "環保": {
+    "exampleHanzi": "我們應該做環保。",
+    "exampleVietnamese": "Chúng ta nên làm bảo vệ môi trường (hoàn bảo)."
+  },
+  "環境": {
+    "exampleHanzi": "這所學校的環境很好。",
+    "exampleVietnamese": "Môi trường (hoàn cảnh) của ngôi trường này rất tốt."
+  },
+  "生活": {
+    "exampleHanzi": "台北的生活很方便。",
+    "exampleVietnamese": "Cuộc sống (sinh hoạt) ở Đài Bắc rất thuận tiện."
+  },
+  "發生": {
+    "exampleHanzi": "今天發生了什麼事？",
+    "exampleVietnamese": "Hôm nay đã xảy ra (phát sinh) chuyện gì thế?"
+  },
+  "箱": {
+    "exampleHanzi": "箱子裡有很多衣服。",
+    "exampleVietnamese": "Trong hòm (kiện tử) có rất nhiều quần áo."
+  },
+  "肥皂": {
+    "exampleHanzi": "請用肥皂洗手。",
+    "exampleVietnamese": "Vui lòng dùng xà phòng (phì tạo) để rửa tay."
+  },
+  "臥室": {
+    "exampleHanzi": "這是我的臥室。",
+    "exampleVietnamese": "Đây là phòng ngủ (ngoạ thất) của tôi."
+  },
+  "臥房": {
+    "exampleHanzi": "臥房在二樓。",
+    "exampleVietnamese": "Phòng ngủ (ngoạ phòng) ở tầng hai."
+  },
+  "自然": {
+    "exampleHanzi": "他的笑容很自然。",
+    "exampleVietnamese": "Nụ cười của anh ấy rất tự nhiên (tự nhiên)."
+  },
+  "蚊(子)": {
+    "exampleHanzi": "我被蚊子叮了。",
+    "exampleVietnamese": "Tôi bị muỗi (văn tử) đốt rồi."
+  },
+  "衛生紙": {
+    "exampleHanzi": "這裡沒有衛生紙了。",
+    "exampleVietnamese": "Ở đây không còn giấy vệ sinh (vệ sinh chỉ) rồi."
+  },
+  "鄉下": {
+    "exampleHanzi": "外公住在鄉下。",
+    "exampleVietnamese": "Ông ngoại sống ở vùng nông thôn (hương hạ)."
+  },
+  "鄰居": {
+    "exampleHanzi": "我的鄰居很熱心。",
+    "exampleVietnamese": "Hàng xóm (lân cư) của tôi rất nhiệt tình."
+  },
+  "開水": {
+    "exampleHanzi": "請多喝開水。",
+    "exampleVietnamese": "Vui lòng uống nhiều nước sôi (khai thủy)."
+  },
+  "院(子)": {
+    "exampleHanzi": "我家有一個小院子。",
+    "exampleVietnamese": "Nhà tôi có một cái sân (viện tử) nhỏ."
+  },
+  "餐桌": {
+    "exampleHanzi": "我們全家人一起在餐桌吃飯。",
+    "exampleVietnamese": "Cả nhà chúng tôi cùng nhau ăn cơm ở bàn ăn (tâm trác)."
+  },
+  "鬧鐘": {
+    "exampleHanzi": "鬧鐘響了，快起床。",
+    "exampleVietnamese": "Đồng hồ báo thức (náo chung) reo rồi, mau dậy thôi."
+  },
+  "不久": {
+    "exampleHanzi": "他離開不久就下雨了。",
+    "exampleVietnamese": "Anh ấy rời đi không lâu (bất cửu) thì trời mưa."
+  },
+  "不同": {
+    "exampleHanzi": "兩個人想的法不同。",
+    "exampleVietnamese": "Cách nghĩ của hai người không giống nhau (bất đồng)."
+  },
+  "伯伯": {
+    "exampleHanzi": "林伯伯在散步。",
+    "exampleVietnamese": "Bác (bá bá) Lâm đang đi dạo."
+  },
+  "伯母": {
+    "exampleHanzi": "伯母，這束花送給您。",
+    "exampleVietnamese": "Bác gái (bá mẫu), bó hoa này tặng bác."
+  },
+  "伯父": {
+    "exampleHanzi": "伯父，您好。",
+    "exampleVietnamese": "Cháu chào bác (bá phụ) ạ."
+  },
+  "住址": {
+    "exampleHanzi": "請在這裡寫下你的住址。",
+    "exampleVietnamese": "Vui lòng viết xuống địa chỉ (trú chỉ) của bạn ở đây."
+  },
+  "傳真": {
+    "exampleHanzi": "請把資料傳真過來。",
+    "exampleVietnamese": "Vui lòng fax (truyền chân) tài liệu qua đây."
+  },
+  "傷心": {
+    "exampleHanzi": "他工作失敗，很傷心。",
+    "exampleVietnamese": "Công việc của anh ấy thất bại, nên rất đau lòng (thương tâm)."
+  },
+  "兄弟": {
+    "exampleHanzi": "他們是好兄弟。",
+    "exampleVietnamese": "Họ là những người anh em (huynh đệ) tốt."
+  },
+  "出生": {
+    "exampleHanzi": "我在台北出生。",
+    "exampleVietnamese": "Tôi sinh ra (xuất sinh) ở Đài Bắc."
+  },
+  "剛才": {
+    "exampleHanzi": "剛才他好像在門口。",
+    "exampleVietnamese": "Vừa nãy (cương tài) anh ấy dường như ở cửa."
+  },
+  "半夜": {
+    "exampleHanzi": "半夜不要大聲說話。",
+    "exampleVietnamese": "Nửa đêm (bán dạ) đừng nói chuyện to tiếng."
+  },
+  "外公": {
+    "exampleHanzi": "外公住在鄉下。",
+    "exampleVietnamese": "Ông ngoại (ngoại công) sống ở vùng nông thôn."
+  },
+  "外婆": {
+    "exampleHanzi": "外婆做的菜很好吃。",
+    "exampleVietnamese": "Món bà ngoại (ngoại bà) nấu rất ngon."
+  },
+  "夜": {
+    "exampleHanzi": "夜深了，請睡覺。",
+    "exampleVietnamese": "Đêm (dạ) đã khuya rồi, vui lòng đi ngủ."
+  },
+  "夜晚": {
+    "exampleHanzi": "窗外的夜晚很安靜。",
+    "exampleVietnamese": "Ban đêm (dạ vãn) ngoài cửa sổ rất yên tĩnh."
+  },
+  "女人": {
+    "exampleHanzi": "那個女人長得很漂亮。",
+    "exampleVietnamese": "Người phụ nữ (nữ nhân) đó lớn lên trông rất xinh đẹp."
+  },
+  "姑姑": {
+    "exampleHanzi": "姑姑住在台北。",
+    "exampleVietnamese": "Cô (cô cô) sống ở Đài Bắc."
+  },
+  "孫女": {
+    "exampleHanzi": "他的孫女很可愛。",
+    "exampleVietnamese": "Cháu gái (tôn nữ) của ông ấy rất đáng yêu."
+  },
+  "孫子": {
+    "exampleHanzi": "那是我的小孫子。",
+    "exampleVietnamese": "Đó là cháu trai (tôn tử) nhỏ của tôi."
+  },
+  "害怕": {
+    "exampleHanzi": "他很害怕打雷。",
+    "exampleVietnamese": "Anh ấy rất sợ (hại phạ) tiếng sấm."
+  },
+  "害羞": {
+    "exampleHanzi": "小女孩很害羞。",
+    "exampleVietnamese": "Cô bé rất xấu hổ (hại tu)."
+  },
+  "差": {
+    "exampleHanzi": "他的成績很差。",
+    "exampleVietnamese": "Thành tích của anh ấy rất kém (sai)."
+  },
+  "帥": {
+    "exampleHanzi": "那個男明星真帥。",
+    "exampleVietnamese": "Nam minh tinh đó thật đẹp trai (soái)."
+  },
+  "年紀": {
+    "exampleHanzi": "他的年紀很大了。",
+    "exampleVietnamese": "Tuổi tác (niên kỷ) của ông ấy rất lớn rồi."
+  },
+  "幸福": {
+    "exampleHanzi": "祝你們生活幸福。",
+    "exampleVietnamese": "Chúc cuộc sống của các bạn hạnh phúc (hạnh phúc)."
+  },
+  "心情": {
+    "exampleHanzi": "他今天心情不好。",
+    "exampleVietnamese": "Hôm nay tâm trạng (tâm tình) của anh ấy không tốt."
+  },
+  "急": {
+    "exampleHanzi": "他急著要出門。",
+    "exampleVietnamese": "Anh ấy đang vội (cấp) đi ra ngoài."
+  },
+  "擔心": {
+    "exampleHanzi": "媽媽很擔心我的身體。",
+    "exampleVietnamese": "Mẹ rất lo lắng (đam tâm) cho sức khỏe của tôi."
+  },
+  "日子": {
+    "exampleHanzi": "這幾天好日子。",
+    "exampleVietnamese": "Mấy ngày nay là ngày (nhật tử) tốt."
+  },
+  "早點": {
+    "exampleHanzi": "明天請早點來。",
+    "exampleVietnamese": "Ngày mai vui lòng đến sớm một chút (tảo điểm)."
+  },
+  "春季": {
+    "exampleHanzi": "春季的花開得很美。",
+    "exampleVietnamese": "Hoa của mùa xuân (xuân quý) nở rất đẹp."
+  },
+  "時": {
+    "exampleHanzi": "我回來時他在睡覺。",
+    "exampleVietnamese": "Lúc (thời) tôi về anh ấy đang ngủ."
+  },
+  "正好": {
+    "exampleHanzi": "這件衣服的大小正好。",
+    "exampleVietnamese": "Kích cỡ của chiếc áo này vừa hay (chính hảo)."
+  },
+  "母親": {
+    "exampleHanzi": "我的母親很溫柔。",
+    "exampleVietnamese": "Mẹ tôi rất dịu dàng."
+  },
+  "母語": {
+    "exampleHanzi": "他的母語是中文。",
+    "exampleVietnamese": "Tiếng mẹ đẻ (mẫu ngữ) của anh ấy là tiếng Trung."
+  },
+  "父母": {
+    "exampleHanzi": "我們要孝順父母。",
+    "exampleVietnamese": "Chúng ta phải hiếu thảo với cha mẹ (phụ mẫu)."
+  },
+  "父親": {
+    "exampleHanzi": "父親在客廳看報紙。",
+    "exampleVietnamese": "Cha (phụ thân) đang đọc báo ở phòng khách."
+  },
+  "男人": {
+    "exampleHanzi": "那個男人是我的老師。",
+    "exampleVietnamese": "Người đàn ông (nam nhân) đó là thầy giáo của tôi."
+  },
+  "白天": {
+    "exampleHanzi": "白天通常比較熱。",
+    "exampleVietnamese": "Ban ngày (bạch thiên) thông thường tương đối nóng."
+  },
+  "禮貌": {
+    "exampleHanzi": "我們要對人有禮貌。",
+    "exampleVietnamese": "Chúng ta phải có lễ phép (lễ mạo) với người khác."
+  },
+  "笨": {
+    "exampleHanzi": "你真笨，這題都不會。",
+    "exampleVietnamese": "Bạn thật ngốc (bôn), câu này cũng không biết làm."
+  },
+  "美麗": {
+    "exampleHanzi": "她是個美麗的女孩。",
+    "exampleVietnamese": "Cô ấy là một cô gái xinh đẹp (mỹ lệ)."
+  },
+  "表": {
+    "exampleHanzi": "這是一張報名表。",
+    "exampleVietnamese": "Đây là một tờ đơn (biểu) đăng ký."
+  },
+  "認真": {
+    "exampleHanzi": "他做功課很認真。",
+    "exampleVietnamese": "Anh ấy làm bài tập rất nghiêm túc (nhận chân)."
+  },
+  "身邊": {
+    "exampleHanzi": "他總是在我身邊。",
+    "exampleVietnamese": "Anh ấy luôn ở bên cạnh (thân biên) tôi."
+  },
+  "鐘": {
+    "exampleHanzi": "我們聊了一點鐘。",
+    "exampleVietnamese": "Chúng tôi đã trò chuyện trong một giờ (chung)."
+  },
+  "長大": {
+    "exampleHanzi": "孩子長大了很多。",
+    "exampleVietnamese": "Đứa trẻ đã lớn lên (trưởng đại) rất nhiều."
+  },
+  "開心": {
+    "exampleHanzi": "今天我很開心。",
+    "exampleVietnamese": "Hôm nay tôi rất vui vẻ (khai tâm)."
+  },
+  "關係": {
+    "exampleHanzi": "他們兩人的關係很好。",
+    "exampleVietnamese": "Mối quan hệ (quan hệ) của hai người họ rất tốt."
+  },
+  "關心": {
+    "exampleHanzi": "謝謝你的關心。",
+    "exampleVietnamese": "Cảm ơn sự quan tâm (quan tâm) của bạn."
+  },
+  "一塊": {
+    "exampleHanzi": "我們一塊去吃晚餐吧。",
+    "exampleVietnamese": "Chúng ta cùng nhau (nhất khối) đi ăn tối nhé."
+  },
+  "丟": {
+    "exampleHanzi": "我的手機丟了，很著急。",
+    "exampleVietnamese": "Điện thoại của tôi mất (đầu) rồi, rất lo lắng."
+  },
+  "主人": {
+    "exampleHanzi": "這隻狗很聽主人的話。",
+    "exampleVietnamese": "Con chó này rất nghe lời chủ nhân (chủ nhân)."
+  },
+  "保護": {
+    "exampleHanzi": "我們要保護環境。",
+    "exampleVietnamese": "Chúng ta phải bảo vệ (bảo hộ) môi trường."
+  },
+  "信箱": {
+    "exampleHanzi": "信箱裡有兩封信。",
+    "exampleVietnamese": "Trong hòm thư (tín tương) có hai bức thư."
+  },
+  "偷": {
+    "exampleHanzi": "有人偷了他的錢包。",
+    "exampleVietnamese": "Có người ăn trộm (thâu) ví tiền của anh ấy."
+  },
+  "傳統": {
+    "exampleHanzi": "他喜歡台灣的傳統文化。",
+    "exampleVietnamese": "Cậu ấy thích văn hóa truyền thống (truyền thống) của Đài Loan."
+  },
+  "出門": {
+    "exampleHanzi": "天快黑了，快點出門吧。",
+    "exampleVietnamese": "Trời sắp tối rồi, mau ra ngoài (xuất môn) thôi."
+  },
+  "利用": {
+    "exampleHanzi": "他利用週末學習法文。",
+    "exampleVietnamese": "Cậu ấy lợi dụng (lợi dụng) cuối tuần để học tiếng Pháp."
+  },
+  "可惜": {
+    "exampleHanzi": "可惜我不能去。",
+    "exampleVietnamese": "Đáng tiếc là tôi không thể đi."
+  },
+  "合作": {
+    "exampleHanzi": "我們合作得很愉快。",
+    "exampleVietnamese": "Chúng tôi hợp tác (hợp tác) rất vui vẻ."
+  },
+  "同時": {
+    "exampleHanzi": "他一邊聽音樂，同時在讀書。",
+    "exampleVietnamese": "Anh ấy vừa nghe nhạc, đồng thời (đồng thời) đang đọc sách."
+  },
+  "壞處": {
+    "exampleHanzi": "抽菸對健康有壞處。",
+    "exampleVietnamese": "Hút thuốc có tác hại (hoại xứ) đối với sức khỏe."
+  },
+  "好處": {
+    "exampleHanzi": "運動對身體有很多好處。",
+    "exampleVietnamese": "Vận động có rất nhiều chỗ tốt (hảo xứ) đối với cơ thể."
+  },
+  "封": {
+    "exampleHanzi": "我給他寫了一封信。",
+    "exampleVietnamese": "Tôi đã viết cho anh ấy một bức (phong) thư."
+  },
+  "帶來": {
+    "exampleHanzi": "他帶來了他的新書。",
+    "exampleVietnamese": "Anh ấy mang đến cuốn sách mới của mình."
+  },
+  "弄": {
+    "exampleHanzi": "我把這件事弄錯了。",
+    "exampleVietnamese": "Tôi đã làm (lộng) sai chuyện này rồi."
+  },
+  "換": {
+    "exampleHanzi": "我想換一件衣服。",
+    "exampleVietnamese": "Tôi muốn thay (hoán) một bộ quần áo."
+  },
+  "放心": {
+    "exampleHanzi": "聽到這個消息，我就放心了。",
+    "exampleVietnamese": "Nghe thấy tin tức này, tôi liền yên tâm (phóng tân) rồi."
+  },
+  "方面": {
+    "exampleHanzi": "他在學習方面很認真。",
+    "exampleVietnamese": "Anh ấy rất chăm chỉ trong học tập."
+  },
+  "春節": {
+    "exampleHanzi": "春節是台灣最重要的節日。",
+    "exampleVietnamese": "Tết Nguyên Đán là ngày lễ quan trọng nhất ở Đài Loan."
+  },
+  "有名": {
+    "exampleHanzi": "台北101很有名。",
+    "exampleVietnamese": "Đài Bắc 101 rất nổi tiếng."
+  },
+  "法律": {
+    "exampleHanzi": "我們要遵守法律。",
+    "exampleVietnamese": "Chúng ta phải tuân thủ pháp luật."
+  },
+  "派對": {
+    "exampleHanzi": "我的生日派對很好玩。",
+    "exampleVietnamese": "Bữa tiệc (phái đối) sinh nhật của tôi rất vui."
+  },
+  "滿": {
+    "exampleHanzi": "杯子裡的水滿了。",
+    "exampleVietnamese": "Nước trong cốc đầy (mãn) rồi."
+  },
+  "現代": {
+    "exampleHanzi": "現代生活很方便。",
+    "exampleVietnamese": "Cuộc sống hiện đại (hiện đại) rất thuận tiện."
+  },
+  "留": {
+    "exampleHanzi": "請留下來吃晚飯。",
+    "exampleVietnamese": "Vui lòng ở lại (lưu) ăn tối."
+  },
+  "當中": {
+    "exampleHanzi": "書架當中有我最愛的書。",
+    "exampleVietnamese": "Trong số các kệ sách có cuốn sách yêu thích của tôi."
+  },
+  "目的": {
+    "exampleHanzi": "他去美國的目的是讀書。",
+    "exampleVietnamese": "Mục đích (mục đích) cậu ấy đi Mỹ là để đi học."
+  },
+  "祝": {
+    "exampleHanzi": "祝你生日快樂！",
+    "exampleVietnamese": "Chúc (chúc) bạn sinh nhật vui vẻ!"
+  },
+  "節日": {
+    "exampleHanzi": "台灣有很多傳統節日。",
+    "exampleVietnamese": "Đài Loan có nhiều ngày lễ truyền thống."
+  },
+  "約": {
+    "exampleHanzi": "我們約了三點見面。",
+    "exampleVietnamese": "Chúng tôi hẹn (ước) gặp mặt lúc ba giờ."
+  },
+  "約會": {
+    "exampleHanzi": "他們在海邊約會。",
+    "exampleVietnamese": "Họ hẹn hò (ước hội) ở bờ biển."
+  },
+  "老太太": {
+    "exampleHanzi": "有一位老太太坐在公園裡。",
+    "exampleVietnamese": "Có một bà cụ đang ngồi trong công viên."
+  },
+  "自由": {
+    "exampleHanzi": "在這裡生活很自由，很開心。",
+    "exampleVietnamese": "Sống ở đây rất tự do, rất vui."
+  },
+  "要求": {
+    "exampleHanzi": "老師要求我們準時到校。",
+    "exampleVietnamese": "Giáo viên yêu cầu (yêu cầu) chúng tôi đến trường đúng giờ."
+  },
+  "請客": {
+    "exampleHanzi": "今天我領薪水，我請客。",
+    "exampleVietnamese": "Hôm nay tôi nhận lương, tôi mời khách (thỉnh khách)."
+  },
+  "郵件": {
+    "exampleHanzi": "我收到一封電子郵件。",
+    "exampleVietnamese": "Tôi nhận được một bức thư (bưu kiện) điện tử."
+  },
+  "郵票": {
+    "exampleHanzi": "寄信要貼郵票。",
+    "exampleVietnamese": "Gửi thư phải dán tem thư (bưu phiếu)."
+  },
+  "除夕": {
+    "exampleHanzi": "我們除夕夜會一起吃年夜飯。",
+    "exampleVietnamese": "Đêm giao thừa chúng tôi sẽ cùng nhau ăn bữa cơm tất niên."
+  },
+  "陪": {
+    "exampleHanzi": "我陪外公去看醫生。",
+    "exampleVietnamese": "Tôi đi cùng (bồi) ông ngoại đi khám bác sĩ."
+  },
+  "一般": {
+    "exampleHanzi": "這是一般情況。",
+    "exampleVietnamese": "Đây là tình huống chung."
+  },
+  "上衣": {
+    "exampleHanzi": "我要買一件上衣。",
+    "exampleVietnamese": "Tôi muốn mua một chiếc áo."
+  },
+  "任何": {
+    "exampleHanzi": "你有任何問題都可以問我。",
+    "exampleVietnamese": "Bạn có bất kỳ câu hỏi nào cứ hỏi tôi."
+  },
+  "內衣": {
+    "exampleHanzi": "我要買內衣。",
+    "exampleVietnamese": "Tôi muốn mua đồ lót."
+  },
+  "刷卡": {
+    "exampleHanzi": "我可以刷卡嗎？",
+    "exampleVietnamese": "Tôi có thể quẹt thẻ được không?"
+  },
+  "口袋": {
+    "exampleHanzi": "我的口袋裡有錢。",
+    "exampleVietnamese": "Trong túi tôi có tiền."
+  },
+  "合適": {
+    "exampleHanzi": "這雙鞋很合適。",
+    "exampleVietnamese": "Đôi giày này rất vừa vặn."
+  },
+  "商人": {
+    "exampleHanzi": "他是一個商人。",
+    "exampleVietnamese": "Anh ấy là một thương nhân."
+  },
+  "困難": {
+    "exampleHanzi": "這個問題很困難。",
+    "exampleVietnamese": "Vấn đề này rất khó khăn."
+  },
+  "夜市": {
+    "exampleHanzi": "我喜歡逛夜市。",
+    "exampleVietnamese": "Tôi thích đi chợ đêm."
+  },
+  "套": {
+    "exampleHanzi": "我買了一套新衣服。",
+    "exampleVietnamese": "Tôi đã mua một bộ quần áo mới."
+  },
+  "存": {
+    "exampleHanzi": "我把錢存起來。",
+    "exampleVietnamese": "Tôi tiết kiệm tiền lại."
+  },
+  "得到": {
+    "exampleHanzi": "我得到了一個禮物。",
+    "exampleVietnamese": "Tôi đã nhận được một món quà."
+  },
+  "手套": {
+    "exampleHanzi": "冬天戴手套。",
+    "exampleVietnamese": "Mùa đông đeo găng tay."
+  },
+  "打折": {
+    "exampleHanzi": "這件衣服有打折嗎？",
+    "exampleVietnamese": "Bộ quần áo này có giảm giá không?"
+  },
+  "排隊": {
+    "exampleHanzi": "我們在排隊。",
+    "exampleVietnamese": "Chúng tôi đang xếp hàng."
+  },
+  "提": {
+    "exampleHanzi": "請幫我提這個包包。",
+    "exampleVietnamese": "Làm ơn giúp tôi xách túi này."
+  },
+  "有錢": {
+    "exampleHanzi": "他很有錢。",
+    "exampleVietnamese": "Anh ấy rất giàu."
+  },
+  "死": {
+    "exampleHanzi": "他差點熱死。",
+    "exampleVietnamese": "Anh ấy suýt chết vì nóng."
+  },
+  "毛": {
+    "exampleHanzi": "這只要一毛錢。",
+    "exampleVietnamese": "Cái này chỉ một hào."
+  },
+  "毛衣": {
+    "exampleHanzi": "這件毛衣很暖和。",
+    "exampleVietnamese": "Chiếc áo len này rất ấm."
+  },
+  "流行": {
+    "exampleHanzi": "這首歌很流行。",
+    "exampleVietnamese": "Bài hát này rất thịnh hành."
+  },
+  "生意": {
+    "exampleHanzi": "他們的生意很好。",
+    "exampleVietnamese": "Việc kinh doanh của họ rất tốt."
+  },
+  "百貨公司": {
+    "exampleHanzi": "我要去百貨公司買衣服。",
+    "exampleVietnamese": "Tôi đi trung tâm thương mại mua quần áo."
+  },
+  "皮鞋": {
+    "exampleHanzi": "他穿著皮鞋。",
+    "exampleVietnamese": "Anh ấy đang đi giày da."
+  },
+  "破": {
+    "exampleHanzi": "這件褲子破了。",
+    "exampleVietnamese": "Cái quần này bị rách rồi."
+  },
+  "紅色": {
+    "exampleHanzi": "我喜歡紅色。",
+    "exampleVietnamese": "Tôi thích màu đỏ."
+  },
+  "綠色": {
+    "exampleHanzi": "這是綠色。",
+    "exampleVietnamese": "Đây là màu xanh lá cây."
+  },
+  "老闆娘": {
+    "exampleHanzi": "老闆娘很親切。",
+    "exampleVietnamese": "Bà chủ rất thân thiện."
+  },
+  "藍色": {
+    "exampleHanzi": "我喜歡藍色。",
+    "exampleVietnamese": "Tôi thích màu xanh dương."
+  },
+  "袋": {
+    "exampleHanzi": "我要一個塑膠袋。",
+    "exampleVietnamese": "Tôi muốn một túi nhựa."
+  },
+  "許多": {
+    "exampleHanzi": "我有許多朋友。",
+    "exampleVietnamese": "Tôi có rất nhiều bạn bè."
+  },
+  "逛": {
+    "exampleHanzi": "我們去逛逛。",
+    "exampleVietnamese": "Chúng ta đi dạo."
+  },
+  "逛街": {
+    "exampleHanzi": "媽媽喜歡逛街。",
+    "exampleVietnamese": "Mẹ thích đi mua sắm."
+  },
+  "適合": {
+    "exampleHanzi": "這件衣服很適合你。",
+    "exampleVietnamese": "Bộ quần áo này rất hợp với bạn."
+  },
+  "雨衣": {
+    "exampleHanzi": "我需要一件雨衣。",
+    "exampleVietnamese": "Tôi cần một chiếc áo mưa."
+  },
+  "零用錢": {
+    "exampleHanzi": "我有很多零用錢。",
+    "exampleVietnamese": "Tôi có nhiều tiền tiêu vặt."
+  },
+  "零錢": {
+    "exampleHanzi": "我沒有零錢。",
+    "exampleVietnamese": "Tôi không có tiền lẻ."
+  },
+  "高級": {
+    "exampleHanzi": "這是一間高級餐廳。",
+    "exampleVietnamese": "Đây là một nhà hàng cao cấp."
+  },
+  "黑色": {
+    "exampleHanzi": "這隻貓是黑色的。",
+    "exampleVietnamese": "Con mèo này màu đen."
+  },
+  "上": {
+    "exampleHanzi": "我要上樓。",
+    "exampleVietnamese": "Tôi muốn đi lên lầu."
+  },
+  "下": {
+    "exampleHanzi": "我要下車了。",
+    "exampleVietnamese": "Tôi phải xuống xe rồi."
+  },
+  "中心": {
+    "exampleHanzi": "台北101是台北的中心地標。",
+    "exampleVietnamese": "Đài Bắc 101 là địa danh trung tâm của Đài Bắc."
+  },
+  "亞洲": {
+    "exampleHanzi": "台灣在亞洲。",
+    "exampleVietnamese": "Đài Loan nằm ở châu Á."
+  },
+  "交通": {
+    "exampleHanzi": "台北的交通很方便。",
+    "exampleVietnamese": "Giao thông ở Đài Bắc rất thuận tiện."
+  },
+  "停": {
+    "exampleHanzi": "車子停在路邊。",
+    "exampleVietnamese": "Xe đậu bên đường."
+  },
+  "停車場": {
+    "exampleHanzi": "這裡有停車場嗎？",
+    "exampleVietnamese": "Ở đây có bãi đỗ xe không?"
+  },
+  "入口": {
+    "exampleHanzi": "捷運入口在那邊。",
+    "exampleVietnamese": "Lối vào MRT ở đằng kia."
+  },
+  "公路": {
+    "exampleHanzi": "這條公路很長。",
+    "exampleVietnamese": "Con đường quốc lộ này rất dài."
+  },
+  "出口": {
+    "exampleHanzi": "這裡有出口嗎？",
+    "exampleVietnamese": "Ở đây có lối ra không?"
+  },
+  "到處": {
+    "exampleHanzi": "公園裡到處都是花。",
+    "exampleVietnamese": "Khắp công viên đều là hoa."
+  },
+  "加油": {
+    "exampleHanzi": "我們要給車加油。",
+    "exampleVietnamese": "Chúng ta cần đổ xăng cho xe."
+  },
+  "地鐵": {
+    "exampleHanzi": "我搭地鐵去市區。",
+    "exampleVietnamese": "Tôi đi tàu điện ngầm vào trung tâm thành phố."
+  },
+  "地點": {
+    "exampleHanzi": "這個地點很漂亮。",
+    "exampleVietnamese": "Địa điểm này rất đẹp."
+  },
+  "大陸": {
+    "exampleHanzi": "亞洲是一個很大的大陸。",
+    "exampleVietnamese": "Châu Á là một lục địa rất lớn."
+  },
+  "巴士": {
+    "exampleHanzi": "我搭巴士回家。",
+    "exampleVietnamese": "Tôi đi xe buýt về nhà."
+  },
+  "市區": {
+    "exampleHanzi": "我們住在市區。",
+    "exampleVietnamese": "Chúng tôi sống ở khu vực nội thành."
+  },
+  "拍照": {
+    "exampleHanzi": "我想拍照。",
+    "exampleVietnamese": "Tôi muốn chụp ảnh."
+  },
+  "捷運": {
+    "exampleHanzi": "我搭捷運去學校。",
+    "exampleVietnamese": "Tôi đi tàu điện ngầm (MRT) đến trường."
+  },
+  "揹包": {
+    "exampleHanzi": "我買了一個新的揹包。",
+    "exampleVietnamese": "Tôi đã mua một chiếc ba lô mới."
+  },
+  "搭": {
+    "exampleHanzi": "我搭公車去公司。",
+    "exampleVietnamese": "Tôi đi xe buýt đến công ty."
+  },
+  "方向": {
+    "exampleHanzi": "我不知道往哪個方向走。",
+    "exampleVietnamese": "Tôi không biết đi về hướng nào."
+  },
+  "時差": {
+    "exampleHanzi": "我有時差。",
+    "exampleVietnamese": "Tôi bị lệch múi giờ."
+  },
+  "月台": {
+    "exampleHanzi": "請在月臺上等車。",
+    "exampleVietnamese": "Xin hãy đợi xe trên sân ga."
+  },
+  "東方": {
+    "exampleHanzi": "太陽從東方升起。",
+    "exampleVietnamese": "Mặt trời mọc từ phương Đông."
+  },
+  "標準": {
+    "exampleHanzi": "這個產品符合國際標準。",
+    "exampleVietnamese": "Sản phẩm này đạt tiêu chuẩn quốc tế."
+  },
+  "歐洲": {
+    "exampleHanzi": "歐洲有很多古老的城堡。",
+    "exampleVietnamese": "Châu Âu có rất nhiều lâu đài cổ kính."
+  },
+  "油": {
+    "exampleHanzi": "我的機車沒油了。",
+    "exampleVietnamese": "Xe máy của tôi hết xăng rồi."
+  },
+  "溫泉": {
+    "exampleHanzi": "台灣有很多溫泉。",
+    "exampleVietnamese": "Đài Loan có nhiều suối nước nóng."
+  },
+  "美洲": {
+    "exampleHanzi": "美洲包含北美洲和南美洲。",
+    "exampleVietnamese": "Châu Mỹ bao gồm Bắc Mỹ và Nam Mỹ."
+  },
+  "船": {
+    "exampleHanzi": "我們坐船出海。",
+    "exampleVietnamese": "Chúng tôi đi thuyền ra biển."
+  },
+  "行李": {
+    "exampleHanzi": "我的行李很重。",
+    "exampleVietnamese": "Hành lý của tôi rất nặng."
+  },
+  "起": {
+    "exampleHanzi": "我早上七點起床。",
+    "exampleVietnamese": "Tôi thức dậy lúc bảy giờ sáng."
+  },
+  "這些": {
+    "exampleHanzi": "這些書是我的。",
+    "exampleVietnamese": "Những cuốn sách này là của tôi."
+  },
+  "速度": {
+    "exampleHanzi": "火車的速度很快。",
+    "exampleVietnamese": "Tốc độ của tàu hỏa rất nhanh."
+  },
+  "那些": {
+    "exampleHanzi": "那些花很漂亮。",
+    "exampleVietnamese": "Những bông hoa kia rất đẹp."
+  },
+  "鎖": {
+    "exampleHanzi": "門上沒有鎖。",
+    "exampleVietnamese": "Trên cửa không có khóa."
+  },
+  "鑰匙": {
+    "exampleHanzi": "我的鑰匙不見了。",
+    "exampleVietnamese": "Chìa khóa của tôi bị mất rồi."
+  },
+  "飛": {
+    "exampleHanzi": "鳥在天上飛。",
+    "exampleVietnamese": "Chim đang bay trên trời."
+  },
+  "假日": {
+    "exampleHanzi": "假日你打算做什麼？",
+    "exampleVietnamese": "Ngày nghỉ (giả nhật) bạn dự định làm gì?"
+  },
+  "可怕": {
+    "exampleHanzi": "那個鬼片很可怕。",
+    "exampleVietnamese": "Bộ phim ma đó rất đáng sợ (khả phạ)."
+  },
+  "吉他": {
+    "exampleHanzi": "他邊彈吉他邊唱歌。",
+    "exampleVietnamese": "Cậu ấy vừa đánh đàn ghi ta (cát tha) vừa hát."
+  },
+  "完": {
+    "exampleHanzi": "我已經做完作業了。",
+    "exampleVietnamese": "Tôi đã làm xong (hoàn) bài tập rồi."
+  },
+  "座位": {
+    "exampleHanzi": "那邊還有座位嗎？",
+    "exampleVietnamese": "Đằng kia còn chỗ ngồi (tọa vị) không?"
+  },
+  "情形": {
+    "exampleHanzi": "現在的情形很複雜。",
+    "exampleVietnamese": "Tình hình (tình hình) hiện tại rất phức tạp."
+  },
+  "慢跑": {
+    "exampleHanzi": "慢跑對身體很好。",
+    "exampleVietnamese": "Chạy bộ (mạn bào) rất tốt cho cơ thể."
+  },
+  "抓": {
+    "exampleHanzi": "警察抓到那個壞人了。",
+    "exampleVietnamese": "Cảnh sát bắt (trảo) được người xấu đó rồi."
+  },
+  "拍": {
+    "exampleHanzi": "這張照片拍得很漂亮。",
+    "exampleVietnamese": "Bức ảnh này chụp (phách) rất đẹp."
+  },
+  "收": {
+    "exampleHanzi": "他收到了一封信。",
+    "exampleVietnamese": "Cậu ấy đã nhận (thu) được một bức thư."
+  },
+  "散步": {
+    "exampleHanzi": "晚飯後我們去散步吧。",
+    "exampleVietnamese": "Sau bữa tối chúng ta đi tản bộ (tán bộ) nhé."
+  },
+  "新聞": {
+    "exampleHanzi": "我看了一則有趣的新聞。",
+    "exampleVietnamese": "Tôi đã xem một mẩu tin tức (tân văn) thú vị."
+  },
+  "消息": {
+    "exampleHanzi": "我聽到一個好消息。",
+    "exampleVietnamese": "Tôi nghe thấy một tin tức (tiêu tức) tốt."
+  },
+  "游泳池": {
+    "exampleHanzi": "飯店裡有一個游泳池。",
+    "exampleVietnamese": "Trong khách sạn có một hồ bơi (du vịnh trì)."
+  },
+  "爬": {
+    "exampleHanzi": "那隻貓在爬樹。",
+    "exampleVietnamese": "Con mèo đó đang trèo (ba) cây."
+  },
+  "畫家": {
+    "exampleHanzi": "他的夢想是做一名畫家。",
+    "exampleVietnamese": "Giấc mơ của cậu ấy là làm một họa sĩ (họa gia)."
+  },
+  "看起來": {
+    "exampleHanzi": "你看起來很累。",
+    "exampleVietnamese": "Bạn trông có vẻ (khán khởi lai) rất mệt."
+  },
+  "結束": {
+    "exampleHanzi": "晚會什麼時候結束？",
+    "exampleVietnamese": "Buổi tối mấy giờ thì kết thúc (kết thúc)?"
+  },
+  "經常": {
+    "exampleHanzi": "我經常去那家咖啡店。",
+    "exampleVietnamese": "Tôi thường xuyên (kinh thường) đến tiệm cà phê đó."
+  },
+  "美術": {
+    "exampleHanzi": "美術老師教我們畫畫。",
+    "exampleVietnamese": "Giáo viên mỹ thuật (mỹ thuật) dạy chúng tôi vẽ tranh."
+  },
+  "聊": {
+    "exampleHanzi": "我們聊了一會兒天。",
+    "exampleVietnamese": "Chúng tôi đã tán gẫu (liêu) một lát."
+  },
+  "興趣": {
+    "exampleHanzi": "他對音樂很有興趣。",
+    "exampleVietnamese": "Cậu ấy rất có hứng thú (hứng thú) với âm nhạc."
+  },
+  "舞": {
+    "exampleHanzi": "她跳舞跳得很漂亮。",
+    "exampleVietnamese": "Cô ấy nhảy múa (vũ) rất đẹp."
+  },
+  "茶館": {
+    "exampleHanzi": "台北有很多特色的茶館。",
+    "exampleVietnamese": "Đài Bắc có rất nhiều quán trà (trà quán) đặc sắc."
+  },
+  "談": {
+    "exampleHanzi": "他們在談生意。",
+    "exampleVietnamese": "Họ đang bàn (đàm) chuyện làm ăn."
+  },
+  "輕鬆": {
+    "exampleHanzi": "考試考完了，我感覺很輕鬆。",
+    "exampleVietnamese": "Thi xong rồi, tôi cảm thấy rất nhẹ nhàng (khinh tùng)."
+  },
+  "遊": {
+    "exampleHanzi": "他很喜歡遊山玩水，每年都去旅行。",
+    "exampleVietnamese": "Anh ấy rất thích thú sơn thủy, mỗi năm đều đi du lịch."
+  },
+  "遲到": {
+    "exampleHanzi": "他開會遲到了十分鐘。",
+    "exampleVietnamese": "Cậu ấy đi họp đã muộn (trì đáo) mười phút."
+  },
+  "野餐": {
+    "exampleHanzi": "星期天我們去野餐。",
+    "exampleVietnamese": "Chủ nhật chúng ta đi dã ngoại (dã san) nhé."
+  },
+  "門票": {
+    "exampleHanzi": "故宮的門票不貴。",
+    "exampleVietnamese": "Vé vào cửa (môn phiếu) Cố Cung không đắt."
+  },
+  "雜誌": {
+    "exampleHanzi": "桌子上有幾本雜誌。",
+    "exampleVietnamese": "Trên bàn có mấy cuốn tạp chí (tạp chí)."
+  },
+  "體育": {
+    "exampleHanzi": "他很喜歡體育課。",
+    "exampleVietnamese": "Cậu ấy rất thích tiết học thể dục (thể dục)."
+  },
+  "光": {
+    "exampleHanzi": "錢都花光了。",
+    "exampleVietnamese": "Tiền đã tiêu hết rồi."
+  },
+  "口": {
+    "exampleHanzi": "我只吃了一口飯。",
+    "exampleVietnamese": "Tôi chỉ ăn một miếng cơm."
+  },
+  "可樂": {
+    "exampleHanzi": "我喜歡喝可樂。",
+    "exampleVietnamese": "Tôi thích uống cô-ca cô-la."
+  },
+  "味": {
+    "exampleHanzi": "這個蘋果沒有什麼味。",
+    "exampleVietnamese": "Quả táo này không có nhiều vị."
+  },
+  "嚐": {
+    "exampleHanzi": "你要不要嚐一口？",
+    "exampleVietnamese": "Bạn có muốn nếm thử một miếng không?"
+  },
+  "奶茶": {
+    "exampleHanzi": "我想喝奶茶。",
+    "exampleVietnamese": "Tôi muốn uống trà sữa."
+  },
+  "客滿": {
+    "exampleHanzi": "這家店客滿了。",
+    "exampleVietnamese": "Cửa hàng này đã hết chỗ."
+  },
+  "小費": {
+    "exampleHanzi": "台灣沒有給小費的習慣。",
+    "exampleVietnamese": "Đài Loan không có thói quen cho tiền boa."
+  },
+  "汽水": {
+    "exampleHanzi": "我喜歡喝汽水。",
+    "exampleVietnamese": "Tôi thích uống nước ngọt có ga."
+  },
+  "沙拉": {
+    "exampleHanzi": "我喜歡吃水果沙拉。",
+    "exampleVietnamese": "Tôi thích ăn sa lát trái cây."
+  },
+  "烏龍茶": {
+    "exampleHanzi": "我喜歡喝烏龍茶。",
+    "exampleVietnamese": "Tôi thích uống trà ô long."
+  },
+  "熱狗": {
+    "exampleHanzi": "我喜歡吃熱狗。",
+    "exampleVietnamese": "Tôi thích ăn xúc xích."
+  },
+  "牛排": {
+    "exampleHanzi": "我想吃牛排。",
+    "exampleVietnamese": "Tôi muốn ăn bít tết bò."
+  },
+  "甜點": {
+    "exampleHanzi": "我喜歡吃甜點。",
+    "exampleVietnamese": "Tôi thích ăn món tráng miệng."
+  },
+  "臭": {
+    "exampleHanzi": "這雙鞋很臭。",
+    "exampleVietnamese": "Đôi giày này rất thối."
+  },
+  "訂": {
+    "exampleHanzi": "我要訂票。",
+    "exampleVietnamese": "Tôi muốn đặt vé."
+  },
+  "訂位": {
+    "exampleHanzi": "我想訂位。",
+    "exampleVietnamese": "Tôi muốn đặt chỗ."
+  },
+  "豆漿": {
+    "exampleHanzi": "早餐我想喝豆漿。",
+    "exampleVietnamese": "Bữa sáng tôi muốn uống sữa đậu nành."
+  },
+  "餅乾": {
+    "exampleHanzi": "我喜歡吃餅乾。",
+    "exampleVietnamese": "Tôi thích ăn bánh quy."
+  },
+  "饅頭": {
+    "exampleHanzi": "我早餐喜歡吃饅頭。",
+    "exampleVietnamese": "Tôi thích ăn bánh màn thầu cho bữa sáng."
+  },
+  "保險": {
+    "exampleHanzi": "我有醫療保險。",
+    "exampleVietnamese": "Tôi có bảo hiểm y tế."
+  },
+  "咳嗽": {
+    "exampleHanzi": "他一直在咳嗽。",
+    "exampleVietnamese": "Anh ấy cứ ho mãi."
+  },
+  "影響": {
+    "exampleHanzi": "這件事對他影響很大。",
+    "exampleVietnamese": "Chuyện này ảnh hưởng rất lớn đến anh ấy."
+  },
+  "感覺": {
+    "exampleHanzi": "我感覺有點累。",
+    "exampleVietnamese": "Tôi cảm thấy hơi mệt."
+  },
+  "掛號": {
+    "exampleHanzi": "我要去醫院掛號。",
+    "exampleVietnamese": "Tôi phải đến bệnh viện đăng ký khám bệnh."
+  },
+  "救命": {
+    "exampleHanzi": "快點！救命啊！",
+    "exampleVietnamese": "Nhanh lên! Cứu mạng!"
+  },
+  "救護車": {
+    "exampleHanzi": "救護車來了。",
+    "exampleVietnamese": "Xe cứu thương đến rồi."
+  },
+  "正常": {
+    "exampleHanzi": "我的電腦現在正常了。",
+    "exampleVietnamese": "Máy tính của tôi bây giờ bình thường rồi."
+  },
+  "汗": {
+    "exampleHanzi": "我流了很多汗。",
+    "exampleVietnamese": "Tôi đổ nhiều mồ hôi."
+  },
+  "牙刷": {
+    "exampleHanzi": "我需要買一支新牙刷。",
+    "exampleVietnamese": "Tôi cần mua một chiếc bàn chải đánh răng mới."
+  },
+  "疼": {
+    "exampleHanzi": "我的肚子很疼。",
+    "exampleVietnamese": "Bụng tôi rất đau."
+  },
+  "發燒": {
+    "exampleHanzi": "他發燒了。",
+    "exampleVietnamese": "Anh ấy bị sốt rồi."
+  },
+  "背": {
+    "exampleHanzi": "他背著書包走進教室。",
+    "exampleVietnamese": "Anh ấy đeo cặp sách bước vào lớp học."
+  },
+  "脖(子)": {
+    "exampleHanzi": "我的脖子很痠。",
+    "exampleVietnamese": "Cổ tôi rất mỏi."
+  },
+  "腿": {
+    "exampleHanzi": "我的腿很痠。",
+    "exampleVietnamese": "Chân tôi rất mỏi."
+  },
+  "臉色": {
+    "exampleHanzi": "她今天臉色不好，好像生病了。",
+    "exampleVietnamese": "Hôm nay sắc mặt cô ấy không tốt, có vẻ như bị bệnh."
+  },
+  "藥房": {
+    "exampleHanzi": "哪裡有藥房？",
+    "exampleVietnamese": "Nhà thuốc ở đâu?"
+  },
+  "頭痛": {
+    "exampleHanzi": "我頭痛。",
+    "exampleVietnamese": "Tôi bị đau đầu."
+  },
+  "做法": {
+    "exampleHanzi": "這種做法不對。",
+    "exampleVietnamese": "Cách làm này không đúng."
+  },
+  "加班": {
+    "exampleHanzi": "今天我需要加班。",
+    "exampleVietnamese": "Hôm nay tôi cần tăng ca (gia ban)."
+  },
+  "危險": {
+    "exampleHanzi": "那裡很危險，不要去。",
+    "exampleVietnamese": "Ở đó rất nguy hiểm (nguy hiểm), đừng đi."
+  },
+  "嚴重": {
+    "exampleHanzi": "他感冒很嚴重，需要看醫生。",
+    "exampleVietnamese": "Anh ấy bị cảm rất nặng, cần đi khám bác sĩ."
+  },
+  "報告": {
+    "exampleHanzi": "我要寫一份報告。",
+    "exampleVietnamese": "Tôi phải viết một báo cáo."
+  },
+  "安全": {
+    "exampleHanzi": "這裡很安全。",
+    "exampleVietnamese": "Ở đây rất an toàn (an toàn)."
+  },
+  "成功": {
+    "exampleHanzi": "祝你工作成功。",
+    "exampleVietnamese": "Chúc bạn công việc thành công (thành công)."
+  },
+  "打工": {
+    "exampleHanzi": "我週末會去咖啡店打工。",
+    "exampleVietnamese": "Cuối tuần tôi sẽ đi làm thêm ở quán cà phê."
+  },
+  "教書": {
+    "exampleHanzi": "他在大學教書。",
+    "exampleVietnamese": "Anh ấy dạy học (giáo thư) ở trường đại học."
+  },
+  "正式": {
+    "exampleHanzi": "今天他穿得很正式去面試。",
+    "exampleVietnamese": "Hôm nay anh ấy mặc rất trang trọng để đi phỏng vấn."
+  },
+  "看法": {
+    "exampleHanzi": "我對這件事沒有看法。",
+    "exampleVietnamese": "Tôi không có ý kiến về việc này."
+  },
+  "經理": {
+    "exampleHanzi": "林經理在辦公室。",
+    "exampleVietnamese": "Giám đốc (kinh lý) Lâm ở trong văn phòng."
+  },
+  "資料": {
+    "exampleHanzi": "我需要更多資料。",
+    "exampleVietnamese": "Tôi cần thêm thông tin."
+  },
+  "辦": {
+    "exampleHanzi": "我要去郵局辦包裹。",
+    "exampleVietnamese": "Tôi phải ra bưu điện làm thủ tục gửi bưu kiện."
+  },
+  "選": {
+    "exampleHanzi": "你想選哪個口味的冰淇淋？",
+    "exampleVietnamese": "Bạn muốn chọn vị kem nào?"
+  },
+  "開會": {
+    "exampleHanzi": "經理正在開會。",
+    "exampleVietnamese": "Giám đốc đang họp (khai hội)."
+  },
+  "冰塊": {
+    "exampleHanzi": "這杯飲料需要加冰塊。",
+    "exampleVietnamese": "Ly đồ uống này cần thêm đá viên."
+  },
+  "新鮮": {
+    "exampleHanzi": "這條魚很新鮮。",
+    "exampleVietnamese": "Con cá này rất tươi."
+  },
+  "橘(子)": {
+    "exampleHanzi": "我喜歡吃橘子。",
+    "exampleVietnamese": "Tôi thích ăn quýt."
+  },
+  "海鮮": {
+    "exampleHanzi": "我喜歡吃海鮮。",
+    "exampleVietnamese": "Tôi thích ăn hải sản."
+  },
+  "火腿": {
+    "exampleHanzi": "早餐我想吃火腿蛋。",
+    "exampleVietnamese": "Bữa sáng tôi muốn ăn trứng cuộn giăm bông."
+  },
+  "熟": {
+    "exampleHanzi": "這道菜煮熟了。",
+    "exampleVietnamese": "Món ăn này đã chín rồi."
+  },
+  "米": {
+    "exampleHanzi": "台灣人喜歡吃米飯。",
+    "exampleVietnamese": "Người Đài Loan thích ăn cơm."
+  },
+  "芒果": {
+    "exampleHanzi": "我喜歡吃芒果。",
+    "exampleVietnamese": "Tôi thích ăn xoài."
+  },
+  "豆腐": {
+    "exampleHanzi": "我喜歡吃豆腐。",
+    "exampleVietnamese": "Tôi thích ăn đậu phụ."
+  },
+  "顆": {
+    "exampleHanzi": "我吃了一顆蘋果。",
+    "exampleVietnamese": "Tôi đã ăn một quả táo."
+  },
+  "鹽": {
+    "exampleHanzi": "這道菜需要加一點鹽。",
+    "exampleVietnamese": "Món ăn này cần thêm một chút muối."
+  },
+  "不少": {
+    "exampleHanzi": "今天來圖書館看書的人不少。",
+    "exampleVietnamese": "Hôm nay có khá nhiều người đến thư viện đọc sách."
+  },
+  "不見(了)": {
+    "exampleHanzi": "我的手機不見了，我找不到它。",
+    "exampleVietnamese": "Điện thoại của tôi biến mất rồi, tôi không tìm thấy nó."
+  },
+  "不足": {
+    "exampleHanzi": "這次的活動經費不足。",
+    "exampleVietnamese": "Kinh phí cho hoạt động lần này không đủ."
+  },
+  "即便": {
+    "exampleHanzi": "即便下雨，夜市還是很熱鬧。",
+    "exampleVietnamese": "Cho dù trời mưa, chợ đêm vẫn rất nhộn nhịp."
+  },
+  "哎": {
+    "exampleHanzi": "哎，你看！",
+    "exampleVietnamese": "Này, nhìn kìa!"
+  },
+  "唉": {
+    "exampleHanzi": "唉，我又忘記帶傘了。",
+    "exampleVietnamese": "Haiz, tôi lại quên mang ô rồi."
+  },
+  "嘗試": {
+    "exampleHanzi": "我喜歡嘗試新的台灣小吃。",
+    "exampleVietnamese": "Tôi thích thử các món ăn vặt mới của Đài Loan."
+  },
+  "增添": {
+    "exampleHanzi": "節日的裝飾為街道增添了色彩。",
+    "exampleVietnamese": "Trang trí lễ hội thêm sắc màu cho đường phố."
+  },
+  "大幅": {
+    "exampleHanzi": "來臺觀光的人數大幅增加。",
+    "exampleVietnamese": "Số lượng du khách đến Đài tăng đáng kể."
+  },
+  "差別": {
+    "exampleHanzi": "這兩件衣服的價格差別不大。",
+    "exampleVietnamese": "Sự khác biệt về giá giữa hai bộ quần áo này không lớn."
+  },
+  "差異": {
+    "exampleHanzi": "這兩款手機的功能差異不大。",
+    "exampleVietnamese": "Sự khác biệt về chức năng giữa hai mẫu điện thoại này không lớn."
+  },
+  "成": {
+    "exampleHanzi": "水變成冰了。",
+    "exampleVietnamese": "Nước đã hóa thành băng rồi."
+  },
+  "承載": {
+    "exampleHanzi": "這座廟宇承載了幾百年的歷史。",
+    "exampleVietnamese": "Ngôi miếu này mang theo lịch sử hàng trăm năm."
+  },
+  "比": {
+    "exampleHanzi": "他比我高。",
+    "exampleVietnamese": "Anh ấy cao hơn tôi."
+  },
+  "表現": {
+    "exampleHanzi": "他今天表現得很好。",
+    "exampleVietnamese": "Hôm nay anh ấy thể hiện rất tốt."
+  },
+  "變化": {
+    "exampleHanzi": "這裡的變化很大。",
+    "exampleVietnamese": "Nơi đây có sự thay đổi rất lớn."
+  },
+  "變成": {
+    "exampleHanzi": "毛毛蟲會變成蝴蝶。",
+    "exampleVietnamese": "Sâu bướm sẽ biến thành bướm."
+  },
+  "變更": {
+    "exampleHanzi": "訂單資料需要變更。",
+    "exampleVietnamese": "Thông tin đơn hàng cần thay đổi."
+  },
+  "超過": {
+    "exampleHanzi": "他這次期中考分數超過九十分。",
+    "exampleVietnamese": "Điểm kiểm tra giữa kỳ của anh ấy lần này vượt quá 90 điểm."
+  },
+  "逼": {
+    "exampleHanzi": "媽媽逼我吃青菜。",
+    "exampleVietnamese": "Mẹ ép tôi ăn rau."
+  },
+  "不如": {
+    "exampleHanzi": "這件衣服不如那件好看。",
+    "exampleVietnamese": "Chiếc áo này không đẹp bằng chiếc kia."
+  },
+  "不得不": {
+    "exampleHanzi": "因為下大雨，我不得不取消戶外行程。",
+    "exampleVietnamese": "Vì trời mưa lớn, tôi đành phải hủy chuyến đi ngoài trời."
+  },
+  "不斷": {
+    "exampleHanzi": "台灣的科技產業不斷進步。",
+    "exampleVietnamese": "Ngành công nghiệp công nghệ của Đài Loan không ngừng phát triển."
+  },
+  "不用說": {
+    "exampleHanzi": "不用說，台北101是台灣的代表性建築。",
+    "exampleVietnamese": "Khỏi phải nói, Taipei 101 là kiến trúc biểu tượng của Đài Loan."
+  },
+  "不論": {
+    "exampleHanzi": "不論天氣好壞，我都會去爬山。",
+    "exampleVietnamese": "Bất kể thời tiết tốt hay xấu, tôi đều sẽ đi leo núi."
+  },
+  "包含": {
+    "exampleHanzi": "這本書包含了很多有趣的知識。",
+    "exampleVietnamese": "Cuốn sách này bao gồm rất nhiều kiến thức thú vị."
+  },
+  "嚴峻": {
+    "exampleHanzi": "目前的經濟情勢非常嚴峻。",
+    "exampleVietnamese": "Tình hình kinh tế hiện tại rất nghiêm trọng."
+  },
+  "差點": {
+    "exampleHanzi": "我騎機車時差點滑倒。",
+    "exampleVietnamese": "Tôi đi xe máy suýt nữa thì ngã."
+  },
+  "按": {
+    "exampleHanzi": "請按順序排隊。",
+    "exampleVietnamese": "Xin hãy xếp hàng theo thứ tự."
+  },
+  "按照": {
+    "exampleHanzi": "請按照說明書操作。",
+    "exampleVietnamese": "Xin hãy thao tác theo hướng dẫn sử dụng."
+  },
+  "曾": {
+    "exampleHanzi": "我曾去過台南的安平古堡。",
+    "exampleVietnamese": "Tôi từng đi Pháo đài An Bình ở Đài Nam."
+  },
+  "曾經": {
+    "exampleHanzi": "我曾經是個學生。",
+    "exampleVietnamese": "Tôi đã từng là học sinh."
+  },
+  "本": {
+    "exampleHanzi": "這本書是我的。",
+    "exampleVietnamese": "Quyển sách này là của tôi."
+  },
+  "比如": {
+    "exampleHanzi": "我喜歡吃水果，比如蘋果和香蕉。",
+    "exampleVietnamese": "Tôi thích ăn trái cây, ví dụ như táo và chuối."
+  },
+  "畢竟": {
+    "exampleHanzi": "畢竟他還是個孩子。",
+    "exampleVietnamese": "Dù sao thì anh ấy vẫn là một đứa trẻ."
+  },
+  "筆": {
+    "exampleHanzi": "這枝筆很好寫。",
+    "exampleVietnamese": "Cây bút này viết rất tốt."
+  },
+  "表示": {
+    "exampleHanzi": "他表示同意。",
+    "exampleVietnamese": "Anh ấy bày tỏ sự đồng ý."
+  },
+  "表達": {
+    "exampleHanzi": "他不太會表達自己的情感。",
+    "exampleVietnamese": "Anh ấy không giỏi bày tỏ cảm xúc của mình."
+  },
+  "趁": {
+    "exampleHanzi": "趁熱吃這個台式刈包，它味道最好。",
+    "exampleVietnamese": "Ăn ngay món kẹp Đài Loan này khi còn nóng, nó sẽ ngon nhất."
+  },
+  "超級": {
+    "exampleHanzi": "這部電影超級好看，我推薦你看！",
+    "exampleVietnamese": "Bộ phim này siêu hay, tôi giới thiệu bạn xem!"
+  },
+  "不幸": {
+    "exampleHanzi": "這是一個不幸的消息。",
+    "exampleVietnamese": "Đây là một tin không may."
+  },
+  "不滿": {
+    "exampleHanzi": "他對這次的活動安排很不滿。",
+    "exampleVietnamese": "Anh ấy rất bất mãn với việc sắp xếp hoạt động lần này."
+  },
+  "凝聚": {
+    "exampleHanzi": "媽祖遶境凝聚了社區的力量。",
+    "exampleVietnamese": "Lễ rước Mã Tổ đoàn kết sức mạnh cộng đồng."
+  },
+  "包容": {
+    "exampleHanzi": "臺灣是一個很包容的社會。",
+    "exampleVietnamese": "Đài Loan là một xã hội rất bao dung."
+  },
+  "吵架": {
+    "exampleHanzi": "他們夫妻倆經常吵架。",
+    "exampleVietnamese": "Vợ chồng họ thường xuyên cãi nhau."
+  },
+  "安心": {
+    "exampleHanzi": "請你安心。",
+    "exampleVietnamese": "Xin bạn cứ yên tâm."
+  },
+  "寶貝": {
+    "exampleHanzi": "你是我的寶貝。",
+    "exampleVietnamese": "Bạn là cục cưng của tôi."
+  },
+  "弱勢": {
+    "exampleHanzi": "社會應該照顧弱勢族群。",
+    "exampleVietnamese": "Xã hội nên chăm sóc nhóm yếu thế."
+  },
+  "愛": {
+    "exampleHanzi": "我愛我的家人。",
+    "exampleVietnamese": "Tôi yêu gia đình tôi."
+  },
+  "愛心": {
+    "exampleHanzi": "她很有愛心。",
+    "exampleVietnamese": "Cô ấy rất có lòng yêu thương."
+  },
+  "愛情": {
+    "exampleHanzi": "他們的愛情故事很浪漫。",
+    "exampleVietnamese": "Chuyện tình yêu của họ rất lãng mạn."
+  },
+  "愛惜": {
+    "exampleHanzi": "我們要愛惜食物。",
+    "exampleVietnamese": "Chúng ta phải quý trọng thức ăn."
+  },
+  "抱怨": {
+    "exampleHanzi": "他喜歡抱怨天氣太熱。",
+    "exampleVietnamese": "Anh ấy thích phàn nàn thời tiết quá nóng."
+  },
+  "榜樣": {
+    "exampleHanzi": "他是我的好榜樣。",
+    "exampleVietnamese": "Anh ấy là tấm gương tốt của tôi."
+  },
+  "氛圍": {
+    "exampleHanzi": "這家餐廳的氛圍很浪漫。",
+    "exampleVietnamese": "Bầu không khí của nhà hàng này rất lãng mạn."
+  },
+  "背景": {
+    "exampleHanzi": "這部電影的背景是二戰時期。",
+    "exampleVietnamese": "Bối cảnh của bộ phim này là thời kỳ Thế chiến thứ hai."
+  },
+  "認同": {
+    "exampleHanzi": "文化認同對每個人都很重要。",
+    "exampleVietnamese": "Bản sắc văn hóa rất quan trọng đối với mỗi người."
+  },
+  "兩岸": {
+    "exampleHanzi": "兩岸關係是大家關心的議題。",
+    "exampleVietnamese": "Quan hệ hai bờ eo biển là vấn đề mọi người quan tâm."
+  },
+  "共識": {
+    "exampleHanzi": "大家需要達成共識才能前進。",
+    "exampleVietnamese": "Mọi người cần đạt được đồng thuận mới có thể tiến lên."
+  },
+  "宣導": {
+    "exampleHanzi": "政府宣導節能減碳的觀念。",
+    "exampleVietnamese": "Chính phủ tuyên truyền ý thức tiết kiệm năng lượng giảm carbon."
+  },
+  "情勢": {
+    "exampleHanzi": "國際情勢變化很快。",
+    "exampleVietnamese": "Tình hình quốc tế thay đổi rất nhanh."
+  },
+  "民意": {
+    "exampleHanzi": "政府應該重視民意。",
+    "exampleVietnamese": "Chính phủ nên coi trọng ý kiến của người dân."
+  },
+  "法規": {
+    "exampleHanzi": "政府制定了新的環保法規。",
+    "exampleVietnamese": "Chính phủ ban hành quy định bảo vệ môi trường mới."
+  },
+  "詐騙": {
+    "exampleHanzi": "要小心網路上的詐騙。",
+    "exampleVietnamese": "Phải cẩn thận với lừa đảo trên mạng."
+  },
+  "辦理": {
+    "exampleHanzi": "我需要辦理新的手機門號。",
+    "exampleVietnamese": "Tôi cần làm thủ tục đăng ký số điện thoại di động mới."
+  },
+  "避免": {
+    "exampleHanzi": "請避免觸摸展示品。",
+    "exampleVietnamese": "Vui lòng tránh chạm vào vật trưng bày."
+  },
+  "部門": {
+    "exampleHanzi": "他在公司的人力資源部門工作。",
+    "exampleVietnamese": "Anh ấy làm việc tại phòng nhân sự của công ty."
+  },
+  "包": {
+    "exampleHanzi": "我買了一包糖。",
+    "exampleVietnamese": "Tôi đã mua một gói (bao) đường."
+  },
+  "安定": {
+    "exampleHanzi": "他的生活很安定。",
+    "exampleVietnamese": "Cuộc sống của anh ấy rất ổn định."
+  },
+  "安排": {
+    "exampleHanzi": "我們需要安排會議。",
+    "exampleVietnamese": "Chúng ta cần sắp xếp cuộc họp."
+  },
+  "布": {
+    "exampleHanzi": "這塊花布的圖案很美。",
+    "exampleVietnamese": "Mẫu vải hoa này rất đẹp."
+  },
+  "必要": {
+    "exampleHanzi": "申請悠遊卡是搭捷運的必要步驟。",
+    "exampleVietnamese": "Đăng ký thẻ EasyCard là bước cần thiết để đi MRT."
+  },
+  "把握": {
+    "exampleHanzi": "我們要好好把握學習的機會。",
+    "exampleVietnamese": "Chúng ta phải nắm bắt tốt cơ hội học tập."
+  },
+  "擺": {
+    "exampleHanzi": "請把書擺在桌上。",
+    "exampleVietnamese": "Xin hãy đặt sách lên bàn."
+  },
+  "白": {
+    "exampleHanzi": "天上的雲朵是白色的。",
+    "exampleVietnamese": "Những đám mây trên trời màu trắng."
+  },
+  "重建": {
+    "exampleHanzi": "地震後社區開始重建家園。",
+    "exampleVietnamese": "Sau động đất cộng đồng bắt đầu tái thiết quê hương."
+  },
+  "保守": {
+    "exampleHanzi": "他是一個很保守的人。",
+    "exampleVietnamese": "Anh ấy là một người rất bảo thủ."
+  },
+  "寶貴": {
+    "exampleHanzi": "時間非常寶貴。",
+    "exampleVietnamese": "Thời gian vô cùng quý báu."
+  },
+  "猜": {
+    "exampleHanzi": "你猜我今年幾歲？",
+    "exampleVietnamese": "Bạn đoán xem năm nay tôi bao nhiêu tuổi?"
+  },
+  "理念": {
+    "exampleHanzi": "永續發展的理念越來越受重視。",
+    "exampleVietnamese": "Tư tưởng phát triển bền vững ngày càng được coi trọng."
+  },
+  "被動": {
+    "exampleHanzi": "他對這件事很被動。",
+    "exampleVietnamese": "Anh ấy rất bị động trong việc này."
+  },
+  "輩子": {
+    "exampleHanzi": "我這輩子都沒去過澎湖。",
+    "exampleVietnamese": "Cả đời này tôi chưa từng đi Bành Hồ."
+  },
+  "韌性": {
+    "exampleHanzi": "臺灣人展現了強大的韌性。",
+    "exampleVietnamese": "Người Đài Loan thể hiện sức bền bỉ mạnh mẽ."
+  },
+  "便條": {
+    "exampleHanzi": "我留了張便條給你。",
+    "exampleVietnamese": "Tôi đã để lại một tờ giấy nhắn cho bạn."
+  },
+  "保證": {
+    "exampleHanzi": "我保證明天會準時到。",
+    "exampleVietnamese": "Tôi bảo đảm ngày mai sẽ đến đúng giờ."
+  },
+  "應對": {
+    "exampleHanzi": "臺灣積極應對氣候變遷的挑戰。",
+    "exampleVietnamese": "Đài Loan tích cực ứng phó thách thức biến đổi khí hậu."
+  },
+  "拓展": {
+    "exampleHanzi": "臺灣企業積極拓展海外市場。",
+    "exampleVietnamese": "Doanh nghiệp Đài Loan tích cực mở rộng thị trường hải ngoại."
+  },
+  "採用": {
+    "exampleHanzi": "公司決定採用新技術來提升生產效率。",
+    "exampleVietnamese": "Công ty quyết định áp dụng công nghệ mới để nâng cao hiệu quả sản xuất."
+  },
+  "產品": {
+    "exampleHanzi": "這個是台灣的農產品。",
+    "exampleVietnamese": "Đây là sản phẩm nông nghiệp của Đài Loan."
+  },
+  "跨國": {
+    "exampleHanzi": "很多跨國企業在臺灣設廠。",
+    "exampleVietnamese": "Nhiều doanh nghiệp đa quốc gia đặt nhà máy ở Đài Loan."
+  }
+}

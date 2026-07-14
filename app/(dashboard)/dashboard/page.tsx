@@ -59,7 +59,7 @@ export default function DashboardPage() {
         const flashcardCompleted = !!records?.find(
           (r) => r.exercise_type === 'flashcard' && r.is_completed
         )
-        const matchingTypes = ['hanzi_pinyin', 'hanzi_viet']
+        const matchingTypes = ['hanzi_pinyin', 'hanzi_viet', 'fill_in']
         const exercisesCompletedCount = records
           ? records.filter((r) => matchingTypes.includes(r.exercise_type) && r.is_completed).length
           : 0
@@ -98,7 +98,7 @@ export default function DashboardPage() {
             Hôm nay là ngày <span className="underline font-bold text-yellow-300">{formatDate(todayStr)}</span>. Hãy cùng nhau học thêm nhiều từ vựng thú vị nhé!
           </p>
           <div className="bg-white/20 p-3 rounded-xl inline-block max-w-md border border-white/30 text-left">
-            <p className="font-chinese font-extrabold text-xl text-yellow-300">{quote.zh}</p>
+            <p className="font-chinese text-xl text-yellow-300">{quote.zh}</p>
             <p className="text-xs font-semibold text-white/90 mt-1">💡 {quote.vi}</p>
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <div className="text-2xl font-black text-slate-800">
-              {loading ? '...' : `${stats.exercisesCompletedCount}/2`}
+              {loading ? '...' : `${stats.exercisesCompletedCount}/3`}
             </div>
             <div className="text-xs font-bold text-slate-400">Bài tập nối từ đã xong</div>
           </div>
@@ -199,15 +199,15 @@ export default function DashboardPage() {
           {/* Step 3: Exercise */}
           <div className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex gap-3 items-start">
-              {stats.exercisesCompletedCount === 2 ? (
+              {stats.exercisesCompletedCount === 3 ? (
                 <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0 mt-0.5" />
               ) : (
                 <XCircle className="w-6 h-6 text-slate-300 shrink-0 mt-0.5" />
               )}
               <div>
-                <h4 className="font-extrabold text-slate-800 text-base">Bước 3: Bài tập rèn luyện nối từ</h4>
+                <h4 className="font-extrabold text-slate-800 text-base">Bước 3: Bài tập rèn luyện</h4>
                 <p className="text-sm font-semibold text-slate-500">
-                  Luyện tập nối Chữ Hán ↔ Pinyin và Chữ Hán ↔ Nghĩa tiếng Việt để tăng cường trí nhớ.
+                  Luyện tập nối Chữ Hán ↔ Pinyin, Chữ Hán ↔ Nghĩa tiếng Việt và Điền Từ để tăng cường trí nhớ.
                 </p>
               </div>
             </div>

@@ -6,14 +6,15 @@ import { createClient } from '@/lib/supabase/client'
 import { getTodayString, formatDate } from '@/lib/utils/date'
 import { shuffleArray } from '@/lib/utils/shuffle'
 import Flashcard from '@/components/learn/Flashcard'
+import FillInExercise from '@/components/exercises/FillInExercise'
 import DatePicker from '@/components/ui/DatePicker'
 import {
   ArrowLeft,
   ArrowRight,
   RotateCcw,
   CheckCircle,
-  HelpCircle,
-  Play
+  BookOpen,
+  Keyboard
 } from 'lucide-react'
 
 interface VocabItem {
@@ -27,6 +28,7 @@ interface VocabItem {
 }
 
 type VocabularySource = 'study' | 'practice'
+type LearnMode = 'flashcard' | 'fill_in'
 
 export default function LearnPage() {
   const supabase = createClient()
@@ -39,6 +41,8 @@ export default function LearnPage() {
   const [isCompleted, setIsCompleted] = useState(false)
   const [savingRecord, setSavingRecord] = useState(false)
   const [selectedSource, setSelectedSource] = useState<VocabularySource | null>(null)
+  const [learnMode, setLearnMode] = useState<LearnMode | null>(null)
+  const [vocabCountMap, setVocabCountMap] = useState<{ [dateStr: string]: number }>({})
 
   // Load vocabularies for selected date and source category
   const loadVocabSet = async (targetDate: string, source: VocabularySource) => {
@@ -83,16 +87,57 @@ export default function LearnPage() {
 
   useEffect(() => {
     setSelectedSource(null)
+    setLearnMode(null)
     setVocabs([])
     setIsCompleted(false)
     setCurrentIdx(0)
     setIsFlipped(false)
   }, [date])
 
+  // Vocab count per day for whichever month the DatePicker currently has open, so the
+  // calendar shows the same at-a-glance word counts as /exercises's calendar.
+  const loadMonthVocabCounts = async (year: number, month: number) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const startOfMonth = `${year}-${String(month + 1).padStart(2, '0')}-01`
+      const lastDay = new Date(year, month + 1, 0).getDate()
+      const endOfMonth = `${year}-${String(month + 1).padStart(2, '0')}-${lastDay}`
+
+      const { data: sets } = await supabase
+        .from('vocabulary_sets')
+        .select('id, date')
+        .eq('user_id', user.id)
+        .gte('date', startOfMonth)
+        .lte('date', endOfMonth)
+
+      const setIdToDate: Record<string, string> = {}
+      for (const s of sets || []) setIdToDate[s.id] = s.date
+      const setIds = Object.keys(setIdToDate)
+
+      const counts: Record<string, number> = {}
+      if (setIds.length > 0) {
+        const { data: vocabRows } = await supabase
+          .from('vocabularies')
+          .select('set_id')
+          .in('set_id', setIds)
+
+        for (const v of vocabRows || []) {
+          const d = setIdToDate[v.set_id]
+          if (d) counts[d] = (counts[d] || 0) + 1
+        }
+      }
+      setVocabCountMap(counts)
+    } catch (err) {
+      console.error('Error fetching calendar vocab counts:', err)
+    }
+  }
+
   useEffect(() => {
-    if (!selectedSource) return
+    if (!selectedSource || !learnMode) return
     loadVocabSet(date, selectedSource)
-  }, [date, selectedSource])
+  }, [date, selectedSource, learnMode])
 
   const handleNext = () => {
     setIsFlipped(false)
@@ -101,7 +146,7 @@ export default function LearnPage() {
     } else {
       // Completed all cards
       setIsCompleted(true)
-      saveProgress()
+      saveProgress('flashcard')
     }
   }
 
@@ -123,29 +168,48 @@ export default function LearnPage() {
     setSelectedSource(source)
   }
 
-  const saveProgress = async () => {
+  const handleSelectMode = (mode: LearnMode) => {
+    setLearnMode(mode)
+  }
+
+  const resetToCategoryPicker = () => {
+    setSelectedSource(null)
+    setLearnMode(null)
+  }
+
+  // exercise_records' unique key is (user_id, date, exercise_type) — /exercises/[date]
+  // already owns the 'fill_in' exercise_type for its own Điền Từ card, so this page's
+  // Điền Từ mode is recorded under a distinct 'learn_fill_in' type. Sharing 'fill_in'
+  // would make completing one accidentally mark the other page's exercise done too.
+  const EXERCISE_TYPE: Record<LearnMode, string> = { flashcard: 'flashcard', fill_in: 'learn_fill_in' }
+
+  const saveProgress = async (mode: LearnMode) => {
     setSavingRecord(true)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      // Save or update exercise_records
       await supabase
         .from('exercise_records')
         .upsert({
           user_id: user.id,
           date,
-          exercise_type: 'flashcard',
+          exercise_type: EXERCISE_TYPE[mode],
           is_completed: true,
           completed_at: new Date().toISOString()
         }, {
           onConflict: 'user_id,date,exercise_type'
         })
     } catch (err) {
-      console.error('Error saving flashcard record:', err)
+      console.error('Error saving learn record:', err)
     } finally {
       setSavingRecord(false)
     }
+  }
+
+  const handleFillInComplete = () => {
+    setIsCompleted(true)
+    saveProgress('fill_in')
   }
 
   return (
@@ -160,7 +224,7 @@ export default function LearnPage() {
             <p className="text-xs font-bold text-[#1877f2] flex items-center gap-2">
               Danh mục: {selectedSource === 'study' ? 'Từ vựng tự học' : 'Từ vựng khác'}
               <button
-                onClick={() => setSelectedSource(null)}
+                onClick={resetToCategoryPicker}
                 className="text-[10px] text-slate-400 hover:text-red-500 underline ml-1 font-bold"
               >
                 (Đổi danh mục)
@@ -171,7 +235,12 @@ export default function LearnPage() {
 
         {/* Date Selector */}
         <div className="cartoon-panel px-1 py-0.5 bg-white text-sm relative z-30">
-          <DatePicker value={date} onChange={setDate} />
+          <DatePicker
+            value={date}
+            onChange={setDate}
+            vocabCountMap={vocabCountMap}
+            onMonthChange={loadMonthVocabCounts}
+          />
         </div>
       </div>
 
@@ -197,6 +266,37 @@ export default function LearnPage() {
             </button>
           </div>
         </div>
+      ) : !learnMode ? (
+        <div className="cartoon-card bg-white p-8 text-center space-y-4">
+          <h3 className="text-xl font-extrabold text-slate-700">Chọn chế độ học</h3>
+          <p className="text-slate-500 font-semibold max-w-md mx-auto">
+            Học từ mới bằng Flashcard, hoặc luyện Điền Từ nếu bạn đã quen mặt chữ rồi.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+            <button
+              onClick={() => handleSelectMode('flashcard')}
+              className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
+            >
+              <BookOpen className="w-8 h-8 mx-auto text-blue-500" />
+              <p className="font-black text-slate-700 text-sm">Flashcard</p>
+              <p className="text-[11px] text-slate-400 font-semibold leading-snug">Lật thẻ học nghĩa</p>
+            </button>
+            <button
+              onClick={() => handleSelectMode('fill_in')}
+              className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
+            >
+              <Keyboard className="w-8 h-8 mx-auto text-purple-500" />
+              <p className="font-black text-slate-700 text-sm">Điền Từ</p>
+              <p className="text-[11px] text-slate-400 font-semibold leading-snug">Gõ pinyin để ghép đúng chữ Hán</p>
+            </button>
+          </div>
+          <button
+            onClick={resetToCategoryPicker}
+            className="text-xs font-bold text-slate-400 hover:text-slate-600 underline"
+          >
+            Đổi danh mục
+          </button>
+        </div>
       ) : loading ? (
         <div className="cartoon-card bg-white p-12 text-center">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -214,7 +314,7 @@ export default function LearnPage() {
               Quản lý từ vựng
             </Link>
             <button
-              onClick={() => setSelectedSource(null)}
+              onClick={resetToCategoryPicker}
               className="cartoon-btn cartoon-btn-secondary px-6 py-2.5 inline-block text-sm"
             >
               Chọn danh mục khác
@@ -241,7 +341,7 @@ export default function LearnPage() {
               <RotateCcw className="w-4 h-4" /> Học Lại Từ Đầu
             </button>
             <button
-              onClick={() => setSelectedSource(null)}
+              onClick={resetToCategoryPicker}
               className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm flex items-center justify-center gap-2"
             >
               Đổi danh mục
@@ -254,6 +354,12 @@ export default function LearnPage() {
             </Link>
           </div>
         </div>
+      ) : learnMode === 'fill_in' ? (
+        /* Điền Từ Study Screen */
+        <FillInExercise
+          words={vocabs}
+          onComplete={handleFillInComplete}
+        />
       ) : (
         /* Flashcard Study Screen */
         <div className="space-y-6">

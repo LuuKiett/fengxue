@@ -286,6 +286,63 @@ CREATE POLICY "Users can manage own tocfl attempts"
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id);
 
+-- Backs the "Học Từ Vựng Theo Chủ Đề" page. Deliberately separate from dictionary_words/
+-- dictionary_progress so this feature can never touch existing student progress. A1/A2/B1
+-- rows are scraped from monchinese.me's topic collections (their #1/#2/#3 sub-groups merged
+-- into one set per topic); B2 rows are this app's own dictionary_words auto-classified into
+-- the same topic taxonomy by keyword (monchinese has no B2 tier to source from).
+CREATE TABLE IF NOT EXISTS public.topic_vocabulary (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    level TEXT NOT NULL,
+    topic_key TEXT NOT NULL,
+    topic_label TEXT NOT NULL,
+    topic_icon TEXT NOT NULL,
+    hanzi TEXT NOT NULL,
+    hanzi_variant TEXT,
+    pinyin TEXT NOT NULL,
+    vietnamese TEXT NOT NULL,
+    pos TEXT,
+    example_hanzi TEXT,
+    example_pinyin TEXT,
+    example_vietnamese TEXT,
+    source TEXT NOT NULL DEFAULT 'monchinese',
+    order_index INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(level, topic_key, hanzi, pinyin)
+);
+
+CREATE INDEX IF NOT EXISTS idx_topic_vocabulary_level_topic ON public.topic_vocabulary(level, topic_key);
+
+ALTER TABLE public.topic_vocabulary ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone authenticated can read topic vocabulary"
+    ON public.topic_vocabulary FOR SELECT
+    TO authenticated
+    USING (true);
+
+-- Per-user progress for the topic-vocabulary page, mirroring dictionary_progress's shape
+-- but keyed by (level, topic_key) and with a third mode ('flashcard' | 'matching' |
+-- 'fill_in'). 'matching' pool = words already completed in 'flashcard'; 'fill_in' pool =
+-- words already completed in 'matching' — a two-step gating chain (see migration 0014).
+CREATE TABLE IF NOT EXISTS public.topic_vocabulary_progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    level TEXT NOT NULL,
+    topic_key TEXT NOT NULL,
+    mode TEXT NOT NULL,
+    word_order UUID[] NOT NULL DEFAULT '{}',
+    current_index INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(user_id, level, topic_key, mode)
+);
+
+ALTER TABLE public.topic_vocabulary_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own topic vocabulary progress"
+    ON public.topic_vocabulary_progress FOR ALL
+    USING (auth.uid() = user_id)
+    WITH CHECK (auth.uid() = user_id);
+
 -- ============================================================
 -- TRIGGER: Auto-create profile on user signup
 -- This runs with SECURITY DEFINER so it bypasses RLS

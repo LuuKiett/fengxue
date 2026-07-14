@@ -6,21 +6,19 @@ import { getDaysInMonth, getTodayString, toLocalDateString, formatDate } from '@
 import { shuffleArray } from '@/lib/utils/shuffle'
 import Flashcard from '@/components/learn/Flashcard'
 import MatchingExercise from '@/components/exercises/MatchingExercise'
+import FillInExercise from '@/components/exercises/FillInExercise'
 import {
   Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
   Check,
-  RotateCcw,
   ArrowRight,
   ArrowLeft,
-  CalendarDays,
   BookOpen,
-  GraduationCap,
   Dumbbell,
+  Keyboard,
   Sparkles,
-  CheckCircle,
-  HelpCircle
+  CheckCircle
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -56,7 +54,7 @@ export default function ReviewPage() {
   const [mergedVocabs, setMergedVocabs] = useState<VocabItem[]>([])
   
   // Study states: 'select' | 'flashcard' | 'matching' | 'complete'
-  const [step, setStep] = useState<'select' | 'flashcard' | 'matching' | 'complete'>('select')
+  const [step, setStep] = useState<'select' | 'flashcard' | 'matching' | 'fill_in' | 'complete'>('select')
   
   // Active Flashcard index and states
   const [flashIdx, setFlashIdx] = useState(0)
@@ -277,11 +275,15 @@ export default function ReviewPage() {
         setMatchingRound(0)
         prepareMatchingRound(0)
       } else {
-        setStep('complete')
-        triggerGrandConfetti()
-        saveReviewRecord()
+        setStep('fill_in')
       }
     }
+  }
+
+  const handleFillInComplete = () => {
+    setStep('complete')
+    triggerGrandConfetti()
+    saveReviewRecord()
   }
 
   const saveReviewRecord = async () => {
@@ -589,11 +591,33 @@ export default function ReviewPage() {
             </button>
           </div>
 
-          <MatchingExercise 
+          <MatchingExercise
             vocabs={roundVocabs}
             matchType={matchingType}
             onComplete={handleRoundComplete}
           />
+        </div>
+      ) : step === 'fill_in' ? (
+        /* FILL-IN (ĐIỀN TỪ) — final step, covers all merged vocabs at once */
+        <div className="space-y-6">
+          <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-purple-50 flex items-center justify-center text-purple-500 shrink-0">
+                <Keyboard className="w-4 h-4" />
+              </div>
+              <span className="font-extrabold text-sm text-slate-500 uppercase">
+                Phần 3: Điền Từ ({mergedVocabs.length} từ)
+              </span>
+            </div>
+            <button
+              onClick={() => setStep('select')}
+              className="font-extrabold text-xs text-red-500 hover:underline"
+            >
+              Thoát ôn tập
+            </button>
+          </div>
+
+          <FillInExercise words={mergedVocabs} onComplete={handleFillInComplete} />
         </div>
       ) : (
         /* COMPLETE SCREEN */

@@ -31,6 +31,7 @@ model Profile {
   dictionaryProgress DictionaryProgress[]
   practiceSessions   PracticeSession[]
   tocflAttempts      TocflAttempt[]
+  topicVocabularyProgress TopicVocabularyProgress[]
 
   @@map("profiles")
 }
@@ -234,4 +235,50 @@ model TocflAttempt {
   paper             TocflPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
 
   @@map("tocfl_attempts")
+}
+
+// Backs the "Học Từ Vựng Theo Chủ Đề" page. Deliberately separate from DictionaryWord/
+// DictionaryProgress — never touched by the existing Ôn Tập Từ Điển flow, so nothing here
+// can affect a student's saved flashcard/fill-in progress. A1/A2/B1 rows are scraped from
+// monchinese.me's topic collections (their #1/#2/#3 sub-groups merged into one row set per
+// topic); B2 rows are this app's own dictionary_words auto-classified into the same topic
+// taxonomy by keyword, since monchinese has no B2 tier to source from.
+model TopicVocabulary {
+  id                String   @id @default(uuid()) @db.Uuid
+  level             String
+  topicKey          String   @map("topic_key")
+  topicLabel        String   @map("topic_label")
+  topicIcon         String   @map("topic_icon")
+  hanzi             String
+  hanziVariant      String?  @map("hanzi_variant")
+  pinyin            String
+  vietnamese        String
+  pos               String?
+  exampleHanzi      String?  @map("example_hanzi")
+  examplePinyin     String?  @map("example_pinyin")
+  exampleVietnamese String?  @map("example_vietnamese")
+  source            String   @default("monchinese")
+  orderIndex        Int      @default(0) @map("order_index")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@unique([level, topicKey, hanzi, pinyin])
+  @@map("topic_vocabulary")
+}
+
+// Per-user progress for the topic-vocabulary page, mirroring DictionaryProgress's shape
+// but keyed by (level, topicKey) and with a third mode. See migration 0014's comment for
+// the 'flashcard' -> 'matching' -> 'fill_in' gating chain.
+model TopicVocabularyProgress {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  level        String
+  topicKey     String   @map("topic_key")
+  mode         String
+  wordOrder    String[] @default([]) @map("word_order") @db.Uuid
+  currentIndex Int      @default(0) @map("current_index")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, level, topicKey, mode])
+  @@map("topic_vocabulary_progress")
 }

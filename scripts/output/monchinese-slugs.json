@@ -1,0 +1,362 @@
+{
+  "entries": [
+    {
+      "level": "A1",
+      "topic_key": "home-living",
+      "slug": "a1-home-living-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "home-living",
+      "slug": "a1-home-living-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "home-living",
+      "slug": "a1-home-living-3"
+    },
+    {
+      "level": "A1",
+      "topic_key": "school",
+      "slug": "a1-school-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "school",
+      "slug": "a1-school-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "school",
+      "slug": "a1-school-3"
+    },
+    {
+      "level": "A1",
+      "topic_key": "communication",
+      "slug": "a1-communication-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "communication",
+      "slug": "a1-communication-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "communication",
+      "slug": "a1-communication-3"
+    },
+    {
+      "level": "A1",
+      "topic_key": "shopping",
+      "slug": "a1-shopping-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "shopping",
+      "slug": "a1-shopping-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "shopping",
+      "slug": "a1-shopping-3"
+    },
+    {
+      "level": "A1",
+      "topic_key": "travel",
+      "slug": "a1-travel-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "travel",
+      "slug": "a1-travel-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "entertainment",
+      "slug": "a1-entertainment-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "entertainment",
+      "slug": "a1-entertainment-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "relationships",
+      "slug": "a1-relationships-1"
+    },
+    {
+      "level": "A1",
+      "topic_key": "relationships",
+      "slug": "a1-relationships-2"
+    },
+    {
+      "level": "A1",
+      "topic_key": "function-words",
+      "slug": "a1-function-words"
+    },
+    {
+      "level": "A1",
+      "topic_key": "restaurant",
+      "slug": "a1-restaurant"
+    },
+    {
+      "level": "A1",
+      "topic_key": "work-finance",
+      "slug": "a1-work-finance"
+    },
+    {
+      "level": "A1",
+      "topic_key": "health",
+      "slug": "a1-health"
+    },
+    {
+      "level": "A2",
+      "topic_key": "function-words",
+      "slug": "a2-function-words-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "function-words",
+      "slug": "a2-function-words-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "function-words",
+      "slug": "a2-function-words-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "function-words",
+      "slug": "a2-function-words-4"
+    },
+    {
+      "level": "A2",
+      "topic_key": "school",
+      "slug": "a2-school-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "school",
+      "slug": "a2-school-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "school",
+      "slug": "a2-school-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "school",
+      "slug": "a2-school-4"
+    },
+    {
+      "level": "A2",
+      "topic_key": "home-living",
+      "slug": "a2-home-living-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "home-living",
+      "slug": "a2-home-living-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "home-living",
+      "slug": "a2-home-living-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "home-living",
+      "slug": "a2-home-living-4"
+    },
+    {
+      "level": "A2",
+      "topic_key": "communication",
+      "slug": "a2-communication-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "communication",
+      "slug": "a2-communication-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "communication",
+      "slug": "a2-communication-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "communication",
+      "slug": "a2-communication-4"
+    },
+    {
+      "level": "A2",
+      "topic_key": "relationships",
+      "slug": "a2-relationships-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "relationships",
+      "slug": "a2-relationships-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "relationships",
+      "slug": "a2-relationships-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "shopping",
+      "slug": "a2-shopping-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "shopping",
+      "slug": "a2-shopping-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "shopping",
+      "slug": "a2-shopping-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "travel",
+      "slug": "a2-travel-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "travel",
+      "slug": "a2-travel-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "travel",
+      "slug": "a2-travel-3"
+    },
+    {
+      "level": "A2",
+      "topic_key": "entertainment",
+      "slug": "a2-entertainment-1"
+    },
+    {
+      "level": "A2",
+      "topic_key": "entertainment",
+      "slug": "a2-entertainment-2"
+    },
+    {
+      "level": "A2",
+      "topic_key": "restaurant",
+      "slug": "a2-restaurant"
+    },
+    {
+      "level": "A2",
+      "topic_key": "health",
+      "slug": "a2-health"
+    },
+    {
+      "level": "A2",
+      "topic_key": "work-finance",
+      "slug": "a2-work-finance"
+    },
+    {
+      "level": "A2",
+      "topic_key": "food",
+      "slug": "a2-food"
+    },
+    {
+      "level": "B1",
+      "topic_key": "function-words",
+      "slug": "b1-function-words"
+    },
+    {
+      "level": "B1",
+      "topic_key": "communication",
+      "slug": "b1-communication"
+    },
+    {
+      "level": "B1",
+      "topic_key": "relationships",
+      "slug": "b1-relationships"
+    },
+    {
+      "level": "B1",
+      "topic_key": "law",
+      "slug": "b1-law"
+    },
+    {
+      "level": "B1",
+      "topic_key": "home-living",
+      "slug": "b1-home-living"
+    },
+    {
+      "level": "B1",
+      "topic_key": "personality",
+      "slug": "b1-personality"
+    },
+    {
+      "level": "B1",
+      "topic_key": "work-finance",
+      "slug": "b1-work-finance"
+    }
+  ],
+  "topics": {
+    "home-living": {
+      "icon": "🏠",
+      "label": "Nhà cửa & Đời sống"
+    },
+    "school": {
+      "icon": "📚",
+      "label": "Học tập & Giáo dục"
+    },
+    "communication": {
+      "icon": "💬",
+      "label": "Thông tin & Giao tiếp"
+    },
+    "shopping": {
+      "icon": "🛍️",
+      "label": "Mua sắm & Quần áo"
+    },
+    "travel": {
+      "icon": "✈️",
+      "label": "Du lịch & Giao thông"
+    },
+    "entertainment": {
+      "icon": "🎭",
+      "label": "Giải trí & Văn hóa"
+    },
+    "relationships": {
+      "icon": "❤️",
+      "label": "Tình cảm & Quan hệ"
+    },
+    "function-words": {
+      "icon": "🔧",
+      "label": "Từ chức năng & Hư từ"
+    },
+    "restaurant": {
+      "icon": "🍽️",
+      "label": "Nhà hàng & Ăn uống"
+    },
+    "work-finance": {
+      "icon": "💼",
+      "label": "Công việc & Tài chính"
+    },
+    "health": {
+      "icon": "🩺",
+      "label": "Y tế & Sức khỏe"
+    },
+    "food": {
+      "icon": "🥗",
+      "label": "Thực phẩm & Rau củ quả"
+    },
+    "law": {
+      "icon": "⚖️",
+      "label": "Hành chính & Luật pháp"
+    },
+    "personality": {
+      "icon": "🧠",
+      "label": "Tư duy & Tính cách"
+    }
+  }
+}

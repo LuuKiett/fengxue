@@ -1169,7 +1169,7 @@ export default function VocabularyPage() {
                     <td className="p-4 font-bold text-slate-400">{index + 1}</td>
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-chinese text-3xl font-bold text-slate-900">{item.hanzi}</span>
+                        <span className="font-chinese text-3xl text-slate-900">{item.hanzi}</span>
                         <button
                           onClick={() => speak(item.hanzi)}
                           className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors shrink-0"
@@ -1189,7 +1189,7 @@ export default function VocabularyPage() {
                       {item.example_hanzi ? (
                         <div className="flex items-start gap-1.5">
                           <div className="space-y-1">
-                            <p className="font-chinese font-bold text-2xl text-slate-800 leading-snug">{item.example_hanzi}</p>
+                            <p className="font-chinese text-2xl text-slate-800 leading-snug">{item.example_hanzi}</p>
                             <p className="text-sm text-blue-500 italic">{item.example_pinyin}</p>
                             <p className="text-sm text-slate-500">{item.example_vietnamese}</p>
                           </div>
@@ -1324,7 +1324,7 @@ export default function VocabularyPage() {
                           placeholder="Chữ Hoa (Hán tự)"
                           value={row.hanzi}
                           onChange={(e) => updateNewRowField(idx, 'hanzi', e.target.value)}
-                          className="px-3 py-2 pr-10 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-2xl bg-white w-full"
+                          className="px-3 py-2 pr-10 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese text-2xl bg-white w-full"
                         />
                         {row.hanzi.trim() && (
                           <button
@@ -1382,7 +1382,7 @@ export default function VocabularyPage() {
                                   className="flex-1 text-left px-2.5 py-2 flex items-center gap-3"
                                   title="Ghép vào từ đang gõ"
                                 >
-                                  <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
+                                  <span className="font-chinese text-lg text-blue-600 min-w-[2rem]">{item.t}</span>
                                   <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
                                   {'composed' in item ? (
                                     <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
@@ -1455,7 +1455,7 @@ export default function VocabularyPage() {
                           placeholder="Ví Dụ - Chữ Hán"
                           value={row.exampleHanzi}
                           onChange={(e) => updateNewRowExampleField(idx, 'exampleHanzi', e.target.value)}
-                          className="px-3 py-2 pr-10 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-2xl bg-white w-full"
+                          className="px-3 py-2 pr-10 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese text-2xl bg-white w-full"
                         />
                         {row.exampleHanzi.trim() && (
                           <button
@@ -1509,7 +1509,7 @@ export default function VocabularyPage() {
                                 className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-amber-50 rounded-xl transition-colors"
                                 title="Ghép vào câu ví dụ đang gõ"
                               >
-                                <span className="font-chinese text-lg text-amber-700 font-bold min-w-[2rem]">{item.t}</span>
+                                <span className="font-chinese text-lg text-amber-700 min-w-[2rem]">{item.t}</span>
                                 <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
                                 {'composed' in item ? (
                                   <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
@@ -1668,7 +1668,7 @@ export default function VocabularyPage() {
                       type="text"
                       value={editHanzi}
                       onChange={(e) => setEditHanzi(e.target.value)}
-                      className="w-full px-4 py-2 pr-12 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese font-bold text-lg bg-white"
+                      className="w-full px-4 py-2 pr-12 border border-slate-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-chinese text-lg bg-white"
                     />
                     {editHanzi.trim() && (
                       <button
@@ -1721,7 +1721,7 @@ export default function VocabularyPage() {
                           className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-blue-50 rounded-xl transition-colors"
                           title="Ghép vào từ đang gõ"
                         >
-                          <span className="font-chinese text-lg text-blue-600 font-bold min-w-[2rem]">{item.t}</span>
+                          <span className="font-chinese text-lg text-blue-600 min-w-[2rem]">{item.t}</span>
                           <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
                           {'composed' in item ? (
                             <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>
@@ -1764,7 +1764,7 @@ export default function VocabularyPage() {
                         type="text"
                         value={editExampleHanzi}
                         onChange={(e) => setEditExampleHanzi(e.target.value)}
-                        className="w-full px-4 py-2 pr-12 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese font-bold text-lg bg-white"
+                        className="w-full px-4 py-2 pr-12 border border-amber-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-amber-100 font-chinese text-lg bg-white"
                         placeholder="Ví dụ tiếng Hán"
                       />
                       {editExampleHanzi.trim() && (
@@ -1818,7 +1818,7 @@ export default function VocabularyPage() {
                             className="w-full text-left px-2.5 py-2 flex items-center gap-3 hover:bg-amber-50 rounded-xl transition-colors"
                             title="Ghép vào ví dụ đang gõ"
                           >
-                            <span className="font-chinese text-lg text-amber-700 font-bold min-w-[2rem]">{item.t}</span>
+                            <span className="font-chinese text-lg text-amber-700 min-w-[2rem]">{item.t}</span>
                             <span className="text-slate-500 font-semibold text-xs flex-1">{item.p}</span>
                             {'composed' in item ? (
                               <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 bg-purple-100 text-purple-700">Ghép từ</span>

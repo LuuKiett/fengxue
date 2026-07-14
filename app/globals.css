@@ -10,7 +10,7 @@
   --color-brand-navy: #002766;  
   
   --font-nunito: "Nunito", var(--font-sans);
-  --font-chinese: "Noto Sans SC", sans-serif;
+  --font-chinese: "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif;
 }
 
 /* ============================================================
@@ -227,7 +227,7 @@ body {
 /* ============================================================
    UTILITIES
    ============================================================ */
-.font-chinese { font-family: "Noto Sans SC", sans-serif; }
+.font-chinese { font-family: "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
