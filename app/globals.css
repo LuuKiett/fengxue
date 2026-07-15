@@ -36,6 +36,15 @@ body {
   font-weight: 700;
 }
 
+/* Bump the root font size on desktop viewports so every rem-based Tailwind text
+   utility (text-xs, text-sm, ...) scales up together — the UI was designed/tuned
+   for mobile and read too small on PC. Mobile/tablet sizing is untouched. */
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 /* ============================================================
    DUOLINGO-STYLE CUTE CARTOON CARDS
    ============================================================ */

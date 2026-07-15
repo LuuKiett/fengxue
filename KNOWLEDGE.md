@@ -601,6 +601,65 @@ Follow-up session to the topic-vocabulary work above, per explicit user request:
   a scrollable table, which stays usable at larger counts unlike `MatchingExercise`'s
   fixed 2-column visual game board, so only Matching genuinely needs chunking.
 
+## Flashcard "Ôn Tập Từ Đã Học" (review already-learned words) on `/vocabulary-by-topic`
+
+Previously, once `remaining` (`total - learnedFlashcard`) hit 0 for a topic's Flashcard
+mode, the stage-size chooser was entirely unreachable — the page showed a dead-end
+"Bạn đã học hết tất cả các từ..." warning with no way to revisit words already learned,
+and there was no way to re-drill a *partial* batch (e.g. 10 learned out of 50) either.
+Per explicit user request, added a review path that sits alongside (not replacing) the
+existing new-words flow:
+
+- New state: `learnStyleTopicKey` (drives a new sub-modal) and `reviewMode` (boolean,
+  threaded through `startTopic`/`finishFlashcardStage`/the stage-size chooser/the
+  completion screen).
+- Clicking **"Flashcard"** in the existing mode-select modal now branches: if
+  `learnedFlashcard > 0` for that topic, it opens a new "Học Từ Mới" / "Ôn Tập Từ Đã
+  Học" sub-modal instead of going straight to the stage-size chooser (topics with
+  `learnedFlashcard === 0` skip straight to the chooser as before, since there's
+  nothing to review yet). "Học Từ Mới" is disabled once `total - learnedFlashcard <=
+  0` (fully learned) but "Ôn Tập Từ Đã Học" is always available whenever any words
+  have been learned — this is what fixes the old dead-end for a topic learned 100%.
+- **Review sessions never touch `topic_vocabulary_progress`.** `startTopic(topicKey,
+  'flashcard', size, isReview=true)` pulls `getLearnedIds()` from the existing
+  flashcard progress row, shuffles a fresh batch of up to `size` of those *already-
+  learned* ids, and feeds it through the **same** `loadStage()` used by the real
+  flow (passed as `(shuffled, 0, learnedIds.length, size)` — `loadStage` just slices
+  `wordOrder.slice(currentIndex, currentIndex+size)`, so reusing it as-is with a
+  synthetic 0-indexed word_order works with no changes to that function). Reaching
+  the end of a review batch (`finishFlashcardStage`, checked via the `reviewMode`
+  state) skips `persistProgressAdvance` and the auto-chain into Nối Từ entirely, going
+  straight to a review-flavored completion screen ("Ôn Tập Xong!") with two buttons:
+  "Ôn Tập Lại" (calls `startTopic` again — reshuffles a new random batch from the same
+  learned pool, does not chain to a "next stage" like the real flow's `current_index`-
+  based continuation, since a review pool has no forward pointer to advance) and
+  "Quay Lại Chọn Chủ Đề".
+- Because review is a dead-end/reshuffle loop rather than a paginated sequence, the
+  stage-size chooser's "remaining" for review mode is simply `learnedFlashcard` itself
+  (capped by the same `STAGE_SIZE_PRESETS`), not a countdown that depletes — reviewing
+  10 words twice in a row is expected and fine, unlike the real flow where finishing a
+  stage advances `current_index` so the same words can't be redrawn.
+- The Matching/Điền Từ modes were **not** given an equivalent review option — the user
+  only asked for Flashcard. If this is requested for Matching/Điền Từ too, the same
+  "already-learned pool, no progress writes, dead-end-not-paginated" shape should work,
+  but note `finishFlashcardStage`'s reviewMode branch is Flashcard-specific; matching's
+  `handleMatchingRoundComplete` and fill-in's `handleFillInComplete` would need their
+  own analogous checks.
+
+## Desktop font size (`app/globals.css`)
+
+The whole UI (built mobile-first with Tailwind's rem-based `text-xs`/`text-sm`/etc.)
+read too small on PC per explicit user feedback. Fixed with a single global lever
+instead of touching every component's classes: `html { font-size: 18px }` inside
+`@media (min-width: 1024px)` in `app/globals.css` (root is the browser default 16px
+below that breakpoint). Since every Tailwind text utility here is `rem`-based, this
+scales all of them proportionally (~12.5%) on desktop/laptop viewports while leaving
+mobile/tablet untouched — no component-level changes needed. If further enlargement is
+requested, adjust this one value rather than hunting through individual `text-*`
+classes; if it turns out uneven (some fixed-`px` element now looks small next to
+scaled-up text next to it), that's the tradeoff of a root-level fix and would need a
+targeted per-component fix instead.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

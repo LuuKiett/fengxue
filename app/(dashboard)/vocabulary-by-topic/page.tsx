@@ -146,8 +146,15 @@ export default function VocabularyByTopicPage() {
 
   // Topic clicked but mode not chosen yet — shows the Flashcard/Nối Từ/Điền Từ modal.
   const [modeSelectTopicKey, setModeSelectTopicKey] = useState<string | null>(null)
+  // Flashcard chosen for a topic that already has learned words — shows the
+  // "Học Từ Mới" / "Ôn Tập Từ Đã Học" sub-modal.
+  const [learnStyleTopicKey, setLearnStyleTopicKey] = useState<string | null>(null)
   // Mode chosen for the topic currently being set up/studied.
   const [activeMode, setActiveMode] = useState<StudyMode>('flashcard')
+  // True when the current/pending flashcard session is a review of already-learned
+  // words (picked via the "Ôn Tập Từ Đã Học" option) rather than new words — review
+  // sessions never advance `topic_vocabulary_progress` and never chain into Nối Từ.
+  const [reviewMode, setReviewMode] = useState(false)
   // Whether this session should auto-chain forward (flashcard -> matching -> fill_in).
   // Only true when the user entered via "Flashcard"; direct "Nối Từ"/"Điền Từ" entry
   // only drills that single mode's own backlog.
@@ -245,6 +252,8 @@ export default function VocabularyByTopicPage() {
     setLevel(lvl)
     setPendingTopicKey(null)
     setModeSelectTopicKey(null)
+    setLearnStyleTopicKey(null)
+    setReviewMode(false)
   }
 
   async function fetchProgressRow(userId: string, topicKey: string, mode: StudyMode): Promise<ProgressRow | null> {
@@ -259,17 +268,24 @@ export default function VocabularyByTopicPage() {
     return data
   }
 
-  async function startTopic(topicKey: string, mode: StudyMode, size: number) {
+  async function startTopic(topicKey: string, mode: StudyMode, size: number, isReview: boolean = false) {
     setLoading(true)
     setStageSize(size)
     setActiveTopicKey(topicKey)
     setActiveMode(mode)
-    setChainMode(mode === 'flashcard')
+    setReviewMode(isReview)
+    setChainMode(!isReview && mode === 'flashcard')
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      if (mode === 'flashcard') {
+      if (isReview) {
+        const progress = await fetchProgressRow(user.id, topicKey, 'flashcard')
+        const learnedIds = getLearnedIds(progress)
+        if (learnedIds.length === 0) { setLoading(false); return }
+        const shuffled = shuffleArray(learnedIds)
+        await loadStage(topicKey, 'flashcard', shuffled, 0, learnedIds.length, size)
+      } else if (mode === 'flashcard') {
         const allWords = await fetchAllRows<{ id: string }>((from, to) =>
           supabase
             .from('topic_vocabulary')
@@ -423,6 +439,12 @@ export default function VocabularyByTopicPage() {
   const finishFlashcardStage = async () => {
     if (progressAdvancedRef.current || !activeTopicKey) return
     progressAdvancedRef.current = true
+    if (reviewMode) {
+      setTopicFullyComplete(false)
+      setStep('complete')
+      progressAdvancedRef.current = false
+      return
+    }
     await persistProgressAdvance('flashcard', activeTopicKey, stageWords.length)
     setMatchingRound(0)
     setMatchingType('hanzi_pinyin')
@@ -596,6 +618,8 @@ export default function VocabularyByTopicPage() {
   const info = topicInfos.find((t) => t.topicKey === pendingTopicKey)
   const remaining = !info
     ? 0
+    : reviewMode
+    ? info.learnedFlashcard
     : activeMode === 'flashcard'
     ? info.total - info.learnedFlashcard
     : activeMode === 'matching'
@@ -603,6 +627,7 @@ export default function VocabularyByTopicPage() {
     : info.learnedMatching - info.learnedFillIn
 
   const modeSelectInfo = topicInfos.find((t) => t.topicKey === modeSelectTopicKey)
+  const learnStyleInfo = topicInfos.find((t) => t.topicKey === learnStyleTopicKey)
   const activeTopicInfo = topicInfos.find((t) => t.topicKey === activeTopicKey)
 
   return (
@@ -703,7 +728,9 @@ export default function VocabularyByTopicPage() {
                 <span className="text-4xl block">⚠️</span>
                 <h4 className="font-black text-slate-800 text-base">Không có từ nào để ôn tập</h4>
                 <p className="text-slate-500 text-xs font-semibold max-w-sm mx-auto">
-                  {activeMode === 'matching'
+                  {reviewMode
+                    ? 'Bạn chưa học từ nào bằng Flashcard để ôn tập.'
+                    : activeMode === 'matching'
                     ? (info?.learnedFlashcard ?? 0) === 0
                       ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
                       : 'Bạn đã Nối Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
@@ -726,17 +753,19 @@ export default function VocabularyByTopicPage() {
 
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 shrink-0">
-                  {React.createElement(MODE_META[activeMode].icon, { className: 'w-5 h-5' })}
+                  {React.createElement(reviewMode ? RotateCcw : MODE_META[activeMode].icon, { className: 'w-5 h-5' })}
                 </div>
                 <div>
                   <h4 className="font-black text-slate-800 text-lg flex items-center gap-2">
                     {info?.icon} {info?.label} — Số từ mỗi đợt
                     <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 whitespace-nowrap">
-                      {MODE_META[activeMode].label}
+                      {reviewMode ? 'Ôn tập' : MODE_META[activeMode].label}
                     </span>
                   </h4>
                   <p className="text-xs text-slate-500 font-semibold">
-                    {activeMode === 'flashcard'
+                    {reviewMode
+                      ? 'Chọn số từ muốn ôn tập lại trong số các từ bạn đã học bằng Flashcard.'
+                      : activeMode === 'flashcard'
                       ? 'Học xong Flashcard sẽ tự động chuyển sang Nối Từ, rồi Điền Từ.'
                       : `Học xong đợt này sẽ chuyển sang đợt ${MODE_META[activeMode].label.toLowerCase()} tiếp theo.`}
                   </p>
@@ -746,13 +775,23 @@ export default function VocabularyByTopicPage() {
               <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4">
                 <div className="grid grid-cols-2 gap-2 text-center">
                   <div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">Đã học</span>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">
+                      {reviewMode ? 'Đã học (có thể ôn)' : 'Đã học'}
+                    </span>
                     <span className="text-sm font-black text-slate-700">
-                      {activeMode === 'flashcard' ? info?.learnedFlashcard : activeMode === 'matching' ? info?.learnedMatching : info?.learnedFillIn} từ
+                      {reviewMode
+                        ? info?.learnedFlashcard
+                        : activeMode === 'flashcard'
+                        ? info?.learnedFlashcard
+                        : activeMode === 'matching'
+                        ? info?.learnedMatching
+                        : info?.learnedFillIn} từ
                     </span>
                   </div>
                   <div>
-                    <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">Có thể học</span>
+                    <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">
+                      {reviewMode ? 'Có thể ôn tập' : 'Có thể học'}
+                    </span>
                     <span className="text-sm font-black text-emerald-600">{remaining} từ</span>
                   </div>
                 </div>
@@ -824,7 +863,7 @@ export default function VocabularyByTopicPage() {
                     : Math.min(remaining, stageSizeChoice)
                   const topicKey = pendingTopicKey
                   setPendingTopicKey(null)
-                  startTopic(topicKey, activeMode, size)
+                  startTopic(topicKey, activeMode, size, reviewMode)
                 }}
                 className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
               >
@@ -853,7 +892,16 @@ export default function VocabularyByTopicPage() {
                       <button
                         key={m}
                         onClick={() => {
+                          // Flashcard on a topic with already-learned words: ask "new
+                          // words" vs "review learned words" first, instead of assuming
+                          // new-words-only (see learnStyleTopicKey modal below).
+                          if (m === 'flashcard' && modeSelectInfo.learnedFlashcard > 0) {
+                            setLearnStyleTopicKey(modeSelectInfo.topicKey)
+                            setModeSelectTopicKey(null)
+                            return
+                          }
                           setActiveMode(m)
+                          setReviewMode(false)
                           setPendingTopicKey(modeSelectInfo.topicKey)
                           setModeSelectTopicKey(null)
                           const rem =
@@ -883,6 +931,70 @@ export default function VocabularyByTopicPage() {
               </div>
             </div>
           )}
+
+          {learnStyleTopicKey && learnStyleInfo && (
+            <div
+              className="fixed inset-0 bg-black/40 z-[999] flex items-center justify-center p-4"
+              onClick={() => setLearnStyleTopicKey(null)}
+            >
+              <div
+                className="cartoon-panel bg-white p-6 max-w-lg w-full space-y-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h4 className="font-black text-slate-800 text-lg text-center">
+                  {learnStyleInfo.icon} {learnStyleInfo.label} — Flashcard
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {(() => {
+                    const newRemaining = learnStyleInfo.total - learnStyleInfo.learnedFlashcard
+                    return (
+                      <button
+                        disabled={newRemaining <= 0}
+                        onClick={() => {
+                          setActiveMode('flashcard')
+                          setReviewMode(false)
+                          setPendingTopicKey(learnStyleInfo.topicKey)
+                          setLearnStyleTopicKey(null)
+                          setStageSizeChoice(Math.min(Math.max(newRemaining, 1), DEFAULT_STAGE_SIZE))
+                          setCustomStageSize('')
+                        }}
+                        className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <BookOpen className="w-8 h-8 mx-auto text-blue-500" />
+                        <p className="font-black text-slate-700 text-sm">Học Từ Mới</p>
+                        <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                          {newRemaining > 0 ? `${newRemaining} từ chưa học` : 'Đã học hết từ mới'}
+                        </p>
+                      </button>
+                    )
+                  })()}
+                  <button
+                    onClick={() => {
+                      setActiveMode('flashcard')
+                      setReviewMode(true)
+                      setPendingTopicKey(learnStyleInfo.topicKey)
+                      setLearnStyleTopicKey(null)
+                      setStageSizeChoice(Math.min(Math.max(learnStyleInfo.learnedFlashcard, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
+                  >
+                    <RotateCcw className="w-8 h-8 mx-auto text-emerald-500" />
+                    <p className="font-black text-slate-700 text-sm">Ôn Tập Từ Đã Học</p>
+                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                      {learnStyleInfo.learnedFlashcard} từ đã học
+                    </p>
+                  </button>
+                </div>
+                <button
+                  onClick={() => setLearnStyleTopicKey(null)}
+                  className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 block mx-auto"
+                >
+                  Hủy
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : step === 'flashcard' ? (
         <div className="space-y-6">
@@ -892,10 +1004,10 @@ export default function VocabularyByTopicPage() {
                 <BookOpen className="w-4 h-4" />
               </div>
               <span className="font-extrabold text-sm text-slate-500 uppercase">
-                {activeTopicInfo?.icon} {activeTopicInfo?.label} · Đợt {stageNumber}/{totalStages} · Flashcard
+                {activeTopicInfo?.icon} {activeTopicInfo?.label} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Flashcard'}
               </span>
             </div>
-            <button onClick={() => setStep('select')} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
+            <button onClick={() => { setStep('select'); setReviewMode(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
@@ -944,7 +1056,7 @@ export default function VocabularyByTopicPage() {
               Lật Thẻ
             </button>
             <button onClick={handleFlashNext} className="cartoon-btn px-5 py-3 text-sm flex items-center gap-2">
-              {flashIdx === stageWords.length - 1 ? 'Chuyển Sang Nối Từ' : 'Tiếp theo'} <ArrowRight className="w-4 h-4" />
+              {flashIdx === stageWords.length - 1 ? (reviewMode ? 'Hoàn Thành Ôn Tập' : 'Chuyển Sang Nối Từ') : 'Tiếp theo'} <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -995,24 +1107,41 @@ export default function VocabularyByTopicPage() {
         <div className="space-y-6">
           <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
             <div className="w-20 h-20 bg-emerald-100 rounded-full shadow-md flex items-center justify-center text-emerald-500 mx-auto">
-              {topicFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
+              {reviewMode ? <RotateCcw className="w-12 h-12" /> : topicFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
             </div>
 
             <div className="space-y-2">
               <h3 className="text-3xl font-black text-slate-800">
-                {topicFullyComplete ? 'Hoàn Thành Toàn Bộ! 🎉' : `Xong Đợt ${stageNumber}! 🎉`}
+                {reviewMode ? 'Ôn Tập Xong! 🎉' : topicFullyComplete ? 'Hoàn Thành Toàn Bộ! 🎉' : `Xong Đợt ${stageNumber}! 🎉`}
               </h3>
               <p className="text-slate-500 font-bold">
-                {topicFullyComplete
+                {reviewMode
+                  ? `Bạn đã ôn tập lại các từ đã học trong chủ đề ${activeTopicInfo?.label}.`
+                  : topicFullyComplete
                   ? `Chúc mừng! Bạn đã ${MODE_META[activeMode].label.toLowerCase()} hết chủ đề ${activeTopicInfo?.label}.`
                   : `Còn ${totalStages - stageNumber} đợt nữa để hoàn thành ${MODE_META[activeMode].label.toLowerCase()} chủ đề này.`}
               </p>
               <span className="inline-block text-xs font-black px-3 py-1 rounded-full bg-blue-50 text-blue-600">
-                +{stageWords.length} từ đã học trong đợt này
+                {reviewMode ? `Đã ôn tập ${stageWords.length} từ` : `+${stageWords.length} từ đã học trong đợt này`}
               </span>
             </div>
 
-            {topicFullyComplete ? (
+            {reviewMode ? (
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => activeTopicKey && startTopic(activeTopicKey, 'flashcard', stageSize, true)}
+                  className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4" /> Ôn Tập Lại
+                </button>
+                <button
+                  onClick={() => { setStep('select'); setReviewMode(false); loadTopicInfosForLevel(level) }}
+                  className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
+                >
+                  Quay Lại Chọn Chủ Đề
+                </button>
+              </div>
+            ) : topicFullyComplete ? (
               <div className="flex flex-col gap-2">
                 <button
                   onClick={() => activeTopicKey && restartMode(activeTopicKey, activeMode)}
