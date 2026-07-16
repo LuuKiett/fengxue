@@ -639,12 +639,83 @@ existing new-words flow:
   (capped by the same `STAGE_SIZE_PRESETS`), not a countdown that depletes — reviewing
   10 words twice in a row is expected and fine, unlike the real flow where finishing a
   stage advances `current_index` so the same words can't be redrawn.
-- The Matching/Điền Từ modes were **not** given an equivalent review option — the user
-  only asked for Flashcard. If this is requested for Matching/Điền Từ too, the same
-  "already-learned pool, no progress writes, dead-end-not-paginated" shape should work,
-  but note `finishFlashcardStage`'s reviewMode branch is Flashcard-specific; matching's
-  `handleMatchingRoundComplete` and fill-in's `handleFillInComplete` would need their
-  own analogous checks.
+- **Update:** the Matching/Điền Từ review gap above was fixed in a follow-up session —
+  see "Review mode extended to Matching/Điền Từ" below. This bullet is kept only as
+  the historical note that motivated the fix.
+
+## Review mode extended to Matching/Điền Từ on `/vocabulary-by-topic`
+
+Users hit a dead end picking "Nối Từ" or "Điền Từ" directly (not via the Flashcard
+chain) on a topic already fully drilled in that mode: the mode-select modal only ever
+computed a "new words" pool (`parentMode`'s learned count minus this mode's learned
+count), which is 0 once everything's been matched/filled-in, so nothing loaded and
+there was no way to redo it — this is the exact gap flagged in the note above.
+Generalized the same "review already-learned pool, no progress writes, reshuffle
+dead-end" pattern Flashcard already had to all three modes:
+
+- `learnStyleTopicKey`'s sub-modal ("[Mode] Mới" / "Ôn Tập Từ Đã Học") now opens for
+  **any** mode once that mode has `> 0` learned words, not just Flashcard — gated via
+  a new `learnStyleMode` state (which mode the modal is currently offering) instead of
+  being hardcoded to `'flashcard'`. Two helpers, `modeLearnedCount(info, mode)` and
+  `modePoolTotal(info, mode)`, centralize "how many learned in this mode" / "size of
+  this mode's own draw pool" (flashcard draws from `total`; matching draws from
+  `learnedFlashcard`; fill_in draws from `learnedMatching`) — used everywhere the old
+  code inlined a `mode === 'flashcard' ? ... : mode === 'matching' ? ... : ...` ternary
+  keyed only off `learnedFlashcard`.
+- `startTopic`'s `isReview` branch now fetches the progress row for **the mode being
+  reviewed** (`fetchProgressRow(user.id, topicKey, mode)`), not always `'flashcard'` —
+  so reviewing Matching pulls from Matching's own completed pool (words already
+  matched), not the Flashcard pool.
+- `handleMatchingRoundComplete`/`handleFillInComplete` gained the same `reviewMode`
+  early-return `finishFlashcardStage` already had: skip `persistProgressAdvance`
+  entirely and go straight to a non-chaining completion screen. Without this, a
+  Matching/Điền Từ review session would have silently advanced real progress on
+  words that were, by definition, already complete.
+- The completion screen's "Ôn Tập Lại" button was hardcoded to
+  `startTopic(activeTopicKey, 'flashcard', ...)` — changed to `activeMode` so
+  reshuffle-and-repeat works for whichever mode is actually being reviewed.
+- Stage-chooser copy ("Đã học"/"Có thể ôn tập"/empty-pool warning) generalized via
+  `MODE_VERB`/`MODE_LEARNED_LABEL`/`MODE_NEW_LABEL` lookup tables instead of text
+  hardcoded to Flashcard/"học" wording.
+
+## Bug: entering Matching any way other than the Flashcard chain rendered an empty board
+
+Found via a live-DB check (querying `topic_vocabulary_progress` directly with a small
+`pg` script) after a user report of "chọn Nối Từ / Điền Từ không ra gì cả" — the
+`matching` progress row for their topic had exactly the right word_order (their 6
+learned-but-unmatched flashcard words, all valid ids in `topic_vocabulary`), so the
+data layer was fine; the bug was purely in the client never rendering it.
+
+**Root cause**: `loadStage()` — the one function every entry path (direct mode
+selection, "Học Đợt Tiếp Theo" via `continueNextStage`, and the review flow added
+above) funnels through to actually load a stage's words — sets `stageWords` but never
+touches `roundVocabs`/`matchingRound`/`matchingType`. Those are only initialized by
+`finishFlashcardStage()`'s manual `setMatchingRound(0); setMatchingType('hanzi_pinyin');
+prepareMatchingRound(0)`, which runs solely on the Flashcard→Matching **chain**
+transition (`chainMode`). Any other way of reaching the Matching screen left
+`roundVocabs` at its previous value (`[]` on a fresh session) — `MatchingExercise`
+then rendered with an empty `vocabs` array: no crash, just a blank board, which reads
+as "nothing happens when I click Nối Từ." Fill-in never had this problem since
+`FillInExercise` is handed `stageWords` directly (no per-round slicing), so only
+Matching was affected — and only via non-chain entry, so it was invisible as long as
+the Flashcard→Matching→Điền Từ chain was the only path anyone exercised.
+
+**Fix**: `loadStage()` itself now resets `matchingRound`/`matchingType` and populates
+`roundVocabs` (`ordered.slice(0, ITEMS_PER_ROUND)`) whenever `mode === 'matching'`,
+using the just-fetched local `ordered` array — **not** `prepareMatchingRound()` and
+**not** the `stageWords` state, both of which would read the pre-update stale closure
+value in the same tick `setStageWords(ordered)` was called. This makes every entry
+path (direct selection, continue-next-stage, review) correctly initialize the round
+board, not just the chain path. `finishFlashcardStage()`'s own manual reset is
+untouched (it doesn't call `loadStage`, since it reuses the already-loaded Flashcard
+stage's words) — the two now duplicate the same reset logic for their two different
+call shapes, which is fine.
+
+**Lesson**: when a "mode X" screen depends on per-mode UI state (like Matching's
+round/type/roundVocabs) that isn't part of the generic stage payload, initializing
+that state only in one specific transition path (the chain) rather than in the shared
+loader function every path funnels through is a trap — the bug stays invisible until
+someone exercises a different entry path into that same mode.
 
 ## Desktop font size (`app/globals.css`)
 
