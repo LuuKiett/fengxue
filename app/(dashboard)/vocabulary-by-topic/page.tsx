@@ -18,6 +18,7 @@ import {
   Puzzle,
   Keyboard,
   Trophy,
+  Layers,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -197,6 +198,24 @@ export default function VocabularyByTopicPage() {
   const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'hanzi_viet'>('hanzi_pinyin')
   const [roundVocabs, setRoundVocabs] = useState<TopicWord[]>([])
 
+  // Cross-topic "Ôn Tập Nhóm Chủ Đề" — lets a student pick several topics at once and
+  // review a random shuffle of words already learned via Flashcard across all of them,
+  // in whichever of the 3 study modes they pick. Fully separate from the per-topic flow
+  // above: it never touches `topic_vocabulary_progress` (same "review, no persistence"
+  // contract as the single-topic `reviewMode` above), it just reuses reviewMode=true +
+  // chainMode=false + the existing stageWords/flashIdx/matchingRound state and the same
+  // Flashcard/MatchingExercise/FillInExercise rendering, with `activeTopicKey` set to a
+  // sentinel ('__group__') so the existing reviewMode guards (`if (!activeTopicKey)
+  // return`) stay satisfied without matching any real topic.
+  const [groupPickMode, setGroupPickMode] = useState(false)
+  const [selectedGroupTopics, setSelectedGroupTopics] = useState<string[]>([])
+  const [groupModeModalOpen, setGroupModeModalOpen] = useState(false)
+  const [groupMode, setGroupMode] = useState<StudyMode>('flashcard')
+  const [groupSizeStep, setGroupSizeStep] = useState(false)
+  const [groupStageSizeChoice, setGroupStageSizeChoice] = useState<number>(DEFAULT_STAGE_SIZE)
+  const [groupCustomStageSize, setGroupCustomStageSize] = useState('')
+  const [groupSessionActive, setGroupSessionActive] = useState(false)
+
   const progressAdvancedRef = useRef(false)
 
   async function loadTopicInfosForLevel(lvl: string) {
@@ -268,6 +287,13 @@ export default function VocabularyByTopicPage() {
     setModeSelectTopicKey(null)
     setLearnStyleTopicKey(null)
     setReviewMode(false)
+    // Selected topic keys were checked against this level's topic list — a topic_key
+    // string can repeat across levels (e.g. "home-living" exists at both A1 and A2),
+    // so a stale selection would otherwise silently carry over to the wrong level.
+    setGroupPickMode(false)
+    setSelectedGroupTopics([])
+    setGroupSizeStep(false)
+    setGroupModeModalOpen(false)
   }
 
   async function fetchProgressRow(userId: string, topicKey: string, mode: StudyMode): Promise<ProgressRow | null> {
@@ -642,6 +668,60 @@ export default function VocabularyByTopicPage() {
     }
   }
 
+  async function startGroupReview(size: number) {
+    setLoading(true)
+    setGroupSizeStep(false)
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const topicsForSession = selectedGroupTopics
+      const modeForSession = groupMode
+
+      const allLearnedIds: string[] = []
+      for (const topicKey of topicsForSession) {
+        const progress = await fetchProgressRow(user.id, topicKey, 'flashcard')
+        allLearnedIds.push(...getLearnedIds(progress))
+      }
+      if (allLearnedIds.length === 0) { setLoading(false); return }
+
+      const pickedIds = shuffleArray(allLearnedIds).slice(0, size)
+      const { data: wordsData } = await supabase
+        .from('topic_vocabulary')
+        .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
+        .in('id', pickedIds)
+
+      const byId: Record<string, TopicWord> = {}
+      for (const w of wordsData || []) byId[w.id] = w
+      const ordered = shuffleArray(pickedIds.map((id) => byId[id]).filter(Boolean))
+
+      setStageWords(ordered)
+      setStageSize(size)
+      setStageNumber(1)
+      setTotalStages(1)
+      setTopicFullyComplete(false)
+      setFlashIdx(0)
+      setIsFlipped(false)
+      setActiveMode(modeForSession)
+      setCurrentStageMode(modeForSession)
+      setReviewMode(true)
+      setChainMode(false)
+      setActiveTopicKey('__group__')
+      setGroupSessionActive(true)
+      if (modeForSession === 'matching') {
+        setMatchingRound(0)
+        setMatchingType('hanzi_pinyin')
+        setRoundVocabs(ordered.slice(0, ITEMS_PER_ROUND))
+      }
+      progressAdvancedRef.current = false
+      setStep(modeForSession)
+    } catch (err) {
+      console.error('Lỗi khi bắt đầu ôn tập nhóm chủ đề:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const triggerGrandConfetti = () => {
     const duration = 3 * 1000
     const end = Date.now() + duration
@@ -669,6 +749,13 @@ export default function VocabularyByTopicPage() {
   const learnStyleInfo = topicInfos.find((t) => t.topicKey === learnStyleTopicKey)
   const activeTopicInfo = topicInfos.find((t) => t.topicKey === activeTopicKey)
 
+  // Group review's pool is always words learned via Flashcard, regardless of which of
+  // the 3 study modes is picked to review them in — there's no per-topic gating chain
+  // (matching/fill_in "parent pool") to reuse once topics are mixed together.
+  const groupLearnedTotal = topicInfos
+    .filter((t) => selectedGroupTopics.includes(t.topicKey))
+    .reduce((sum, t) => sum + t.learnedFlashcard, 0)
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
@@ -678,7 +765,117 @@ export default function VocabularyByTopicPage() {
 
       {step === 'select' ? (
         <div className="space-y-5">
-          {!pendingTopicKey ? (
+          {groupSizeStep ? (
+            <div className="cartoon-card p-6 bg-white space-y-4">
+              <button
+                onClick={() => setGroupSizeStep(false)}
+                className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn chế độ
+              </button>
+
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 shrink-0">
+                  {React.createElement(MODE_META[groupMode].icon, { className: 'w-5 h-5' })}
+                </div>
+                <div>
+                  <h4 className="font-black text-slate-800 text-lg flex items-center gap-2">
+                    Ôn Tập Nhóm Chủ Đề — Số từ mỗi đợt
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 whitespace-nowrap">
+                      {MODE_META[groupMode].label} · Ôn tập
+                    </span>
+                  </h4>
+                  <p className="text-xs text-slate-500 font-semibold">
+                    Chọn số từ muốn ôn tập ngẫu nhiên trong số các từ đã học bằng Flashcard ở {selectedGroupTopics.length} chủ đề đã chọn.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+                <div className="text-center">
+                  <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">
+                    Tổng từ đã học (Flashcard) ở các chủ đề đã chọn
+                  </span>
+                  <span className="text-sm font-black text-emerald-600">{groupLearnedTotal} từ</span>
+                </div>
+              </div>
+
+              {groupLearnedTotal === 0 ? (
+                <p className="text-xs text-center text-red-500 font-bold py-2">
+                  Các chủ đề đã chọn chưa có từ nào học bằng Flashcard. Vui lòng học Flashcard trước.
+                </p>
+              ) : (
+                <>
+                  <div className="space-y-1">
+                    <span className="text-xs font-bold text-slate-500 block">Chọn số từ đợt này:</span>
+                    <div className="flex flex-wrap gap-2">
+                      {STAGE_SIZE_PRESETS.filter((n) => n <= groupLearnedTotal).map((n) => {
+                        const active = !groupCustomStageSize && groupStageSizeChoice === n
+                        return (
+                          <button
+                            key={n}
+                            onClick={() => { setGroupStageSizeChoice(n); setGroupCustomStageSize('') }}
+                            className={`cursor-pointer px-4 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${
+                              active
+                                ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
+                                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-blue-200'
+                            }`}
+                          >
+                            <span className="block">{n} từ</span>
+                          </button>
+                        )
+                      })}
+                      {!STAGE_SIZE_PRESETS.includes(groupLearnedTotal) && (
+                        <button
+                          onClick={() => { setGroupStageSizeChoice(groupLearnedTotal); setGroupCustomStageSize('') }}
+                          className={`cursor-pointer px-4 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${
+                            !groupCustomStageSize && groupStageSizeChoice === groupLearnedTotal
+                              ? 'bg-[#1877f2] border-blue-600 text-white shadow-sm'
+                              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-blue-200'
+                          }`}
+                        >
+                          <span className="block">{groupLearnedTotal} từ</span>
+                          <span className="block text-[10px] font-bold normal-case opacity-80">Tất cả</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-500 block">
+                      Hoặc nhập số tùy chỉnh (Tối đa {groupLearnedTotal} từ):
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={groupLearnedTotal}
+                      value={groupCustomStageSize}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        if (val === '') { setGroupCustomStageSize(''); return }
+                        const num = parseInt(val, 10)
+                        if (!isNaN(num)) setGroupCustomStageSize(Math.min(groupLearnedTotal, Math.max(1, num)).toString())
+                      }}
+                      placeholder={`VD: ${Math.min(25, groupLearnedTotal)}`}
+                      className="w-36 px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-sm"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      const size = groupCustomStageSize
+                        ? Math.max(1, Math.min(groupLearnedTotal, parseInt(groupCustomStageSize, 10) || DEFAULT_STAGE_SIZE))
+                        : Math.min(groupLearnedTotal, groupStageSizeChoice)
+                      startGroupReview(size)
+                    }}
+                    className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
+                  >
+                    Bắt Đầu Ôn Tập <ArrowRight className="w-4 h-4" />
+                  </button>
+                </>
+              )}
+            </div>
+          ) : !pendingTopicKey ? (
             <>
               {/* Level tabs */}
               <div className="flex gap-2 flex-wrap">
@@ -700,6 +897,35 @@ export default function VocabularyByTopicPage() {
                 ))}
               </div>
 
+              {/* Group-topic picker toggle */}
+              <div className="flex items-center justify-between flex-wrap gap-2 bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+                <button
+                  onClick={() => {
+                    setGroupPickMode((v) => !v)
+                    setSelectedGroupTopics([])
+                  }}
+                  className={`cursor-pointer px-3 py-2 rounded-xl font-black text-xs border-2 flex items-center gap-1.5 transition-all ${
+                    groupPickMode
+                      ? 'bg-blue-50 border-blue-300 text-blue-600'
+                      : 'bg-white border-slate-200 text-slate-500 hover:border-blue-200'
+                  }`}
+                >
+                  <Layers className="w-3.5 h-3.5" /> {groupPickMode ? 'Đang Chọn Nhóm Chủ Đề' : 'Chọn Nhóm Chủ Đề'}
+                </button>
+                {groupPickMode && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-500">Đã chọn {selectedGroupTopics.length} chủ đề</span>
+                    <button
+                      disabled={selectedGroupTopics.length === 0}
+                      onClick={() => setGroupModeModalOpen(true)}
+                      className="cartoon-btn px-4 py-2 text-xs flex items-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none"
+                    >
+                      Bắt Đầu Ôn Tập <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
               {loading ? (
                 <div className="cartoon-card p-8 bg-white text-center">
                   <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
@@ -717,12 +943,32 @@ export default function VocabularyByTopicPage() {
                     const pctMatch = t.learnedFlashcard ? (t.learnedMatching / t.learnedFlashcard) * 100 : 0
                     const pctFillIn = t.learnedMatching ? (t.learnedFillIn / t.learnedMatching) * 100 : 0
                     const bothDone = t.total > 0 && t.learnedFillIn >= t.total
+                    const isSelectedForGroup = selectedGroupTopics.includes(t.topicKey)
                     return (
                       <button
                         key={t.topicKey}
-                        onClick={() => setModeSelectTopicKey(t.topicKey)}
-                        className="cartoon-card cursor-pointer p-4 bg-white text-left space-y-3"
+                        onClick={() => {
+                          if (groupPickMode) {
+                            setSelectedGroupTopics((prev) =>
+                              prev.includes(t.topicKey) ? prev.filter((k) => k !== t.topicKey) : [...prev, t.topicKey]
+                            )
+                            return
+                          }
+                          setModeSelectTopicKey(t.topicKey)
+                        }}
+                        className={`cartoon-card cursor-pointer p-4 bg-white text-left space-y-3 relative ${
+                          groupPickMode && isSelectedForGroup ? 'ring-2 ring-blue-400 border-blue-300' : ''
+                        }`}
                       >
+                        {groupPickMode && (
+                          <div
+                            className={`absolute top-2.5 right-2.5 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              isSelectedForGroup ? 'bg-blue-500 border-blue-600' : 'bg-white border-slate-300'
+                            }`}
+                          >
+                            {isSelectedForGroup && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                          </div>
+                        )}
                         <div className="flex items-center gap-3">
                           <div className="text-3xl leading-none shrink-0">{t.icon}</div>
                           <div className="min-w-0 flex-1">
@@ -1031,6 +1277,53 @@ export default function VocabularyByTopicPage() {
               </div>
             </div>
           )}
+
+          {groupModeModalOpen && (
+            <div
+              className="fixed inset-0 bg-black/40 z-[999] flex items-center justify-center p-4"
+              onClick={() => setGroupModeModalOpen(false)}
+            >
+              <div
+                className="cartoon-panel bg-white p-6 max-w-lg w-full space-y-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h4 className="font-black text-slate-800 text-lg text-center">
+                  🗂️ Ôn Tập {selectedGroupTopics.length} Chủ Đề — Chọn Chế Độ
+                </h4>
+                <p className="text-xs text-slate-500 font-semibold text-center -mt-2">
+                  Sẽ ôn lại các từ đã học bằng Flashcard, gộp ngẫu nhiên từ các chủ đề đã chọn.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {(['flashcard', 'matching', 'fill_in'] as StudyMode[]).map((m) => {
+                    const meta = MODE_META[m]
+                    const Icon = meta.icon
+                    return (
+                      <button
+                        key={m}
+                        onClick={() => {
+                          setGroupMode(m)
+                          setGroupModeModalOpen(false)
+                          setGroupSizeStep(true)
+                          setGroupStageSizeChoice(Math.min(Math.max(groupLearnedTotal, 1), DEFAULT_STAGE_SIZE))
+                          setGroupCustomStageSize('')
+                        }}
+                        className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
+                      >
+                        <Icon className="w-8 h-8 mx-auto text-blue-500" />
+                        <p className="font-black text-slate-700 text-sm">{meta.label}</p>
+                      </button>
+                    )
+                  })}
+                </div>
+                <button
+                  onClick={() => setGroupModeModalOpen(false)}
+                  className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 block mx-auto"
+                >
+                  Hủy
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : step === 'flashcard' ? (
         <div className="space-y-6">
@@ -1040,10 +1333,10 @@ export default function VocabularyByTopicPage() {
                 <BookOpen className="w-4 h-4" />
               </div>
               <span className="font-extrabold text-sm text-slate-500 uppercase">
-                {activeTopicInfo?.icon} {activeTopicInfo?.label} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Flashcard'}
+                {groupSessionActive ? `🗂️ Ôn Tập ${selectedGroupTopics.length} Chủ Đề` : `${activeTopicInfo?.icon} ${activeTopicInfo?.label}`} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Flashcard'}
               </span>
             </div>
-            <button onClick={() => { setStep('select'); setReviewMode(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
+            <button onClick={() => { setStep('select'); setReviewMode(false); setGroupSessionActive(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
@@ -1106,12 +1399,12 @@ export default function VocabularyByTopicPage() {
               <div>
                 <span className="font-black text-slate-800 block text-sm">{getMatchingTitle()}</span>
                 <span className="text-[10px] text-slate-500 font-bold uppercase">
-                  {activeTopicInfo?.icon} {activeTopicInfo?.label} · Đợt {stageNumber}/{totalStages} · Vòng {matchingRound + 1}/{Math.ceil(stageWords.length / ITEMS_PER_ROUND)}
+                  {groupSessionActive ? `🗂️ Ôn Tập ${selectedGroupTopics.length} Chủ Đề` : `${activeTopicInfo?.icon} ${activeTopicInfo?.label}`} · Đợt {stageNumber}/{totalStages} · Vòng {matchingRound + 1}/{Math.ceil(stageWords.length / ITEMS_PER_ROUND)}
                   {reviewMode ? ' · Ôn Tập' : ''}
                 </span>
               </div>
             </div>
-            <button onClick={() => { setStep('select'); setReviewMode(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
+            <button onClick={() => { setStep('select'); setReviewMode(false); setGroupSessionActive(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
@@ -1128,10 +1421,10 @@ export default function VocabularyByTopicPage() {
                 <Keyboard className="w-4 h-4" />
               </div>
               <span className="font-extrabold text-sm text-slate-500 uppercase">
-                {activeTopicInfo?.icon} {activeTopicInfo?.label} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Điền Từ'}
+                {groupSessionActive ? `🗂️ Ôn Tập ${selectedGroupTopics.length} Chủ Đề` : `${activeTopicInfo?.icon} ${activeTopicInfo?.label}`} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Điền Từ'}
               </span>
             </div>
-            <button onClick={() => { setStep('select'); setReviewMode(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
+            <button onClick={() => { setStep('select'); setReviewMode(false); setGroupSessionActive(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
@@ -1152,7 +1445,9 @@ export default function VocabularyByTopicPage() {
                 {reviewMode ? 'Ôn Tập Xong! 🎉' : topicFullyComplete ? 'Hoàn Thành Toàn Bộ! 🎉' : `Xong Đợt ${stageNumber}! 🎉`}
               </h3>
               <p className="text-slate-500 font-bold">
-                {reviewMode
+                {groupSessionActive
+                  ? `Bạn đã ôn tập lại các từ đã học bằng Flashcard trong ${selectedGroupTopics.length} chủ đề đã chọn.`
+                  : reviewMode
                   ? `Bạn đã ôn tập lại các từ đã học trong chủ đề ${activeTopicInfo?.label}.`
                   : topicFullyComplete
                   ? `Chúc mừng! Bạn đã ${MODE_META[activeMode].label.toLowerCase()} hết chủ đề ${activeTopicInfo?.label}.`
@@ -1166,13 +1461,24 @@ export default function VocabularyByTopicPage() {
             {reviewMode ? (
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={() => activeTopicKey && startTopic(activeTopicKey, activeMode, stageSize, true)}
+                  onClick={() =>
+                    groupSessionActive ? startGroupReview(stageSize) : activeTopicKey && startTopic(activeTopicKey, activeMode, stageSize, true)
+                  }
                   className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
                 >
                   <RotateCcw className="w-4 h-4" /> Ôn Tập Lại
                 </button>
                 <button
-                  onClick={() => { setStep('select'); setReviewMode(false); loadTopicInfosForLevel(level) }}
+                  onClick={() => {
+                    setStep('select')
+                    setReviewMode(false)
+                    setGroupSessionActive(false)
+                    if (groupSessionActive) {
+                      setGroupPickMode(false)
+                      setSelectedGroupTopics([])
+                    }
+                    loadTopicInfosForLevel(level)
+                  }}
                   className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
                 >
                   Quay Lại Chọn Chủ Đề

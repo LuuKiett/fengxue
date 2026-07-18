@@ -731,6 +731,54 @@ classes; if it turns out uneven (some fixed-`px` element now looks small next to
 scaled-up text next to it), that's the tradeoff of a root-level fix and would need a
 targeted per-component fix instead.
 
+## Cross-topic "Ôn Tập Nhóm Chủ Đề" (group review) on `/vocabulary-by-topic`
+
+Per explicit user request: a toggle ("Chọn Nhóm Chủ Đề") on the topic-select grid that,
+when on, renders a checkbox on every topic card instead of opening the per-topic
+mode-select modal on click. Checking 1+ topics reveals a "Bắt Đầu Ôn Tập" button that
+opens a mode-select modal (Flashcard/Nối Từ/Điền Từ, same 3 choices as the per-topic
+flow) → a size chooser (same `STAGE_SIZE_PRESETS`/custom-input UI as the per-topic
+chooser) → the exercise itself, drawing a random shuffle of words pooled across every
+selected topic.
+
+- **The pool is always words already learned via Flashcard** (`learnedFlashcard`,
+  summed across the selected topics), regardless of which of the 3 modes is picked to
+  review them in — this was an explicit requirement, not a default I chose. There's no
+  per-topic gating chain to preserve once topics are mixed (matching/fill_in normally
+  draw from their own parent mode's learned pool; group mode doesn't, it always reads
+  each selected topic's `flashcard` progress row directly via `fetchProgressRow`).
+- **Implemented as a variant of the existing single-topic `reviewMode`, not a new
+  parallel state machine.** `startGroupReview(size)` collects `getLearnedIds()` from
+  every selected topic's `flashcard` progress row, shuffles+slices them, fetches those
+  `topic_vocabulary` rows (word ids are unique across topics/levels, so `.in('id', ...)`
+  works with no per-topic disambiguation needed), and sets the exact same
+  `reviewMode=true, chainMode=false` combination the per-topic "Ôn Tập Từ Đã Học" path
+  already uses — meaning `finishFlashcardStage`/`handleMatchingRoundComplete`/
+  `handleFillInComplete`'s existing `if (reviewMode) { ...; return }` early-outs (skip
+  `persistProgressAdvance`, skip chaining) needed **zero changes** to cover the group
+  case too. `activeTopicKey` is set to a sentinel string (`'__group__'`) purely to keep
+  those functions' `if (!activeTopicKey) return` guards satisfied — it's never looked
+  up against `topicInfos`, since a new `groupSessionActive` boolean gates every place
+  that would otherwise render `activeTopicInfo?.icon`/`.label` (the 3 exercise-step
+  headers + the completion screen's title/message/"Ôn Tập Lại" handler), showing
+  `🗂️ Ôn Tập N Chủ Đề` instead.
+- **`selectedGroupTopics`/`groupPickMode` are reset on level change** (in
+  `handleSelectLevel`) — `topic_key` strings repeat across levels (e.g. "home-living"
+  exists at both A1 and A2 as separate `topic_vocabulary` rows), and `startGroupReview`
+  looks up each selected key's `flashcard` progress via `fetchProgressRow(..., level,
+  ...)` against whatever `level` is currently selected — so a stale cross-level
+  selection would have silently reviewed the wrong level's progress.
+- Verified end-to-end with Playwright against the live dev server (fresh signup, drove
+  Flashcard on 2 topics to seed a learned pool, then the full group toggle → checkbox
+  select → mode modal → size chooser → session → completion-screen flow) — the size
+  chooser correctly totaled `3+2=5` across the two topics, the Matching session's board
+  showed a real shuffle of words from both topics, and the completion screen's
+  "Ôn Tập Lại"/"Quay Lại Chọn Chủ Đề" both rendered correctly. Console-only 406s seen
+  during that run are a pre-existing, unrelated cold-start artifact (`vocabulary_sets`/
+  `profiles` `.maybeSingle()` queries 406ing for a user with zero rows yet on
+  `/dashboard`) — reproduced identically on a bare register+dashboard visit with no
+  group-review interaction at all, so not something this feature introduced.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
