@@ -18,6 +18,7 @@ import {
   Sparkles,
   Trophy,
   Tags,
+  BookMarked,
 } from 'lucide-react'
 
 const navItems = [
@@ -29,6 +30,7 @@ const navItems = [
   { href: '/dictionary',         label: 'Từ Điển',          icon: Library },
   { href: '/review-dictionary',  label: 'Ôn Tập Từ Điển',   icon: ListChecks },
   { href: '/vocabulary-by-topic', label: 'Học Theo Chủ Đề', icon: Tags },
+  { href: '/full-dictionary',    label: 'Tổng Hợp Từ Điển', icon: BookMarked },
   { href: '/practice-exam',      label: 'Luyện Đề TOCFL',   icon: ClipboardList },
   { href: '/thi-thu',            label: 'Thi Thử TOCFL',    icon: Trophy },
 ]

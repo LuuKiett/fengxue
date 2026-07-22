@@ -779,6 +779,98 @@ selected topic.
   `/dashboard`) — reproduced identically on a bare register+dashboard visit with no
   group-review interaction at all, so not something this feature introduced.
 
+## "Tổng Hợp Từ Điển" full-dictionary page (`/full-dictionary`, `full_dictionary_words`,
+## `full_dictionary_progress`)
+
+New page linked from the sidebar directly below "Học Theo Chủ Đề". Per level (A1/A2/B1/
+B2), it combines Flashcard/Nối Từ/Điền Từ study (row 1) with the entire level's
+dictionary — hanzi/pinyin/nghĩa + full example sentences — browsable as a searchable
+table underneath (row 2), so a student can drill words *and* look any of them up in
+full reference form without leaving the page.
+
+- **Word list, pinyin, and examples are 100% scraped from monchinese.me/dictionary?
+  level=X per explicit user request** — this is a hard requirement the user restated
+  after an initial version of this page shipped using this app's own `dictionary_words`
+  as the source; that version was reworked to match. The two dictionaries can and do
+  disagree on content, so this page never falls back to `dictionary_words`.
+- **The plain `/dictionary?level=X` listing page cannot be crawled directly** — it
+  hard-caps at exactly 120 results ("120 kết quả") regardless of any pagination-shaped
+  query param tried (`page`, `limit`, `offset`, `size` are all silently ignored; page 2
+  returns the *same* 120 hrefs as page 1). Confirmed A1/A2/B1/B2 all hit this same cap.
+  **The workaround: that same endpoint also accepts `&q=<term>`, which performs a real
+  filtered search** (combined with `level=`) that returns genuine, much-smaller result
+  counts — e.g. `level=B2&q=hao` returns exactly 46 real results, not capped. Single-
+  Latin-letter `q` values behave unpredictably (some real letters return 0 results even
+  though matches exist — likely a bug on their end, not something to rely on), but real
+  2+ character pinyin syllables work reliably. **The crawl enumerates all ~403 standard
+  toneless Mandarin syllables** (derived from `pinyin-pro` over the entire CJK Unified
+  Ideographs block, see `buildSyllableList()`) as successive `q=` values per level and
+  unions the results (dedup by the word's `/dictionary/<hanzi>` href) — since every
+  Chinese word's pinyin necessarily contains at least one full syllable from that set,
+  this is a complete crawl, not a sample. The script logs a warning for any single
+  query that returns ≥115 results (a sign it might itself be truncated, needing further
+  subdivision) — zero such warnings fired across all 4 levels this session, giving
+  good confidence the crawl is complete. Final counts: A1=341, A2=475, B1=1177,
+  B2=2251 (4244 total, 4100 unique hrefs — 144 words are cross-tagged into more than
+  one level by monchinese).
+- **`scripts/scrape-full-dictionary.js`** is the crawler, in 3 modes: `list` (the
+  syllable-enumeration crawl above, writes `scripts/output/full-dictionary-words.json`),
+  `examples` (fetches `/dictionary/<hanzi>` for every unique word found — a direct
+  per-word lookup is NOT subject to the listing cap — parses the same "Ví dụ" section
+  `scripts/scrape-monchinese-words.js` already parses for `topic_vocabulary`, and
+  generates example pinyin via `pinyin-pro` + the same `POLYPHONE_FIXES` map (們/麼/車/
+  還/乾) documented elsewhere in this file — a third independent copy of that
+  workaround), and `sql` (merges both into `scripts/output/full-dictionary-seed.sql`,
+  `ON CONFLICT (level, hanzi, pinyin) DO UPDATE`, safe to re-run). Got a real example
+  for 4100/4100 unique words this run (100% coverage) — re-run `list` → `examples` →
+  `sql` → `npx prisma db execute --file scripts/output/full-dictionary-seed.sql` if
+  monchinese's content changes and this page ever needs a refresh.
+- **`full_dictionary_words` (migration 0016) is a dedicated table, deliberately NOT
+  mixed into `dictionary_words`** — same reasoning as `topic_vocabulary`'s own
+  separation (see its comment above): this page's content must track monchinese
+  exactly and must never risk `dictionary_progress`/exercise-record data tied to
+  `dictionary_words` IDs. Read-only RLS policy for authenticated users, same shape as
+  `topic_vocabulary`'s.
+- **`full_dictionary_progress` (migration 0015) is a separate table from both
+  `dictionary_progress`** (used by `/review-dictionary`, keyed off `dictionary_words`)
+  **and `topic_vocabulary_progress`** (used by `/vocabulary-by-topic`, keyed off
+  `topic_vocabulary`) — this page's Nối Từ is an independently-drillable mode with its
+  own persisted progress, whereas `/review-dictionary`'s Flashcard only *auto-chains*
+  into matching without ever persisting a standalone matching-progress row, so reusing
+  `dictionary_progress` for a third mode would have needed different `current_index`
+  semantics on the same row and could have desynced that page's own progress. Keyed by
+  `(user_id, level, mode)` with the same 3-mode gating chain `topic_vocabulary_progress`
+  already established (flashcard pool = whole level in `full_dictionary_words`;
+  matching pool = learned-in-flashcard; fill_in pool = learned-in-matching), just
+  without a `topic_key` column since this page has no topic axis. `word_order` entries
+  are `full_dictionary_words.id` values, not `dictionary_words.id`.
+- **Page architecture is `/vocabulary-by-topic`'s state machine with the topic axis
+  removed**, not built from scratch: mode-select-with-review-submodal
+  (`learnStyleMode`), chain-mode Flashcard→Matching→Điền Từ (`chainMode`/
+  `currentStageMode`/`ChainStepTracker`), the stage-size chooser, and the completion
+  screen are all the same pattern as vocabulary-by-topic minus `topicKey`/group-review
+  (cross-topic review doesn't have an analogue here — there's no second grouping axis
+  once "level" is already the only selector). One structural difference: instead of
+  vocabulary-by-topic's modal-based mode-select (topic click → modal → mode buttons),
+  here the level detail view *is* the per-level screen, so the 3 mode buttons render
+  directly as Row 1 of that view (no extra click-through modal needed) — clicking one
+  either opens the New-vs-Review sub-modal (if that mode already has learned words) or
+  goes straight to the stage-size chooser, exactly mirroring vocabulary-by-topic's
+  `learnStyleTopicKey` sub-modal logic with `topicKey` dropped.
+- **Row 2 (the full word table) reuses `/dictionary/page.tsx`'s table markup/columns**
+  (Hán Tự/Pinyin/Nghĩa/Ví Dụ, `speak()` buttons, `fetchAllRows` pagination pattern,
+  `stripTones` search) but queries `full_dictionary_words` instead of `dictionary_words`
+  and is scoped to the single already-selected level (no level tabs — level is fixed by
+  having navigated into that level's detail view), with its own local search/pagination
+  state, since this page needed the browsing UX embedded alongside the exercise row
+  rather than as a standalone destination.
+- **Unrelated side effect of this session's B2 scraping work**: while backfilling this
+  app's own `dictionary_words` B2 examples (a separate, smaller task done first — see
+  `scripts/backfill-b2-examples.js`, keyed by this app's own B2 word list, not
+  monchinese's), B2 example coverage in `dictionary_words` went from 499/2471 to
+  2418/2471, which also directly improves `/dictionary` and `/review-dictionary`'s
+  Flashcard example display for B2 — those pages were otherwise untouched this session.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

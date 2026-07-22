@@ -32,6 +32,7 @@ model Profile {
   practiceSessions   PracticeSession[]
   tocflAttempts      TocflAttempt[]
   topicVocabularyProgress TopicVocabularyProgress[]
+  fullDictionaryProgress FullDictionaryProgress[]
 
   @@map("profiles")
 }
@@ -281,4 +282,46 @@ model TopicVocabularyProgress {
 
   @@unique([userId, level, topicKey, mode])
   @@map("topic_vocabulary_progress")
+}
+
+// Per-user progress for the "Tổng Hợp Từ Điển" page (/full-dictionary), mirroring
+// TopicVocabularyProgress's 3-mode gating chain but keyed by level only — this page
+// studies DictionaryWord directly (grouped by level), not TopicVocabulary. See
+// migration 0015's comment for why this is a separate table from DictionaryProgress.
+model FullDictionaryProgress {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  level        String
+  mode         String
+  wordOrder    String[] @default([]) @map("word_order") @db.Uuid
+  currentIndex Int      @default(0) @map("current_index")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, level, mode])
+  @@map("full_dictionary_progress")
+}
+
+// Backs the "Tổng Hợp Từ Điển" page's dictionary browsing table + study pool. Sourced
+// 100% from monchinese.me/dictionary?level=X per explicit user request — deliberately
+// separate from DictionaryWord for the same reason TopicVocabulary is (see its comment):
+// this page's word list/pinyin/examples must track monchinese exactly, which can
+// legitimately disagree with this app's own TOCFL-band dictionary_words content.
+model FullDictionaryWord {
+  id                String   @id @default(uuid()) @db.Uuid
+  level             String
+  hanzi             String
+  hanziVariant      String?  @map("hanzi_variant")
+  pinyin            String
+  vietnamese        String
+  pos               String?
+  exampleHanzi      String?  @map("example_hanzi")
+  examplePinyin     String?  @map("example_pinyin")
+  exampleVietnamese String?  @map("example_vietnamese")
+  source            String   @default("monchinese")
+  orderIndex        Int      @default(0) @map("order_index")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@unique([level, hanzi, pinyin])
+  @@map("full_dictionary_words")
 }

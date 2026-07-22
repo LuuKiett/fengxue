@@ -343,6 +343,57 @@ CREATE POLICY "Users can manage own topic vocabulary progress"
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id);
 
+-- Per-user progress for the "Tổng Hợp Từ Điển" page (/full-dictionary), mirroring
+-- topic_vocabulary_progress's 3-mode gating chain but keyed by level only (this page
+-- studies dictionary_words directly, not topic_vocabulary — no topic axis). See
+-- migration 0015's comment for why this is a separate table from dictionary_progress.
+CREATE TABLE IF NOT EXISTS public.full_dictionary_progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    level TEXT NOT NULL,
+    mode TEXT NOT NULL,
+    word_order UUID[] NOT NULL DEFAULT '{}',
+    current_index INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(user_id, level, mode)
+);
+
+ALTER TABLE public.full_dictionary_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own full dictionary progress"
+    ON public.full_dictionary_progress FOR ALL
+    USING (auth.uid() = user_id)
+    WITH CHECK (auth.uid() = user_id);
+
+-- Backs the "Tổng Hợp Từ Điển" page's dictionary browsing table + study pool. Sourced
+-- 100% from monchinese.me/dictionary?level=X per explicit user request — deliberately
+-- separate from dictionary_words for the same reason topic_vocabulary is: this page's
+-- content must track monchinese exactly, which can legitimately disagree with this
+-- app's own TOCFL-band dictionary_words content.
+CREATE TABLE IF NOT EXISTS public.full_dictionary_words (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    level TEXT NOT NULL,
+    hanzi TEXT NOT NULL,
+    hanzi_variant TEXT,
+    pinyin TEXT NOT NULL,
+    vietnamese TEXT NOT NULL,
+    pos TEXT,
+    example_hanzi TEXT,
+    example_pinyin TEXT,
+    example_vietnamese TEXT,
+    source TEXT NOT NULL DEFAULT 'monchinese',
+    order_index INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(level, hanzi, pinyin)
+);
+
+ALTER TABLE public.full_dictionary_words ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone authenticated can read full dictionary words"
+    ON public.full_dictionary_words FOR SELECT
+    TO authenticated
+    USING (true);
+
 -- ============================================================
 -- TRIGGER: Auto-create profile on user signup
 -- This runs with SECURITY DEFINER so it bypasses RLS
