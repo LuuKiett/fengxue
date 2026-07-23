@@ -921,6 +921,83 @@ from Matching's learned count.
   now pulls straight from Flashcard's learned pool instead of requiring a matching
   pass first.
 
+## "Biết / Không Biết" flashcard tracking (`/review-dictionary` + `/full-dictionary`)
+
+Per explicit user request, Flashcard mode on both pages now ends every card in an
+explicit **Biết** (green) / **Không Biết** (red) choice instead of a plain "Tiếp
+theo"/"Chuyển Sang..." button — replacing the last-card action, not adding to it.
+Both buttons still advance `flashIdx`/`current_index` (a word is only *shown* once
+per learning cycle regardless of the answer); the difference is purely which pool a
+word ends up in afterward.
+
+- **New columns on `dictionary_progress`/`full_dictionary_progress`** (migrations
+  `0017`/`0018`, only meaningful on the `mode='flashcard'` row): `unknown_word_ids
+  UUID[]` (words currently flagged "không biết", not yet re-answered "biết") and
+  `unknown_resolved_count INTEGER` (lifetime count of words that were once unknown
+  and got resolved back to "biết" since the last full level reset — paired with
+  `unknown_word_ids.length` for an "X/Y đã ôn lại" progress stat shown on level
+  cards). `current_index`/`learnedFlashcard` semantics are otherwise unchanged.
+- **"Known" pool, not "learned" pool, feeds Điền Từ/Nối Từ.** A word counted in
+  `current_index` (reviewed) but still in `unknown_word_ids` must NOT appear in
+  Điền Từ or Nối Từ. This is a read-time filter, not a stored array: both pages have
+  a `getKnownIds(progress)` helper = `word_order.slice(0, current_index)` minus
+  whatever's in that row's `unknown_word_ids`, used everywhere a "learned ids" pool
+  used to be read directly (`startLevel`/`startLevelMode`'s fill_in/matching
+  branches, `continueNextStage`, `restartLevel`/`restartMode`,
+  `handleRestartFillInDirectly`). `LevelInfo` gained a derived `knownFlashcard =
+  learnedFlashcard - unknownCount` field that all "remaining to learn" math for
+  Điền Từ/Nối Từ now uses instead of raw `learnedFlashcard` (on `/full-dictionary`,
+  `modePoolTotal()`'s matching/fill_in branches changed from `info.learnedFlashcard`
+  → `info.knownFlashcard` — this is the literal "Nối Từ/Điền Từ chỉ hiện từ đã
+  biết" requirement).
+- **Two refs, not state, hold the live unknown set during a session**
+  (`unknownIdsRef`/`unknownResolvedRef`) — populated whenever a flashcard stage
+  loads (every `startLevel(Mode)`/`continueNextStage` code path that touches
+  `mode='flashcard'`), mutated + persisted **immediately** on every tap via a
+  `persistUnknownState(newIds, newResolved)` helper (one `update` per tap, not
+  batched with the stage-end `persistProgressAdvance`) — each Biết/Không Biết is a
+  discrete, user-visible save, unlike the once-per-stage progress advance. Marking
+  **Biết** on a word already in the unknown set removes it + bumps the resolved
+  counter; marking **Không Biết** only adds to the set in the *normal* (non-review)
+  flow — during an unknown-review session it's a no-op (the word's already there).
+- **"Học Từ Không Biết" is a 3rd option alongside the existing mode choices**
+  (`/review-dictionary`'s mode-select modal; `/full-dictionary`'s per-mode
+  `learnStyleMode` New-vs-Review sub-modal, but only rendered when
+  `learnStyleMode==='flashcard'`), disabled when `unknownCount===0`. Drilling it is
+  a **dead-end reshuffle draw from `unknown_word_ids` directly** — the same "review
+  already learned pool, no progress writes" shape already established for
+  `/full-dictionary`'s/`vocabulary-by-topic`'s "Ôn Tập Từ Đã Học" review flows (see
+  above), not a new state machine:
+  - On `/review-dictionary` (which has no pre-existing reviewMode concept): a new
+    `unknownReviewMode` boolean plus dedicated `startUnknownReview()`/
+    `loadUnknownStage()` functions that bypass `word_order`/`current_index`
+    pagination entirely and load a shuffled slice of `unknown_word_ids` straight
+    into `stageWords`. Finishing skips the flashcard→matching chain and
+    `persistProgressAdvance` (goes straight to a `complete` step variant), since
+    these words already have their `current_index` position — only their
+    known/unknown status is changing.
+  - On `/full-dictionary` (which already has a `reviewMode` boolean with exactly
+    this skip-persist/skip-chain behavior baked into
+    `finishFlashcardStage`/`handleMatchingRoundComplete`/`handleFillInComplete`):
+    starting unknown-review sets **both** `reviewMode(true)` and a new
+    `unknownReviewMode(true)`, with `chainMode` staying `false` — so none of those
+    three completion handlers needed any code changes. `startLevelMode` gained an
+    `isUnknownReview` flag that, inside its existing `isReview` branch, swaps the
+    pool source from `getLearnedIds(progress)` to `progress.unknown_word_ids`;
+    everything else (shuffle, `loadStage(lvl, mode, shuffled, 0, ids.length,
+    size)`) is identical to the pre-existing review path.
+- **Full level reset (`restartLevel`/`restartMode('flashcard')`) also clears
+  `unknown_word_ids: []`/`unknown_resolved_count: 0`** on the flashcard row — per
+  explicit requirement, a word only stops reappearing in "Học Từ Không Biết"
+  permanently once marked biết again, or until the *whole level* is reset from
+  scratch (never by itself expiring).
+- Buttons use the existing `.cartoon-btn-danger`/`.cartoon-btn-success` utility
+  classes (`app/globals.css`) rather than raw Tailwind `bg-red-500`/etc, since a
+  bare Tailwind background utility and `.cartoon-btn`'s own `background: var(...)`
+  rule have equal specificity and the winner depends on stylesheet source order —
+  the dedicated variant classes avoid that risk entirely and match the app's
+  existing button design system.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

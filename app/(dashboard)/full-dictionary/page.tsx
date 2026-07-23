@@ -17,6 +17,7 @@ import {
   ArrowRight,
   RotateCcw,
   CheckCircle,
+  XCircle,
   BookOpen,
   Puzzle,
   Keyboard,
@@ -24,6 +25,7 @@ import {
   Search,
   Volume2,
   Library,
+  AlertTriangle,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -38,6 +40,11 @@ interface LevelInfo {
   level: string
   total: number
   learnedFlashcard: number
+  // learnedFlashcard minus words currently flagged "không biết" — the actual pool
+  // Matching/Fill-in are allowed to draw from.
+  knownFlashcard: number
+  unknownCount: number
+  unknownResolvedCount: number
   learnedMatching: number
   learnedFillIn: number
 }
@@ -56,10 +63,20 @@ interface DictWord {
 interface ProgressRow {
   word_order: string[]
   current_index: number
+  unknown_word_ids?: string[] | null
+  unknown_resolved_count?: number | null
 }
 
 function getLearnedIds(progress: ProgressRow | null): string[] {
   return progress ? progress.word_order.slice(0, progress.current_index) : []
+}
+
+// Words reviewed via Flashcard, minus whatever's currently flagged "không biết" —
+// the pool Matching/Fill-in are actually allowed to draw from (see KNOWLEDGE.md).
+function getKnownIds(progress: ProgressRow | null): string[] {
+  if (!progress) return []
+  const unknownSet = new Set(progress.unknown_word_ids || [])
+  return getLearnedIds(progress).filter((id) => !unknownSet.has(id))
 }
 
 // Matching and Fill-in both draw independently from words already learned in
@@ -69,7 +86,7 @@ function modeLearnedCount(info: LevelInfo, mode: StudyMode): number {
   return mode === 'flashcard' ? info.learnedFlashcard : mode === 'matching' ? info.learnedMatching : info.learnedFillIn
 }
 function modePoolTotal(info: LevelInfo, mode: StudyMode): number {
-  return mode === 'flashcard' ? info.total : info.learnedFlashcard
+  return mode === 'flashcard' ? info.total : info.knownFlashcard
 }
 const MODE_VERB: Record<StudyMode, string> = { flashcard: 'học', matching: 'nối', fill_in: 'điền' }
 const MODE_LEARNED_LABEL: Record<StudyMode, string> = { flashcard: 'Đã học', matching: 'Đã nối', fill_in: 'Đã điền' }
@@ -153,6 +170,12 @@ export default function FullDictionaryPage() {
   const [learnStyleMode, setLearnStyleMode] = useState<StudyMode | null>(null)
   const [activeMode, setActiveMode] = useState<StudyMode>('flashcard')
   const [reviewMode, setReviewMode] = useState(false)
+  // True when the current/pending Flashcard review session is drilling the "không
+  // biết" pool (via "Học Từ Không Biết") rather than a normal "already learned"
+  // review — always paired with reviewMode(true) so the existing skip-persist/
+  // skip-chain branches in finishFlashcardStage/handleMatchingRoundComplete/
+  // handleFillInComplete apply unchanged.
+  const [unknownReviewMode, setUnknownReviewMode] = useState(false)
   const [chainMode, setChainMode] = useState(false)
   const [currentStageMode, setCurrentStageMode] = useState<StudyMode>('flashcard')
 
@@ -184,6 +207,16 @@ export default function FullDictionaryPage() {
 
   const progressAdvancedRef = useRef(false)
 
+  // Live copy of the active level's flashcard-mode unknown_word_ids/unknown_resolved_count
+  // — populated whenever a flashcard stage loads, mutated and persisted immediately on
+  // every Biết/Không Biết tap (see persistUnknownState).
+  const unknownIdsRef = useRef<string[]>([])
+  const unknownResolvedRef = useRef<number>(0)
+  // Mirrors unknownIdsRef.current.length for display purposes — refs can't be read
+  // during render (React rules-of-hooks), so this is updated in lockstep everywhere
+  // unknownIdsRef.current is reassigned.
+  const [unknownRemaining, setUnknownRemaining] = useState(0)
+
   async function loadLevelInfos() {
     setLoading(true)
     try {
@@ -205,13 +238,20 @@ export default function FullDictionaryPage() {
 
       const { data: progressRows } = await supabase
         .from('full_dictionary_progress')
-        .select('level, mode, current_index')
+        .select('level, mode, current_index, unknown_word_ids, unknown_resolved_count')
         .eq('user_id', user.id)
 
       const progressByLevelMode: Record<string, Record<string, number>> = {}
+      const unknownByLevel: Record<string, { count: number; resolved: number }> = {}
       for (const p of progressRows || []) {
         if (!progressByLevelMode[p.level]) progressByLevelMode[p.level] = {}
         progressByLevelMode[p.level][p.mode] = p.current_index
+        if (p.mode === 'flashcard') {
+          unknownByLevel[p.level] = {
+            count: (p.unknown_word_ids || []).length,
+            resolved: p.unknown_resolved_count || 0,
+          }
+        }
       }
 
       const levels = sortLevels(Object.keys(counts))
@@ -219,9 +259,12 @@ export default function FullDictionaryPage() {
         levels.map((lvl) => {
           const total = counts[lvl] || 0
           const learnedFlashcard = Math.min(progressByLevelMode[lvl]?.['flashcard'] || 0, total)
-          const learnedMatching = Math.min(progressByLevelMode[lvl]?.['matching'] || 0, learnedFlashcard)
-          const learnedFillIn = Math.min(progressByLevelMode[lvl]?.['fill_in'] || 0, learnedFlashcard)
-          return { level: lvl, total, learnedFlashcard, learnedMatching, learnedFillIn }
+          const unknownCount = Math.min(unknownByLevel[lvl]?.count || 0, learnedFlashcard)
+          const unknownResolvedCount = unknownByLevel[lvl]?.resolved || 0
+          const knownFlashcard = learnedFlashcard - unknownCount
+          const learnedMatching = Math.min(progressByLevelMode[lvl]?.['matching'] || 0, knownFlashcard)
+          const learnedFillIn = Math.min(progressByLevelMode[lvl]?.['fill_in'] || 0, knownFlashcard)
+          return { level: lvl, total, learnedFlashcard, knownFlashcard, unknownCount, unknownResolvedCount, learnedMatching, learnedFillIn }
         })
       )
     } catch (err) {
@@ -259,6 +302,7 @@ export default function FullDictionaryPage() {
     setSizeChooserOpen(false)
     setLearnStyleMode(null)
     setReviewMode(false)
+    setUnknownReviewMode(false)
     setTableSearch('')
     setTablePage(1)
     setStep('detail')
@@ -268,7 +312,7 @@ export default function FullDictionaryPage() {
   async function fetchProgressRow(userId: string, lvl: string, mode: StudyMode): Promise<ProgressRow | null> {
     const { data } = await supabase
       .from('full_dictionary_progress')
-      .select('word_order, current_index')
+      .select('word_order, current_index, unknown_word_ids, unknown_resolved_count')
       .eq('user_id', userId)
       .eq('level', lvl)
       .eq('mode', mode)
@@ -276,11 +320,12 @@ export default function FullDictionaryPage() {
     return data
   }
 
-  async function startLevelMode(lvl: string, mode: StudyMode, size: number, isReview: boolean = false) {
+  async function startLevelMode(lvl: string, mode: StudyMode, size: number, isReview: boolean = false, isUnknownReview: boolean = false) {
     setLoading(true)
     setStageSize(size)
     setActiveMode(mode)
     setReviewMode(isReview)
+    setUnknownReviewMode(isUnknownReview)
     setChainMode(!isReview && mode === 'flashcard')
     try {
       const { data: { user } } = await supabase.auth.getUser()
@@ -288,7 +333,12 @@ export default function FullDictionaryPage() {
 
       if (isReview) {
         const progress = await fetchProgressRow(user.id, lvl, mode)
-        const learnedIds = getLearnedIds(progress)
+        const learnedIds = isUnknownReview ? (progress?.unknown_word_ids || []) : getLearnedIds(progress)
+        if (mode === 'flashcard') {
+          unknownIdsRef.current = progress?.unknown_word_ids || []
+          unknownResolvedRef.current = progress?.unknown_resolved_count || 0
+          setUnknownRemaining(unknownIdsRef.current.length)
+        }
         if (learnedIds.length === 0) { setLoading(false); return }
         const shuffled = shuffleArray(learnedIds)
         await loadStage(lvl, mode, shuffled, 0, learnedIds.length, size)
@@ -323,10 +373,13 @@ export default function FullDictionaryPage() {
           progress = upserted
         }
         if (!progress) { setLoading(false); return }
+        unknownIdsRef.current = progress.unknown_word_ids || []
+        unknownResolvedRef.current = progress.unknown_resolved_count || 0
+        setUnknownRemaining(unknownIdsRef.current.length)
         await loadStage(lvl, 'flashcard', progress.word_order, progress.current_index, allIds.length, size)
       } else {
         const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
-        const learnedIds = getLearnedIds(parentProgress)
+        const learnedIds = getKnownIds(parentProgress)
         if (learnedIds.length === 0) { setLoading(false); return }
 
         const thisProgress = await fetchProgressRow(user.id, lvl, mode)
@@ -439,13 +492,61 @@ export default function FullDictionaryPage() {
     }
   }
 
-  const handleFlashNext = () => {
+  // Persists the live unknownIdsRef/unknownResolvedRef to the level's flashcard
+  // progress row immediately (not batched) — each Biết/Không Biết tap is a discrete
+  // save action.
+  const persistUnknownState = async (newIds: string[], newResolved: number) => {
+    if (!selectedLevel) return
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      await supabase
+        .from('full_dictionary_progress')
+        .update({ unknown_word_ids: newIds, unknown_resolved_count: newResolved, updated_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('level', selectedLevel)
+        .eq('mode', 'flashcard')
+
+      setLevelInfos((prev) =>
+        prev.map((l) =>
+          l.level === selectedLevel
+            ? { ...l, unknownCount: newIds.length, unknownResolvedCount: newResolved, knownFlashcard: l.learnedFlashcard - newIds.length }
+            : l
+        )
+      )
+    } catch (err) {
+      console.error('Lỗi khi lưu trạng thái từ chưa biết:', err)
+    }
+  }
+
+  const advanceFlash = () => {
     setIsFlipped(false)
     if (flashIdx < stageWords.length - 1) {
       setFlashIdx(flashIdx + 1)
     } else {
       finishFlashcardStage()
     }
+  }
+
+  const handleMarkKnown = () => {
+    const word = stageWords[flashIdx]
+    if (word && unknownIdsRef.current.includes(word.id)) {
+      unknownIdsRef.current = unknownIdsRef.current.filter((id) => id !== word.id)
+      unknownResolvedRef.current += 1
+      setUnknownRemaining(unknownIdsRef.current.length)
+      persistUnknownState(unknownIdsRef.current, unknownResolvedRef.current)
+    }
+    advanceFlash()
+  }
+
+  const handleMarkUnknown = () => {
+    const word = stageWords[flashIdx]
+    if (word && !unknownReviewMode && !unknownIdsRef.current.includes(word.id)) {
+      unknownIdsRef.current = [...unknownIdsRef.current, word.id]
+      setUnknownRemaining(unknownIdsRef.current.length)
+      persistUnknownState(unknownIdsRef.current, unknownResolvedRef.current)
+    }
+    advanceFlash()
   }
 
   const finishFlashcardStage = async () => {
@@ -544,7 +645,7 @@ export default function FullDictionaryPage() {
 
       if (activeMode !== 'flashcard') {
         const parentProgress = await fetchProgressRow(user.id, selectedLevel, 'flashcard')
-        const learnedIds = getLearnedIds(parentProgress)
+        const learnedIds = getKnownIds(parentProgress)
         const thisProgress = await fetchProgressRow(user.id, selectedLevel, activeMode)
 
         if (thisProgress) {
@@ -571,12 +672,17 @@ export default function FullDictionaryPage() {
 
       const { data: progress } = await supabase
         .from('full_dictionary_progress')
-        .select('word_order, current_index')
+        .select('word_order, current_index, unknown_word_ids, unknown_resolved_count')
         .eq('user_id', user.id)
         .eq('level', selectedLevel)
         .eq('mode', activeMode)
         .single()
       if (!progress) return
+      if (activeMode === 'flashcard') {
+        unknownIdsRef.current = progress.unknown_word_ids || []
+        unknownResolvedRef.current = progress.unknown_resolved_count || 0
+        setUnknownRemaining(unknownIdsRef.current.length)
+      }
       await loadStage(selectedLevel, activeMode, progress.word_order, progress.current_index, progress.word_order.length, stageSize)
     } finally {
       setLoading(false)
@@ -597,20 +703,34 @@ export default function FullDictionaryPage() {
         wordOrder = shuffleArray(allWords.map((w) => w.id))
       } else {
         const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
-        wordOrder = shuffleArray(getLearnedIds(parentProgress))
+        wordOrder = shuffleArray(getKnownIds(parentProgress))
       }
 
       await supabase
         .from('full_dictionary_progress')
         .upsert(
-          { user_id: user.id, level: lvl, mode, word_order: wordOrder, current_index: 0, updated_at: new Date().toISOString() },
+          {
+            user_id: user.id,
+            level: lvl,
+            mode,
+            word_order: wordOrder,
+            current_index: 0,
+            ...(mode === 'flashcard' ? { unknown_word_ids: [], unknown_resolved_count: 0 } : {}),
+            updated_at: new Date().toISOString(),
+          },
           { onConflict: 'user_id,level,mode' }
         )
+
+      if (mode === 'flashcard') {
+        unknownIdsRef.current = []
+        unknownResolvedRef.current = 0
+        setUnknownRemaining(0)
+      }
 
       setLevelInfos((prev) =>
         prev.map((l) => {
           if (l.level !== lvl) return l
-          if (mode === 'flashcard') return { ...l, learnedFlashcard: 0, learnedMatching: 0, learnedFillIn: 0 }
+          if (mode === 'flashcard') return { ...l, learnedFlashcard: 0, knownFlashcard: 0, unknownCount: 0, unknownResolvedCount: 0, learnedMatching: 0, learnedFillIn: 0 }
           if (mode === 'matching') return { ...l, learnedMatching: 0 }
           return { ...l, learnedFillIn: 0 }
         })
@@ -637,6 +757,8 @@ export default function FullDictionaryPage() {
   const currentInfo = levelInfos.find((l) => l.level === selectedLevel)
   const remaining = !currentInfo
     ? 0
+    : unknownReviewMode
+    ? currentInfo.unknownCount
     : reviewMode
     ? modeLearnedCount(currentInfo, activeMode)
     : modePoolTotal(currentInfo, activeMode) - modeLearnedCount(currentInfo, activeMode)
@@ -694,8 +816,8 @@ export default function FullDictionaryPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {levelInfos.map((info) => {
                 const pctFlash = info.total ? (info.learnedFlashcard / info.total) * 100 : 0
-                const pctMatch = info.learnedFlashcard ? (info.learnedMatching / info.learnedFlashcard) * 100 : 0
-                const pctFillIn = info.learnedFlashcard ? (info.learnedFillIn / info.learnedFlashcard) * 100 : 0
+                const pctMatch = info.knownFlashcard ? (info.learnedMatching / info.knownFlashcard) * 100 : 0
+                const pctFillIn = info.knownFlashcard ? (info.learnedFillIn / info.knownFlashcard) * 100 : 0
                 const bothDone = info.total > 0 && info.learnedFillIn >= info.total
                 return (
                   <button
@@ -718,15 +840,26 @@ export default function FullDictionaryPage() {
                         <ProgressRing percent={pctFlash} size={36} stroke={4} />
                         <BookOpen className="w-3.5 h-3.5 text-slate-400" />
                       </div>
-                      <div className="flex flex-col items-center gap-0.5" title={`Nối Từ: ${info.learnedMatching}/${info.learnedFlashcard}`}>
+                      <div className="flex flex-col items-center gap-0.5" title={`Nối Từ: ${info.learnedMatching}/${info.knownFlashcard}`}>
                         <ProgressRing percent={pctMatch} size={36} stroke={4} />
                         <Puzzle className="w-3.5 h-3.5 text-slate-400" />
                       </div>
-                      <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${info.learnedFillIn}/${info.learnedFlashcard}`}>
+                      <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${info.learnedFillIn}/${info.knownFlashcard}`}>
                         <ProgressRing percent={pctFillIn} size={36} stroke={4} />
                         <Keyboard className="w-3.5 h-3.5 text-slate-400" />
                       </div>
                     </div>
+                    {(info.unknownCount > 0 || info.unknownResolvedCount > 0) && (
+                      <div className="flex items-center gap-1.5 pt-2 border-t border-slate-100">
+                        <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                        <p className="text-[11px] font-bold text-amber-600">
+                          {info.unknownCount} từ chưa biết
+                          <span className="text-slate-400 font-semibold">
+                            {' '}· đã ôn lại {info.unknownResolvedCount}/{info.unknownResolvedCount + info.unknownCount}
+                          </span>
+                        </p>
+                      </div>
+                    )}
                   </button>
                 )
               })}
@@ -753,17 +886,19 @@ export default function FullDictionaryPage() {
 
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 shrink-0">
-                  {React.createElement(reviewMode ? RotateCcw : MODE_META[activeMode].icon, { className: 'w-5 h-5' })}
+                  {React.createElement(unknownReviewMode ? AlertTriangle : reviewMode ? RotateCcw : MODE_META[activeMode].icon, { className: 'w-5 h-5' })}
                 </div>
                 <div>
                   <h4 className="font-black text-slate-800 text-lg flex items-center gap-2">
                     {selectedLevel} — Số từ mỗi đợt
                     <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 whitespace-nowrap">
-                      {reviewMode ? `${MODE_META[activeMode].label} · Ôn tập` : MODE_META[activeMode].label}
+                      {unknownReviewMode ? 'Từ Không Biết' : reviewMode ? `${MODE_META[activeMode].label} · Ôn tập` : MODE_META[activeMode].label}
                     </span>
                   </h4>
                   <p className="text-xs text-slate-500 font-semibold">
-                    {reviewMode
+                    {unknownReviewMode
+                      ? 'Ôn lại các từ bạn đã đánh dấu "Không Biết" — chọn Biết để từ đó không hiện lại nữa.'
+                      : reviewMode
                       ? `Chọn số từ muốn ôn tập lại trong số các từ bạn đã ${MODE_VERB[activeMode]} xong.`
                       : activeMode === 'flashcard'
                       ? 'Học xong Flashcard sẽ tự động chuyển sang Nối Từ, rồi Điền Từ.'
@@ -777,16 +912,18 @@ export default function FullDictionaryPage() {
                   <span className="text-4xl block">⚠️</span>
                   <h4 className="font-black text-slate-800 text-base">Không có từ nào để ôn tập</h4>
                   <p className="text-slate-500 text-xs font-semibold max-w-sm mx-auto">
-                    {reviewMode
+                    {unknownReviewMode
+                      ? 'Bạn không còn từ nào ở nhóm "chưa biết" trong cấp độ này.'
+                      : reviewMode
                       ? `Bạn chưa ${MODE_VERB[activeMode]} từ nào để ôn tập.`
                       : activeMode === 'matching'
-                      ? (currentInfo?.learnedFlashcard ?? 0) === 0
-                        ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
-                        : 'Bạn đã Nối Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
+                      ? (currentInfo?.knownFlashcard ?? 0) === 0
+                        ? 'Bạn chưa biết từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
+                        : 'Bạn đã Nối Từ xong tất cả các từ đã biết bằng Flashcard. Hãy học thêm Flashcard mới!'
                       : activeMode === 'fill_in'
-                      ? (currentInfo?.learnedFlashcard ?? 0) === 0
-                        ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
-                        : 'Bạn đã Điền Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
+                      ? (currentInfo?.knownFlashcard ?? 0) === 0
+                        ? 'Bạn chưa biết từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
+                        : 'Bạn đã Điền Từ xong tất cả các từ đã biết bằng Flashcard. Hãy học thêm Flashcard mới!'
                       : 'Bạn đã học hết tất cả các từ trong cấp độ này bằng Flashcard!'}
                   </p>
                 </div>
@@ -796,15 +933,15 @@ export default function FullDictionaryPage() {
                     <div className="grid grid-cols-2 gap-2 text-center">
                       <div>
                         <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">
-                          {reviewMode ? `${MODE_LEARNED_LABEL[activeMode]} (có thể ôn)` : MODE_LEARNED_LABEL[activeMode]}
+                          {unknownReviewMode ? 'Đã ôn lại xong' : reviewMode ? `${MODE_LEARNED_LABEL[activeMode]} (có thể ôn)` : MODE_LEARNED_LABEL[activeMode]}
                         </span>
                         <span className="text-sm font-black text-slate-700">
-                          {currentInfo ? modeLearnedCount(currentInfo, activeMode) : 0} từ
+                          {unknownReviewMode ? (currentInfo?.unknownResolvedCount ?? 0) : currentInfo ? modeLearnedCount(currentInfo, activeMode) : 0} từ
                         </span>
                       </div>
                       <div>
                         <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">
-                          {reviewMode ? 'Có thể ôn tập' : 'Có thể học'}
+                          {unknownReviewMode ? 'Còn chưa biết' : reviewMode ? 'Có thể ôn tập' : 'Có thể học'}
                         </span>
                         <span className="text-sm font-black text-emerald-600">{remaining} từ</span>
                       </div>
@@ -877,7 +1014,7 @@ export default function FullDictionaryPage() {
                         : Math.min(remaining, stageSizeChoice)
                       const lvl = selectedLevel
                       setSizeChooserOpen(false)
-                      if (lvl) startLevelMode(lvl, activeMode, size, reviewMode)
+                      if (lvl) startLevelMode(lvl, activeMode, size, reviewMode, unknownReviewMode)
                     }}
                     className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
                   >
@@ -907,6 +1044,7 @@ export default function FullDictionaryPage() {
                         }
                         setActiveMode(m)
                         setReviewMode(false)
+                        setUnknownReviewMode(false)
                         setSizeChooserOpen(true)
                         const rem = modePoolTotal(currentInfo, m) - modeLearnedCount(currentInfo, m)
                         setStageSizeChoice(Math.min(Math.max(rem, 1), DEFAULT_STAGE_SIZE))
@@ -1056,6 +1194,7 @@ export default function FullDictionaryPage() {
                         onClick={() => {
                           setActiveMode(learnStyleMode)
                           setReviewMode(false)
+                          setUnknownReviewMode(false)
                           setSizeChooserOpen(true)
                           setLearnStyleMode(null)
                           setStageSizeChoice(Math.min(Math.max(newRemaining, 1), DEFAULT_STAGE_SIZE))
@@ -1076,6 +1215,7 @@ export default function FullDictionaryPage() {
                       const learned = modeLearnedCount(currentInfo, learnStyleMode)
                       setActiveMode(learnStyleMode)
                       setReviewMode(true)
+                      setUnknownReviewMode(false)
                       setSizeChooserOpen(true)
                       setLearnStyleMode(null)
                       setStageSizeChoice(Math.min(Math.max(learned, 1), DEFAULT_STAGE_SIZE))
@@ -1089,6 +1229,29 @@ export default function FullDictionaryPage() {
                       {modeLearnedCount(currentInfo, learnStyleMode)} từ đã {MODE_VERB[learnStyleMode]}
                     </p>
                   </button>
+                  {learnStyleMode === 'flashcard' && (
+                    <button
+                      disabled={currentInfo.unknownCount === 0}
+                      onClick={() => {
+                        setActiveMode('flashcard')
+                        setReviewMode(true)
+                        setUnknownReviewMode(true)
+                        setSizeChooserOpen(true)
+                        setLearnStyleMode(null)
+                        setStageSizeChoice(Math.min(Math.max(currentInfo.unknownCount, 1), DEFAULT_STAGE_SIZE))
+                        setCustomStageSize('')
+                      }}
+                      className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 sm:col-span-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <AlertTriangle className="w-8 h-8 mx-auto text-amber-500" />
+                      <p className="font-black text-slate-700 text-sm">Học Từ Không Biết</p>
+                      <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                        {currentInfo.unknownCount > 0
+                          ? `Ôn lại ${currentInfo.unknownCount} từ đã đánh dấu "không biết"`
+                          : 'Chưa có từ nào bị đánh dấu "không biết"'}
+                      </p>
+                    </button>
+                  )}
                 </div>
                 <button
                   onClick={() => setLearnStyleMode(null)}
@@ -1105,13 +1268,13 @@ export default function FullDictionaryPage() {
           <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
-                <BookOpen className="w-4 h-4" />
+                {unknownReviewMode ? <AlertTriangle className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
               </div>
               <span className="font-extrabold text-sm text-slate-500 uppercase">
-                {selectedLevel} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Flashcard'}
+                {unknownReviewMode ? `${selectedLevel} · Ôn Tập Từ Không Biết` : `${selectedLevel} · Đợt ${stageNumber}/${totalStages} · ${reviewMode ? 'Ôn Tập' : 'Flashcard'}`}
               </span>
             </div>
-            <button onClick={() => { setStep('detail'); setReviewMode(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
+            <button onClick={() => { setStep('detail'); setReviewMode(false); setUnknownReviewMode(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
@@ -1159,8 +1322,19 @@ export default function FullDictionaryPage() {
             <button onClick={() => setIsFlipped(!isFlipped)} className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm">
               Lật Thẻ
             </button>
-            <button onClick={handleFlashNext} className="cartoon-btn px-5 py-3 text-sm flex items-center gap-2">
-              {flashIdx === stageWords.length - 1 ? (reviewMode ? 'Hoàn Thành Ôn Tập' : 'Chuyển Sang Nối Từ') : 'Tiếp theo'} <ArrowRight className="w-4 h-4" />
+          </div>
+          <div className="flex justify-center items-center gap-3 max-w-lg mx-auto">
+            <button
+              onClick={handleMarkUnknown}
+              className="cartoon-btn cartoon-btn-danger px-5 py-3 text-sm flex items-center gap-2 flex-1 justify-center"
+            >
+              <XCircle className="w-4 h-4" /> Không Biết
+            </button>
+            <button
+              onClick={handleMarkKnown}
+              className="cartoon-btn cartoon-btn-success px-5 py-3 text-sm flex items-center gap-2 flex-1 justify-center"
+            >
+              <CheckCircle className="w-4 h-4" /> Biết
             </button>
           </div>
         </div>
@@ -1212,7 +1386,7 @@ export default function FullDictionaryPage() {
         <div className="space-y-6">
           <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
             <div className="w-20 h-20 bg-emerald-100 rounded-full shadow-md flex items-center justify-center text-emerald-500 mx-auto">
-              {reviewMode ? <RotateCcw className="w-12 h-12" /> : levelFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
+              {unknownReviewMode ? <AlertTriangle className="w-12 h-12" /> : reviewMode ? <RotateCcw className="w-12 h-12" /> : levelFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
             </div>
 
             <div className="space-y-2">
@@ -1220,7 +1394,11 @@ export default function FullDictionaryPage() {
                 {reviewMode ? 'Ôn Tập Xong! 🎉' : levelFullyComplete ? 'Hoàn Thành Toàn Bộ! 🎉' : `Xong Đợt ${stageNumber}! 🎉`}
               </h3>
               <p className="text-slate-500 font-bold">
-                {reviewMode
+                {unknownReviewMode
+                  ? unknownRemaining > 0
+                    ? `Còn ${unknownRemaining} từ vẫn chưa biết trong cấp độ ${selectedLevel}.`
+                    : `Bạn đã học hết các từ "chưa biết" trong cấp độ ${selectedLevel}! 🎉`
+                  : reviewMode
                   ? `Bạn đã ôn tập lại các từ đã học trong cấp độ ${selectedLevel}.`
                   : levelFullyComplete
                   ? `Chúc mừng! Bạn đã ${MODE_META[activeMode].label.toLowerCase()} hết cấp độ ${selectedLevel}.`
@@ -1231,7 +1409,24 @@ export default function FullDictionaryPage() {
               </span>
             </div>
 
-            {reviewMode ? (
+            {unknownReviewMode ? (
+              <div className="flex flex-col gap-2">
+                {unknownRemaining > 0 && (
+                  <button
+                    onClick={() => selectedLevel && startLevelMode(selectedLevel, 'flashcard', stageSize, true, true)}
+                    className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
+                  >
+                    <RotateCcw className="w-4 h-4" /> Ôn Tập Lại
+                  </button>
+                )}
+                <button
+                  onClick={() => { setStep('detail'); setReviewMode(false); setUnknownReviewMode(false) }}
+                  className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
+                >
+                  Quay Lại Cấp Độ
+                </button>
+              </div>
+            ) : reviewMode ? (
               <div className="flex flex-col gap-2">
                 <button
                   onClick={() => selectedLevel && startLevelMode(selectedLevel, activeMode, stageSize, true)}

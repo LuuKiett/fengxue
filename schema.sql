@@ -139,6 +139,9 @@ CREATE TABLE IF NOT EXISTS public.dictionary_progress (
     mode TEXT NOT NULL DEFAULT 'flashcard',
     word_order UUID[] NOT NULL DEFAULT '{}',
     current_index INTEGER NOT NULL DEFAULT 0,
+    -- Both only meaningful on the mode='flashcard' row — see migration 0017.
+    unknown_word_ids UUID[] NOT NULL DEFAULT '{}',
+    unknown_resolved_count INTEGER NOT NULL DEFAULT 0,
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(user_id, level, mode)
 );
@@ -354,6 +357,9 @@ CREATE TABLE IF NOT EXISTS public.full_dictionary_progress (
     mode TEXT NOT NULL,
     word_order UUID[] NOT NULL DEFAULT '{}',
     current_index INTEGER NOT NULL DEFAULT 0,
+    -- Both only meaningful on the mode='flashcard' row — see migration 0018.
+    unknown_word_ids UUID[] NOT NULL DEFAULT '{}',
+    unknown_resolved_count INTEGER NOT NULL DEFAULT 0,
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(user_id, level, mode)
 );

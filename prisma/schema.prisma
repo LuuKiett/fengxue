@@ -123,6 +123,9 @@ model DictionaryProgress {
   mode         String   @default("flashcard")
   wordOrder    String[] @map("word_order") @db.Uuid
   currentIndex Int      @default(0) @map("current_index")
+  // Both only meaningful on the mode='flashcard' row — see migration 0017.
+  unknownWordIds       String[] @default([]) @map("unknown_word_ids") @db.Uuid
+  unknownResolvedCount Int      @default(0) @map("unknown_resolved_count")
   updatedAt    DateTime @default(now()) @map("updated_at")
   user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -295,6 +298,9 @@ model FullDictionaryProgress {
   mode         String
   wordOrder    String[] @default([]) @map("word_order") @db.Uuid
   currentIndex Int      @default(0) @map("current_index")
+  // Both only meaningful on the mode='flashcard' row — see migration 0018.
+  unknownWordIds       String[] @default([]) @map("unknown_word_ids") @db.Uuid
+  unknownResolvedCount Int      @default(0) @map("unknown_resolved_count")
   updatedAt    DateTime @default(now()) @map("updated_at")
   user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
