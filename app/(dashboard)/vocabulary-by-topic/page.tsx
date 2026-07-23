@@ -66,13 +66,14 @@ function getLearnedIds(progress: ProgressRow | null): string[] {
 }
 
 // How many words are already "learned" in a given mode, and the size of the pool
-// that mode draws new words from (flashcard draws from the topic total; matching/
-// fill_in draw from the count already learned in their parent mode).
+// that mode draws new words from. Matching and Fill-in both draw independently from
+// the count already learned in Flashcard — Fill-in does NOT require Matching first
+// (per explicit user request: finishing Flashcard alone should unlock Fill-in).
 function modeLearnedCount(info: TopicInfo, mode: StudyMode): number {
   return mode === 'flashcard' ? info.learnedFlashcard : mode === 'matching' ? info.learnedMatching : info.learnedFillIn
 }
 function modePoolTotal(info: TopicInfo, mode: StudyMode): number {
-  return mode === 'flashcard' ? info.total : mode === 'matching' ? info.learnedFlashcard : info.learnedMatching
+  return mode === 'flashcard' ? info.total : info.learnedFlashcard
 }
 const MODE_VERB: Record<StudyMode, string> = { flashcard: 'học', matching: 'nối', fill_in: 'điền' }
 const MODE_LEARNED_LABEL: Record<StudyMode, string> = { flashcard: 'Đã học', matching: 'Đã nối', fill_in: 'Đã điền' }
@@ -110,7 +111,7 @@ function ProgressRing({ percent, size = 30, stroke = 3.5 }: { percent: number; s
 const MODE_META: Record<StudyMode, { label: string; icon: typeof BookOpen; desc: string }> = {
   flashcard: { label: 'Flashcard', icon: BookOpen, desc: 'Học thẻ, sau đó nối từ và điền từ' },
   matching: { label: 'Nối Từ', icon: Puzzle, desc: 'Ôn lại các từ đã học bằng Flashcard' },
-  fill_in: { label: 'Điền Từ', icon: Keyboard, desc: 'Ôn lại các từ đã Nối Từ xong' },
+  fill_in: { label: 'Điền Từ', icon: Keyboard, desc: 'Ôn lại các từ đã học bằng Flashcard' },
 }
 
 // Shown only during a chained session (entered via "Flashcard") so it's clear the
@@ -257,7 +258,7 @@ export default function VocabularyByTopicPage() {
           const total = counts[topicKey].total
           const learnedFlashcard = Math.min(progressByTopicMode[topicKey]?.['flashcard'] || 0, total)
           const learnedMatching = Math.min(progressByTopicMode[topicKey]?.['matching'] || 0, learnedFlashcard)
-          const learnedFillIn = Math.min(progressByTopicMode[topicKey]?.['fill_in'] || 0, learnedMatching)
+          const learnedFillIn = Math.min(progressByTopicMode[topicKey]?.['fill_in'] || 0, learnedFlashcard)
           return {
             topicKey,
             total,
@@ -359,8 +360,9 @@ export default function VocabularyByTopicPage() {
         if (!progress) { setLoading(false); return }
         await loadStage(topicKey, 'flashcard', progress.word_order, progress.current_index, allIds.length, size)
       } else {
-        const parentMode: StudyMode = mode === 'matching' ? 'flashcard' : 'matching'
-        const parentProgress = await fetchProgressRow(user.id, topicKey, parentMode)
+        // Matching and Fill-in both draw independently from words already learned via
+        // Flashcard — Fill-in is not gated behind completing Matching first.
+        const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
         const learnedIds = getLearnedIds(parentProgress)
         if (learnedIds.length === 0) { setLoading(false); return }
 
@@ -584,8 +586,7 @@ export default function VocabularyByTopicPage() {
       if (!user) return
 
       if (activeMode !== 'flashcard') {
-        const parentMode: StudyMode = activeMode === 'matching' ? 'flashcard' : 'matching'
-        const parentProgress = await fetchProgressRow(user.id, activeTopicKey, parentMode)
+        const parentProgress = await fetchProgressRow(user.id, activeTopicKey, 'flashcard')
         const learnedIds = getLearnedIds(parentProgress)
         const thisProgress = await fetchProgressRow(user.id, activeTopicKey, activeMode)
 
@@ -640,8 +641,7 @@ export default function VocabularyByTopicPage() {
         )
         wordOrder = shuffleArray(allWords.map((w) => w.id))
       } else {
-        const parentMode: StudyMode = mode === 'matching' ? 'flashcard' : 'matching'
-        const parentProgress = await fetchProgressRow(user.id, topicKey, parentMode)
+        const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
         wordOrder = shuffleArray(getLearnedIds(parentProgress))
       }
 
@@ -656,7 +656,7 @@ export default function VocabularyByTopicPage() {
         prev.map((t) => {
           if (t.topicKey !== topicKey) return t
           if (mode === 'flashcard') return { ...t, learnedFlashcard: 0, learnedMatching: 0, learnedFillIn: 0 }
-          if (mode === 'matching') return { ...t, learnedMatching: 0, learnedFillIn: 0 }
+          if (mode === 'matching') return { ...t, learnedMatching: 0 }
           return { ...t, learnedFillIn: 0 }
         })
       )
@@ -941,7 +941,7 @@ export default function VocabularyByTopicPage() {
                   {topicInfos.map((t) => {
                     const pctFlash = t.total ? (t.learnedFlashcard / t.total) * 100 : 0
                     const pctMatch = t.learnedFlashcard ? (t.learnedMatching / t.learnedFlashcard) * 100 : 0
-                    const pctFillIn = t.learnedMatching ? (t.learnedFillIn / t.learnedMatching) * 100 : 0
+                    const pctFillIn = t.learnedFlashcard ? (t.learnedFillIn / t.learnedFlashcard) * 100 : 0
                     const bothDone = t.total > 0 && t.learnedFillIn >= t.total
                     const isSelectedForGroup = selectedGroupTopics.includes(t.topicKey)
                     return (
@@ -990,7 +990,7 @@ export default function VocabularyByTopicPage() {
                             <ProgressRing percent={pctMatch} />
                             <Puzzle className="w-3 h-3 text-slate-400" />
                           </div>
-                          <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${t.learnedFillIn}/${t.learnedMatching}`}>
+                          <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${t.learnedFillIn}/${t.learnedFlashcard}`}>
                             <ProgressRing percent={pctFillIn} />
                             <Keyboard className="w-3 h-3 text-slate-400" />
                           </div>
@@ -1020,9 +1020,9 @@ export default function VocabularyByTopicPage() {
                       ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
                       : 'Bạn đã Nối Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
                     : activeMode === 'fill_in'
-                    ? (info?.learnedMatching ?? 0) === 0
-                      ? 'Bạn chưa Nối Từ từ nào. Vui lòng Nối Từ trước khi Điền Từ.'
-                      : 'Bạn đã Điền Từ xong tất cả các từ đã Nối Từ. Hãy Nối Từ thêm!'
+                    ? (info?.learnedFlashcard ?? 0) === 0
+                      ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
+                      : 'Bạn đã Điền Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
                     : 'Bạn đã học hết tất cả các từ trong chủ đề này bằng Flashcard!'}
                 </p>
               </div>

@@ -62,11 +62,14 @@ function getLearnedIds(progress: ProgressRow | null): string[] {
   return progress ? progress.word_order.slice(0, progress.current_index) : []
 }
 
+// Matching and Fill-in both draw independently from words already learned in
+// Flashcard — Fill-in does NOT require Matching first (per explicit user request:
+// finishing Flashcard alone should unlock Fill-in).
 function modeLearnedCount(info: LevelInfo, mode: StudyMode): number {
   return mode === 'flashcard' ? info.learnedFlashcard : mode === 'matching' ? info.learnedMatching : info.learnedFillIn
 }
 function modePoolTotal(info: LevelInfo, mode: StudyMode): number {
-  return mode === 'flashcard' ? info.total : mode === 'matching' ? info.learnedFlashcard : info.learnedMatching
+  return mode === 'flashcard' ? info.total : info.learnedFlashcard
 }
 const MODE_VERB: Record<StudyMode, string> = { flashcard: 'học', matching: 'nối', fill_in: 'điền' }
 const MODE_LEARNED_LABEL: Record<StudyMode, string> = { flashcard: 'Đã học', matching: 'Đã nối', fill_in: 'Đã điền' }
@@ -74,7 +77,7 @@ const MODE_NEW_LABEL: Record<StudyMode, string> = { flashcard: 'Học Từ Mới
 const MODE_META: Record<StudyMode, { label: string; icon: typeof BookOpen; desc: string }> = {
   flashcard: { label: 'Flashcard', icon: BookOpen, desc: 'Học thẻ, sau đó nối từ và điền từ' },
   matching: { label: 'Nối Từ', icon: Puzzle, desc: 'Ôn lại các từ đã học bằng Flashcard' },
-  fill_in: { label: 'Điền Từ', icon: Keyboard, desc: 'Ôn lại các từ đã Nối Từ xong' },
+  fill_in: { label: 'Điền Từ', icon: Keyboard, desc: 'Ôn lại các từ đã học bằng Flashcard' },
 }
 
 function ProgressRing({ percent, size = 40, stroke = 4 }: { percent: number; size?: number; stroke?: number }) {
@@ -217,7 +220,7 @@ export default function FullDictionaryPage() {
           const total = counts[lvl] || 0
           const learnedFlashcard = Math.min(progressByLevelMode[lvl]?.['flashcard'] || 0, total)
           const learnedMatching = Math.min(progressByLevelMode[lvl]?.['matching'] || 0, learnedFlashcard)
-          const learnedFillIn = Math.min(progressByLevelMode[lvl]?.['fill_in'] || 0, learnedMatching)
+          const learnedFillIn = Math.min(progressByLevelMode[lvl]?.['fill_in'] || 0, learnedFlashcard)
           return { level: lvl, total, learnedFlashcard, learnedMatching, learnedFillIn }
         })
       )
@@ -322,8 +325,7 @@ export default function FullDictionaryPage() {
         if (!progress) { setLoading(false); return }
         await loadStage(lvl, 'flashcard', progress.word_order, progress.current_index, allIds.length, size)
       } else {
-        const parentMode: StudyMode = mode === 'matching' ? 'flashcard' : 'matching'
-        const parentProgress = await fetchProgressRow(user.id, lvl, parentMode)
+        const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
         const learnedIds = getLearnedIds(parentProgress)
         if (learnedIds.length === 0) { setLoading(false); return }
 
@@ -541,8 +543,7 @@ export default function FullDictionaryPage() {
       if (!user) return
 
       if (activeMode !== 'flashcard') {
-        const parentMode: StudyMode = activeMode === 'matching' ? 'flashcard' : 'matching'
-        const parentProgress = await fetchProgressRow(user.id, selectedLevel, parentMode)
+        const parentProgress = await fetchProgressRow(user.id, selectedLevel, 'flashcard')
         const learnedIds = getLearnedIds(parentProgress)
         const thisProgress = await fetchProgressRow(user.id, selectedLevel, activeMode)
 
@@ -595,8 +596,7 @@ export default function FullDictionaryPage() {
         )
         wordOrder = shuffleArray(allWords.map((w) => w.id))
       } else {
-        const parentMode: StudyMode = mode === 'matching' ? 'flashcard' : 'matching'
-        const parentProgress = await fetchProgressRow(user.id, lvl, parentMode)
+        const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
         wordOrder = shuffleArray(getLearnedIds(parentProgress))
       }
 
@@ -611,7 +611,7 @@ export default function FullDictionaryPage() {
         prev.map((l) => {
           if (l.level !== lvl) return l
           if (mode === 'flashcard') return { ...l, learnedFlashcard: 0, learnedMatching: 0, learnedFillIn: 0 }
-          if (mode === 'matching') return { ...l, learnedMatching: 0, learnedFillIn: 0 }
+          if (mode === 'matching') return { ...l, learnedMatching: 0 }
           return { ...l, learnedFillIn: 0 }
         })
       )
@@ -695,7 +695,7 @@ export default function FullDictionaryPage() {
               {levelInfos.map((info) => {
                 const pctFlash = info.total ? (info.learnedFlashcard / info.total) * 100 : 0
                 const pctMatch = info.learnedFlashcard ? (info.learnedMatching / info.learnedFlashcard) * 100 : 0
-                const pctFillIn = info.learnedMatching ? (info.learnedFillIn / info.learnedMatching) * 100 : 0
+                const pctFillIn = info.learnedFlashcard ? (info.learnedFillIn / info.learnedFlashcard) * 100 : 0
                 const bothDone = info.total > 0 && info.learnedFillIn >= info.total
                 return (
                   <button
@@ -722,7 +722,7 @@ export default function FullDictionaryPage() {
                         <ProgressRing percent={pctMatch} size={36} stroke={4} />
                         <Puzzle className="w-3.5 h-3.5 text-slate-400" />
                       </div>
-                      <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${info.learnedFillIn}/${info.learnedMatching}`}>
+                      <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${info.learnedFillIn}/${info.learnedFlashcard}`}>
                         <ProgressRing percent={pctFillIn} size={36} stroke={4} />
                         <Keyboard className="w-3.5 h-3.5 text-slate-400" />
                       </div>
@@ -784,9 +784,9 @@ export default function FullDictionaryPage() {
                         ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
                         : 'Bạn đã Nối Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
                       : activeMode === 'fill_in'
-                      ? (currentInfo?.learnedMatching ?? 0) === 0
-                        ? 'Bạn chưa Nối Từ từ nào. Vui lòng Nối Từ trước khi Điền Từ.'
-                        : 'Bạn đã Điền Từ xong tất cả các từ đã Nối Từ. Hãy Nối Từ thêm!'
+                      ? (currentInfo?.learnedFlashcard ?? 0) === 0
+                        ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
+                        : 'Bạn đã Điền Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
                       : 'Bạn đã học hết tất cả các từ trong cấp độ này bằng Flashcard!'}
                   </p>
                 </div>

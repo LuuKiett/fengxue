@@ -871,6 +871,56 @@ full reference form without leaving the page.
   2418/2471, which also directly improves `/dictionary` and `/review-dictionary`'s
   Flashcard example display for B2 — those pages were otherwise untouched this session.
 
+## Điền Từ (fill_in) no longer gated behind Nối Từ (matching) on `/vocabulary-by-topic`
+## and `/full-dictionary`
+
+Per explicit user request: finishing Flashcard alone should be enough to unlock
+Điền Từ — a student shouldn't have to also finish Nối Từ first. Both pages previously
+implemented a strict 3-step gating chain (flashcard → matching → fill_in, each mode's
+pool = the previous mode's learned count); `/review-dictionary` never had this problem
+since it only ever had 2 modes (flashcard/fill_in, matching is just an internal
+sub-step of its Flashcard flow, not a separate gate) — its `learnedFillIn` was already
+capped against `learnedFlashcard` directly (see the "Điền Từ word pool is restricted
+to learned flashcard words" note above), so it needed no change.
+
+**Fix, mirrored identically in both `vocabulary-by-topic/page.tsx` and
+`full-dictionary/page.tsx`** (2 independent copies of the same state machine, per this
+codebase's established pattern of not sharing this particular logic — see the
+Topic-based vocabulary learning note above): Matching and Fill-in now both draw
+independently from words already learned in **Flashcard**, instead of Fill-in drawing
+from Matching's learned count.
+
+- `modePoolTotal()`: `fill_in`'s branch now returns `info.learnedFlashcard` (previously
+  `info.learnedMatching`) — same value `matching`'s branch already returned, so both
+  non-flashcard modes now share one pool source.
+- The `learnedFillIn` cap in the level/topic-list loader (`Math.min(...,
+  learnedMatching)` → `Math.min(..., learnedFlashcard)`) — otherwise a `fill_in`
+  progress row with `current_index` legitimately ahead of `learnedMatching` (now
+  possible) would get silently clamped back down.
+- Every `parentMode: StudyMode = mode === 'matching' ? 'flashcard' : 'matching'`
+  ternary (in `startTopic`/`continueNextStage`/`restartMode`, 3 call sites per page) —
+  this pattern assumed fill_in's parent was always matching; replaced with an
+  unconditional `fetchProgressRow(..., 'flashcard')` in the non-flashcard branch, since
+  now *both* matching and fill_in share the same parent.
+- `restartMode`'s progress-reset map: restarting **Matching** no longer zeroes
+  `learnedFillIn` (`{ ...t, learnedMatching: 0, learnedFillIn: 0 }` →
+  `{ ...t, learnedMatching: 0 }`) — Fill-in's progress is no longer downstream of
+  Matching's, so wiping Matching must not touch it. Restarting **Flashcard** still
+  zeroes both (correct — everything downstream of Flashcard resets).
+- Topic/level-card progress-ring math and tooltips: `pctFillIn`/the Điền Từ ring's
+  denominator changed from `learnedMatching` to `learnedFlashcard` (e.g.
+  `t.learnedMatching ? (t.learnedFillIn / t.learnedMatching) * 100 : 0` →
+  `t.learnedFlashcard ? (t.learnedFillIn / t.learnedFlashcard) * 100 : 0`), and the
+  "nothing to review" empty-pool warning text for `fill_in` was reworded from
+  "Bạn chưa Nối Từ từ nào..." to "Bạn chưa học từ nào bằng Flashcard...".
+- **The Flashcard→Matching→Điền Từ chain-mode pipeline itself is unaffected** — a
+  chained session still visits Matching before Điền Từ for the same stage batch (that
+  flow doesn't consult `modePoolTotal`/the gating chain at all; it just reuses the
+  already-loaded `stageWords` across steps). This fix only affects **direct** entry
+  into Điền Từ (via the mode-select modal or the New-vs-Review sub-modal) — that path
+  now pulls straight from Flashcard's learned pool instead of requiring a matching
+  pass first.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
