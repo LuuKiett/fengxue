@@ -561,10 +561,16 @@ export default function ReviewDictionaryPage() {
       setStep('complete')
     } else {
       persistProgressAdvance()
-      setMatchingRound(0)
-      setMatchingType('hanzi_pinyin')
-      prepareMatchingRound(0)
-      setStep('matching')
+      const knownWords = stageWords.filter((w) => !unknownIdsRef.current.includes(w.id))
+      if (knownWords.length === 0) {
+        finishStage()
+      } else {
+        setStageWords(knownWords)
+        setMatchingRound(0)
+        setMatchingType('hanzi_pinyin')
+        setRoundVocabs(knownWords.slice(0, ITEMS_PER_ROUND))
+        setStep('matching')
+      }
     }
   }
 

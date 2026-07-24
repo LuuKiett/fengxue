@@ -610,11 +610,17 @@ export default function FullDictionaryPage() {
       return
     }
     await persistProgressAdvance('flashcard', selectedLevel, stageWords.length)
-    setMatchingRound(0)
-    setMatchingType('hanzi_pinyin')
-    prepareMatchingRound(0)
-    setCurrentStageMode('matching')
-    setStep('matching')
+    const knownWords = stageWords.filter((w) => !unknownIdsRef.current.includes(w.id))
+    if (knownWords.length === 0) {
+      setStep('complete')
+    } else {
+      setStageWords(knownWords)
+      setMatchingRound(0)
+      setMatchingType('hanzi_pinyin')
+      setRoundVocabs(knownWords.slice(0, ITEMS_PER_ROUND))
+      setCurrentStageMode('matching')
+      setStep('matching')
+    }
     progressAdvancedRef.current = false
   }
 
