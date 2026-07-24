@@ -451,31 +451,83 @@ export default function VocabularyByTopicPage() {
         .eq('level', level)
         .eq('topic_key', topicKey)
         .eq('mode', mode)
-        .single()
+        .maybeSingle()
 
-      if (!progress) return false
+      let finalIndex = 0
+      let finalOrderLength = 0
 
-      const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
-      await supabase
-        .from('topic_vocabulary_progress')
-        .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-        .eq('user_id', user.id)
-        .eq('level', level)
-        .eq('topic_key', topicKey)
-        .eq('mode', mode)
+      if (!progress) {
+        // Initialize progress if it doesn't exist (e.g. during chainMode)
+        if (mode === 'flashcard') {
+          const allWords = await fetchAllRows<{ id: string }>((from, to) =>
+            supabase
+              .from('topic_vocabulary')
+              .select('id')
+              .eq('level', level)
+              .eq('topic_key', topicKey)
+              .order('order_index', { ascending: true })
+              .range(from, to)
+          )
+          const allIds = allWords.map((w) => w.id)
+          const wordOrder = shuffleArray(allIds)
+          const { data: upserted } = await supabase
+            .from('topic_vocabulary_progress')
+            .upsert(
+              { user_id: user.id, level, topic_key: topicKey, mode: 'flashcard', word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
+              { onConflict: 'user_id,level,topic_key,mode' }
+            )
+            .select('word_order, current_index')
+            .single()
+          
+          if (upserted) {
+            finalIndex = upserted.current_index
+            finalOrderLength = upserted.word_order.length
+          }
+        } else {
+          const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
+          const learnedIds = getLearnedIds(parentProgress)
+          const stageWordIds = stageWords.map((w) => w.id)
+          const remainingIds = learnedIds.filter((id) => !stageWordIds.includes(id))
+          const wordOrder = [...stageWordIds, ...shuffleArray(remainingIds)]
+          
+          const { data: upserted } = await supabase
+            .from('topic_vocabulary_progress')
+            .upsert(
+              { user_id: user.id, level, topic_key: topicKey, mode, word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
+              { onConflict: 'user_id,level,topic_key,mode' }
+            )
+            .select('word_order, current_index')
+            .single()
 
-      const fullyComplete = newIndex >= progress.word_order.length
+          if (upserted) {
+            finalIndex = upserted.current_index
+            finalOrderLength = upserted.word_order.length
+          }
+        }
+      } else {
+        const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
+        await supabase
+          .from('topic_vocabulary_progress')
+          .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('level', level)
+          .eq('topic_key', topicKey)
+          .eq('mode', mode)
+        
+        finalIndex = newIndex
+        finalOrderLength = progress.word_order.length
+      }
 
       setTopicInfos((prev) =>
         prev.map((t) => {
           if (t.topicKey !== topicKey) return t
-          if (mode === 'flashcard') return { ...t, learnedFlashcard: newIndex }
-          if (mode === 'matching') return { ...t, learnedMatching: newIndex }
-          return { ...t, learnedFillIn: newIndex }
+          if (mode === 'flashcard') return { ...t, learnedFlashcard: finalIndex }
+          if (mode === 'matching') return { ...t, learnedMatching: finalIndex }
+          return { ...t, learnedFillIn: finalIndex }
         })
       )
 
-      return fullyComplete
+      return finalIndex >= finalOrderLength
     } catch (err) {
       console.error('Lỗi khi lưu tiến độ:', err)
       return false

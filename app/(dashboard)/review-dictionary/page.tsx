@@ -155,6 +155,8 @@ export default function ReviewDictionaryPage() {
 
   // Level clicked but mode (Flashcard vs Điền Từ) not yet chosen — shows the mode-select modal
   const [modeSelectLevel, setModeSelectLevel] = useState<string | null>(null)
+  // Level waiting for reset confirmation
+  const [resetConfirmLevel, setResetConfirmLevel] = useState<string | null>(null)
   // Mode chosen for the level currently being studied/set up
   const [activeMode, setActiveMode] = useState<StudyMode>('flashcard')
   // True when the current/pending Flashcard session is drilling the "không biết"
@@ -768,6 +770,62 @@ export default function ReviewDictionaryPage() {
     }
   }
 
+  const resetFlashcardAndStart = async (level: string) => {
+    setLoading(true)
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const allWords = await fetchAllRows<{ id: string }>((from, to) =>
+        supabase
+          .from('dictionary_words')
+          .select('id')
+          .eq('level', level)
+          .range(from, to)
+      )
+      const allIds = allWords.map((w) => w.id)
+      const wordOrder = shuffleArray(allIds)
+
+      await supabase
+        .from('dictionary_progress')
+        .upsert(
+          {
+            user_id: user.id,
+            level,
+            mode: 'flashcard',
+            word_order: wordOrder,
+            current_index: 0,
+            unknown_word_ids: [],
+            unknown_resolved_count: 0,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'user_id,level,mode' }
+        )
+
+      unknownIdsRef.current = []
+      unknownResolvedRef.current = 0
+      setUnknownRemaining(0)
+
+      setLevelInfos((prev) =>
+        prev.map((l) =>
+          l.level === level
+            ? { ...l, learnedFlashcard: 0, knownFlashcard: 0, unknownCount: 0, unknownResolvedCount: 0 }
+            : l
+        )
+      )
+
+      setActiveMode('flashcard')
+      setUnknownReviewMode(false)
+      setPendingLevel(level)
+      setStageSizeChoice(Math.min(allIds.length, DEFAULT_STAGE_SIZE))
+      setCustomStageSize('')
+    } catch (err) {
+      console.error('Lỗi khi học lại từ đầu:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleRestartFillInDirectly = async (level: string) => {
     setLoading(true)
     try {
@@ -1141,14 +1199,19 @@ export default function ReviewDictionaryPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <button
                     onClick={() => {
-                      setActiveMode('flashcard')
-                      setUnknownReviewMode(false)
-                      setPendingLevel(modeSelectLevel)
-                      setModeSelectLevel(null)
                       const targetInfo = levelInfos.find((l) => l.level === modeSelectLevel)
-                      const rem = targetInfo ? (targetInfo.total - targetInfo.learnedFlashcard) : DEFAULT_STAGE_SIZE
-                      setStageSizeChoice(Math.min(rem, DEFAULT_STAGE_SIZE))
-                      setCustomStageSize('')
+                      if (targetInfo && targetInfo.learnedFlashcard === targetInfo.total && targetInfo.total > 0) {
+                        setResetConfirmLevel(modeSelectLevel)
+                        setModeSelectLevel(null)
+                      } else {
+                        setActiveMode('flashcard')
+                        setUnknownReviewMode(false)
+                        setPendingLevel(modeSelectLevel)
+                        setModeSelectLevel(null)
+                        const rem = targetInfo ? (targetInfo.total - targetInfo.learnedFlashcard) : DEFAULT_STAGE_SIZE
+                        setStageSizeChoice(Math.min(rem, DEFAULT_STAGE_SIZE))
+                        setCustomStageSize('')
+                      }
                     }}
                     className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
                   >
@@ -1209,6 +1272,52 @@ export default function ReviewDictionaryPage() {
                 >
                   Hủy
                 </button>
+              </div>
+            </div>
+          )}
+
+          {resetConfirmLevel && (
+            <div
+              className="fixed inset-0 bg-black/40 z-[999] flex items-center justify-center p-4"
+              onClick={() => {
+                setModeSelectLevel(resetConfirmLevel)
+                setResetConfirmLevel(null)
+              }}
+            >
+              <div
+                className="cartoon-panel bg-white p-6 max-w-md w-full space-y-4 text-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-[#1877f2] mx-auto shadow-sm">
+                  <RotateCcw className="w-8 h-8" />
+                </div>
+                <h4 className="font-black text-slate-800 text-lg">
+                  Học Lại Cấp Độ {resetConfirmLevel}?
+                </h4>
+                <p className="text-xs text-slate-500 font-semibold leading-normal">
+                  Bạn đã hoàn thành tất cả từ vựng của cấp độ này bằng Flashcard. Bạn có muốn reset toàn bộ tiến trình để học lại từ đầu không?
+                </p>
+                <div className="flex flex-col gap-2 pt-2">
+                  <button
+                    onClick={async () => {
+                      const lvl = resetConfirmLevel
+                      setResetConfirmLevel(null)
+                      await resetFlashcardAndStart(lvl)
+                    }}
+                    className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
+                  >
+                    Đồng ý học lại từ đầu
+                  </button>
+                  <button
+                    onClick={() => {
+                      setModeSelectLevel(resetConfirmLevel)
+                      setResetConfirmLevel(null)
+                    }}
+                    className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
+                  >
+                    Hủy
+                  </button>
+                </div>
               </div>
             </div>
           )}

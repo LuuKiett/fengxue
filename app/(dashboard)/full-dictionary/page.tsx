@@ -462,30 +462,81 @@ export default function FullDictionaryPage() {
         .eq('user_id', user.id)
         .eq('level', lvl)
         .eq('mode', mode)
-        .single()
+        .maybeSingle()
 
-      if (!progress) return false
+      let finalIndex = 0
+      let finalOrderLength = 0
 
-      const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
-      await supabase
-        .from('full_dictionary_progress')
-        .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-        .eq('user_id', user.id)
-        .eq('level', lvl)
-        .eq('mode', mode)
+      if (!progress) {
+        // Initialize progress if it doesn't exist (e.g. during chainMode)
+        if (mode === 'flashcard') {
+          const allWords = await fetchAllRows<{ id: string }>((from, to) =>
+            supabase
+              .from('full_dictionary_words')
+              .select('id')
+              .eq('level', lvl)
+              .order('order_index', { ascending: true })
+              .range(from, to)
+          )
+          const allIds = allWords.map((w) => w.id)
+          const wordOrder = shuffleArray(allIds)
+          const { data: upserted } = await supabase
+            .from('full_dictionary_progress')
+            .upsert(
+              { user_id: user.id, level: lvl, mode: 'flashcard', word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
+              { onConflict: 'user_id,level,mode' }
+            )
+            .select('word_order, current_index')
+            .single()
+          
+          if (upserted) {
+            finalIndex = upserted.current_index
+            finalOrderLength = upserted.word_order.length
+          }
+        } else {
+          const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
+          const learnedIds = getKnownIds(parentProgress)
+          const stageWordIds = stageWords.map((w) => w.id)
+          const remainingIds = learnedIds.filter((id) => !stageWordIds.includes(id))
+          const wordOrder = [...stageWordIds, ...shuffleArray(remainingIds)]
+          
+          const { data: upserted } = await supabase
+            .from('full_dictionary_progress')
+            .upsert(
+              { user_id: user.id, level: lvl, mode, word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
+              { onConflict: 'user_id,level,mode' }
+            )
+            .select('word_order, current_index')
+            .single()
 
-      const fullyComplete = newIndex >= progress.word_order.length
+          if (upserted) {
+            finalIndex = upserted.current_index
+            finalOrderLength = upserted.word_order.length
+          }
+        }
+      } else {
+        const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
+        await supabase
+          .from('full_dictionary_progress')
+          .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('level', lvl)
+          .eq('mode', mode)
+        
+        finalIndex = newIndex
+        finalOrderLength = progress.word_order.length
+      }
 
       setLevelInfos((prev) =>
         prev.map((l) => {
           if (l.level !== lvl) return l
-          if (mode === 'flashcard') return { ...l, learnedFlashcard: newIndex }
-          if (mode === 'matching') return { ...l, learnedMatching: newIndex }
-          return { ...l, learnedFillIn: newIndex }
+          if (mode === 'flashcard') return { ...l, learnedFlashcard: finalIndex }
+          if (mode === 'matching') return { ...l, learnedMatching: finalIndex }
+          return { ...l, learnedFillIn: finalIndex }
         })
       )
 
-      return fullyComplete
+      return finalIndex >= finalOrderLength
     } catch (err) {
       console.error('Lỗi khi lưu tiến độ:', err)
       return false
