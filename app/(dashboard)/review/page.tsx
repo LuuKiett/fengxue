@@ -64,7 +64,7 @@ export default function ReviewPage() {
   const [matchingRound, setMatchingRound] = useState(0)
   const [matchingType, setMatchingType] = useState<'hanzi_pinyin' | 'hanzi_viet'>('hanzi_pinyin')
   const [roundVocabs, setRoundVocabs] = useState<VocabItem[]>([])
-  const ITEMS_PER_ROUND = 6
+  const ITEMS_PER_ROUND = 15
 
   // Fetch all dates with vocabulary sets
   useEffect(() => {

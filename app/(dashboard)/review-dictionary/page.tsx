@@ -66,7 +66,7 @@ function getKnownIds(progress: FlashcardProgressRow | null | undefined): string[
 
 const STAGE_SIZE_PRESETS = [10, 20, 30, 50]
 const DEFAULT_STAGE_SIZE = 50
-const ITEMS_PER_ROUND = 6
+const ITEMS_PER_ROUND = 15
 
 // Small circular progress indicator used on each level card — a quick "at a glance"
 // read on how far along a level is, complementing the linear bar underneath it.

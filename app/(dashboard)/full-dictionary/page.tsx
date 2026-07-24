@@ -31,7 +31,7 @@ import confetti from 'canvas-confetti'
 
 const STAGE_SIZE_PRESETS = [10, 20, 30, 50]
 const DEFAULT_STAGE_SIZE = 50
-const ITEMS_PER_ROUND = 6
+const ITEMS_PER_ROUND = 15
 const TABLE_PAGE_SIZE = 24
 
 type StudyMode = 'flashcard' | 'matching' | 'fill_in'
