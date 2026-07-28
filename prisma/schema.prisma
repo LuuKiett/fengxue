@@ -33,6 +33,7 @@ model Profile {
   tocflAttempts      TocflAttempt[]
   topicVocabularyProgress TopicVocabularyProgress[]
   fullDictionaryProgress FullDictionaryProgress[]
+  tocfl8000Progress      Tocfl8000Progress[]
 
   @@map("profiles")
 }
@@ -330,4 +331,46 @@ model FullDictionaryWord {
 
   @@unique([level, hanzi, pinyin])
   @@map("full_dictionary_words")
+}
+
+// Backs the "Từ Điển TOCFL" page's word list. Imported from the official 華語八千詞表
+// (Huayu 8000-word list) xlsx, restricted to A1/A2/B1 per explicit user request —
+// deliberately separate from DictionaryWord/FullDictionaryWord for the same reason
+// TopicVocabulary is: this page's word list must track the official 8000-word source
+// exactly, independent of this app's other dictionaries.
+model Tocfl8000Word {
+  id                String   @id @default(uuid()) @db.Uuid
+  level             String
+  context           String?
+  hanzi             String
+  pinyin            String
+  vietnamese        String
+  pos               String?
+  exampleHanzi      String?  @map("example_hanzi")
+  examplePinyin     String?  @map("example_pinyin")
+  exampleVietnamese String?  @map("example_vietnamese")
+  orderIndex        Int      @default(0) @map("order_index")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@unique([level, hanzi, pinyin])
+  @@map("tocfl8000_words")
+}
+
+// Per-user progress for /tocfl-dictionary, mirroring FullDictionaryProgress's 3-mode
+// gating chain (flashcard/matching/fill_in, keyed by level only) plus unknown-word
+// "Biết/Không Biết" tracking.
+model Tocfl8000Progress {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  level        String
+  mode         String
+  wordOrder    String[] @default([]) @map("word_order") @db.Uuid
+  currentIndex Int      @default(0) @map("current_index")
+  unknownWordIds       String[] @default([]) @map("unknown_word_ids") @db.Uuid
+  unknownResolvedCount Int      @default(0) @map("unknown_resolved_count")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, level, mode])
+  @@map("tocfl8000_progress")
 }

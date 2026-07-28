@@ -998,6 +998,83 @@ word ends up in afterward.
   the dedicated variant classes avoid that risk entirely and match the app's
   existing button design system.
 
+## "Từ Điển TOCFL" page (`/tocfl-dictionary`, `tocfl8000_words`, `tocfl8000_progress`)
+
+New page linked from the sidebar as "Từ Điển TOCFL", directly below "Tổng Hợp Chủ Đề"
+(`/full-dictionary`). Same Flashcard/Nối Từ/Điền Từ + browsable-table architecture as
+`/full-dictionary`, restricted to A1/A2/B1 per explicit user request (the levels the
+user is actually studying for TOCFL).
+
+- **Word list source is `華語八千詞表20240923.xlsx`** (the official TOCFL 8000-word
+  list, 20240923 revision, user-supplied, gitignored — same handling as `OTAB19.xlsx`
+  although note `OTAB19.xlsx` itself ended up tracked in git; this file was left
+  untracked pending an explicit user decision to commit it). The xlsx uses the
+  *revised* TOCFL banding (準備級 Novice 1/2 pre-A1, 入門級/基礎級/進階級/高階級/流利級
+  Level 1-5) rather than the older A1/A2/B1/B2/C1/C2 labels — mapped as
+  入門級(Level 1)→A1, 基礎級(Level 2)→A2, 進階級(Level 3)→B1. 準備級一級/二級 (pre-A1)
+  and 高階級/流利級 (B2+) sheets are intentionally skipped. 2005 words total
+  (A1=347, A2=485, B1=1173).
+- **Pipeline**: `scripts/extract-tocfl8000.js` (xlsx → `scripts/output/
+  tocfl8000-raw.json`, also normalizes the source's mixed breve/caron tone-3 marks —
+  ă/ĭ/ŏ/ŭ → ǎ/ǐ/ǒ/ǔ — to standard Hanyu Pinyin; the source's own per-word pinyin is
+  trusted as-is otherwise, since it's already correctly context-disambiguated for
+  polyphones like 還/車/麼 rather than needing pinyin-pro regeneration) →
+  `scripts/match-tocfl8000-translations.js` (cross-matches each word's hanzi — trying
+  the raw string, each `/`-separated variant, that variant with any zhuyin-annotation
+  paren *stripped* e.g. `部分(˙ㄈㄣ)`→`部分`, and that variant with paren markers
+  *removed but content kept* e.g. `籃(子)`→`籃子` — against this app's own
+  `dictionary_words` and `full_dictionary_words` tables, dictionary_words taking
+  priority when both match) → `scripts/patch-tocfl8000-manual.js` (hand-translates
+  whatever's left) → `scripts/build-tocfl8000-seed.js` (→ `scripts/output/
+  tocfl8000-seed.sql`, `ON CONFLICT (level, hanzi, pinyin) DO UPDATE`, safe to re-run).
+  Local cross-matching reused 99.7% of translations (1999/2005) from words this app
+  already has vetted Vietnamese for; only 6 words (司機, 家具, 馬路, 秘密/祕密, 脖(子),
+  日期) needed fresh hand translation, plus a tone-typo fix on 2 more (叔叔 corrected
+  shú→shū, 日期's 期 corrected qí→qī) — both confirmed against standard Hanyu Pinyin,
+  not just carried over from the source. Re-run the full pipeline (in the order above,
+  ending with `npx prisma db execute --file scripts/output/tocfl8000-seed.sql`) only
+  if the source xlsx changes; the two local dictionaries it cross-matches against
+  don't need to be re-run in lockstep since matching is a one-time import step, not a
+  live join.
+- **`tocfl8000_words`/`tocfl8000_progress` (migrations 0019/0020) are deliberately
+  separate tables**, not rows merged into `dictionary_words`/`full_dictionary_words`
+  — same reasoning as `topic_vocabulary`/`full_dictionary_words`: this page's word
+  list must track the official 8000-word source exactly and must never risk another
+  page's progress rows pointing at IDs that could shift. Unlike `full_dictionary_
+  progress` (which got its `unknown_word_ids`/`unknown_resolved_count` columns via a
+  later follow-up migration, 0018), `tocfl8000_progress` bakes the "Biết/Không Biết"
+  tracking in from its first migration, since that feature already existed on
+  `/full-dictionary` by the time this page was built and there was no reason to ship
+  it in two steps.
+- **Page implementation (`app/(dashboard)/tocfl-dictionary/page.tsx`) is `/full-
+  dictionary/page.tsx` copied verbatim and renamed** (`full_dictionary_words` →
+  `tocfl8000_words`, `full_dictionary_progress` → `tocfl8000_progress`,
+  `FullDictionaryPage` → `TocflDictionaryPage`) — same 3-mode gating chain (Flashcard
+  pool = whole level, Matching/Fill-in pools both = known-in-Flashcard independently,
+  per the earlier "no longer gated behind Matching" fix), same chain-mode Flashcard→
+  Matching→Điền Từ pipeline, same review/unknown-review sub-flows, same paginated
+  browse table with search. `LEVEL_ORDER`/`sortLevels()` (`lib/utils/
+  dictionaryLevels.ts`) needed no changes — it already tolerates a level subset (no
+  B2/C1/C2 rows here) since it filters `LEVEL_ORDER` down to whatever levels are
+  actually present.
+- **Not merged into `public/tocfl-index.json`** (the shared pinyin-suggestion index
+  `FillInExercise`'s composer reads from) — same as `full_dictionary_words`/
+  `topic_vocabulary` before it, which also never got their own dump-into-index step;
+  the existing CC-CEDICT + PSeitz-TOCFL-list merge already covers standard TOCFL
+  vocabulary well. Only `dictionary_words` (this app's own user-facing dictionary) is
+  dumped into that index, via `scripts/dump-own-dictionary.js`.
+- Verified end-to-end with Playwright against the live dev server (fresh signup →
+  `/tocfl-dictionary` level cards showing correct real counts 347/485/1173 → A1 detail
+  view's browse table rendering real hanzi/pinyin/nghĩa/ví dụ → started a Flashcard
+  stage, answered through it, confirmed the Flashcard→Matching chain transition
+  rendered a real (non-empty) round board — the exact failure mode documented above
+  under "Bug: entering Matching any way other than the Flashcard chain rendered an
+  empty board" would have shown up here if the copy-paste had missed anything, it
+  didn't since the whole `loadStage` fix came along with the file copy). Console-only
+  `getUser()` "Failed to fetch" + 406 errors seen during registration/dashboard load
+  are the same pre-existing cold-start artifacts noted elsewhere in this file, not
+  something this page introduced.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

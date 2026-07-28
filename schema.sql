@@ -400,6 +400,58 @@ CREATE POLICY "Anyone authenticated can read full dictionary words"
     TO authenticated
     USING (true);
 
+-- Backs the "Từ Điển TOCFL" page (/tocfl-dictionary). Content is imported from the
+-- official 華語八千詞表 (Huayu 8000-word list) xlsx, restricted to A1/A2/B1 (入門級/
+-- 基礎級/進階級) per explicit user request — deliberately a separate table from
+-- dictionary_words/full_dictionary_words for the same reason topic_vocabulary is: this
+-- page's word list must track the official 8000-word source exactly.
+CREATE TABLE IF NOT EXISTS public.tocfl8000_words (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    level TEXT NOT NULL,
+    context TEXT,
+    hanzi TEXT NOT NULL,
+    pinyin TEXT NOT NULL,
+    vietnamese TEXT NOT NULL,
+    pos TEXT,
+    example_hanzi TEXT,
+    example_pinyin TEXT,
+    example_vietnamese TEXT,
+    order_index INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(level, hanzi, pinyin)
+);
+
+ALTER TABLE public.tocfl8000_words ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone authenticated can read tocfl8000 words"
+    ON public.tocfl8000_words FOR SELECT
+    TO authenticated
+    USING (true);
+
+-- Per-user progress for /tocfl-dictionary, mirroring full_dictionary_progress's 3-mode
+-- gating chain (flashcard / matching / fill_in, keyed by level only) plus its own
+-- unknown-word "Biết/Không Biết" tracking (see migration 0020's comment for the exact
+-- semantics this mirrors, taken from full_dictionary_progress's migrations 0015+0018).
+CREATE TABLE IF NOT EXISTS public.tocfl8000_progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    level TEXT NOT NULL,
+    mode TEXT NOT NULL,
+    word_order UUID[] NOT NULL DEFAULT '{}',
+    current_index INTEGER NOT NULL DEFAULT 0,
+    unknown_word_ids UUID[] NOT NULL DEFAULT '{}',
+    unknown_resolved_count INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(user_id, level, mode)
+);
+
+ALTER TABLE public.tocfl8000_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own tocfl8000 progress"
+    ON public.tocfl8000_progress FOR ALL
+    USING (auth.uid() = user_id)
+    WITH CHECK (auth.uid() = user_id);
+
 -- ============================================================
 -- TRIGGER: Auto-create profile on user signup
 -- This runs with SECURITY DEFINER so it bypasses RLS
