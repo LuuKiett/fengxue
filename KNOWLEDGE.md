@@ -1075,6 +1075,19 @@ user is actually studying for TOCFL).
   are the same pre-existing cold-start artifacts noted elsewhere in this file, not
   something this page introduced.
 
+## Điền Từ reveals a Pinyin column after grading (`components/exercises/FillInExercise.tsx`)
+
+`FillInWord` already carried a `pinyin` field (needed by every caller's source query)
+but the component never rendered it — the grid only had Chữ Hán/Đáp Án/Kết Quả/Nghĩa.
+Added a 5th column ("Pinyin") between Kết Quả and Nghĩa, masked as `•••••••` like the
+existing Nghĩa column until a row is graded, then revealing `w.pinyin`. Since
+`FillInExercise` is a single shared component with no per-page copies (unlike most
+composer logic in this codebase, which is deliberately duplicated per page — see the
+Điền Từ / pinyin-composer notes above), this one change automatically applies
+everywhere it's used: `/review-dictionary`, `/vocabulary-by-topic`, `/full-dictionary`,
+`/tocfl-dictionary`, `/exercises/[date]`, `/learn`, `/review`. No per-page changes were
+needed.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
