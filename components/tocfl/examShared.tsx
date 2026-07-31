@@ -95,7 +95,7 @@ export function StepCard({
       )}
 
       {showPromptText && shared.passage_hanzi && (
-        <div className="bg-slate-50 rounded-2xl p-4 font-chinese text-lg leading-relaxed text-slate-800 whitespace-pre-line">
+        <div className="bg-slate-50 rounded-2xl p-4 font-chinese text-[2.25rem] leading-relaxed text-slate-800 whitespace-pre-line">
           {shared.passage_hanzi}
         </div>
       )}
@@ -104,12 +104,12 @@ export function StepCard({
         <div key={q.id} className="space-y-3">
           {showPromptText && (isGroup || !shared.passage_hanzi) && q.prompt_hanzi && (
             <div className="flex items-start gap-2">
-              <span className="font-black text-[#189fec] shrink-0">Câu {q.question_number}.</span>
-              <span className="font-chinese text-lg text-slate-800 whitespace-pre-line">{q.prompt_hanzi}</span>
+              <span className="font-black text-[#189fec] text-[2.25rem] shrink-0">Câu {q.question_number}.</span>
+              <span className="font-chinese text-[2.25rem] leading-relaxed text-slate-800 whitespace-pre-line">{q.prompt_hanzi}</span>
             </div>
           )}
           {!showPromptText && (
-            <span className="font-black text-[#189fec] text-sm">Câu {q.question_number}</span>
+            <span className="font-black text-[#189fec] text-[1.75rem]">Câu {q.question_number}</span>
           )}
 
           <QuestionOptions question={q} selected={answers[q.id]} onSelect={(idx) => onSelect(q.id, idx)} />
@@ -155,7 +155,7 @@ export function QuestionOptions({
         <button
           key={opt.label}
           onClick={() => onSelect(idx)}
-          className={`text-left px-4 py-2.5 rounded-xl font-bold text-sm border-2 transition-all flex items-center gap-2 ${
+          className={`text-left px-5 py-4 rounded-xl font-bold text-[1.75rem] leading-tight border-2 transition-all flex items-center gap-3 ${
             selected === idx
               ? 'bg-[#e7f3ff] border-[#189fec] text-[#0e6bab]'
               : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
