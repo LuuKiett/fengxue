@@ -13,7 +13,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { stripTones, parseNumberedSyllable, sortByRequestedTone } from '@/lib/utils/pinyin'
 import { segmentPinyin, type ComposedCandidate } from '@/lib/utils/pinyinSegment'
-import { CheckCircle2, XCircle, RotateCcw, PartyPopper, X } from 'lucide-react'
+import { speak } from '@/lib/utils/speak'
+import { CheckCircle2, XCircle, RotateCcw, PartyPopper, Volume2, X } from 'lucide-react'
 
 interface FillInWord {
   id: string
@@ -22,9 +23,14 @@ interface FillInWord {
   vietnamese: string
 }
 
+export interface FillInResult {
+  correctIds: string[]
+  incorrectIds: string[]
+}
+
 interface FillInExerciseProps {
   words: FillInWord[]
-  onComplete: () => void
+  onComplete: (result: FillInResult) => void
 }
 
 type TocflEntry = { t: string; p: string; l: number | null }
@@ -37,6 +43,10 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
   const [suggestions, setSuggestions] = useState<Record<string, SuggestionEntry[]>>({})
   const [graded, setGraded] = useState<Record<string, boolean>>({})
   const [correct, setCorrect] = useState<Record<string, boolean>>({})
+  // True once "Nộp Bài" has been clicked — freezes every row (no more editing/reset)
+  // and reveals pinyin/nghĩa even for rows the student never finished, so a partial
+  // submission still shows what was missed instead of leaving them masked forever.
+  const [submitted, setSubmitted] = useState(false)
 
   const tocflIndexRef = useRef<DictIndex | null>(null)
   // Holds the in-flight load's own promise (not just a boolean) so a lookup that
@@ -121,17 +131,34 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
     }, 150)
   }
 
-  const updateComposing = (wordId: string, value: string) => {
-    setComposing(prev => ({ ...prev, [wordId]: value }))
-    lookupSuggestions(wordId, value)
-  }
-
   const gradeIfReady = (wordId: string, composedAnswer: string) => {
     const target = words.find(w => w.id === wordId)
     if (!target) return
     if (composedAnswer.length < target.hanzi.length) return
     setGraded(prev => ({ ...prev, [wordId]: true }))
     setCorrect(prev => ({ ...prev, [wordId]: composedAnswer === target.hanzi }))
+  }
+
+  const updateComposing = (wordId: string, value: string) => {
+    // Some words aren't reachable through the pinyin-suggestion composer at all — e.g.
+    // an entry whose hanzi is stored as "橘(子)" never indexes a pickable "子" candidate,
+    // and plenty of words simply aren't in the TOCFL/CC-CEDICT merge index — so there's
+    // no suggestion to click and the row can never grade. Typing (or IME-committing)
+    // actual hanzi characters straight into the box is accepted as a direct answer:
+    // any CJK character in the new value is appended straight to the answer (bypassing
+    // the pinyin lookup for those characters) and graded exactly like a picked
+    // suggestion — correct only if it matches the target hanzi.
+    const hanziChars = [...value].filter(ch => /[㐀-鿿]/.test(ch))
+    if (hanziChars.length > 0) {
+      const nextAnswer = (answers[wordId] || '') + hanziChars.join('')
+      setAnswers(prev => ({ ...prev, [wordId]: nextAnswer }))
+      setComposing(prev => ({ ...prev, [wordId]: '' }))
+      setSuggestions(prev => { const n = { ...prev }; delete n[wordId]; return n })
+      gradeIfReady(wordId, nextAnswer)
+      return
+    }
+    setComposing(prev => ({ ...prev, [wordId]: value }))
+    lookupSuggestions(wordId, value)
   }
 
   const selectSuggestion = (wordId: string, item: SuggestionEntry) => {
@@ -162,10 +189,25 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
     setSuggestions({})
     setGraded({})
     setCorrect({})
+    setSubmitted(false)
   }, [words])
 
   const gradedCount = words.filter(w => graded[w.id]).length
   const allGraded = words.length > 0 && gradedCount === words.length
+
+  // Submitting no longer requires every row to be graded — whatever wasn't filled in
+  // (or was filled in wrong) is reported back as "incorrect" so the caller can queue
+  // those specific words for next time, instead of blocking the whole stage on them.
+  const handleSubmit = () => {
+    setSubmitted(true)
+    const correctIds: string[] = []
+    const incorrectIds: string[] = []
+    for (const w of words) {
+      if (graded[w.id] && correct[w.id]) correctIds.push(w.id)
+      else incorrectIds.push(w.id)
+    }
+    onComplete({ correctIds, incorrectIds })
+  }
 
   return (
     <div className="space-y-4">
@@ -187,7 +229,7 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
           <div className="min-w-[640px]">
             <div className="grid grid-cols-[1fr_2fr_1fr_1fr_1.6fr] gap-2 px-4 py-2.5 bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase tracking-wider text-slate-400">
               <span>Chữ Hán</span>
-              <span>Đáp Án (gõ pinyin, vd: ai)</span>
+              <span>Đáp Án</span>
               <span className="text-center">Kết Quả</span>
               <span>Pinyin</span>
               <span>Nghĩa</span>
@@ -196,29 +238,43 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
             {words.map((w) => {
               const isGraded = !!graded[w.id]
               const isCorrect = !!correct[w.id]
+              const isSkipped = submitted && !isGraded
+              const revealed = isGraded || submitted
               const answer = answers[w.id] || ''
               const rowSuggestions = suggestions[w.id] || []
               return (
                 <div
                   key={w.id}
                   className={`grid grid-cols-[1fr_2fr_1fr_1fr_1.6fr] gap-2 px-4 py-3 border-b border-slate-100 last:border-b-0 items-center transition-colors ${
-                    isGraded ? (isCorrect ? 'bg-emerald-50/50' : 'bg-red-50/40') : ''
+                    isGraded ? (isCorrect ? 'bg-emerald-50/50' : 'bg-red-50/40') : isSkipped ? 'bg-amber-50/40' : ''
                   }`}
                 >
-                  <span className="font-chinese text-2xl text-slate-800 select-none">{w.hanzi}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-chinese text-2xl text-slate-800 select-none">{w.hanzi}</span>
+                    <button
+                      type="button"
+                      onClick={() => speak(w.hanzi)}
+                      className="cursor-pointer p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors shrink-0"
+                      title="Phát âm"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                  </div>
 
                   <div className="relative">
-                    {isGraded ? (
+                    {isGraded || isSkipped ? (
                       <div className="flex items-center gap-2">
                         <span className="font-chinese text-xl text-slate-700">{answer || '—'}</span>
-                        <button
-                          type="button"
-                          onClick={() => resetRow(w.id)}
-                          className="cursor-pointer p-1 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                          title="Làm lại từ này"
-                        >
-                          <RotateCcw className="w-3.5 h-3.5" />
-                        </button>
+                        {!submitted && (
+                          <button
+                            type="button"
+                            onClick={() => resetRow(w.id)}
+                            className="cursor-pointer p-1 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                            title="Làm lại từ này"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     ) : (
                       <>
@@ -231,7 +287,7 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                             value={composing[w.id] || ''}
                             onFocus={() => loadTocflIndex()}
                             onChange={(e) => updateComposing(w.id, e.target.value)}
-                            placeholder="Gõ pinyin không dấu..."
+                            placeholder="Gõ pinyin hoặc gõ chữ Hán..."
                             className="w-full px-3 py-1.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-100 font-bold text-sm bg-white"
                           />
                           {answer && (
@@ -300,17 +356,21 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                           <XCircle className="w-3.5 h-3.5" /> Sai
                         </span>
                       )
+                    ) : isSkipped ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-black px-2.5 py-1 rounded-full bg-amber-100 text-amber-600">
+                        <XCircle className="w-3.5 h-3.5" /> Chưa điền
+                      </span>
                     ) : (
                       <span className="text-slate-300 text-xs font-bold">—</span>
                     )}
                   </div>
 
-                  <span className={`text-sm font-bold ${isGraded ? 'text-slate-700' : 'text-slate-300 select-none'}`}>
-                    {isGraded ? w.pinyin : '•••••••'}
+                  <span className={`text-sm font-bold ${revealed ? 'text-slate-700' : 'text-slate-300 select-none'}`}>
+                    {revealed ? w.pinyin : '•••••••'}
                   </span>
 
-                  <span className={`text-sm font-bold ${isGraded ? 'text-slate-700' : 'text-slate-300 select-none'}`}>
-                    {isGraded ? w.vietnamese : '•••••••'}
+                  <span className={`text-sm font-bold ${revealed ? 'text-slate-700' : 'text-slate-300 select-none'}`}>
+                    {revealed ? w.vietnamese : '•••••••'}
                   </span>
                 </div>
               )
@@ -320,11 +380,12 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
       </div>
 
       <button
-        onClick={onComplete}
-        disabled={!allGraded}
+        onClick={handleSubmit}
+        disabled={submitted}
         className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none"
       >
-        <PartyPopper className="w-4 h-4" /> {allGraded ? 'Hoàn Thành Đợt' : `Còn ${words.length - gradedCount} từ chưa điền`}
+        <PartyPopper className="w-4 h-4" />{' '}
+        {allGraded ? 'Hoàn Thành Đợt' : `Nộp Bài (còn ${words.length - gradedCount} từ chưa điền)`}
       </button>
     </div>
   )

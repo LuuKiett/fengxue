@@ -335,6 +335,12 @@ CREATE TABLE IF NOT EXISTS public.topic_vocabulary_progress (
     mode TEXT NOT NULL,
     word_order UUID[] NOT NULL DEFAULT '{}',
     current_index INTEGER NOT NULL DEFAULT 0,
+    -- Only meaningful on the mode='fill_in' row (migration 0021): words answered
+    -- incorrectly/left incomplete on a Điền Từ submit, resurfaced via "Ôn Tập Từ Chưa
+    -- Xong". This page never got Flashcard-mode Biết/Không Biết tracking, so these
+    -- have no meaning on the mode='flashcard' row.
+    unknown_word_ids UUID[] NOT NULL DEFAULT '{}',
+    unknown_resolved_count INTEGER NOT NULL DEFAULT 0,
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(user_id, level, topic_key, mode)
 );

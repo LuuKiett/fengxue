@@ -1075,18 +1075,117 @@ user is actually studying for TOCFL).
   are the same pre-existing cold-start artifacts noted elsewhere in this file, not
   something this page introduced.
 
-## Điền Từ reveals a Pinyin column after grading (`components/exercises/FillInExercise.tsx`)
+## Điền Từ reveals a Pinyin column after grading + speaker icon
+## (`components/exercises/FillInExercise.tsx`)
 
 `FillInWord` already carried a `pinyin` field (needed by every caller's source query)
 but the component never rendered it — the grid only had Chữ Hán/Đáp Án/Kết Quả/Nghĩa.
 Added a 5th column ("Pinyin") between Kết Quả and Nghĩa, masked as `•••••••` like the
-existing Nghĩa column until a row is graded, then revealing `w.pinyin`. Since
-`FillInExercise` is a single shared component with no per-page copies (unlike most
-composer logic in this codebase, which is deliberately duplicated per page — see the
-Điền Từ / pinyin-composer notes above), this one change automatically applies
-everywhere it's used: `/review-dictionary`, `/vocabulary-by-topic`, `/full-dictionary`,
-`/tocfl-dictionary`, `/exercises/[date]`, `/learn`, `/review`. No per-page changes were
-needed.
+existing Nghĩa column until a row is graded, then revealing `w.pinyin`. Also added a
+`Volume2` speaker button next to the Chữ Hán cell calling the app's existing shared
+`speak()` util (`lib/utils/speak.ts` — pins one female zh-TW voice app-wide; same
+button markup/pattern already used on `/dictionary`), since this exercise had no
+pronunciation playback at all before. Since `FillInExercise` is a single shared
+component with no per-page copies (unlike most composer logic in this codebase, which
+is deliberately duplicated per page — see the Điền Từ / pinyin-composer notes above),
+both changes automatically apply everywhere it's used: `/review-dictionary`,
+`/vocabulary-by-topic`, `/full-dictionary`, `/tocfl-dictionary`, `/exercises/[date]`,
+`/learn`, `/review`. No per-page changes were needed.
+
+## Điền Từ: partial submit, direct hanzi typing, and per-word retry tracking
+
+Three related follow-up changes to `components/exercises/FillInExercise.tsx` and the
+4 pages with per-word dictionary-style progress (`/review-dictionary`,
+`/vocabulary-by-topic`, `/full-dictionary`, `/tocfl-dictionary`).
+
+**`FillInExercise` no longer requires every row graded before submitting.** A
+`submitted` state freezes all rows (no more editing/reset) once "Nộp Bài" is clicked;
+any row that was never graded, or graded wrong, is revealed with a "Chưa điền" (amber)
+tag distinct from "Sai" (red). `onComplete`'s signature changed from `() => void` to
+`(result: FillInResult) => void` where `FillInResult = { correctIds: string[];
+incorrectIds: string[] }` (exported from the component) — `incorrectIds` covers both
+wrong answers and never-attempted rows. The 3 date-scoped callers
+(`/exercises/[date]`, `/learn`, `/review`) needed **zero changes** — their existing
+no-arg `() => void` handlers are still structurally assignable to the new prop type
+(TS allows a callback with fewer params where more are expected), and per the explicit
+scope decision below they don't track per-word retry state anyway.
+
+**Direct hanzi input**: some words are unreachable through the pinyin-suggestion
+composer at all — e.g. an entry stored as `橘(子)` never indexes a pickable `子`
+candidate, and plenty of words simply aren't in the merged TOCFL/CC-CEDICT index — so
+the row could never grade no matter what the student typed. `updateComposing` now
+detects any CJK ideograph (`/[㐀-鿿]/`) in the input's new value and, if found, appends
+those characters straight to the answer (bypassing pinyin lookup entirely for that
+keystroke) and grades exactly like a picked suggestion. This transparently supports
+typing/IME-committing hanzi directly into the box as a fallback, without needing to
+know whether a word happens to be indexed.
+
+**Per-word retry tracking ("Điền Từ Chưa Xong")** — explicit scope decision: built
+only for the 4 pages that already have `dictionary_progress`-style per-word pagination
++ an existing Biết/Không Biết-shaped review pattern to extend
+(`review-dictionary`/`full-dictionary`/`tocfl-dictionary` already had
+`unknown_word_ids`/`unknown_resolved_count` columns from migrations 0017/0018/0020;
+`vocabulary-by-topic`'s `topic_vocabulary_progress` got the same 2 columns added via
+migration `0021` specifically to support this). The 3 date-scoped pages
+(`/exercises/[date]`, `/learn`, `/review`) were **not** extended — they have no
+per-word persistence at all (completion is a single `exercise_records` boolean per
+day), and adding that would need new schema + state-machine work, not just reuse of
+existing infra. If asked again, that's the remaining gap.
+
+- **Mechanism**: on every fill_in submit, `handleFillInSubmit` (the new
+  `onComplete` handler replacing the old no-arg `finishStage`/`handleFillInComplete`)
+  merges `correctIds`/`incorrectIds` into that level's (or topic's) `mode='fill_in'`
+  progress row's `unknown_word_ids`/`unknown_resolved_count` — a word already in the
+  pool that's answered correctly is removed + bumps the resolved counter; a word not
+  yet in the pool that's wrong/unanswered is added. This is unconditional/idempotent
+  (re-adding an id already present is a no-op), so the exact same merge logic runs
+  whether the submit is a normal stage, an "already learned" review, or a retry-review
+  session — no special-casing needed per session type.
+  `current_index` still advances by the full stage length regardless of correctness
+  (a wrong answer doesn't block stage progression, exactly like Flashcard's existing
+  Không Biết model) — being wrong only queues the word for the separate retry pool.
+- **Entry point**: a new "Điền Từ Chưa Xong" button, gated on `fillInUnknownCount > 0`,
+  added alongside each page's existing review entry points (review-dictionary's
+  mode-select modal already had "Học Từ Không Biết" as a 4th tile; the other 3 pages'
+  learnStyle "New vs Review" sub-modal gained it as a 3rd option, shown only when that
+  sub-modal's mode is `fill_in`). Starting it is a dead-end reshuffle draw straight
+  from `unknown_word_ids` (same "review, no `word_order`/`current_index` persistence"
+  contract already established for "Ôn Tập Từ Đã Học" elsewhere in this codebase) —
+  `review-dictionary` needed a new twin `startFillInUnknownReview`/
+  `loadFillInUnknownStage` pair (mirroring its existing flashcard-only
+  `startUnknownReview`/`loadUnknownStage`); `full-dictionary`/`tocfl-dictionary`
+  needed **no new start function** at all — their existing `startLevelMode(lvl, mode,
+  size, isReview, isUnknownReview)` was already generic on `mode` (it reads
+  `progress.unknown_word_ids` regardless of which mode's row is passed), so calling it
+  with `mode='fill_in', isUnknownReview=true` just worked once the ref-population
+  branches were extended from flashcard-only to also cover fill_in.
+  `vocabulary-by-topic` needed a genuinely new `fillInUnknownReviewMode` boolean state
+  (distinct from its existing `reviewMode`) because that page's `reviewMode` was
+  already overloaded to mean "already correctly completed" review for all 3 modes
+  including fill_in — reusing it for "answered wrong" review would have collided; the
+  new flag is reset to `false` at the top of every other session-starting function
+  (`startTopic`, `startGroupReview`) and set `true` only right before
+  `startFillInUnknownReview`.
+- **Chain-mode gap fixed in `full-dictionary`/`vocabulary-by-topic`**: the
+  Flashcard→Matching→Điền Từ chain transitions straight from `handleMatchingRoundComplete`
+  into the `fill_in` step without ever calling the normal fill_in start path — so the
+  fill_in unknown-pool refs were never populated for a chained session, and
+  `handleFillInSubmit` would have merged into a stale/empty pool. Fixed by fetching and
+  populating those refs right at the `chainMode` transition point, same place
+  `currentStageMode`/`step` get set to `'fill_in'`.
+- Restarting fill_in mode from scratch (`restartMode`/`handleRestartFillInDirectly`)
+  now also resets `unknown_word_ids`/`unknown_resolved_count` to empty — otherwise a
+  "học lại từ đầu" would silently keep resurfacing words queued under the old attempt.
+- Level/topic cards gained a 2nd amber blurb (mirroring the existing "chưa biết" one)
+  showing `fillInUnknownCount`/`fillInUnknownResolvedCount` whenever non-zero.
+- `full-dictionary` and `tocfl-dictionary` are still exact structural copies of each
+  other (see the original "Page implementation" note above) — this whole feature was
+  implemented once in `full-dictionary` then transplanted into `tocfl-dictionary` via
+  `diff`/`sed`/`patch` on the table names (`full_dictionary_progress`→
+  `tocfl8000_progress`, `full_dictionary_words`→`tocfl8000_words`,
+  `FullDictionaryPage`→`TocflDictionaryPage`) rather than re-deriving it by hand —
+  worth doing again the same way if this pair needs another shared feature, since a
+  manual line-by-line port risks drift between the two copies.
 
 ---
 

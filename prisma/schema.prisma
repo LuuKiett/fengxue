@@ -281,6 +281,13 @@ model TopicVocabularyProgress {
   mode         String
   wordOrder    String[] @default([]) @map("word_order") @db.Uuid
   currentIndex Int      @default(0) @map("current_index")
+  // Both only meaningful on the mode='fill_in' row (see migration 0021) — words
+  // answered incorrectly/left incomplete on a Điền Từ submit, resurfaced via
+  // "Ôn Tập Từ Chưa Xong". Unlike DictionaryProgress/FullDictionaryProgress this page
+  // never got Flashcard-mode Biết/Không Biết tracking, so these columns have no
+  // meaning on the mode='flashcard' row here.
+  unknownWordIds       String[] @default([]) @map("unknown_word_ids") @db.Uuid
+  unknownResolvedCount Int      @default(0) @map("unknown_resolved_count")
   updatedAt    DateTime @default(now()) @map("updated_at")
   user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
