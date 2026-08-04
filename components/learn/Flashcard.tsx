@@ -68,7 +68,7 @@ export default function Flashcard({
 
   return (
     <div
-      className="w-full max-w-2xl relative cursor-pointer perspective-1000 mx-auto md:h[480px] h-[400px]"
+      className="w-full max-w-4xl relative cursor-pointer perspective-1000 mx-auto sm:h-[600px] h-[400px]"
       onClick={onFlip}
     >
       <div className={`w-full h-full relative duration-500 transform-style-3d flashcard-inner ${isFlipped ? 'flashcard-flipped' : ''}`}>
