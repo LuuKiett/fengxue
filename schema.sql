@@ -458,6 +458,62 @@ CREATE POLICY "Users can manage own tocfl8000 progress"
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id);
 
+-- Backs the "Sách Giáo Khoa" page (/textbook). Content is imported 100% from the public
+-- zh.taiwandiary.vn vocab API, covering every lesson of "Đương Đại 1" (book_id 1,
+-- lesson_id 1-15) and "Đương Đại 2" (book_id 2, lesson_id 16-30) per explicit user
+-- request. Unlike every other *_words table here, examples is a JSONB array (not a
+-- single example_hanzi/pinyin/vietnamese triple) since the source has a variable
+-- number of example sentences per word (confirmed 2-10) - kept in full to match the
+-- user's "y chang 100%" (identical to source) requirement.
+CREATE TABLE IF NOT EXISTS public.textbook_vocab_words (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    book_id INTEGER NOT NULL,
+    book_name TEXT NOT NULL,
+    lesson_id INTEGER NOT NULL,
+    lesson_no INTEGER NOT NULL,
+    lesson_name TEXT NOT NULL,
+    hanzi TEXT NOT NULL,
+    pinyin TEXT NOT NULL,
+    pos TEXT,
+    han_viet TEXT,
+    vietnamese TEXT NOT NULL,
+    tocfl_band INTEGER,
+    examples JSONB NOT NULL DEFAULT '[]',
+    order_index INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(lesson_id, hanzi, pinyin)
+);
+
+ALTER TABLE public.textbook_vocab_words ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone authenticated can read textbook vocab words"
+    ON public.textbook_vocab_words FOR SELECT
+    TO authenticated
+    USING (true);
+
+-- Per-user progress for /textbook, mirroring tocfl8000_progress's 3-mode gating chain
+-- + "Biết/Không Biết"/"Điền Từ Chưa Xong" unknown-word tracking, keyed by lesson_id
+-- alone (globally unique 1-30 across both books) instead of level.
+CREATE TABLE IF NOT EXISTS public.textbook_vocab_progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    lesson_id INTEGER NOT NULL,
+    mode TEXT NOT NULL,
+    word_order UUID[] NOT NULL DEFAULT '{}',
+    current_index INTEGER NOT NULL DEFAULT 0,
+    unknown_word_ids UUID[] NOT NULL DEFAULT '{}',
+    unknown_resolved_count INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(user_id, lesson_id, mode)
+);
+
+ALTER TABLE public.textbook_vocab_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own textbook vocab progress"
+    ON public.textbook_vocab_progress FOR ALL
+    USING (auth.uid() = user_id)
+    WITH CHECK (auth.uid() = user_id);
+
 -- ============================================================
 -- TRIGGER: Auto-create profile on user signup
 -- This runs with SECURITY DEFINER so it bypasses RLS

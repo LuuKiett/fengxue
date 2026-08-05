@@ -20,6 +20,7 @@ import {
   Tags,
   BookMarked,
   Award,
+  BookOpenText,
 } from 'lucide-react'
 
 const navItems = [
@@ -33,6 +34,7 @@ const navItems = [
   { href: '/vocabulary-by-topic', label: 'Học Theo Chủ Đề', icon: Tags },
   { href: '/full-dictionary',    label: 'Tổng Hợp Từ Điển', icon: BookMarked },
   { href: '/tocfl-dictionary',   label: 'Từ Điển TOCFL',   icon: Award },
+  { href: '/textbook',           label: 'Sách Giáo Khoa',   icon: BookOpenText },
   { href: '/practice-exam',      label: 'Luyện Đề TOCFL',   icon: ClipboardList },
   { href: '/thi-thu',            label: 'Thi Thử TOCFL',    icon: Trophy },
 ]

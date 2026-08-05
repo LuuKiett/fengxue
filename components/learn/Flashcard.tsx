@@ -24,6 +24,11 @@ interface FlashcardProps {
   // entirely to keep the old fetch-based behavior (used by pages studying user-added
   // vocab, which has no per-word example data of its own).
   example?: ExampleSentence | null
+  // Same idea as `example`, but for sources with more than one example sentence per
+  // word (e.g. /textbook's taiwandiary.vn-sourced words, which have 2-10 examples
+  // each) — takes priority over `example` when provided so every example is shown,
+  // not just the first.
+  examples?: ExampleSentence[]
 }
 
 export default function Flashcard({
@@ -32,15 +37,22 @@ export default function Flashcard({
   vietnamese,
   isFlipped,
   onFlip,
-  example
+  example,
+  examples: examplesProp
 }: FlashcardProps) {
   const [examples, setExamples] = useState<ExampleSentence[]>([])
   const [examplesLoading, setExamplesLoading] = useState(false)
 
   // Fetch example sentences when card changes (skipped entirely if the caller already
-  // supplied a real example via the `example` prop)
+  // supplied real examples via the `examples`/`example` props)
   useEffect(() => {
     if (!hanzi) return
+
+    if (examplesProp !== undefined) {
+      setExamples(examplesProp)
+      setExamplesLoading(false)
+      return
+    }
 
     if (example !== undefined) {
       setExamples(example ? [example] : [])
@@ -58,7 +70,7 @@ export default function Flashcard({
       })
       .catch(() => {})
       .finally(() => setExamplesLoading(false))
-  }, [hanzi, example])
+  }, [hanzi, example, examplesProp])
 
   // TTS capability for Chinese characters
   const speakHanzi = (e: React.MouseEvent, text?: string) => {

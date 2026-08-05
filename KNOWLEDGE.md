@@ -1187,6 +1187,92 @@ existing infra. If asked again, that's the remaining gap.
   worth doing again the same way if this pair needs another shared feature, since a
   manual line-by-line port risks drift between the two copies.
 
+## "Sách Giáo Khoa" textbook page (`/textbook`, `textbook_vocab_words`,
+## `textbook_vocab_progress`)
+
+New page linked from the sidebar as "Sách Giáo Khoa", directly below "Từ Điển TOCFL".
+Content is 100% the Đương Đại 1 & 2 (當代中文課程) textbook vocabulary, per explicit
+user request that it match `https://zh.taiwandiary.vn/vocab` exactly — every lesson,
+every word, every example sentence.
+
+- **Source is a public, unauthenticated JSON API**, not HTML scraping —
+  `zh.taiwandiary.vn/api.php?action=get_lessons&book_id=N` /
+  `?action=get_vocabularies&lesson_id=N` (confirmed via plain `curl`, no cookies/auth
+  needed). `curriculum_id=1` = "Giáo trình Đương Đại"; `book_id 1` = Đương Đại 1
+  (`lesson_id` 1-15), `book_id 2` = Đương Đại 2 (`lesson_id` 16-30) — books 3-6
+  (Đương Đại 3-6) exist on the source site but are out of scope per the user's request.
+  1222 words total across the 30 lessons (565 + 657), confirmed to match every
+  lesson's own `vocab_count` field exactly on scrape.
+- **Each word has a variable number of example sentences (confirmed 2-10 in a sample
+  lesson) — the one place this content doesn't fit the established single-
+  `example_hanzi/pinyin/vietnamese`-column convention** every other `*_words` table in
+  this schema uses (`topic_vocabulary`/`full_dictionary_words`/`tocfl8000_words`).
+  `textbook_vocab_words.examples` (migration `0022`) is a `JSONB` array of
+  `{hanzi, pinyin, vietnamese}` instead, to preserve every example rather than
+  truncating to one — a deliberate one-off deviation, not a pattern to generalize back
+  onto the other tables unless their sources also start returning multiple examples.
+- **Pipeline**: `scripts/scrape-taiwandiary-vocab.js` (hardcodes `bookIds = [1, 2]`,
+  250ms delay between requests, writes `scripts/output/taiwandiary-vocab.json`) →
+  `scripts/build-textbook-vocab-seed.js` (→ `scripts/output/textbook-vocab-seed.sql`,
+  `ON CONFLICT (lesson_id, hanzi, pinyin) DO UPDATE`, safe to re-run; **also
+  regenerates `lib/utils/textbookLessons.ts`** — a small hardcoded `TEXTBOOK_BOOKS`/
+  `TEXTBOOK_LESSONS` metadata export, same "hardcode small enumerable metadata"
+  convention as `LEVEL_ORDER`/`TOPIC_ORDER`, so the page never needs a live query just
+  to know what books/lessons exist) → `npx prisma db execute --file scripts/output/
+  textbook-vocab-seed.sql`. Re-run all three only if the source site's content changes.
+- **`textbook_vocab_progress` (migration `0023`) is keyed by `(user_id, lesson_id,
+  mode)` — no `book_id` in the key, since `lesson_id` is already globally unique 1-30
+  across both books.** Otherwise it's `tocfl8000_progress` verbatim: the same 3-mode
+  gating chain (`matching`/`fill_in` both draw independently from words known-in-
+  `flashcard`, per the "no longer gated behind Matching" fix documented above) plus
+  Biết/Không Biết (flashcard row) and Điền Từ Chưa Xong (fill_in row) unknown-word
+  tracking, baked in from the start rather than as a later follow-up migration.
+- **Page architecture is `/full-dictionary`'s page (the level → 3-mode-gating-chain →
+  Biết/Không Biết → Điền Từ Chưa Xong → chain-mode → review-submodal → browsable-table
+  machinery) with a book → lesson selector layered on top**, because this content has
+  two axes (book, lesson) instead of one (level) — treat each lesson as a "level" in
+  full-dictionary's terms, but grouped into two book screens for navigation. Concretely:
+  `step` gained two screens before the old `'levels'`-equivalent (`'books'`: 2 cards →
+  `'lessons'`: that book's 15 lesson cards, otherwise identical UI/progress-ring
+  markup to full-dictionary's level cards) → `'detail'` (unchanged in logic from
+  full-dictionary's per-level detail view, just every `.eq('level', lvl)` become
+  `.eq('lesson_id', lessonId)` and `full_dictionary_*` become `textbook_vocab_*`).
+  This is a different composition than `/vocabulary-by-topic`'s level-tabs-above-a-
+  topic-grid (that page's "level" has few enough values — 4 — to render as tabs
+  alongside the grid in one screen; here "book" only has 2 values but each book's 15
+  lessons don't fit alongside a book-selector in one screen without it feeling
+  cluttered, hence the separate `'books'` screen instead of tabs).
+- **Row 2 (browse table) needed a genuinely new UI element** neither full-dictionary
+  nor tocfl-dictionary needed: since `examples` can hold up to 10 entries, the Ví Dụ
+  cell shows only the first example by default plus a "Xem thêm N câu ví dụ" toggle
+  (local `Set<string>` of expanded row ids) rather than rendering all of them inline,
+  which would make some rows dramatically taller than others. All examples are present
+  and correct when expanded — full fidelity to the source, just not force-rendered.
+- **`components/learn/Flashcard.tsx` gained a new optional `examples?:
+  ExampleSentence[]` prop** (checked before the existing singular `example` prop, so
+  every other caller passing `example={...}` is unaffected) specifically so this
+  page's Flashcard back can show every example for a word, not just one.
+- **Cross-topic-style group review (the `/vocabulary-by-topic` "Ôn Tập Nhóm Chủ Đề"
+  feature) was deliberately NOT built here** — the user asked for per-lesson
+  Flashcard/Nối Từ/Điền Từ with progress tracking "như các trang khác", not a
+  cross-lesson review mode, and full-dictionary/tocfl-dictionary (the pages this one
+  is actually modeled on) don't have that feature either.
+- **Verification note**: no browser-automation tool was available in the session this
+  was built in, so end-to-end UI verification couldn't be done via Playwright the way
+  earlier features in this file describe. Instead every Supabase query path the page
+  issues (per-lesson count, flashcard-progress upsert with the `user_id,lesson_id,mode`
+  `onConflict` string, progress-advance update, stage word fetch including the
+  `examples` JSONB column, matching-pool gating computation, Biết/Không Biết
+  `unknown_word_ids` update, and cross-user RLS isolation) was replayed directly
+  against the live DB through a real signed-up test user via `@supabase/supabase-js`,
+  confirming both correctness and RLS. `npx tsc --noEmit` and `npm run build` both pass
+  clean. If a future session has a browser tool available, a real click-through
+  (book → lesson → Flashcard → chain into Nối Từ → Điền Từ → completion → progress
+  rings updating) is still worth doing at least once — this page hits the exact same
+  "Matching renders empty on non-chain entry" bug class documented above, and the
+  `loadStage`/`finishFlashcardStage` fix for it was ported over unchanged, but only a
+  literal click-through fully rules out UI/render regressions.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

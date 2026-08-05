@@ -34,6 +34,7 @@ model Profile {
   topicVocabularyProgress TopicVocabularyProgress[]
   fullDictionaryProgress FullDictionaryProgress[]
   tocfl8000Progress      Tocfl8000Progress[]
+  textbookVocabProgress  TextbookVocabProgress[]
 
   @@map("profiles")
 }
@@ -380,4 +381,49 @@ model Tocfl8000Progress {
 
   @@unique([userId, level, mode])
   @@map("tocfl8000_progress")
+}
+
+// Backs the "Sách Giáo Khoa" page's word list (/textbook). Imported 100% from the
+// public zh.taiwandiary.vn vocab API, covering every lesson of Đương Đại 1 (book_id 1)
+// and Đương Đại 2 (book_id 2) per explicit user request. Unlike the other *_words
+// models, examples is a JSONB array (not a single example_hanzi/pinyin/vietnamese
+// triple) since the source has a variable number of examples per word (2-10).
+model TextbookVocabWord {
+  id         String   @id @default(uuid()) @db.Uuid
+  bookId     Int      @map("book_id")
+  bookName   String   @map("book_name")
+  lessonId   Int      @map("lesson_id")
+  lessonNo   Int      @map("lesson_no")
+  lessonName String   @map("lesson_name")
+  hanzi      String
+  pinyin     String
+  pos        String?
+  hanViet    String?  @map("han_viet")
+  vietnamese String
+  tocflBand  Int?     @map("tocfl_band")
+  examples   Json     @default("[]")
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([lessonId, hanzi, pinyin])
+  @@map("textbook_vocab_words")
+}
+
+// Per-user progress for /textbook, mirroring Tocfl8000Progress's 3-mode gating chain
+// plus unknown-word tracking, keyed by lesson_id alone (globally unique 1-30 across
+// both books) instead of level.
+model TextbookVocabProgress {
+  id                   String   @id @default(uuid()) @db.Uuid
+  userId               String   @map("user_id") @db.Uuid
+  lessonId             Int      @map("lesson_id")
+  mode                 String
+  wordOrder            String[] @default([]) @map("word_order") @db.Uuid
+  currentIndex         Int      @default(0) @map("current_index")
+  unknownWordIds       String[] @default([]) @map("unknown_word_ids") @db.Uuid
+  unknownResolvedCount Int      @default(0) @map("unknown_resolved_count")
+  updatedAt            DateTime @default(now()) @map("updated_at")
+  user                 Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId, mode])
+  @@map("textbook_vocab_progress")
 }
