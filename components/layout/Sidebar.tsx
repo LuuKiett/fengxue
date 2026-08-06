@@ -1,47 +1,20 @@
 'use client'
 
-import React from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import {
-  LayoutDashboard,
-  BookOpen,
-  GraduationCap,
-  Dumbbell,
-  CalendarDays,
-  Library,
-  ListChecks,
-  ClipboardList,
-  LogOut,
-  Sparkles,
-  Trophy,
-  Tags,
-  BookMarked,
-  Award,
-  BookOpenText,
-} from 'lucide-react'
-
-const navItems = [
-  { href: '/dashboard',          label: 'Tổng Quan',        icon: LayoutDashboard },
-  { href: '/vocabulary',         label: 'Từ Vựng',          icon: BookOpen },
-  { href: '/learn',              label: 'Học Từ Mới',       icon: GraduationCap },
-  { href: '/exercises',          label: 'Luyện Tập',        icon: Dumbbell },
-  { href: '/review',             label: 'Ôn Tập Tổng Hợp',  icon: CalendarDays },
-  { href: '/dictionary',         label: 'Từ Điển',          icon: Library },
-  { href: '/review-dictionary',  label: 'Ôn Tập Từ Điển',   icon: ListChecks },
-  { href: '/vocabulary-by-topic', label: 'Học Theo Chủ Đề', icon: Tags },
-  { href: '/full-dictionary',    label: 'Tổng Hợp Chủ Đề', icon: BookMarked },
-  { href: '/tocfl-dictionary',   label: 'Từ Điển TOCFL',   icon: Award },
-  { href: '/textbook',           label: 'Sách Giáo Khoa',   icon: BookOpenText },
-  { href: '/practice-exam',      label: 'Luyện Đề TOCFL',   icon: ClipboardList },
-  { href: '/thi-thu',            label: 'Thi Thử TOCFL',    icon: Trophy },
-]
+import { LogOut, Sparkles, ChevronDown } from 'lucide-react'
+import { navEntries, isNavGroup, isHrefActive } from './navConfig'
 
 export default function Sidebar() {
   const pathname = usePathname()
   const router   = useRouter()
   const supabase = createClient()
+
+  // Explicit open/closed overrides — when a group has no override, it defaults to
+  // open exactly when the current route is one of its children (see isOpen below).
+  const [manualOpen, setManualOpen] = useState<Record<string, boolean>>({})
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -53,7 +26,7 @@ export default function Sidebar() {
     <aside
       className="hidden md:flex flex-col w-64 h-screen sticky top-0 p-4 justify-between bg-white border-r-2 border-slate-200"
     >
-      <div className="space-y-1">
+      <div className="space-y-1 overflow-y-auto">
         {/* Brand/Logo */}
         <div className="flex items-center gap-3 px-3 py-4">
           <div
@@ -74,46 +47,96 @@ export default function Sidebar() {
 
         {/* Nav Links */}
         <nav className="space-y-2 px-1">
-          {navItems.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'))
-            const Icon = item.icon
+          {navEntries.map((entry) => {
+            if (!isNavGroup(entry)) {
+              const isActive = isHrefActive(pathname, entry.href)
+              const Icon = entry.icon
+              return (
+                <Link
+                  key={entry.href}
+                  href={entry.href}
+                  className="flex items-center gap-3 px-4 py-3 rounded-2xl font-black text-sm transition-all duration-100 group relative overflow-hidden"
+                  style={
+                    isActive
+                      ? {
+                          background: '#ffffff',
+                          color: '#189fec',
+                          border: '2px solid #189fec',
+                          borderBottom: '5px solid #189fec',
+                          transform: 'translateY(-2px)'
+                        }
+                      : {
+                          background: 'transparent',
+                          color: '#64748b',
+                          border: '2px solid transparent',
+                          borderBottom: '2px solid transparent',
+                        }
+                  }
+                >
+                  <span
+                    className={`transition-all duration-200 relative z-10 ${isActive ? 'text-[#189fec]' : 'text-slate-400 group-hover:text-[#189fec]'}`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <span className="relative z-10 group-hover:text-[#189fec] transition-colors duration-200">
+                    {entry.label}
+                  </span>
+                  {isActive && (
+                    <Sparkles className="w-4 h-4 text-amber-400 absolute right-3 animate-sparkle" />
+                  )}
+                </Link>
+              )
+            }
+
+            const groupActive = entry.items.some((item) => isHrefActive(pathname, item.href))
+            const isOpen = manualOpen[entry.label] ?? groupActive
+            const Icon = entry.icon
 
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl font-black text-sm transition-all duration-100 group relative overflow-hidden"
-                style={
-                  isActive
-                    ? {
-                        background: '#ffffff',
-                        color: '#189fec',
-                        border: '2px solid #189fec',
-                        borderBottom: '5px solid #189fec',
-                        transform: 'translateY(-2px)'
-                      }
-                    : {
-                        background: 'transparent',
-                        color: '#64748b',
-                        border: '2px solid transparent',
-                        borderBottom: '2px solid transparent',
-                      }
-                }
-              >
-                <span
-                  className={`transition-all duration-200 relative z-10 ${isActive ? 'text-[#189fec]' : 'text-slate-400 group-hover:text-[#189fec]'}`}
+              <div key={entry.label}>
+                <button
+                  type="button"
+                  onClick={() => setManualOpen((prev) => ({ ...prev, [entry.label]: !isOpen }))}
+                  className="cursor-pointer flex items-center gap-3 w-full px-4 py-3 rounded-2xl font-black text-sm transition-all duration-100 group"
+                  style={
+                    groupActive
+                      ? { background: '#e7f3ff', color: '#189fec', border: '2px solid transparent' }
+                      : { background: 'transparent', color: '#64748b', border: '2px solid transparent' }
+                  }
                 >
-                  <Icon className="w-5 h-5" />
-                </span>
-                <span className="relative z-10 group-hover:text-[#189fec] transition-colors duration-200">
-                  {item.label}
-                </span>
-                {isActive && (
-                  <Sparkles className="w-4 h-4 text-amber-400 absolute right-3 animate-sparkle" />
+                  <span className={groupActive ? 'text-[#189fec]' : 'text-slate-400 group-hover:text-[#189fec]'}>
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <span className="flex-1 text-left group-hover:text-[#189fec] transition-colors duration-200">
+                    {entry.label}
+                  </span>
+                  <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isOpen && (
+                  <div className="mt-1 ml-4 pl-3 border-l-2 border-slate-100 space-y-1">
+                    {entry.items.map((item) => {
+                      const isActive = isHrefActive(pathname, item.href)
+                      const ItemIcon = item.icon
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-bold text-sm transition-all duration-100 group relative ${
+                            isActive ? 'bg-[#e7f3ff] text-[#189fec]' : 'text-slate-500 hover:bg-slate-50'
+                          }`}
+                        >
+                          <ItemIcon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#189fec]' : 'text-slate-400 group-hover:text-[#189fec]'}`} />
+                          <span>{item.label}</span>
+                          {isActive && (
+                            <Sparkles className="w-3.5 h-3.5 text-amber-400 absolute right-2 animate-sparkle" />
+                          )}
+                        </Link>
+                      )
+                    })}
+                  </div>
                 )}
-              </Link>
+              </div>
             )
           })}
         </nav>

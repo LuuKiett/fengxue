@@ -13,13 +13,13 @@ import { createClient } from '@/lib/supabase/client'
 import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import { shuffleArray } from '@/lib/utils/shuffle'
 import { stripTones } from '@/lib/utils/pinyin'
-import { TEXTBOOK_BOOKS, TEXTBOOK_LESSONS } from '@/lib/utils/textbookLessons'
+import { TEXTBOOK_BOOKS, TEXTBOOK_LESSONS, lessonsForBook, type TextbookSource } from '@/lib/utils/textbookLessons'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
-import { speak } from '@/lib/utils/speak'
 import Flashcard from '@/components/learn/Flashcard'
 import MatchingExercise from '@/components/exercises/MatchingExercise'
 import FillInExercise, { type FillInResult } from '@/components/exercises/FillInExercise'
 import Pagination from '@/components/ui/Pagination'
+import WordCardList from '@/components/dictionary/WordCardList'
 import {
   ArrowLeft,
   ArrowRight,
@@ -31,11 +31,9 @@ import {
   Keyboard,
   Trophy,
   Search,
-  Volume2,
   Library,
   AlertTriangle,
-  ChevronDown,
-  ChevronUp,
+  Award,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -81,6 +79,7 @@ interface TextbookWord {
   vietnamese: string
   pos: string | null
   han_viet: string | null
+  tocfl_band: number | null
   examples: TextbookExample[]
 }
 
@@ -187,6 +186,7 @@ export default function TextbookPage() {
 
   const [lessonInfos, setLessonInfos] = useState<LessonInfo[]>([])
   const [loading, setLoading] = useState(true)
+  const [bookSource, setBookSource] = useState<TextbookSource>('dangdai')
   const [selectedBook, setSelectedBook] = useState<number | null>(null)
   const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null)
 
@@ -230,9 +230,6 @@ export default function TextbookPage() {
   const [tableLoading, setTableLoading] = useState(false)
   const [tableSearch, setTableSearch] = useState('')
   const [tablePage, setTablePage] = useState(1)
-  // Each word can have 2-10 example sentences (100% from the source) — collapsed to
-  // the first example by default so the table stays usable, expandable per-row.
-  const [expandedExampleIds, setExpandedExampleIds] = useState<Set<string>>(new Set())
 
   const progressAdvancedRef = useRef(false)
 
@@ -337,12 +334,11 @@ export default function TextbookPage() {
 
   async function loadTableForLesson(lessonId: number) {
     setTableLoading(true)
-    setExpandedExampleIds(new Set())
     try {
       const data = await fetchAllRows<TextbookWord>((from, to) =>
         supabase
           .from('textbook_vocab_words')
-          .select('id, hanzi, pinyin, vietnamese, pos, han_viet, examples')
+          .select('id, hanzi, pinyin, vietnamese, pos, han_viet, tocfl_band, examples')
           .eq('lesson_id', lessonId)
           .order('order_index', { ascending: true })
           .range(from, to)
@@ -365,6 +361,19 @@ export default function TextbookPage() {
     setTablePage(1)
     setStep('detail')
     loadTableForLesson(lessonId)
+  }
+
+  // TOCFL "books" are a single flat level (exactly one pseudo-lesson covering the
+  // whole level, see textbookLessons.ts) — clicking one skips the lessons picker
+  // entirely and goes straight to its detail view, unlike Đương Đại's 15-lesson books.
+  const handleSelectBook = (bookId: number) => {
+    setSelectedBook(bookId)
+    const bookLessons = lessonsForBook(bookId)
+    if (bookLessons.length === 1) {
+      handleSelectLesson(bookLessons[0].lessonId)
+    } else {
+      setStep('lessons')
+    }
   }
 
   async function fetchProgressRow(userId: string, lessonId: number, mode: StudyMode): Promise<ProgressRow | null> {
@@ -491,7 +500,7 @@ export default function TextbookPage() {
 
     const { data: wordsData } = await supabase
       .from('textbook_vocab_words')
-      .select('id, hanzi, pinyin, vietnamese, pos, han_viet, examples')
+      .select('id, hanzi, pinyin, vietnamese, pos, han_viet, tocfl_band, examples')
       .in('id', stageIds)
 
     const byId: Record<string, TextbookWord> = {}
@@ -950,15 +959,6 @@ export default function TextbookPage() {
     ? modeLearnedCount(currentInfo, activeMode)
     : modePoolTotal(currentInfo, activeMode) - modeLearnedCount(currentInfo, activeMode)
 
-  const toggleExamplesExpanded = (id: string) => {
-    setExpandedExampleIds((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
-  }
-
   const isSearchingTable = tableSearch.trim().length > 0
   const filteredTableWords = useMemo(() => {
     if (!isSearchingTable) return tableWords
@@ -983,7 +983,7 @@ export default function TextbookPage() {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
-        <span>📖</span> Sách Giáo Khoa — Đương Đại
+        <span>📖</span> Sách Giáo Khoa
         <span className="text-[#1877f2] animate-sparkle">✦</span>
       </h2>
 
@@ -993,9 +993,34 @@ export default function TextbookPage() {
             <Library className="w-28 h-28 absolute -right-4 -bottom-6 text-white/15 rotate-[-12deg] pointer-events-none" />
             <h3 className="text-xl font-extrabold flex items-center gap-2 relative">Chọn Giáo Trình</h3>
             <p className="font-semibold text-sm text-white/90 relative max-w-lg">
-              Từ vựng lấy 100% từ giáo trình Đương Đại (當代中文課程). Mỗi bài có Flashcard, Nối Từ, Điền Từ để luyện
-              tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.
+              {bookSource === 'dangdai'
+                ? 'Từ vựng lấy 100% từ giáo trình Đương Đại (當代中文課程). Mỗi bài có Flashcard, Nối Từ, Điền Từ để luyện tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.'
+                : 'Từ vựng lấy 100% từ danh sách từ vựng TOCFL theo cấp độ. Mỗi cấp có Flashcard, Nối Từ, Điền Từ để luyện tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.'}
             </p>
+          </div>
+
+          {/* Curriculum source tabs — mirrors the site's own Đương Đại / TOCFL dropdown */}
+          <div className="flex gap-2 bg-slate-100 p-1.5 rounded-2xl w-fit">
+            {(
+              [
+                { key: 'dangdai' as TextbookSource, label: 'Đương Đại', icon: Library },
+                { key: 'tocfl' as TextbookSource, label: 'TOCFL', icon: Award },
+              ]
+            ).map((tab) => {
+              const TabIcon = tab.icon
+              const active = bookSource === tab.key
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => setBookSource(tab.key)}
+                  className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-xl font-black text-sm transition-all ${
+                    active ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  <TabIcon className="w-4 h-4" /> {tab.label}
+                </button>
+              )
+            })}
           </div>
 
           {loading ? (
@@ -1005,21 +1030,24 @@ export default function TextbookPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {TEXTBOOK_BOOKS.map((book) => {
+              {TEXTBOOK_BOOKS.filter((book) => book.source === bookSource).map((book) => {
                 const bookLessons = lessonInfos.filter((l) => l.bookId === book.bookId)
+                const isSingleLesson = bookLessons.length <= 1
                 const totalWords = bookLessons.reduce((s, l) => s + l.total, 0)
                 const learnedWords = bookLessons.reduce((s, l) => s + l.learnedFlashcard, 0)
                 const pct = totalWords ? (learnedWords / totalWords) * 100 : 0
                 return (
                   <button
                     key={book.bookId}
-                    onClick={() => { setSelectedBook(book.bookId); setStep('lessons') }}
+                    onClick={() => handleSelectBook(book.bookId)}
                     className="cartoon-card cursor-pointer p-5 bg-white text-left flex items-center gap-4"
                   >
                     <ProgressRing percent={pct} size={48} stroke={4.5} />
                     <div className="flex-1">
                       <span className="font-black text-slate-800 text-xl block">{book.name}</span>
-                      <span className="text-xs text-slate-400 font-bold">{bookLessons.length || 15} bài · {totalWords} từ</span>
+                      <span className="text-xs text-slate-400 font-bold">
+                        {isSingleLesson ? `${totalWords} từ` : `${bookLessons.length || 15} bài · ${totalWords} từ`}
+                      </span>
                     </div>
                     <ArrowRight className="w-4 h-4 text-slate-300 shrink-0" />
                   </button>
@@ -1070,7 +1098,7 @@ export default function TextbookPage() {
                       className="cartoon-card cursor-pointer p-5 bg-white text-left space-y-3"
                     >
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-black text-slate-800 text-base leading-snug">{info.lessonName}</span>
+                        <span className="font-black text-slate-800 text-3xl">{info.lessonName}</span>
                         {bothDone && (
                           <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-100 text-amber-600 whitespace-nowrap">
                             🎉 Hoàn thành
@@ -1126,10 +1154,11 @@ export default function TextbookPage() {
       ) : step === 'detail' ? (
         <div className="space-y-6">
           <button
-            onClick={() => setStep('lessons')}
+            onClick={() => setStep(lessonsForBook(selectedBook ?? -1).length <= 1 ? 'books' : 'lessons')}
             className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn bài
+            <ArrowLeft className="w-3.5 h-3.5" />
+            {lessonsForBook(selectedBook ?? -1).length <= 1 ? 'Quay lại chọn cấp độ' : 'Quay lại chọn bài'}
           </button>
 
           {sizeChooserOpen && currentInfo ? (
@@ -1348,7 +1377,7 @@ export default function TextbookPage() {
                   />
                 </div>
 
-                <div className="cartoon-card bg-white overflow-hidden">
+                <div className="overflow-hidden">
                   {tableLoading ? (
                     <div className="p-12 text-center">
                       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -1362,104 +1391,19 @@ export default function TextbookPage() {
                       </h3>
                     </div>
                   ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse md:text-nowrap">
-                        <thead>
-                          <tr className="bg-slate-50 border-b border-slate-100">
-                            <th className="p-4 font-black text-slate-700 text-base">Hán Tự</th>
-                            <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Pinyin</th>
-                            <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Nghĩa Tiếng Việt</th>
-                            <th className="p-4 font-black text-slate-700 text-base">Ví Dụ</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 font-semibold text-slate-700 text-base">
-                          {tablePageWords.map((w) => {
-                            const expanded = expandedExampleIds.has(w.id)
-                            const shownExamples = expanded ? w.examples : w.examples.slice(0, 1)
-                            return (
-                              <tr key={w.id} className="hover:bg-slate-50 align-top">
-                                <td className="p-4">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-chinese text-3xl text-slate-900">{w.hanzi}</span>
-                                    <button
-                                      onClick={() => speak(w.hanzi)}
-                                      className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors"
-                                      title="Phát âm"
-                                    >
-                                      <Volume2 className="w-4 h-4" />
-                                    </button>
-                                  </div>
-                                  <div className="md:hidden">
-                                    {w.pinyin}
-                                    {w.pos && (
-                                      <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
-                                        {w.pos}
-                                      </span>
-                                    )}
-                                    {w.han_viet && (
-                                      <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-indigo-50 text-indigo-500 align-middle">
-                                        {w.han_viet}
-                                      </span>
-                                    )}
-                                    <span className="text-green-500 block">{w.vietnamese || '—'}</span>
-                                  </div>
-                                </td>
-                                <td className="p-4 text-blue-600 font-bold text-lg hidden md:table-cell">
-                                  {w.pinyin}
-                                  {w.pos && (
-                                    <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
-                                      {w.pos}
-                                    </span>
-                                  )}
-                                  {w.han_viet && (
-                                    <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-indigo-50 text-indigo-500 align-middle">
-                                      {w.han_viet}
-                                    </span>
-                                  )}
-                                </td>
-                                <td className="p-4 text-slate-800 hidden md:table-cell">{w.vietnamese || '—'}</td>
-                                <td className="p-4 min-w-[280px]">
-                                  {w.examples.length > 0 ? (
-                                    <div className="space-y-2.5">
-                                      {shownExamples.map((ex, i) => (
-                                        <div key={i} className="flex items-start gap-1.5">
-                                          <div className="space-y-1">
-                                            <p className="font-chinese text-2xl text-slate-800 leading-snug">{ex.hanzi}</p>
-                                            <p className="text-sm text-blue-500 italic">{ex.pinyin}</p>
-                                            <p className="text-sm text-slate-500">{ex.vietnamese}</p>
-                                          </div>
-                                          <button
-                                            onClick={() => speak(ex.hanzi)}
-                                            className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors flex-shrink-0"
-                                            title="Nghe câu ví dụ"
-                                          >
-                                            <Volume2 className="w-4 h-4" />
-                                          </button>
-                                        </div>
-                                      ))}
-                                      {w.examples.length > 1 && (
-                                        <button
-                                          onClick={() => toggleExamplesExpanded(w.id)}
-                                          className="cursor-pointer flex items-center gap-1 text-[11px] font-black text-blue-500 hover:underline"
-                                        >
-                                          {expanded ? (
-                                            <>Thu gọn <ChevronUp className="w-3 h-3" /></>
-                                          ) : (
-                                            <>Xem thêm {w.examples.length - 1} câu ví dụ <ChevronDown className="w-3 h-3" /></>
-                                          )}
-                                        </button>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <span className="text-sm text-slate-300 italic">Chưa có ví dụ</span>
-                                  )}
-                                </td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
+                    <WordCardList
+                      startIndex={(tablePage - 1) * TABLE_PAGE_SIZE}
+                      words={tablePageWords.map((w) => ({
+                        id: w.id,
+                        hanzi: w.hanzi,
+                        pinyin: w.pinyin,
+                        vietnamese: w.vietnamese,
+                        pos: w.pos,
+                        hanViet: w.han_viet,
+                        tocflBand: w.tocfl_band,
+                        examples: w.examples,
+                      }))}
+                    />
                   )}
                 </div>
 

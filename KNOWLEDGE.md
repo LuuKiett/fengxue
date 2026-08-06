@@ -1273,6 +1273,190 @@ every word, every example sentence.
   `loadStage`/`finishFlashcardStage` fix for it was ported over unchanged, but only a
   literal click-through fully rules out UI/render regressions.
 
+## Grouped/collapsible sidebar nav (`components/layout/navConfig.ts`)
+
+Per explicit user request, the 13-item flat sidebar was condensed into 6 top-level
+entries: "Tổng Quan" and "Sách Giáo Khoa" stay standalone; everything else is grouped
+into 4 collapsible sections — "Tự Điền Từ Vựng" (Từ Vựng/Học Từ Mới/Luyện Tập/Ôn Tập
+Tổng Hợp), "Từ Điển" (Từ Điển/Ôn Tập Từ Điển), "Chủ Đề" (Học Theo Chủ Đề/Tổng Hợp Chủ
+Đề), "Tài Liệu & Luyện TOCFL" (Từ Điển TOCFL/Luyện Đề TOCFL/Thi Thử TOCFL). No routes
+were removed or renamed — this is purely a nav-presentation change.
+
+- **New shared `navConfig.ts`** (`navEntries`/`isNavGroup`/`isHrefActive`) replaces the
+  two independently-duplicated flat `navItems` arrays that used to live separately in
+  `Sidebar.tsx` and `MobileDrawer.tsx` (which had already drifted — one used "Tổng Hợp
+  Chủ Đề" for `/full-dictionary`, the other "Tổng Hợp Từ Điển"). Centralizing was a
+  deliberate deviation from this codebase's usual "duplicate small per-page state"
+  convention, since nav structure is app-wide chrome, not per-page feature logic —
+  the duplication that existed here was accidental drift, not a load-bearing pattern
+  worth preserving.
+- **No existing collapsible/accordion primitive existed anywhere in the codebase**
+  before this — both nav components now implement their own open/closed group state
+  independently (`manualOpen: Record<string, boolean>`) rather than sharing a
+  component, matching the existing "Sidebar and MobileDrawer render independently"
+  split. A group with no explicit `manualOpen` entry defaults to *open* exactly when
+  the current route matches one of its children (`groupActive`), so navigating
+  directly to e.g. `/review-dictionary` auto-expands "Từ Điển" without the user
+  needing to click anything.
+
+## Shared `WordCardList` component (`components/dictionary/WordCardList.tsx`)
+
+Per explicit user follow-up request — "design the component and dictionary pages
+[to look] like [the reference site]" plus "use the hanzi text color from the site I
+sent" — the per-word card row built for `/textbook` (see the two entries below) was
+extracted into a shared component and rolled out to **every** "từ điển"-style browse
+list in the app: `/dictionary`, `/full-dictionary`, `/tocfl-dictionary`, and
+`/textbook`. This is a deliberate exception to this codebase's usual "duplicate
+per-page UI state" convention (documented repeatedly elsewhere in this file) — nav
+structure and this one presentational row are both app-wide chrome that should have a
+single source of truth, unlike page-specific business logic (composer state, progress
+gating, etc.) which still stays duplicated per page.
+
+- **Unified `WordCardItem` shape**: `{ id, hanzi, pinyin, vietnamese, pos?, hanViet?,
+  level?, tocflBand?, examples: {hanzi,pinyin,vietnamese}[] }`. The 3 dictionary-style
+  tables (`dictionary_words`/`full_dictionary_words`/`tocfl8000_words`) store a single
+  nullable `example_hanzi/pinyin/vietnamese` triple per word, while
+  `textbook_vocab_words.examples` is a variable-length JSONB array (2-10 per word) —
+  each call site adapts its own shape into `examples: [...]` (an empty array or a
+  1-element array for the single-example tables), so the component itself only ever
+  deals with one shape. `level` (shown as a blue pill) is only passed by `/dictionary`
+  (its old table had a dedicated "Cấp Độ" column); `tocflBand` is only passed by
+  `/textbook` (the other 3 dictionary tables don't carry `tocfl_band`).
+- **Hanzi ink color changed to `#173a5e`** (a dark navy, matching
+  zh.taiwandiary.vn's own word-list color) everywhere inside this component — replaces
+  the plain `text-slate-900`/`text-slate-800` every page's old `<table>` used for
+  hanzi cells. This color is scoped to `WordCardList` only; it was not propagated to
+  `Flashcard.tsx` or any other hanzi-rendering component, since only the browse-list
+  redesign was requested.
+- **The whole summary row is one click target** (not just the "Chi tiết" pill) — see
+  the row-click note below, generalized here to all 4 pages at once since they now
+  share the same component.
+- **`startIndex` prop keeps the "1, 2, 3..." badge numbering continuous across pages**
+  of a paginated list — each call site passes `(page - 1) * PAGE_SIZE` (or
+  `(tablePage - 1) * TABLE_PAGE_SIZE` for the per-level/per-lesson pages), matching
+  what each page's own `Pagination` component already tracks.
+- Removing the 4 near-identical `<table>` blocks this replaced also let `/dictionary`,
+  `/full-dictionary`, and `/tocfl-dictionary` drop their now-unused `Volume2` icon
+  import and (for `/full-dictionary`/`/tocfl-dictionary`) their `speak` import — the
+  component owns all speaker-button wiring internally now.
+- **If `/full-dictionary`/`/tocfl-dictionary` diverge again in the future** (per the
+  earlier note on their being copy-paste twins), this edit was applied identically to
+  both at the same line ranges — confirmed byte-identical before editing, so re-doing
+  this exact diff on one and porting to the other via `diff`/`patch` is still the
+  right move if only one gets updated by mistake.
+
+## Đương Đại 3 added to `/textbook` (follow-up)
+
+Per explicit user follow-up request, `scripts/scrape-taiwandiary-vocab.js`'s `BOOKS`
+now also includes `{ bookId: 3, bookName: 'Đương Đại 3', source: 'dangdai' }`. Book 3
+has **12 lessons, not 15** like books 1-2 (confirmed via `get_lessons&book_id=3`) —
+`TEXTBOOK_LESSONS`/`lessonsForBook()` already tolerate a variable lesson count per
+book (nothing hardcoded assumes exactly 15), so no page code changes were needed, only
+re-running the scrape → build → seed pipeline. One quirk: the source API returns book
+3's lessons out of `lesson_id` order (Bài 1 has the highest `lesson_id`=73, Bài 2-12
+are 31-41) — harmless since `lessonsForBook()` always sorts by the parsed `lessonNo`,
+not `lesson_id`, before rendering. Đương Đại 4-6 (book_id 4-6) remain out of scope.
+
+## Word cards toggle on clicking the whole row, not just the pill button
+
+Per explicit user feedback on the `/textbook`-only card redesign (this predates
+`WordCardList` being extracted into a shared component, see above — the behavior it
+describes is now baked into that component for all 4 pages that use it): clicking
+anywhere on a word's summary row (number/hanzi/pinyin/nghĩa) expands/collapses it, not
+just a small pill button — matches how a real accordion/dropdown row normally
+behaves, a pill being the only clickable target felt like a mis-affordance. The
+`onClick={() => toggle(w.id)}` handler lives on the whole summary-row `<div>` (`cursor-
+pointer` + `hover:bg-slate-50`); the "Chi tiết" pill itself is a non-interactive
+`<span>` so its click still bubbles up to the row instead of double-toggling. The
+per-word speaker `<button>` (inside that same row) calls `e.stopPropagation()` in its
+own `onClick` so tapping it to hear pronunciation doesn't also collapse/expand the
+card — the per-example speaker buttons inside the *expanded* body don't need this,
+since that section is a sibling of the clickable row, not nested inside it.
+
+## TOCFL Level 1-4 vocabulary added to `/textbook` (same `zh.taiwandiary.vn` source)
+
+Per explicit user request, `/textbook` now also scrapes TOCFL Level 1-4 (curriculum_id
+3 on the source site) from the exact same `zh.taiwandiary.vn` API already used for
+Đương Đại 1-2, shown via a new "Đương Đại"/"TOCFL" tab toggle on the book-picker
+screen. **Scope was explicitly clarified with the user first**: the site has TOCFL
+Level 1-6 (book_id 11-16, ~10,079 words total — Level 4 alone is 1536 words, Level 5-6
+add another 7087), but the user said "chỉ lấy từ Level 1 tới Level 4" — Level 5-6
+(book_id 15-16) were deliberately **not** scraped and are not wired into
+`TEXTBOOK_BOOKS`.
+
+- **`get_books&curriculum_id=3`** returns TOCFL Level 1-6 as book_id 11-16. Unlike
+  Đương Đại's 15-lessons-per-book shape, **each TOCFL book has exactly ONE lesson**
+  covering the whole level as a flat list (e.g. book_id=11 → a single lesson_id=139
+  "TOCFL Level 1" with vocab_count=473, confirmed via `get_lessons&book_id=11`) — the
+  per-word shape (hanzi/pinyin/definition/part_of_speech/han_viet/tocfl_band/examples)
+  is otherwise identical to Đương Đại's, so **no schema/migration changes were
+  needed** — `textbook_vocab_words`/`textbook_vocab_progress` (migrations 0022/0023)
+  are reused as-is, keyed by the same globally-unique `lesson_id` (Đương Đại uses
+  1-30, TOCFL uses 139-142 — confirmed no collision).
+- **`scripts/scrape-taiwandiary-vocab.js`'s `BOOKS` array** gained a `source:
+  'dangdai' | 'tocfl'` field alongside `bookId`/`bookName`, carried through into each
+  scraped word record and from there into `scripts/build-textbook-vocab-seed.js`'s
+  generated `lib/utils/textbookLessons.ts` (`TextbookBook.source`, new
+  `TextbookSource` type) — this is what drives the book-picker's tab filter, no DB
+  column needed since it's derived purely from which book_id a lesson belongs to.
+- **Hit a genuine source-data bug while seeding**: `ON CONFLICT DO UPDATE command
+  cannot affect row a second time` on the first seed attempt — two exact-duplicate
+  `(lesson_id, hanzi, pinyin)` rows in the source itself (聲/shēng in TOCFL Level 2,
+  鐘/zhōng in TOCFL Level 3 — same definition, same examples, just a different
+  `vocab_id`/`order_index`, i.e. the *site's own* API returns the same word twice for
+  those two entries). Fixed by deduping in `build-textbook-vocab-seed.js`'s `main()`
+  before building the INSERT (keep-first-occurrence, logs how many were dropped) —
+  not an error in the scraper's own request logic, so no per-lesson pagination/retry
+  changes were needed elsewhere.
+- **`handleSelectBook()` (new)** branches on `lessonsForBook(bookId).length`: a
+  Đương Đại book (15 lessons) goes to the existing `'lessons'` picker step as before; a
+  TOCFL book (1 lesson) skips straight to `handleSelectLesson()`/`'detail'`, since
+  there's nothing to pick. The `'detail'` step's back button mirrors this
+  (`lessonsForBook(selectedBook).length <= 1 ? 'books' : 'lessons'`, with matching
+  label "Quay lại chọn cấp độ" vs "Quay lại chọn bài") — every other piece of
+  `/textbook`'s state machine (Flashcard/Nối Từ/Điền Từ, gating chain, Biết/Không
+  Biết, Điền Từ Chưa Xong, chain-mode, review submodal) already only cared about
+  `lessonId`, not `bookId`, so **zero other changes were needed** to support TOCFL
+  lessons through the rest of the page.
+
+## Row 2 (word browse list) redesigned from a table to expandable cards
+
+Per explicit user request, shown a screenshot of `zh.taiwandiary.vn`'s own word-detail
+UI as the target design (numbered badge, hanzi+pinyin, meaning, an Open/Close toggle,
+POS/level tags, and per-example speaker buttons for "你" — confirmed this is a literal
+screenshot of the source site itself, not a mockup, since the exact same word/examples
+came back from `get_vocabularies&lesson_id=139` verbatim). `/textbook`'s Row 2 (full
+per-lesson word list under the Flashcard/Nối Từ/Điền Từ cards) was rebuilt from an
+HTML `<table>` into a card list to match, applying to **both** Đương Đại and TOCFL
+content (not just the new TOCFL source) since the request was scoped to the whole
+page's vocabulary-browsing UI.
+
+- Each card starts **collapsed** (number badge + hanzi + pinyin + Vietnamese meaning +
+  a speaker button only) — a "Mở"/"Đóng" pill button expands/collapses it, revealing a
+  POS badge, a `TOCFL {tocfl_band}` badge (new — `tocfl_band` wasn't previously
+  selected/typed anywhere on this page; added to `TextbookWord` and all 3 of the
+  page's word-fetching `.select()` calls), a Hán Việt badge, and every example
+  sentence in its own light card with a per-example speaker button. This replaces the
+  old table's "always show first example, `Xem thêm N` to reveal the rest" pattern —
+  now the whole card (tags + all examples) is behind one toggle, not just extra
+  examples.
+- Reused the existing `speak()` util and `expandedWordIds: Set<string>` local-state
+  toggle pattern already established elsewhere in this file (renamed from
+  `expandedExampleIds`/`toggleExamplesExpanded`, since it now gates the whole card,
+  not just extra example rows) — no new shared component, consistent with this page
+  not sharing UI state with other pages.
+- **Verified end-to-end against the live DB** (no browser-automation tool was
+  available in this session either, same as the original `/textbook` build — see its
+  own "Verification note" above): a real signed-up test user's `textbook_vocab_words`
+  count/select queries (mirroring `loadLessonInfos`/`loadTableForLesson`) and a
+  `textbook_vocab_progress` upsert were replayed directly via `@supabase/supabase-js`
+  against `lesson_id=139` (TOCFL Level 1), confirming RLS + the new `tocfl_band`
+  column selection work correctly. `npx tsc --noEmit` and `npm run build` both pass
+  clean; `next dev` serves `/textbook` with 200 and no console/server errors. A real
+  click-through (tab toggle → TOCFL card → detail view skipping the lesson picker →
+  expanding a word card → hearing the speaker buttons) is still worth doing once a
+  browser tool is available, same caveat as the original build.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

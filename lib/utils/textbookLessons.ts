@@ -5,6 +5,12 @@
 // Small hardcoded metadata for the "Sách Giáo Khoa" page (/textbook), the same
 // "hardcode small enumerable metadata" convention as LEVEL_ORDER/TOPIC_ORDER — the
 // page never needs a live query just to know what books/lessons exist.
+//
+// `source` distinguishes the Đương Đại textbook curriculum (multi-lesson books) from
+// the TOCFL level-list curriculum (each "book" is a single flat level with exactly one
+// pseudo-lesson covering the whole level) — see /textbook's book-picker tabs.
+export type TextbookSource = 'dangdai' | 'tocfl'
+
 export interface TextbookLesson {
   lessonId: number
   bookId: number
@@ -15,11 +21,17 @@ export interface TextbookLesson {
 export interface TextbookBook {
   bookId: number
   name: string
+  source: TextbookSource
 }
 
 export const TEXTBOOK_BOOKS: TextbookBook[] = [
-  { bookId: 1, name: "Đương Đại 1" },
-  { bookId: 2, name: "Đương Đại 2" },
+  { bookId: 1, name: "Đương Đại 1", source: "dangdai" },
+  { bookId: 2, name: "Đương Đại 2", source: "dangdai" },
+  { bookId: 3, name: "Đương Đại 3", source: "dangdai" },
+  { bookId: 11, name: "TOCFL Level 1", source: "tocfl" },
+  { bookId: 12, name: "TOCFL Level 2", source: "tocfl" },
+  { bookId: 13, name: "TOCFL Level 3", source: "tocfl" },
+  { bookId: 14, name: "TOCFL Level 4", source: "tocfl" },
 ]
 
 export const TEXTBOOK_LESSONS: TextbookLesson[] = [
@@ -53,6 +65,22 @@ export const TEXTBOOK_LESSONS: TextbookLesson[] = [
   { lessonId: 28, bookId: 2, lessonNo: 13, lessonName: "Bài 13 - 我的手機掉了" },
   { lessonId: 29, bookId: 2, lessonNo: 14, lessonName: "Bài 14 - 我要開始找工作了" },
   { lessonId: 30, bookId: 2, lessonNo: 15, lessonName: "Bài 15 - 過春節" },
+  { lessonId: 31, bookId: 3, lessonNo: 2, lessonName: "Bài 2 - 八折起" },
+  { lessonId: 32, bookId: 3, lessonNo: 3, lessonName: "Bài 3 - 外套帶了沒有？" },
+  { lessonId: 33, bookId: 3, lessonNo: 4, lessonName: "Bài 4 - 我愛台灣的人情味" },
+  { lessonId: 34, bookId: 3, lessonNo: 5, lessonName: "Bài 5 - 現在流行什麼？" },
+  { lessonId: 35, bookId: 3, lessonNo: 6, lessonName: "Bài 6 - 到鄉下住一晚！" },
+  { lessonId: 36, bookId: 3, lessonNo: 7, lessonName: "Bài 7 - 我最親的家「人」" },
+  { lessonId: 37, bookId: 3, lessonNo: 8, lessonName: "Bài 8 - 我想做自己" },
+  { lessonId: 38, bookId: 3, lessonNo: 9, lessonName: "Bài 9 - 網購時代" },
+  { lessonId: 39, bookId: 3, lessonNo: 10, lessonName: "Bài 10 - 我住院了" },
+  { lessonId: 40, bookId: 3, lessonNo: 11, lessonName: "Bài 11 - 台灣故事" },
+  { lessonId: 41, bookId: 3, lessonNo: 12, lessonName: "Bài 12 - 我要去投票" },
+  { lessonId: 73, bookId: 3, lessonNo: 1, lessonName: "Bài 1 - 開學了" },
+  { lessonId: 139, bookId: 11, lessonNo: 1, lessonName: "TOCFL Level 1" },
+  { lessonId: 140, bookId: 12, lessonNo: 1, lessonName: "TOCFL Level 2" },
+  { lessonId: 141, bookId: 13, lessonNo: 1, lessonName: "TOCFL Level 3" },
+  { lessonId: 142, bookId: 14, lessonNo: 1, lessonName: "TOCFL Level 4" },
 ]
 
 export function lessonsForBook(bookId: number): TextbookLesson[] {

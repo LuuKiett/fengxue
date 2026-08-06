@@ -7,11 +7,11 @@ import { shuffleArray } from '@/lib/utils/shuffle'
 import { stripTones } from '@/lib/utils/pinyin'
 import { sortLevels, LEVEL_ORDER } from '@/lib/utils/dictionaryLevels'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
-import { speak } from '@/lib/utils/speak'
 import Flashcard from '@/components/learn/Flashcard'
 import MatchingExercise from '@/components/exercises/MatchingExercise'
 import FillInExercise, { type FillInResult } from '@/components/exercises/FillInExercise'
 import Pagination from '@/components/ui/Pagination'
+import WordCardList from '@/components/dictionary/WordCardList'
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,7 +23,6 @@ import {
   Keyboard,
   Trophy,
   Search,
-  Volume2,
   Library,
   AlertTriangle,
 } from 'lucide-react'
@@ -1278,74 +1277,19 @@ export default function FullDictionaryPage() {
                       </h3>
                     </div>
                   ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse md:text-nowrap">
-                        <thead>
-                          <tr className="bg-slate-50 border-b border-slate-100">
-                            <th className="p-4 font-black text-slate-700 text-base">Hán Tự</th>
-                            <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Pinyin</th>
-                            <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Nghĩa Tiếng Việt</th>
-                            <th className="p-4 font-black text-slate-700 text-base">Ví Dụ</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 font-semibold text-slate-700 text-base">
-                          {tablePageWords.map((w) => (
-                            <tr key={w.id} className="hover:bg-slate-50 align-top">
-                              <td className="p-4">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-chinese text-3xl text-slate-900">{w.hanzi}</span>
-                                  <button
-                                    onClick={() => speak(w.hanzi)}
-                                    className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors"
-                                    title="Phát âm"
-                                  >
-                                    <Volume2 className="w-4 h-4" />
-                                  </button>
-                                </div>
-                                <div className="md:hidden">
-                                  {w.pinyin}
-                                  {w.pos && (
-                                    <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
-                                      {w.pos}
-                                    </span>
-                                  )}
-                                  <span className="text-green-500 block">{w.vietnamese || '—'}</span>
-                                </div>
-                              </td>
-                              <td className="p-4 text-blue-600 font-bold text-lg hidden md:table-cell">
-                                {w.pinyin}
-                                {w.pos && (
-                                  <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
-                                    {w.pos}
-                                  </span>
-                                )}
-                              </td>
-                              <td className="p-4 text-slate-800 hidden md:table-cell">{w.vietnamese || '—'}</td>
-                              <td className="p-4 min-w-[240px]">
-                                {w.example_hanzi ? (
-                                  <div className="flex items-start gap-1.5">
-                                    <div className="space-y-1">
-                                      <p className="font-chinese text-3xl text-slate-800 leading-snug">{w.example_hanzi}</p>
-                                      <p className="text-sm text-blue-500 italic">{w.example_pinyin}</p>
-                                      <p className="text-sm text-slate-500">{w.example_vietnamese}</p>
-                                    </div>
-                                    <button
-                                      onClick={() => speak(w.example_hanzi!)}
-                                      className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors flex-shrink-0"
-                                      title="Nghe câu ví dụ"
-                                    >
-                                      <Volume2 className="w-4 h-4" />
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <span className="text-sm text-slate-300 italic">Chưa có ví dụ</span>
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                    <WordCardList
+                      startIndex={(tablePage - 1) * TABLE_PAGE_SIZE}
+                      words={tablePageWords.map((w) => ({
+                        id: w.id,
+                        hanzi: w.hanzi,
+                        pinyin: w.pinyin,
+                        vietnamese: w.vietnamese,
+                        pos: w.pos,
+                        examples: w.example_hanzi
+                          ? [{ hanzi: w.example_hanzi, pinyin: w.example_pinyin || '', vietnamese: w.example_vietnamese || '' }]
+                          : [],
+                      }))}
+                    />
                   )}
                 </div>
 

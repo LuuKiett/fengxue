@@ -6,8 +6,8 @@ import { stripTones } from '@/lib/utils/pinyin'
 import { sortLevels } from '@/lib/utils/dictionaryLevels'
 import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import Pagination from '@/components/ui/Pagination'
-import { speak } from '@/lib/utils/speak'
-import { Search, BookMarked, Volume2 } from 'lucide-react'
+import WordCardList from '@/components/dictionary/WordCardList'
+import { Search, BookMarked } from 'lucide-react'
 
 interface DictWord {
   id: string
@@ -161,82 +161,20 @@ export default function DictionaryPage() {
             </h3>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse md:text-nowrap">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="p-4 font-black text-slate-700 text-base">Hán Tự</th>
-                  <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Pinyin</th>
-                  <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell">Nghĩa Tiếng Việt</th>
-                  <th className="p-4 font-black text-slate-700 text-base">Ví Dụ</th>
-                  <th className="p-4 font-black text-slate-700 text-base hidden md:table-cell text-center">Cấp Độ</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-semibold text-slate-700 text-base">
-                {pageWords.map((w) => (
-                  <tr key={w.id} className="hover:bg-slate-50 align-top">
-                    <td className="p-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-chinese text-3xl text-slate-900">{w.hanzi}</span>
-                        <button
-                          onClick={() => speak(w.hanzi)}
-                          className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors"
-                          title="Phát âm"
-                        >
-                          <Volume2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                      <div className="md:hidden">
-                        {w.pinyin}
-                        {w.pos && (
-                          <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
-                            {w.pos}
-                          </span>
-                        )}
-                        <span className="text-green-500 block">
-                          {w.vietnamese || '—'}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-blue-600 font-bold text-lg hidden md:table-cell">
-                      {w.pinyin}
-                      {w.pos && (
-                        <span className="ml-2 text-[11px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 align-middle">
-                          {w.pos}
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-4 text-slate-800 hidden md:table-cell">{w.vietnamese || '—'}</td>
-                    <td className="p-4 min-w-[240px]">
-                      {w.example_hanzi ? (
-                        <div className="flex items-start gap-1.5">
-                          <div className="space-y-1">
-                            <p className="font-chinese text-3xl text-slate-800 leading-snug">{w.example_hanzi}</p>
-                            <p className="text-sm text-blue-500 italic">{w.example_pinyin}</p>
-                            <p className="text-sm text-slate-500">{w.example_vietnamese}</p>
-                          </div>
-                          <button
-                            onClick={() => speak(w.example_hanzi!)}
-                            className="p-1 rounded-lg text-slate-300 hover:text-blue-500 hover:bg-blue-50 transition-colors flex-shrink-0"
-                            title="Nghe câu ví dụ"
-                          >
-                            <Volume2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ) : (
-                        <span className="text-sm text-slate-300 italic">Chưa có ví dụ</span>
-                      )}
-                    </td>
-                    <td className="p-4 text-center hidden md:table-cell">
-                      <span className="text-xs font-black px-2 py-1 rounded-full bg-blue-50 text-blue-600">
-                        {w.level}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <WordCardList
+            startIndex={(page - 1) * PAGE_SIZE}
+            words={pageWords.map((w) => ({
+              id: w.id,
+              hanzi: w.hanzi,
+              pinyin: w.pinyin,
+              vietnamese: w.vietnamese,
+              pos: w.pos,
+              level: w.level,
+              examples: w.example_hanzi
+                ? [{ hanzi: w.example_hanzi, pinyin: w.example_pinyin || '', vietnamese: w.example_vietnamese || '' }]
+                : [],
+            }))}
+          />
         )}
       </div>
 
