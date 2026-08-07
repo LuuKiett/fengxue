@@ -14,6 +14,7 @@ const path = require("path");
 
 const OUTPUT_FILE = path.join(__dirname, "../public/tocfl-index.json");
 const OWN_DICT_FILE = path.join(__dirname, "output/own-dictionary-words.json");
+const TEXTBOOK_VOCAB_FILE = path.join(__dirname, "output/own-textbook-vocab-words.json");
 const MAX_PER_KEY = 24;
 
 function stripTones(py) {
@@ -170,9 +171,46 @@ function loadOwnDictionary(index) {
   console.log("Own dictionary_words merged:", count, "of", words.length);
 }
 
+// Merges in textbook_vocab_words content (dumped ahead of time to
+// scripts/output/own-textbook-vocab-words.json — see dump-textbook-vocab.js and
+// KNOWLEDGE.md) at the same top priority as loadOwnDictionary, so every word in
+// /textbook's lessons is directly suggestible. Some textbook entries store multiple
+// hanzi variants joined by "/" as their literal target string (e.g. "台灣/臺灣",
+// "這/這裡/這裏/這兒") — the Điền Từ exercise grades against that exact combined
+// string, which is otherwise unreachable through per-character pinyin/hanzi
+// composition since "/" isn't a real syllable or CJK character. To make the combined
+// string itself pickable as one suggestion, index it under every pinyin variant found
+// in the word's own (possibly also "/"-joined) pinyin field — e.g. "台灣/臺灣" /
+// "táiwān" indexes under "taiwan" alone, but "一共/共" / "yígòng/gòng" indexes under
+// both "yigong" and "gong" so typing either variant's pinyin surfaces the full entry.
+function loadTextbookVocab(index) {
+  if (!fs.existsSync(TEXTBOOK_VOCAB_FILE)) {
+    console.log("No own-textbook-vocab-words.json found — skipping textbook vocab merge.");
+    return;
+  }
+  const words = JSON.parse(fs.readFileSync(TEXTBOOK_VOCAB_FILE, "utf-8"));
+  let count = 0;
+  for (const w of words) {
+    const trad = w.hanzi;
+    const py = w.pinyin;
+    if (!trad || !py) continue;
+    const pyVariants = py.split("/").map((s) => s.trim()).filter(Boolean);
+    const keys = new Set(pyVariants.map(stripTones).filter(Boolean));
+    for (const key of keys) {
+      if (!index[key]) index[key] = [];
+      if (!index[key].find((x) => x.t === trad)) {
+        index[key].push({ t: trad, p: py, l: 0 });
+        count++;
+      }
+    }
+  }
+  console.log("textbook_vocab_words merged:", count, "of", words.length);
+}
+
 async function main() {
   const index = {};
   loadOwnDictionary(index);
+  loadTextbookVocab(index);
   await loadTocfl(index);
   await loadCedict(index);
 

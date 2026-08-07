@@ -1457,6 +1457,61 @@ page's vocabulary-browsing UI.
   expanding a word card → hearing the speaker buttons) is still worth doing once a
   browser tool is available, same caveat as the original build.
 
+## Fix: `/textbook` Điền Từ suggestions never matched multi-variant hanzi entries
+
+Bug report: on `/textbook`, some words (e.g. `台灣/臺灣`, the TOCFL Level 1 entry for
+"Taiwan") could never be graded correctly in Điền Từ — typing "taiwan" surfaced 台灣
+and 臺灣 as separate suggestions, but neither one alone can ever equal the stored
+target hanzi `"台灣/臺灣"` (`FillInExercise.tsx`'s `gradeIfReady`/`selectSuggestion` do
+an exact string match against `target.hanzi`, including the literal `/`). The `/`
+character is unreachable both through pinyin lookup and through the direct-hanzi-typing
+fallback (`/[㐀-鿿]/` only matches CJK ideographs) — so these rows were structurally
+impossible to complete, not just hard.
+
+**Root cause, not `/textbook`-specific to the exercise component**: `scripts/tocfl-content`-
+sourced `textbook_vocab_words` (from `zh.taiwandiary.vn`, itself ultimately TOCFL 8000
+list content for the TOCFL-Level books) stores 170/5059 words with multiple accepted
+hanzi forms joined by `/` as one literal string (`爸爸/爸`, `這/這裡/這裏/這兒`,
+`一共/共`, etc. — confirmed via a direct DB query, not just the one reported word) —
+this is the *actual* grading target, by design (see the Textbook Vocab section above:
+`ON CONFLICT (lesson_id, hanzi, pinyin)`, so `hanzi` really is the combined string, not
+a display artifact). But **`textbook_vocab_words` was never merged into
+`public/tocfl-index.json`** (the shared pinyin-suggestion index every composer reads —
+see the "Pinyin suggestion composer" section above), unlike `dictionary_words` — so
+none of these combined strings were ever selectable as a single suggestion in the
+first place, on top of the exact-match problem.
+
+**Fix — index the combined string as its own suggestion, not a `FillInExercise.tsx`
+grading change** (no `.tsx` files were touched): added `scripts/dump-textbook-vocab.js`
+(dumps `DISTINCT hanzi, pinyin` from `textbook_vocab_words` to `scripts/output/
+own-textbook-vocab-words.json`, same shape/pattern as `dump-own-dictionary.js`) and a
+`loadTextbookVocab()` merge step in `build-dictionary-index.js`, run right after
+`loadOwnDictionary()` (same `l: 0` top priority). For each word, the merge splits its
+**pinyin** field on `/` (some multi-variant entries also have `/`-joined pinyin, e.g.
+`一共/共` → `yígòng/gòng`; others have single pinyin even with multi-variant hanzi,
+e.g. `台灣/臺灣` → `táiwān`) and indexes the **whole literal hanzi string including the
+`/`** under every resulting toneless-pinyin key. So typing "taiwan" now also surfaces
+`{t: "台灣/臺灣", p: "táiwān"}` as one pickable suggestion — selecting it appends the
+exact combined string in one click, which then equals `target.hanzi` exactly and grades
+immediately. Segment-count mismatches between the hanzi and pinyin variant lists (5/170
+cases, e.g. `姊姊/姐姐/姊/姐` with only 2 pinyin variants `jiějie/jiě`) still work fine —
+every available pinyin variant just becomes one more valid key pointing at the same
+full combined string, nothing requires a 1:1 positional pairing.
+- This also gives every *non*-slash textbook word (the other ~4900) a guaranteed direct
+  suggestion entry it didn't have before (same benefit `dictionary_words`' own merge
+  already provided for `/vocabulary`/`/review-dictionary`), which is what fixes the
+  broader "hiện đủ các từ trong textbook" (surface all textbook words) ask, not just
+  the slash-variant case.
+- `scripts/dump-textbook-vocab.js` and its `scripts/output/own-textbook-vocab-words.json`
+  output are force-tracked in git (`git add -f`) — same as `dump-own-dictionary.js`/
+  `own-dictionary-words.json` — since `/scripts` and `/scripts/output` are otherwise
+  gitignored wholesale; a plain `git add` silently no-ops on files under those paths.
+- **Regenerate whenever `textbook_vocab_words` content changes** (a new book/lesson
+  scraped): `node scripts/dump-textbook-vocab.js` → `node scripts/build-dictionary-index.js`
+  (re-downloads TOCFL list + CC-CEDICT from network each run, same as any other
+  `tocfl-index.json` rebuild — no `--schema`/DB write involved, this only touches the
+  static JSON asset served from `public/`).
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
