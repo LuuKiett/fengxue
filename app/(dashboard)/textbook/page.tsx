@@ -543,9 +543,8 @@ export default function TextbookPage() {
       let finalIndex = 0
       let finalOrderLength = 0
 
-      if (!progress) {
-        // Initialize progress if it doesn't exist (e.g. during chainMode)
-        if (mode === 'flashcard') {
+      if (mode === 'flashcard') {
+        if (!progress) {
           const allWords = await fetchAllRows<{ id: string }>((from, to) =>
             supabase
               .from('textbook_vocab_words')
@@ -570,43 +569,59 @@ export default function TextbookPage() {
             finalOrderLength = upserted.word_order.length
           }
         } else {
-          const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
-          const learnedIds = getKnownIds(parentProgress)
-          const stageWordIds = stageWords.map((w) => w.id)
-          const remainingIds = learnedIds.filter((id) => !stageWordIds.includes(id))
-          const wordOrder = [...stageWordIds, ...shuffleArray(remainingIds)]
-
-          const { data: upserted } = await supabase
+          const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
+          await supabase
             .from('textbook_vocab_progress')
-            .upsert(
-              { user_id: user.id, lesson_id: lessonId, mode, word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
-              { onConflict: 'user_id,lesson_id,mode' }
-            )
-            .select('word_order, current_index')
-            .single()
+            .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .eq('lesson_id', lessonId)
+            .eq('mode', mode)
 
-          if (upserted) {
-            finalIndex = upserted.current_index
-            finalOrderLength = upserted.word_order.length
-          }
+          finalIndex = newIndex
+          finalOrderLength = progress.word_order.length
         }
       } else {
-        const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
-        await supabase
-          .from('textbook_vocab_progress')
-          .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-          .eq('user_id', user.id)
-          .eq('lesson_id', lessonId)
-          .eq('mode', mode)
+        // Matching/fill_in: always reconcile word_order against the live known-in-
+        // flashcard pool + this stage's own word ids, instead of blindly capping
+        // current_index+count at whatever word_order already happened to contain. A
+        // chained Flashcard->Matching->Điền Từ session's stage batch is NOT
+        // guaranteed to already be present in an existing progress row — e.g. a
+        // second/third chain batch for the same lesson finds a matching/fill_in row
+        // already created (and already fully consumed) by the FIRST chain batch, with
+        // a `word_order` far smaller than the live known-in-flashcard pool. Blindly
+        // capping at that stale, already-exhausted `word_order.length` silently
+        // discarded every chain batch after the first (confirmed against live DB data
+        // — see KNOWLEDGE.md's "Điền Từ/Nối Từ progress not saving on later chain
+        // batches" note).
+        const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
+        const learnedIds = getKnownIds(parentProgress)
+        const stageWordIds = stageWords.map((w) => w.id)
+        const previouslyDone: string[] = progress
+          ? progress.word_order.slice(0, progress.current_index).filter((id: string) => learnedIds.includes(id))
+          : []
+        const newCompletedIds = [...previouslyDone, ...stageWordIds.filter((id) => !previouslyDone.includes(id))]
+        const remainingIds = learnedIds.filter((id) => !newCompletedIds.includes(id))
+        const wordOrder = [...newCompletedIds, ...shuffleArray(remainingIds)]
 
-        finalIndex = newIndex
-        finalOrderLength = progress.word_order.length
+        const { data: upserted } = await supabase
+          .from('textbook_vocab_progress')
+          .upsert(
+            { user_id: user.id, lesson_id: lessonId, mode, word_order: wordOrder, current_index: newCompletedIds.length, updated_at: new Date().toISOString() },
+            { onConflict: 'user_id,lesson_id,mode' }
+          )
+          .select('word_order, current_index')
+          .single()
+
+        if (upserted) {
+          finalIndex = upserted.current_index
+          finalOrderLength = upserted.word_order.length
+        }
       }
 
       setLessonInfos((prev) =>
         prev.map((l) => {
           if (l.lessonId !== lessonId) return l
-          if (mode === 'flashcard') return { ...l, learnedFlashcard: finalIndex }
+          if (mode === 'flashcard') return { ...l, learnedFlashcard: finalIndex, knownFlashcard: finalIndex - l.unknownCount }
           if (mode === 'matching') return { ...l, learnedMatching: finalIndex }
           return { ...l, learnedFillIn: finalIndex }
         })

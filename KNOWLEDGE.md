@@ -1512,6 +1512,61 @@ full combined string, nothing requires a 1:1 positional pairing.
   `tocfl-index.json` rebuild — no `--schema`/DB write involved, this only touches the
   static JSON asset served from `public/`).
 
+## Fix: `/textbook` Điền Từ/Nối Từ progress silently not saved on the 2nd+ chain batch
+
+Bug report: after finishing Flashcard and then doing Nối Từ/Điền Từ on `/textbook`,
+progress didn't stick — the student had to redo the same words over and over
+("phải làm đi làm lại nhiều lần"). Confirmed by querying the live `textbook_vocab_progress`
+table directly: for lessons with more vocab than one Flashcard stage (e.g. the TOCFL
+book's single-lesson levels), `matching`/`fill_in` rows were frozen at exactly the size
+of the *first ever* Flashcard→Matching→Điền Từ chain batch for that lesson (e.g.
+`word_order` length 21, `current_index` 21 — fully "complete"), even though the
+`flashcard` row for the same lesson kept growing far beyond that (e.g. to 360/480) via
+later, separate Flashcard sessions that also auto-chained into Matching/Điền Từ.
+
+**Root cause**, in `persistProgressAdvance` (`app/(dashboard)/textbook/page.tsx`, same
+shape as `/full-dictionary`, `/tocfl-dictionary`, `/vocabulary-by-topic` — see below):
+when a `matching`/`fill_in` progress row already exists, the old code just did
+`newIndex = Math.min(progress.current_index + count, progress.word_order.length)` —
+i.e. it assumed the just-completed stage's words were already present in
+`word_order` starting at `current_index`. That assumption holds for the **first** ever
+chain batch (where `persistProgressAdvance`'s row-creation branch builds `word_order`
+from exactly that batch + the rest of the then-known-in-flashcard pool) and for the
+**direct-entry** paths (`startLessonMode`/`continueNextStage`, which explicitly rebuild
+`word_order` from the live known-in-flashcard pool before a stage even starts). It does
+**not** hold for a **second/third+ chain batch**: `finishFlashcardStage`'s transition
+into Matching skips straight to the exercise using local `stageWords` (this new batch's
+words) without ever calling `startLessonMode`/`loadStage`'s word_order-rebuild logic
+first — so those word ids were never added to the existing (older, already-fully-
+consumed) `word_order` array, and the capped increment silently discarded the entire
+batch's progress every time.
+
+**Fix**: for non-flashcard modes, `persistProgressAdvance` now always reconciles
+`word_order` against the *live* known-in-flashcard pool (`getKnownIds(parentProgress)`,
+freshly fetched, not read from React state) plus the current stage's own word ids —
+same "already-completed prefix (filtered to still-known ids) + this stage's ids not
+already in that prefix + shuffled remainder" construction `continueNextStage` already
+used for direct entry, just also applied inside `persistProgressAdvance` so a chain
+transition gets it too. Verified end-to-end against the live DB (a throwaway progress
+row on a real existing profile + an untouched lesson, cleaned up after): the old logic
+got stuck at 5/10 after a second batch, the new logic correctly reaches 10/10.
+Also fixed a compounding bug in the same function: the `flashcard`-mode branch of
+`setLessonInfos` updated `learnedFlashcard` but never `knownFlashcard` (the field that
+gates whether "Nối Từ Mới"/"Điền Từ Mới" shows as available, per the "no longer gated
+behind Matching" note above) — within a session, doing more Flashcard after already
+completing a Matching/Điền Từ chain batch left `knownFlashcard` stale, making the "Mới"
+option look exhausted and pushing the student into the review dead-end. Now updates
+`knownFlashcard: finalIndex - l.unknownCount` alongside `learnedFlashcard`, matching the
+same formula `loadLessonInfos`/`persistUnknownState` already use.
+
+**Not yet ported to the 3 sibling pages that share this exact `persistProgressAdvance`
+shape** (`/full-dictionary`, `/tocfl-dictionary`, `/vocabulary-by-topic`) — confirmed via
+grep that all 3 have the identical `Math.min(progress.current_index + count,
+progress.word_order.length)` line and the identical missing-`knownFlashcard`-update gap,
+so they very likely have the same latent bug for any lesson/level/topic large enough to
+need more than one Flashcard→Matching→Điền Từ chain batch. Apply the same fix there if
+this is reported again on those pages.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
