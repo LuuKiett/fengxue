@@ -1619,6 +1619,20 @@ flashcard tracking" section above) are untouched.
   `tableWords` (rather than re-deriving order_index from a fresh query) guarantees the
   badge always matches whatever Row 2 currently shows for that lesson, and needs no new
   DB columns selected anywhere.
+- **Follow-up bug report: Flashcard still felt random after all the above.** Root
+  cause: the dictionary-order fix only changes `word_order` when a fresh progress row
+  is *created* — an existing `textbook_vocab_progress` row (`mode='flashcard'`) created
+  before this fix already has its `word_order` permanently shuffled, and
+  `startLessonMode`'s `idsMatch` check only compared the two id sets, not their order,
+  so a pre-existing shuffled row was silently reused forever. Fixed by adding an
+  `else if (!progress.word_order.every((id, i) => id === allIds[i]))` branch right
+  after the `idsMatch` check: when the id set matches but the order doesn't, reconcile
+  in place — `reviewedSet = new Set(word_order.slice(0, current_index))`, then
+  `wordOrder = [...allIds.filter(reviewed), ...allIds.filter(not reviewed)]` (both
+  halves individually re-sorted into dictionary order), keeping `current_index`
+  unchanged so the review *count* isn't reset, only the ordering. This self-heals any
+  lesson's flashcard progress the next time it's opened — no one-off migration/script
+  needed, and no other mode/page was touched since only Flashcard was reported.
 
 ---
 

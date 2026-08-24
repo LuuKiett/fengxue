@@ -455,6 +455,24 @@ export default function TextbookPage() {
             .select('word_order, current_index')
             .single()
           progress = upserted
+        } else if (!progress.word_order.every((id, i) => id === allIds[i])) {
+          // Same set of words, but `word_order` predates the dictionary-order fix above
+          // (or an even older shuffled row) — reconcile it in place instead of leaving
+          // it shuffled forever. Keep the already-reviewed prefix (re-sorted into
+          // dictionary order) ahead of the not-yet-reviewed remainder (also dictionary
+          // order), so `current_index` still means the same review count but every
+          // word studied from here on is shown in true dictionary order.
+          const reviewedSet = new Set(progress.word_order.slice(0, progress.current_index))
+          const wordOrder = [...allIds.filter((id) => reviewedSet.has(id)), ...allIds.filter((id) => !reviewedSet.has(id))]
+          const { data: upserted } = await supabase
+            .from('textbook_vocab_progress')
+            .upsert(
+              { user_id: user.id, lesson_id: lessonId, mode: 'flashcard', word_order: wordOrder, current_index: progress.current_index, updated_at: new Date().toISOString() },
+              { onConflict: 'user_id,lesson_id,mode' }
+            )
+            .select('word_order, current_index, unknown_word_ids, unknown_resolved_count')
+            .single()
+          if (upserted) progress = upserted
         }
         if (!progress) { setLoading(false); return }
         unknownIdsRef.current = progress.unknown_word_ids || []
