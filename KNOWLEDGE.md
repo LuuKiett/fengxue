@@ -1567,6 +1567,38 @@ so they very likely have the same latent bug for any lesson/level/topic large en
 need more than one Flashcard→Matching→Điền Từ chain batch. Apply the same fix there if
 this is reported again on those pages.
 
+## `/textbook` Flashcard now studies in dictionary order, not shuffled
+
+Per explicit user request: the primary Flashcard sequence for both Đương Đại and TOCFL
+lessons on `/textbook` should follow the same `order_index` order as Row 2's browse
+table ("từ điển"), not a random shuffle, since a predictable order is easier to study
+from. This only changes **Flashcard's own** word order — Matching/Điền Từ (which pull
+their pool from `getKnownIds`/known-in-flashcard and are drilled as games/exercises, not
+a linear read-through) and the "Ôn Tập"/"Học Từ Không Biết" review dead-end draws (which
+are deliberately randomized reshuffles by existing design, see the "Biết/Không Biết
+flashcard tracking" section above) are untouched.
+
+- **3 places built a fresh flashcard `word_order` via `shuffleArray(allIds)`**
+  (`startLessonMode`'s flashcard branch, `persistProgressAdvance`'s flashcard
+  no-existing-row branch, `restartMode`'s flashcard branch) — all three already fetched
+  `allIds`/`allWords` ordered by `order_index` ascending (`restartMode` was actually
+  missing that `.order()` clause entirely — added it), so the fix in each case was
+  simply to drop the `shuffleArray(...)` wrapper and use the already-ordered id list
+  directly as `word_order`.
+- **`loadStage`'s per-stage `ordered = shuffleArray(stageIds.map(...))` also had to be
+  made conditional on `mode`** — even with `word_order` itself fixed, this second
+  shuffle (originally applied uniformly across all 3 modes, both to randomize
+  Matching's board and, incidentally, Flashcard's within-stage card order) would have
+  silently re-scrambled Flashcard's now-ordered `stageIds` on every stage load. Changed
+  to `mode === 'flashcard' ? rawOrdered : shuffleArray(rawOrdered)` — Matching/fill_in
+  keep the existing shuffle-on-load behavior unchanged.
+- Scoped to `/textbook` only, per how the request was phrased ("phần flashcard của
+  giáo trình đương đại và TOCFL") — both content types are served by this one page (see
+  the "TOCFL Level 1-4 added to /textbook" section above), so no other page needed
+  touching. `/full-dictionary`/`/tocfl-dictionary`/`/vocabulary-by-topic` still shuffle
+  their Flashcard order; apply the same pattern there if this is asked for those pages
+  too.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

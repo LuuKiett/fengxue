@@ -432,7 +432,10 @@ export default function TextbookPage() {
           [...new Set(progress.word_order)].every((id) => allIds.includes(id))
 
         if (!progress || !idsMatch) {
-          const wordOrder = shuffleArray(allIds)
+          // Flashcard word order follows the dictionary's own order_index (same order
+          // as Row 2's browse table) rather than being shuffled, so the primary study
+          // sequence is predictable/easy to follow instead of random.
+          const wordOrder = allIds
           const { data: upserted } = await supabase
             .from('textbook_vocab_progress')
             .upsert(
@@ -505,7 +508,11 @@ export default function TextbookPage() {
 
     const byId: Record<string, TextbookWord> = {}
     for (const w of wordsData || []) byId[w.id] = { ...w, examples: w.examples || [] }
-    const ordered = shuffleArray(stageIds.map((id) => byId[id]).filter(Boolean))
+    // Flashcard's stageIds already come from a dictionary-ordered word_order (see
+    // startLessonMode/persistProgressAdvance/restartMode) — don't re-shuffle here or
+    // that ordering would be undone within the stage. Matching/fill_in keep shuffling.
+    const rawOrdered = stageIds.map((id) => byId[id]).filter(Boolean)
+    const ordered = mode === 'flashcard' ? rawOrdered : shuffleArray(rawOrdered)
 
     setStageWords(ordered)
     setStageNumber(Math.floor(currentIndex / size) + 1)
@@ -554,7 +561,8 @@ export default function TextbookPage() {
               .range(from, to)
           )
           const allIds = allWords.map((w) => w.id)
-          const wordOrder = shuffleArray(allIds)
+          // Same dictionary-order rule as startLessonMode's flashcard branch above.
+          const wordOrder = allIds
           const { data: upserted } = await supabase
             .from('textbook_vocab_progress')
             .upsert(
@@ -905,9 +913,15 @@ export default function TextbookPage() {
       let wordOrder: string[] = []
       if (mode === 'flashcard') {
         const allWords = await fetchAllRows<{ id: string }>((from, to) =>
-          supabase.from('textbook_vocab_words').select('id').eq('lesson_id', lessonId).range(from, to)
+          supabase
+            .from('textbook_vocab_words')
+            .select('id')
+            .eq('lesson_id', lessonId)
+            .order('order_index', { ascending: true })
+            .range(from, to)
         )
-        wordOrder = shuffleArray(allWords.map((w) => w.id))
+        // Dictionary order, not shuffled — see startLessonMode's flashcard branch.
+        wordOrder = allWords.map((w) => w.id)
       } else {
         const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
         wordOrder = shuffleArray(getKnownIds(parentProgress))
