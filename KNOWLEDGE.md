@@ -1598,6 +1598,27 @@ flashcard tracking" section above) are untouched.
   touching. `/full-dictionary`/`/tocfl-dictionary`/`/vocabulary-by-topic` still shuffle
   their Flashcard order; apply the same pattern there if this is asked for those pages
   too.
+- **Follow-up**: the "Ôn Tập Từ Đã Học"/"Học Từ Không Biết" review draws
+  (`startLessonMode`'s `isReview` branch) also used to reshuffle via `shuffleArray
+  (learnedIds)` regardless of mode. For `mode === 'flashcard'` this is now a sort by
+  position within `progress.word_order` instead — since that array is itself
+  order_index-sorted post-fix, this recovers dictionary order for the plain "already
+  learned" pool (already a prefix slice, so already sorted) *and* for `unknown_word_ids`
+  (insertion-ordered by whenever a word was marked "không biết", not dictionary order,
+  so this one actually needed the sort). Matching/fill_in review draws are untouched
+  (still `shuffleArray`), consistent with the main-flow scoping above.
+- **STT badge on Flashcard**: per explicit follow-up request, Flashcard now shows a
+  "STT N" badge (both card faces, next to the 繁體字/Giải Nghĩa pill) matching the
+  word's position in Row 2's browse table for that lesson. `components/learn/
+  Flashcard.tsx` gained an optional `sttNumber?: number` prop (omitted by every other
+  caller — dictionary/topic/full-dictionary/tocfl-dictionary/review pages don't pass
+  it, so they render unchanged). `/textbook/page.tsx` computes a `wordRankMap` (id ->
+  1-based index) via `useMemo` over `tableWords` — the full, unfiltered,
+  order_index-ascending list already loaded per-lesson for Row 2 (see
+  `loadTableForLesson`) — and passes `wordRankMap[stageWords[flashIdx].id]` in. Reusing
+  `tableWords` (rather than re-deriving order_index from a fresh query) guarantees the
+  badge always matches whatever Row 2 currently shows for that lesson, and needs no new
+  DB columns selected anywhere.
 
 ---
 

@@ -411,8 +411,18 @@ export default function TextbookPage() {
           setFillInUnknownRemaining(fillInUnknownIdsRef.current.length)
         }
         if (learnedIds.length === 0) { setLoading(false); return }
-        const shuffled = shuffleArray(learnedIds)
-        await loadStage(lessonId, mode, shuffled, 0, learnedIds.length, size)
+        // Flashcard review ("Ôn Tập Từ Đã Học" / "Học Từ Không Biết") also follows
+        // dictionary order instead of a random reshuffle, matching the main study
+        // flow. `progress.word_order` is itself order_index-sorted for flashcard mode
+        // (see startLessonMode/persistProgressAdvance/restartMode above), so sorting
+        // `learnedIds` by position within it recovers dictionary order for both the
+        // plain-learned pool and the (insertion-ordered, not dictionary-ordered)
+        // `unknown_word_ids` pool. Matching/fill_in review stays shuffled.
+        const ordered =
+          mode === 'flashcard' && progress
+            ? [...learnedIds].sort((a, b) => progress.word_order.indexOf(a) - progress.word_order.indexOf(b))
+            : shuffleArray(learnedIds)
+        await loadStage(lessonId, mode, ordered, 0, learnedIds.length, size)
       } else if (mode === 'flashcard') {
         const allWords = await fetchAllRows<{ id: string }>((from, to) =>
           supabase
@@ -987,6 +997,17 @@ export default function TextbookPage() {
     : reviewMode
     ? modeLearnedCount(currentInfo, activeMode)
     : modePoolTotal(currentInfo, activeMode) - modeLearnedCount(currentInfo, activeMode)
+
+  // Maps a word id -> its 1-based rank in the lesson's own dictionary order
+  // (`tableWords` is always the full, unfiltered, order_index-ascending list for
+  // whichever lesson is currently selected — see loadTableForLesson). Used to show a
+  // "STT" badge on Flashcard that matches Row 2's browse-table numbering, independent
+  // of any active table search/pagination.
+  const wordRankMap = useMemo(() => {
+    const map: Record<string, number> = {}
+    tableWords.forEach((w, i) => { map[w.id] = i + 1 })
+    return map
+  }, [tableWords])
 
   const isSearchingTable = tableSearch.trim().length > 0
   const filteredTableWords = useMemo(() => {
@@ -1602,6 +1623,7 @@ export default function TextbookPage() {
               pinyin: ex.pinyin,
               translation: ex.vietnamese,
             }))}
+            sttNumber={wordRankMap[stageWords[flashIdx].id]}
           />
 
           <div className="flex justify-between items-center gap-4 max-w-lg mx-auto">

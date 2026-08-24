@@ -29,6 +29,11 @@ interface FlashcardProps {
   // each) — takes priority over `example` when provided so every example is shown,
   // not just the first.
   examples?: ExampleSentence[]
+  // Optional "STT" (ordinal number) badge, shown on both card faces next to the
+  // 繁體字/Giải Nghĩa pill. Omit for pages with no stable dictionary-order ranking to
+  // show (this is currently only passed by /textbook, whose Flashcard order matches
+  // its own browse table's order_index ranking — see KNOWLEDGE.md).
+  sttNumber?: number
 }
 
 export default function Flashcard({
@@ -38,7 +43,8 @@ export default function Flashcard({
   isFlipped,
   onFlip,
   example,
-  examples: examplesProp
+  examples: examplesProp,
+  sttNumber
 }: FlashcardProps) {
   const [examples, setExamples] = useState<ExampleSentence[]>([])
   const [examplesLoading, setExamplesLoading] = useState(false)
@@ -88,9 +94,16 @@ export default function Flashcard({
         {/* FRONT SIDE (Hanzi) */}
         <div className="absolute inset-0 w-full backface-hidden bg-white border border-indigo-100 rounded-3xl shadow-xl shadow-indigo-100/40 flex flex-col items-center justify-between p-6">
           <div className="flex justify-between w-full items-center">
-            <span className="text-xs font-black px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-blue-600 shadow-sm">
-              繁體字
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-black px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-blue-600 shadow-sm">
+                繁體字
+              </span>
+              {sttNumber != null && (
+                <span className="text-xs font-black px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-slate-500 shadow-sm">
+                  STT {sttNumber}
+                </span>
+              )}
+            </div>
             <button
               onClick={(e) => speakHanzi(e)}
               className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all text-slate-700 active:translate-y-0.5"
@@ -118,9 +131,16 @@ export default function Flashcard({
           
           {/* Header */}
           <div className="flex justify-between w-full items-center">
-            <span className="text-xs font-black px-3 py-1 bg-blue-100 border border-blue-200 rounded-full text-blue-700 shadow-sm">
-              Giải Nghĩa
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-black px-3 py-1 bg-blue-100 border border-blue-200 rounded-full text-blue-700 shadow-sm">
+                Giải Nghĩa
+              </span>
+              {sttNumber != null && (
+                <span className="text-xs font-black px-3 py-1 bg-white border border-blue-200 rounded-full text-slate-500 shadow-sm">
+                  STT {sttNumber}
+                </span>
+              )}
+            </div>
             <button
               onClick={(e) => speakHanzi(e)}
               className="p-2 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all text-slate-700 active:translate-y-0.5"
