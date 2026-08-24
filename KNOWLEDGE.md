@@ -1624,15 +1624,43 @@ flashcard tracking" section above) are untouched.
   is *created* — an existing `textbook_vocab_progress` row (`mode='flashcard'`) created
   before this fix already has its `word_order` permanently shuffled, and
   `startLessonMode`'s `idsMatch` check only compared the two id sets, not their order,
-  so a pre-existing shuffled row was silently reused forever. Fixed by adding an
+  so a pre-existing shuffled row was silently reused forever. Added an
   `else if (!progress.word_order.every((id, i) => id === allIds[i]))` branch right
-  after the `idsMatch` check: when the id set matches but the order doesn't, reconcile
-  in place — `reviewedSet = new Set(word_order.slice(0, current_index))`, then
-  `wordOrder = [...allIds.filter(reviewed), ...allIds.filter(not reviewed)]` (both
-  halves individually re-sorted into dictionary order), keeping `current_index`
-  unchanged so the review *count* isn't reset, only the ordering. This self-heals any
-  lesson's flashcard progress the next time it's opened — no one-off migration/script
-  needed, and no other mode/page was touched since only Flashcard was reported.
+  after the `idsMatch` check to catch this and reconcile.
+- **2nd follow-up: "vẫn không theo STT từ 1 trở đi" (still doesn't go from STT 1).**
+  The first reconciliation attempt tried to preserve the review *count*: keep the
+  already-reviewed prefix (re-sorted into dictionary order) ahead of the not-yet-
+  reviewed remainder (also sorted), leaving `current_index` unchanged. That's
+  order-correct going forward but does **not** produce `word_order === allIds` unless
+  the old (shuffled) reviewed set happened to already be exactly `{STT 1..
+  current_index}` — so the very next session still resumed mid-list instead of
+  visibly starting at STT 1, which is what triggered this follow-up report. Changed to
+  a **full reset** instead: whenever stored order doesn't exactly match `allIds`,
+  reset that lesson's flashcard row outright — `word_order = allIds`, `current_index =
+  0`, `unknown_word_ids = []`, `unknown_resolved_count = 0` — mirroring exactly what
+  `restartMode('flashcard')` already does (including the matching `setLessonInfos`
+  update so the lesson card's rings reflect it immediately, not just after a reload).
+  Trade-off, accepted per explicit request: any lesson whose flashcard progress
+  predates the ordering fix re-studies from STT 1 once, rather than resuming
+  mid-list — but this self-heals per lesson (once `word_order` is reset to `allIds`,
+  the check passes on every later visit, so it only resets once). No DB
+  migration/script needed; scope stays Flashcard-only on `/textbook`, same as before.
+- **3rd follow-up: user hit STT 37 as the "first" card on Đương Đại 1 Bài 1** even
+  after the above — this was **not a bug**, it was `startLessonMode`'s normal "resume
+  where you left off" behavior: `current_index` was genuinely 36 (36 words already
+  reviewed under "Học Từ Mới" in a prior, now-correctly-ordered session), so continuing
+  correctly showed STT 37 next. The actual gap: the *only* way to force a full restart
+  back to STT 1 was `restartMode` via the "Học Lại Từ Đầu" button on the completion
+  screen — which only renders once `lessonFullyComplete` is true. A lesson stuck
+  partway through (like this one) had no way to manually force-restart at all.
+  **Fix**: added `handleRestartFlashcardAndChoose()` (right after `restartMode`) and a
+  new "Học Lại Từ Đầu (STT 1)" button in the mode-select sub-modal (shown only for
+  `learnStyleMode === 'flashcard'`, alongside "Ôn Tập Từ Đã Học"/"Học Từ Không Biết") —
+  `await restartMode(lessonId, 'flashcard')` then immediately opens the stage-size
+  chooser for a fresh (non-review) session, reachable at any time regardless of
+  completion status. Matching/fill_in progress rows are intentionally left untouched by
+  this (same as `restartMode` itself), consistent with how gating already caps their
+  display via `knownFlashcard`.
 
 ---
 

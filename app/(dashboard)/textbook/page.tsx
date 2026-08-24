@@ -457,22 +457,47 @@ export default function TextbookPage() {
           progress = upserted
         } else if (!progress.word_order.every((id, i) => id === allIds[i])) {
           // Same set of words, but `word_order` predates the dictionary-order fix above
-          // (or an even older shuffled row) — reconcile it in place instead of leaving
-          // it shuffled forever. Keep the already-reviewed prefix (re-sorted into
-          // dictionary order) ahead of the not-yet-reviewed remainder (also dictionary
-          // order), so `current_index` still means the same review count but every
-          // word studied from here on is shown in true dictionary order.
-          const reviewedSet = new Set(progress.word_order.slice(0, progress.current_index))
-          const wordOrder = [...allIds.filter((id) => reviewedSet.has(id)), ...allIds.filter((id) => !reviewedSet.has(id))]
+          // (or an even older shuffled row) — a "reviewed prefix + sorted remainder"
+          // merge was tried here first, but that still left the remainder starting at
+          // whatever STT happened to not be in the old (shuffled) reviewed set, not at
+          // STT 1 — not what was asked for. Per explicit user request, fully reset this
+          // lesson's flashcard progress instead: word_order = allIds (STT 1..N) and
+          // current_index = 0, so the very next Flashcard session for this lesson is
+          // guaranteed to start at STT 1 and proceed strictly in order. This does mean
+          // re-studying words already seen under the old shuffled order — an accepted
+          // trade-off for a guaranteed-sequential restart. unknown_word_ids/
+          // unknown_resolved_count are cleared too, since "known/unknown" isn't
+          // meaningful for words that (as of this reset) haven't been reviewed yet.
+          const wordOrder = allIds
           const { data: upserted } = await supabase
             .from('textbook_vocab_progress')
             .upsert(
-              { user_id: user.id, lesson_id: lessonId, mode: 'flashcard', word_order: wordOrder, current_index: progress.current_index, updated_at: new Date().toISOString() },
+              {
+                user_id: user.id,
+                lesson_id: lessonId,
+                mode: 'flashcard',
+                word_order: wordOrder,
+                current_index: 0,
+                unknown_word_ids: [],
+                unknown_resolved_count: 0,
+                updated_at: new Date().toISOString(),
+              },
               { onConflict: 'user_id,lesson_id,mode' }
             )
             .select('word_order, current_index, unknown_word_ids, unknown_resolved_count')
             .single()
-          if (upserted) progress = upserted
+          if (upserted) {
+            progress = upserted
+            // Mirror restartMode's flashcard-reset shape so the lesson card's progress
+            // rings don't keep showing the just-discarded counts until a full reload.
+            setLessonInfos((prev) =>
+              prev.map((l) =>
+                l.lessonId === lessonId
+                  ? { ...l, learnedFlashcard: 0, knownFlashcard: 0, unknownCount: 0, unknownResolvedCount: 0, learnedMatching: 0, learnedFillIn: 0 }
+                  : l
+              )
+            )
+          }
         }
         if (!progress) { setLoading(false); return }
         unknownIdsRef.current = progress.unknown_word_ids || []
@@ -992,6 +1017,24 @@ export default function TextbookPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  // "Học Lại Từ Đầu" was previously only reachable from the completion screen once a
+  // lesson was 100% finished (see restartMode's own callers) — there was no way to
+  // force a mid-lesson restart back to STT 1, which is exactly what was reported as
+  // missing. This wraps restartMode('flashcard') + immediately opening the stage-size
+  // chooser for a fresh (non-review) session, reachable directly from the mode-select
+  // sub-modal regardless of completion status.
+  const handleRestartFlashcardAndChoose = async () => {
+    if (!selectedLessonId || !currentInfo) return
+    await restartMode(selectedLessonId, 'flashcard')
+    setActiveMode('flashcard')
+    setReviewMode(false)
+    setUnknownReviewMode(false)
+    setSizeChooserOpen(true)
+    setLearnStyleMode(null)
+    setStageSizeChoice(Math.min(Math.max(currentInfo.total, 1), DEFAULT_STAGE_SIZE))
+    setCustomStageSize('')
   }
 
   const triggerGrandConfetti = () => {
@@ -1542,6 +1585,18 @@ export default function TextbookPage() {
                       {modeLearnedCount(currentInfo, learnStyleMode)} từ đã {MODE_VERB[learnStyleMode]}
                     </p>
                   </button>
+                  {learnStyleMode === 'flashcard' && (
+                    <button
+                      onClick={handleRestartFlashcardAndChoose}
+                      className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 sm:col-span-2"
+                    >
+                      <RotateCcw className="w-8 h-8 mx-auto text-rose-500" />
+                      <p className="font-black text-slate-700 text-sm">Học Lại Từ Đầu (STT 1)</p>
+                      <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                        Xoá tiến độ Flashcard của bài này, bắt đầu lại đúng từ STT 1
+                      </p>
+                    </button>
+                  )}
                   {learnStyleMode === 'flashcard' && (
                     <button
                       disabled={currentInfo.unknownCount === 0}
