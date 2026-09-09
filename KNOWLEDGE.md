@@ -1662,6 +1662,49 @@ flashcard tracking" section above) are untouched.
   this (same as `restartMode` itself), consistent with how gating already caps their
   display via `knownFlashcard`.
 
+## "Thời Đại" curriculum added to `/textbook` (3rd source tab, same table/pipeline)
+
+Per explicit user request, `/textbook` now also has a "Thời Đại" tab (alongside the
+existing "Đương Đại"/"TOCFL" tabs), sourcing the "Giáo Trình Thời Đại" (時代華語)
+curriculum from the same `zh.taiwandiary.vn` API. No schema change was needed — this
+reuses `textbook_vocab_words`/`textbook_vocab_progress` (migrations 0022/0023) as-is,
+since `source` (`'dangdai' | 'thoidai' | 'tocfl'`) only ever lived in the generated
+`lib/utils/textbookLessons.ts` metadata, never as a DB column.
+
+- **`get_curriculum_types` has a 2nd curriculum the original scrape deliberately
+  skipped**: curriculum_id 2 = "Giáo Trình Thời Đại" (noted but not scraped in the
+  original `scrape-taiwandiary-vocab.js` header comment). `get_books&curriculum_id=2`
+  returns book_id 7/8/9/10 = Thời Đại 1/2/3/4 — per explicit user scope ("cấp thời đại
+  1, 2, 3"), only 7-9 were added; book 10 (Thời Đại 4) stays out of scope, mirroring
+  how Đương Đại 4-6 and TOCFL Level 5-6 are already excluded.
+  `scripts/scrape-taiwandiary-vocab.js`'s `BOOKS` array gained the 3 entries with
+  `source: 'thoidai'`; `scripts/build-textbook-vocab-seed.js`'s hardcoded
+  `TextbookSource` type-literal template string needed the same 3-way union added
+  (it's typed as a plain string template, not derived from the scraped data, so this
+  doesn't update itself automatically from a new `source` value).
+- **No lesson_id collision**: Thời Đại uses lesson_id 74-122 (17+16+16 lessons across
+  books 7/8/9), distinct from Đương Đại's 1-41+73 and TOCFL's 139-142 — confirmed
+  before seeding, not just assumed.
+- **Book 7 (Thời Đại 1) has an extra "Bài 0 - Giới thiệu" lesson** (lessonNo 0) ahead
+  of Bài 1 — `lessonsForBook()`'s existing `sort by lessonNo ascending` already places
+  it first correctly, no special-casing needed (same as how Đương Đại 3's out-of-order
+  `lesson_id` 73 = Bài 1 was already handled by sorting on `lessonNo`, not `lesson_id`).
+- Word/example shape, `card_id`→`orderIndex`, `ON CONFLICT (lesson_id, hanzi, pinyin)`
+  dedup, and every downstream page mechanic (3-mode gating chain, chain-mode, Biết/
+  Không Biết, Điền Từ Chưa Xong, dictionary-order Flashcard, book→lesson step machinery)
+  needed **zero changes** — Thời Đại's API response is structurally identical to
+  Đương Đại's (same `get_lessons`/`get_vocabularies` shape), so it flows through the
+  exact same pipeline and page code, only reachable via a 3rd tab now. Final counts:
+  Thời Đại 1 = 823 words/17 lessons, Thời Đại 2 = 956/16, Thời Đại 3 = 1017/16 (2796
+  words total), seeded via the same `npx prisma db execute --file scripts/output/
+  textbook-vocab-seed.sql` step, verified directly against the live DB post-seed.
+- `scripts/scrape-taiwandiary-vocab.js` and `scripts/build-textbook-vocab-seed.js`
+  are **not** tracked in git (unlike `dump-textbook-vocab.js`, which was force-added) —
+  they exist only in the working tree that built this feature. If a future session
+  needs to re-run the full scrape→build→seed pipeline and these files are gone,
+  they'll need to be rewritten from scratch (or force-added now if kept around) rather
+  than assumed to already be in the repo.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
