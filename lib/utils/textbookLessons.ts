@@ -6,10 +6,10 @@
 // "hardcode small enumerable metadata" convention as LEVEL_ORDER/TOPIC_ORDER — the
 // page never needs a live query just to know what books/lessons exist.
 //
-// `source` distinguishes the Đương Đại textbook curriculum (multi-lesson books) from
-// the TOCFL level-list curriculum (each "book" is a single flat level with exactly one
-// pseudo-lesson covering the whole level) — see /textbook's book-picker tabs.
-export type TextbookSource = 'dangdai' | 'tocfl'
+// `source` distinguishes the Đương Đại and Thời Đại textbook curricula (multi-lesson
+// books) from the TOCFL level-list curriculum (each "book" is a single flat level with
+// exactly one pseudo-lesson covering the whole level) — see /textbook's book-picker tabs.
+export type TextbookSource = 'dangdai' | 'thoidai' | 'tocfl'
 
 export interface TextbookLesson {
   lessonId: number
@@ -28,6 +28,9 @@ export const TEXTBOOK_BOOKS: TextbookBook[] = [
   { bookId: 1, name: "Đương Đại 1", source: "dangdai" },
   { bookId: 2, name: "Đương Đại 2", source: "dangdai" },
   { bookId: 3, name: "Đương Đại 3", source: "dangdai" },
+  { bookId: 7, name: "Thời Đại 1", source: "thoidai" },
+  { bookId: 8, name: "Thời Đại 2", source: "thoidai" },
+  { bookId: 9, name: "Thời Đại 3", source: "thoidai" },
   { bookId: 11, name: "TOCFL Level 1", source: "tocfl" },
   { bookId: 12, name: "TOCFL Level 2", source: "tocfl" },
   { bookId: 13, name: "TOCFL Level 3", source: "tocfl" },
@@ -77,6 +80,55 @@ export const TEXTBOOK_LESSONS: TextbookLesson[] = [
   { lessonId: 40, bookId: 3, lessonNo: 11, lessonName: "Bài 11 - 台灣故事" },
   { lessonId: 41, bookId: 3, lessonNo: 12, lessonName: "Bài 12 - 我要去投票" },
   { lessonId: 73, bookId: 3, lessonNo: 1, lessonName: "Bài 1 - 開學了" },
+  { lessonId: 74, bookId: 7, lessonNo: 0, lessonName: "Bài 0 - Giới thiệu" },
+  { lessonId: 75, bookId: 7, lessonNo: 1, lessonName: "Bài 1 - 新同學" },
+  { lessonId: 76, bookId: 7, lessonNo: 2, lessonName: "Bài 2 - 你幾點去學校？" },
+  { lessonId: 77, bookId: 7, lessonNo: 3, lessonName: "Bài 3 - 買生日禮物" },
+  { lessonId: 78, bookId: 7, lessonNo: 4, lessonName: "Bài 4 - 你要咖啡還是茶？" },
+  { lessonId: 79, bookId: 7, lessonNo: 5, lessonName: "Bài 5 - 我的錢包在哪裡？" },
+  { lessonId: 80, bookId: 7, lessonNo: 6, lessonName: "Bài 6 - 週末去打網球吧！" },
+  { lessonId: 81, bookId: 7, lessonNo: 7, lessonName: "Bài 7 - 怎麼到飯店去？" },
+  { lessonId: 82, bookId: 7, lessonNo: 8, lessonName: "Bài 8 - 這條裙子真好看" },
+  { lessonId: 83, bookId: 7, lessonNo: 9, lessonName: "Bài 9 - 我的中文課" },
+  { lessonId: 84, bookId: 7, lessonNo: 10, lessonName: "Bài 10 - 最近感冒的人很多" },
+  { lessonId: 85, bookId: 7, lessonNo: 11, lessonName: "Bài 11 - 你們是怎麼認識的？" },
+  { lessonId: 86, bookId: 7, lessonNo: 12, lessonName: "Bài 12 - 你想做什麼工作？" },
+  { lessonId: 87, bookId: 7, lessonNo: 13, lessonName: "Bài 13 - 用手機上網" },
+  { lessonId: 88, bookId: 7, lessonNo: 14, lessonName: "Bài 14 - 跨年活動" },
+  { lessonId: 89, bookId: 7, lessonNo: 15, lessonName: "Bài 15 - 十二生肖" },
+  { lessonId: 90, bookId: 7, lessonNo: 16, lessonName: "Bài 16 - 在台灣旅行" },
+  { lessonId: 91, bookId: 8, lessonNo: 1, lessonName: "Bài 1 - 認識新朋友" },
+  { lessonId: 92, bookId: 8, lessonNo: 2, lessonName: "Bài 2 - 我得做家事" },
+  { lessonId: 93, bookId: 8, lessonNo: 3, lessonName: "Bài 3 - 我要租房子" },
+  { lessonId: 94, bookId: 8, lessonNo: 4, lessonName: "Bài 4 - 逛夜市真有趣" },
+  { lessonId: 95, bookId: 8, lessonNo: 5, lessonName: "Bài 5 - 歡迎到我家來玩" },
+  { lessonId: 96, bookId: 8, lessonNo: 6, lessonName: "Bài 6 - 我們去KTV唱歌吧！" },
+  { lessonId: 97, bookId: 8, lessonNo: 7, lessonName: "Bài 7 - 坐火車到花蓮去旅行" },
+  { lessonId: 98, bookId: 8, lessonNo: 8, lessonName: "Bài 8 - 請給我貼紙，我要換史努比！" },
+  { lessonId: 99, bookId: 8, lessonNo: 9, lessonName: "Bài 9 - 你怕考試嗎？" },
+  { lessonId: 100, bookId: 8, lessonNo: 10, lessonName: "Bài 10 - 下課後一起去健身吧！" },
+  { lessonId: 101, bookId: 8, lessonNo: 11, lessonName: "Bài 11 - 你想參加哪一個社團？" },
+  { lessonId: 102, bookId: 8, lessonNo: 12, lessonName: "Bài 12 - 小職員？大老闆？" },
+  { lessonId: 103, bookId: 8, lessonNo: 13, lessonName: "Bài 13 - 我要買筆電" },
+  { lessonId: 104, bookId: 8, lessonNo: 14, lessonName: "Bài 14 - 年年有「魚」" },
+  { lessonId: 105, bookId: 8, lessonNo: 15, lessonName: "Bài 15 - 孔子不知道的事" },
+  { lessonId: 106, bookId: 8, lessonNo: 16, lessonName: "Bài 16 - 世界各國的朋友" },
+  { lessonId: 107, bookId: 9, lessonNo: 1, lessonName: "Bài 1 - 我的夢想" },
+  { lessonId: 108, bookId: 9, lessonNo: 2, lessonName: "Bài 2 - 便利商店真方便" },
+  { lessonId: 109, bookId: 9, lessonNo: 3, lessonName: "Bài 3 - 貨比三家不吃虧" },
+  { lessonId: 110, bookId: 9, lessonNo: 4, lessonName: "Bài 4 - 孩子滿月了" },
+  { lessonId: 111, bookId: 9, lessonNo: 5, lessonName: "Bài 5 - 地震和颱風" },
+  { lessonId: 112, bookId: 9, lessonNo: 6, lessonName: "Bài 6 - 休閒新生活" },
+  { lessonId: 113, bookId: 9, lessonNo: 7, lessonName: "Bài 7 - 背包客的旅行" },
+  { lessonId: 114, bookId: 9, lessonNo: 8, lessonName: "Bài 8 - 穿著和品味" },
+  { lessonId: 115, bookId: 9, lessonNo: 9, lessonName: "Bài 9 - 誰說得念大學才有未來？" },
+  { lessonId: 116, bookId: 9, lessonNo: 10, lessonName: "Bài 10 - 健康檢查不麻煩" },
+  { lessonId: 117, bookId: 9, lessonNo: 11, lessonName: "Bài 11 - 網路交友要小心" },
+  { lessonId: 118, bookId: 9, lessonNo: 12, lessonName: "Bài 12 - 你有面試的經驗嗎？" },
+  { lessonId: 119, bookId: 9, lessonNo: 13, lessonName: "Bài 13 - 雲端科技真便利" },
+  { lessonId: 120, bookId: 9, lessonNo: 14, lessonName: "Bài 14 - 七夕情人節的故事" },
+  { lessonId: 121, bookId: 9, lessonNo: 15, lessonName: "Bài 15 - 去淡水參觀古蹟" },
+  { lessonId: 122, bookId: 9, lessonNo: 16, lessonName: "Bài 16 - 愛惜食物從你我做起" },
   { lessonId: 139, bookId: 11, lessonNo: 1, lessonName: "TOCFL Level 1" },
   { lessonId: 140, bookId: 12, lessonNo: 1, lessonName: "TOCFL Level 2" },
   { lessonId: 141, bookId: 13, lessonNo: 1, lessonName: "TOCFL Level 3" },

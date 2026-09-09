@@ -34,6 +34,7 @@ import {
   Library,
   AlertTriangle,
   Award,
+  Clock,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -1106,7 +1107,9 @@ export default function TextbookPage() {
             <p className="font-semibold text-sm text-white/90 relative max-w-lg">
               {bookSource === 'dangdai'
                 ? 'Từ vựng lấy 100% từ giáo trình Đương Đại (當代中文課程). Mỗi bài có Flashcard, Nối Từ, Điền Từ để luyện tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.'
-                : 'Từ vựng lấy 100% từ danh sách từ vựng TOCFL theo cấp độ. Mỗi cấp có Flashcard, Nối Từ, Điền Từ để luyện tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.'}
+                : bookSource === 'thoidai'
+                  ? 'Từ vựng lấy 100% từ giáo trình Thời Đại (時代華語). Mỗi bài có Flashcard, Nối Từ, Điền Từ để luyện tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.'
+                  : 'Từ vựng lấy 100% từ danh sách từ vựng TOCFL theo cấp độ. Mỗi cấp có Flashcard, Nối Từ, Điền Từ để luyện tập, kèm bảng từ vựng đầy đủ ví dụ để tra cứu.'}
             </p>
           </div>
 
@@ -1115,6 +1118,7 @@ export default function TextbookPage() {
             {(
               [
                 { key: 'dangdai' as TextbookSource, label: 'Đương Đại', icon: Library },
+                { key: 'thoidai' as TextbookSource, label: 'Thời Đại', icon: Clock },
                 { key: 'tocfl' as TextbookSource, label: 'TOCFL', icon: Award },
               ]
             ).map((tab) => {
