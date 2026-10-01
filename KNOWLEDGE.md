@@ -1705,6 +1705,24 @@ since `source` (`'dangdai' | 'thoidai' | 'tocfl'`) only ever lived in the genera
   they'll need to be rewritten from scratch (or force-added now if kept around) rather
   than assumed to already be in the repo.
 
+## `/textbook` Điền Từ pool now includes "Không Biết" words (max = lesson size)
+
+Bug report: Điền Từ on `/textbook` capped at 50 even though Flashcard covered more
+(e.g. Thời Đại lesson_id 78: 55 words, all 55 flashcarded, 5 marked "Không Biết" →
+Điền Từ max 50; lesson 77: 53 − 3 = 50). Cause: Fill-in drew from `getKnownIds`
+(learned-in-flashcard **minus** `unknown_word_ids`, per the "Biết/Không Biết" section
+above), so every "Không Biết" tap permanently shrank Fill-in below the lesson's size.
+Per explicit user request ("tối đa của điền từ dựa theo số từ của bài"), Fill-in on
+`/textbook` now draws from **every word reviewed in Flashcard** (`getLearnedIds`,
+Biết + Không Biết) via a `getModePoolIds(flashcardProgress, mode)` helper used at all 4
+pool sites (`startLessonMode`, `persistProgressAdvance`, `continueNextStage`,
+`restartMode`); `modePoolTotal('fill_in')`, the `learnedFillIn` cap, and the lesson
+card's Điền Từ ring/tooltip use `learnedFlashcard` instead of `knownFlashcard`. Once
+Flashcard is finished, Fill-in's max = lesson word count. **Matching is unchanged**
+(still known-only). Scoped to `/textbook` only — `/full-dictionary`,
+`/tocfl-dictionary`, `/review-dictionary`, `/vocabulary-by-topic` still exclude
+unknown words from Điền Từ; port the same helper if asked.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

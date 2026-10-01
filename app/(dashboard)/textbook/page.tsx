@@ -103,6 +103,15 @@ function getKnownIds(progress: ProgressRow | null): string[] {
   return getLearnedIds(progress).filter((id) => !unknownSet.has(id))
 }
 
+// Draw pool for a non-flashcard mode, given the lesson's flashcard progress row.
+// Matching only draws "known" words; Fill-in draws every word reviewed via Flashcard
+// (Biết + Không Biết) so a fully-flashcarded lesson can be filled in end to end —
+// otherwise each "Không Biết" word permanently shrank Fill-in's max below the
+// lesson's word count (e.g. 55 words, 5 unknown -> capped at 50).
+function getModePoolIds(flashcardProgress: ProgressRow | null, mode: StudyMode): string[] {
+  return mode === 'fill_in' ? getLearnedIds(flashcardProgress) : getKnownIds(flashcardProgress)
+}
+
 // Matching and Fill-in both draw independently from words already learned in
 // Flashcard — Fill-in does NOT require Matching first (per explicit user request:
 // finishing Flashcard alone should unlock Fill-in).
@@ -110,7 +119,7 @@ function modeLearnedCount(info: LessonInfo, mode: StudyMode): number {
   return mode === 'flashcard' ? info.learnedFlashcard : mode === 'matching' ? info.learnedMatching : info.learnedFillIn
 }
 function modePoolTotal(info: LessonInfo, mode: StudyMode): number {
-  return mode === 'flashcard' ? info.total : info.knownFlashcard
+  return mode === 'flashcard' ? info.total : mode === 'fill_in' ? info.learnedFlashcard : info.knownFlashcard
 }
 const MODE_VERB: Record<StudyMode, string> = { flashcard: 'học', matching: 'nối', fill_in: 'điền' }
 const MODE_LEARNED_LABEL: Record<StudyMode, string> = { flashcard: 'Đã học', matching: 'Đã nối', fill_in: 'Đã điền' }
@@ -302,7 +311,7 @@ export default function TextbookPage() {
           const unknownResolvedCount = unknownByLesson[l.lessonId]?.resolved || 0
           const knownFlashcard = learnedFlashcard - unknownCount
           const learnedMatching = Math.min(progressByLessonMode[l.lessonId]?.['matching'] || 0, knownFlashcard)
-          const learnedFillIn = Math.min(progressByLessonMode[l.lessonId]?.['fill_in'] || 0, knownFlashcard)
+          const learnedFillIn = Math.min(progressByLessonMode[l.lessonId]?.['fill_in'] || 0, learnedFlashcard)
           const fillInUnknownCount = Math.min(fillInUnknownByLesson[l.lessonId]?.count || 0, learnedFillIn)
           const fillInUnknownResolvedCount = fillInUnknownByLesson[l.lessonId]?.resolved || 0
           return {
@@ -507,7 +516,7 @@ export default function TextbookPage() {
         await loadStage(lessonId, 'flashcard', progress.word_order, progress.current_index, allIds.length, size)
       } else {
         const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
-        const learnedIds = getKnownIds(parentProgress)
+        const learnedIds = getModePoolIds(parentProgress, mode)
         if (learnedIds.length === 0) { setLoading(false); return }
 
         const thisProgress = await fetchProgressRow(user.id, lessonId, mode)
@@ -656,7 +665,7 @@ export default function TextbookPage() {
         // — see KNOWLEDGE.md's "Điền Từ/Nối Từ progress not saving on later chain
         // batches" note).
         const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
-        const learnedIds = getKnownIds(parentProgress)
+        const learnedIds = getModePoolIds(parentProgress, mode)
         const stageWordIds = stageWords.map((w) => w.id)
         const previouslyDone: string[] = progress
           ? progress.word_order.slice(0, progress.current_index).filter((id: string) => learnedIds.includes(id))
@@ -910,7 +919,7 @@ export default function TextbookPage() {
 
       if (activeMode !== 'flashcard') {
         const parentProgress = await fetchProgressRow(user.id, selectedLessonId, 'flashcard')
-        const learnedIds = getKnownIds(parentProgress)
+        const learnedIds = getModePoolIds(parentProgress, activeMode)
         const thisProgress = await fetchProgressRow(user.id, selectedLessonId, activeMode)
 
         if (thisProgress) {
@@ -978,7 +987,7 @@ export default function TextbookPage() {
         wordOrder = allWords.map((w) => w.id)
       } else {
         const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
-        wordOrder = shuffleArray(getKnownIds(parentProgress))
+        wordOrder = shuffleArray(getModePoolIds(parentProgress, mode))
       }
 
       await supabase
@@ -1204,7 +1213,7 @@ export default function TextbookPage() {
                 .map((info) => {
                   const pctFlash = info.total ? (info.learnedFlashcard / info.total) * 100 : 0
                   const pctMatch = info.knownFlashcard ? (info.learnedMatching / info.knownFlashcard) * 100 : 0
-                  const pctFillIn = info.knownFlashcard ? (info.learnedFillIn / info.knownFlashcard) * 100 : 0
+                  const pctFillIn = info.learnedFlashcard ? (info.learnedFillIn / info.learnedFlashcard) * 100 : 0
                   const bothDone = info.total > 0 && info.learnedFillIn >= info.total
                   return (
                     <button
@@ -1233,7 +1242,7 @@ export default function TextbookPage() {
                           <ProgressRing percent={pctMatch} size={36} stroke={4} />
                           <Puzzle className="w-3.5 h-3.5 text-slate-400" />
                         </div>
-                        <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${info.learnedFillIn}/${info.knownFlashcard}`}>
+                        <div className="flex flex-col items-center gap-0.5" title={`Điền Từ: ${info.learnedFillIn}/${info.learnedFlashcard}`}>
                           <ProgressRing percent={pctFillIn} size={36} stroke={4} />
                           <Keyboard className="w-3.5 h-3.5 text-slate-400" />
                         </div>
@@ -1332,9 +1341,9 @@ export default function TextbookPage() {
                         ? 'Bạn chưa biết từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
                         : 'Bạn đã Nối Từ xong tất cả các từ đã biết bằng Flashcard. Hãy học thêm Flashcard mới!'
                       : activeMode === 'fill_in'
-                      ? (currentInfo?.knownFlashcard ?? 0) === 0
-                        ? 'Bạn chưa biết từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
-                        : 'Bạn đã Điền Từ xong tất cả các từ đã biết bằng Flashcard. Hãy học thêm Flashcard mới!'
+                      ? (currentInfo?.learnedFlashcard ?? 0) === 0
+                        ? 'Bạn chưa học từ nào bằng Flashcard. Vui lòng học Flashcard trước.'
+                        : 'Bạn đã Điền Từ xong tất cả các từ đã học bằng Flashcard. Hãy học thêm Flashcard mới!'
                       : 'Bạn đã học hết tất cả các từ trong bài này bằng Flashcard!'}
                   </p>
                 </div>
