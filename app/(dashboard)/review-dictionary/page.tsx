@@ -1384,7 +1384,7 @@ export default function ReviewDictionaryPage() {
               onClick={() => setModeSelectLevel(null)}
             >
               <div
-                className="cartoon-panel bg-white p-6 max-w-md w-full space-y-4"
+                className="cartoon-panel bg-white p-5 sm:p-6 max-w-md w-full space-y-4 max-h-[calc(100dvh-2rem)] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h4 className="font-black text-slate-800 text-lg text-center">

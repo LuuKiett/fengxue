@@ -1723,6 +1723,17 @@ Flashcard is finished, Fill-in's max = lesson word count. **Matching is unchange
 `/tocfl-dictionary`, `/review-dictionary`, `/vocabulary-by-topic` still exclude
 unknown words from Điền Từ; port the same helper if asked.
 
+## `/textbook` retry pools surfaced on the lesson screen
+
+Biết/Không Biết + "Học Từ Không Biết" + "Điền Từ Chưa Xong" already existed on
+`/textbook` from its first build, but were only reachable via the Flashcard/Điền Từ
+New-vs-Review sub-modal (which itself only opens once that mode has learned words),
+so users didn't find them. A "Row 1b" was added under the 3 mode cards in the lesson
+detail view with both retry buttons (disabled when their pool is empty), using the
+exact same state setters as the sub-modal entries (`activeMode` + `reviewMode=true`
++ `unknownReviewMode=true` → size chooser → `startLessonMode(..., true, true)`). No
+logic/schema change.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file

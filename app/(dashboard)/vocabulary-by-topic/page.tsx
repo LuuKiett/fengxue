@@ -1387,7 +1387,7 @@ export default function VocabularyByTopicPage() {
               onClick={() => setModeSelectTopicKey(null)}
             >
               <div
-                className="cartoon-panel bg-white p-6 max-w-lg w-full space-y-4"
+                className="cartoon-panel bg-white p-5 sm:p-6 max-w-lg w-full space-y-4 max-h-[calc(100dvh-2rem)] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h4 className="font-black text-slate-800 text-lg text-center">
@@ -1446,7 +1446,7 @@ export default function VocabularyByTopicPage() {
               onClick={() => setLearnStyleTopicKey(null)}
             >
               <div
-                className="cartoon-panel bg-white p-6 max-w-lg w-full space-y-4"
+                className="cartoon-panel bg-white p-5 sm:p-6 max-w-lg w-full space-y-4 max-h-[calc(100dvh-2rem)] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h4 className="font-black text-slate-800 text-lg text-center">
@@ -1541,7 +1541,7 @@ export default function VocabularyByTopicPage() {
               onClick={() => setGroupModeModalOpen(false)}
             >
               <div
-                className="cartoon-panel bg-white p-6 max-w-lg w-full space-y-4"
+                className="cartoon-panel bg-white p-5 sm:p-6 max-w-lg w-full space-y-4 max-h-[calc(100dvh-2rem)] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h4 className="font-black text-slate-800 text-lg text-center">

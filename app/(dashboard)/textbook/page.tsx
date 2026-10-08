@@ -1450,7 +1450,7 @@ export default function TextbookPage() {
           ) : (
             <>
               {/* Row 1: Flashcard / Nối Từ / Điền Từ */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {(['flashcard', 'matching', 'fill_in'] as StudyMode[]).map((m) => {
                   const meta = MODE_META[m]
                   const Icon = meta.icon
@@ -1474,12 +1474,12 @@ export default function TextbookPage() {
                         setStageSizeChoice(Math.min(Math.max(rem, 1), DEFAULT_STAGE_SIZE))
                         setCustomStageSize('')
                       }}
-                      className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-2"
+                      className="cartoon-card cursor-pointer p-2.5 sm:p-4 bg-white text-center space-y-1.5 sm:space-y-2 min-w-0"
                     >
-                      <Icon className="w-8 h-8 mx-auto text-blue-500" />
-                      <p className="font-black text-slate-700 text-sm">{meta.label}</p>
-                      <p className="text-[11px] text-slate-400 font-semibold leading-snug">{meta.desc}</p>
-                      <div className="flex items-center justify-center gap-2 pt-1">
+                      <Icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto text-blue-500" />
+                      <p className="font-black text-slate-700 text-xs sm:text-sm">{meta.label}</p>
+                      <p className="hidden sm:block text-[11px] text-slate-400 font-semibold leading-snug">{meta.desc}</p>
+                      <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 pt-1">
                         <ProgressRing percent={pct} size={30} stroke={3.5} />
                         <span className="text-[11px] font-bold text-slate-500">{learned}/{poolTotal}</span>
                       </div>
@@ -1487,6 +1487,58 @@ export default function TextbookPage() {
                   )
                 })}
               </div>
+
+              {/* Row 1b: retry pools, surfaced directly on the lesson screen (same
+                  entry points as review-dictionary's mode modal) instead of only
+                  inside the Flashcard/Điền Từ New-vs-Review sub-modal. */}
+              {currentInfo && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                  <button
+                    disabled={currentInfo.unknownCount === 0}
+                    onClick={() => {
+                      setActiveMode('flashcard')
+                      setReviewMode(true)
+                      setUnknownReviewMode(true)
+                      setSizeChooserOpen(true)
+                      setStageSizeChoice(Math.min(Math.max(currentInfo.unknownCount, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-3 bg-white flex items-center gap-3 text-left disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <AlertTriangle className="w-7 h-7 text-amber-500 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="font-black text-slate-700 text-sm">Học Từ Không Biết</p>
+                      <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                        {currentInfo.unknownCount > 0
+                          ? `Ôn lại ${currentInfo.unknownCount} từ đã đánh dấu "không biết"${currentInfo.unknownResolvedCount > 0 ? ` · đã ôn lại ${currentInfo.unknownResolvedCount}` : ''}`
+                          : 'Chưa có từ nào bị đánh dấu "không biết"'}
+                      </p>
+                    </div>
+                  </button>
+                  <button
+                    disabled={currentInfo.fillInUnknownCount === 0}
+                    onClick={() => {
+                      setActiveMode('fill_in')
+                      setReviewMode(true)
+                      setUnknownReviewMode(true)
+                      setSizeChooserOpen(true)
+                      setStageSizeChoice(Math.min(Math.max(currentInfo.fillInUnknownCount, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-3 bg-white flex items-center gap-3 text-left disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <Keyboard className="w-7 h-7 text-amber-500 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="font-black text-slate-700 text-sm">Điền Từ Chưa Xong</p>
+                      <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                        {currentInfo.fillInUnknownCount > 0
+                          ? `Ôn lại ${currentInfo.fillInUnknownCount} từ đã điền sai hoặc chưa xong`
+                          : 'Chưa có từ nào bị điền sai/chưa xong'}
+                      </p>
+                    </div>
+                  </button>
+                </div>
+              )}
 
               {/* Row 2: full word table for this lesson */}
               <div className="space-y-3">
@@ -1544,7 +1596,7 @@ export default function TextbookPage() {
               onClick={() => setLearnStyleMode(null)}
             >
               <div
-                className="cartoon-panel bg-white p-6 max-w-lg w-full space-y-4"
+                className="cartoon-panel bg-white p-5 sm:p-6 max-w-lg w-full space-y-4 max-h-[calc(100dvh-2rem)] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h4 className="font-black text-slate-800 text-lg text-center">

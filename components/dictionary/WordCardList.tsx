@@ -68,13 +68,13 @@ export default function WordCardList({ words, startIndex = 0 }: WordCardListProp
                 </div>
                 <p className="text-slate-500 font-semibold text-sm mt-0.5">{w.vietnamese || '—'}</p>
               </div>
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-0.5 sm:gap-1.5 shrink-0">
                 <span
-                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-black text-xs border-2 transition-colors ${
+                  className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full font-black text-xs border-2 transition-colors ${
                     expanded ? 'border-blue-200 text-blue-600 bg-blue-50' : 'border-slate-200 text-slate-500'
                   }`}
                 >
-                  Chi tiết
+                  <span className="hidden sm:inline">Chi tiết</span>
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
                 </span>
                 <button

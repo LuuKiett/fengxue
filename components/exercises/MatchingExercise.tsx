@@ -246,7 +246,7 @@ export default function MatchingExercise({
 
       <div 
         ref={containerRef} 
-        className="relative grid grid-cols-2 gap-x-16 gap-y-3 min-h-[300px] p-4 bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-xl shadow-slate-100/40"
+        className="relative grid grid-cols-2 gap-x-6 sm:gap-x-10 lg:gap-x-16 gap-y-3 min-h-[300px] p-3 sm:p-4 bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-xl shadow-slate-100/40"
       >
         {/* SVG Drawing Layer */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
@@ -271,7 +271,7 @@ export default function MatchingExercise({
         </svg>
 
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-3 z-20 mx-auto">
+        <div className="flex flex-col gap-3 z-20 w-full max-w-[500px] mx-auto min-w-0">
           {leftItems.filter(item => !removedIds.has(item.id)).map((item) => {
             const isSelected = selectedLeft === item.id
             const isMatched = matchedIds.has(item.id)
@@ -284,7 +284,7 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`left-${item.id}`] = el }}
                 onClick={() => handleLeftClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold md:text-4xl text-md transition-all duration-300 md:w-[500px] ${
+                className={`py-3 px-4 text-center rounded-2xl border w-full min-w-0 break-words font-extrabold transition-all duration-300 ${
                   isDisappearing
                     ? 'opacity-0 scale-75'
                     : isMatched
@@ -294,14 +294,14 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 } ${isShaking ? 'animate-shake bg-red-50 border-red-200 text-red-600' : ''}`}
               >
-                <span className="font-chinese text-xl md:text-4xl">{item.text}</span>
+                <span className="font-chinese text-xl sm:text-2xl xl:text-3xl">{item.text}</span>
               </button>
             )
           })}
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="flex flex-col gap-3 z-20 mx-auto">
+        <div className="flex flex-col gap-3 z-20 w-full max-w-[500px] mx-auto min-w-0">
           {rightItems.filter(item => !removedIds.has(item.id)).map((item) => {
             const isSelected = selectedRight === item.id
             const isMatched = matchedIds.has(item.id)
@@ -313,7 +313,7 @@ export default function MatchingExercise({
                 ref={el => { elementRefs.current[`right-${item.id}`] = el }}
                 onClick={() => handleRightClick(item.id)}
                 disabled={isMatched}
-                className={`py-3 px-4 text-center rounded-2xl border font-extrabold md:text-4xl text-md transition-all duration-300 md:w-[500px] ${
+                className={`py-3 px-4 text-center rounded-2xl border w-full min-w-0 break-words font-extrabold transition-all duration-300 ${
                   isDisappearing
                     ? 'opacity-0 scale-75'
                     : isMatched
@@ -323,7 +323,7 @@ export default function MatchingExercise({
                     : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 }`}
               >
-                <span className="font-chinese text-xl md:text-4xl">{item.text}</span>
+                <span className="font-chinese text-xl sm:text-2xl xl:text-3xl">{item.text}</span>
               </button>
             )
           })}

@@ -24,7 +24,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="hidden md:flex flex-col w-64 h-screen sticky top-0 p-4 justify-between bg-white border-r-2 border-slate-200"
+      className="hidden lg:flex flex-col w-60 xl:w-64 shrink-0 h-screen sticky top-0 p-4 justify-between bg-white border-r-2 border-slate-200"
     >
       <div className="space-y-1 overflow-y-auto">
         {/* Brand/Logo */}

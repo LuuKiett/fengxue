@@ -224,10 +224,13 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
         </div>
       </div>
 
-      <div className="cartoon-panel bg-white overflow-hidden">
-        <div className="overflow-x-auto">
-          <div className="min-w-[640px]">
-            <div className="grid grid-cols-[1fr_2fr_1fr_1fr_1.6fr] gap-2 px-4 py-2.5 bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase tracking-wider text-slate-400">
+      {/* Phones: each word is a stacked card (hanzi + result, full-width answer box,
+          pinyin/nghĩa once revealed). md+: the original 5-column table. No overflow
+          wrapper on purpose — it would clip the absolute-positioned suggestion list. */}
+      <div className="cartoon-panel bg-white">
+        <div>
+          <div>
+            <div className="hidden md:grid grid-cols-[1fr_2fr_1fr_1fr_1.6fr] gap-2 px-4 py-2.5 rounded-t-[22px] bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase tracking-wider text-slate-400">
               <span>Chữ Hán</span>
               <span>Đáp Án</span>
               <span className="text-center">Kết Quả</span>
@@ -245,12 +248,12 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
               return (
                 <div
                   key={w.id}
-                  className={`grid grid-cols-[1fr_2fr_1fr_1fr_1.6fr] gap-2 px-4 py-3 border-b border-slate-100 last:border-b-0 items-center transition-colors ${
+                  className={`grid grid-cols-2 md:grid-cols-[1fr_2fr_1fr_1fr_1.6fr] gap-x-3 gap-y-2 md:gap-2 px-4 py-3 border-b border-slate-100 last:border-b-0 last:rounded-b-[22px] items-center transition-colors ${
                     isGraded ? (isCorrect ? 'bg-emerald-50/50' : 'bg-red-50/40') : isSkipped ? 'bg-amber-50/40' : ''
                   }`}
                 >
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-chinese text-2xl text-slate-800 select-none">{w.hanzi}</span>
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="font-chinese text-2xl text-slate-800 select-none break-keep">{w.hanzi}</span>
                     <button
                       type="button"
                       onClick={() => speak(w.hanzi)}
@@ -261,7 +264,7 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                     </button>
                   </div>
 
-                  <div className="relative">
+                  <div className="relative col-span-2 md:col-span-1 order-3 md:order-none">
                     {isGraded || isSkipped ? (
                       <div className="flex items-center gap-2">
                         <span className="font-chinese text-xl text-slate-700">{answer || '—'}</span>
@@ -345,7 +348,7 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                     )}
                   </div>
 
-                  <div className="flex justify-center">
+                  <div className="flex justify-end md:justify-center order-2 md:order-none">
                     {isGraded ? (
                       isCorrect ? (
                         <span className="inline-flex items-center gap-1 text-[11px] font-black px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-600">
@@ -365,11 +368,11 @@ export default function FillInExercise({ words, onComplete }: FillInExerciseProp
                     )}
                   </div>
 
-                  <span className={`text-sm font-bold ${revealed ? 'text-slate-700' : 'text-slate-300 select-none'}`}>
+                  <span className={`order-4 md:order-none text-sm font-bold ${revealed ? 'text-blue-600 md:text-slate-700' : 'hidden md:block text-slate-300 select-none'}`}>
                     {revealed ? w.pinyin : '•••••••'}
                   </span>
 
-                  <span className={`text-sm font-bold ${revealed ? 'text-slate-700' : 'text-slate-300 select-none'}`}>
+                  <span className={`order-5 md:order-none text-sm font-bold text-right md:text-left ${revealed ? 'text-slate-700' : 'hidden md:block text-slate-300 select-none'}`}>
                     {revealed ? w.vietnamese : '•••••••'}
                   </span>
                 </div>

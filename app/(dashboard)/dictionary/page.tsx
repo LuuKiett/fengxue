@@ -90,12 +90,11 @@ export default function DictionaryPage() {
     setPage(1)
   }, [activeLevel, search])
 
-  // The scrollable area is the dashboard layout's <main>, not the window (it's the
-  // overflow-y-auto container in app/(dashboard)/layout.tsx) — so switching pages needs
-  // to scroll that element back to top, otherwise the list changes underneath you while
-  // you're still scrolled halfway down the previous page.
+  // The dashboard layout scrolls the window (its <main> has no fixed height), so
+  // switching pages scrolls the window back to top — otherwise the list changes
+  // underneath you while you're still scrolled halfway down the previous page.
   useEffect(() => {
-    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [page])
 
   const totalPages = Math.max(1, Math.ceil(filteredWords.length / PAGE_SIZE))

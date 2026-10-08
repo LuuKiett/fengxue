@@ -1019,7 +1019,7 @@ export default function VocabularyPage() {
       </div>
 
       {/* Date & Actions Bar */}
-      <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+      <div className="flex flex-col xl:flex-row gap-4 items-stretch xl:items-center justify-between">
         {/* Date Selector */}
         <div className="cartoon-panel p-3 bg-white flex items-center justify-between sm:justify-start gap-2 relative z-30">
           <button onClick={() => shiftDate(-1)} className="cartoon-btn-secondary px-3 py-1.5 text-xs font-black rounded-xl">
@@ -1037,7 +1037,7 @@ export default function VocabularyPage() {
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
           <button
             onClick={() => setIsCategoryModalOpen(true)}
-            className="cartoon-btn px-4 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5"
+            className="col-span-2 sm:col-span-1 cartoon-btn px-4 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5"
           >
             <Plus className="w-4 h-4" /> Thêm Từ
           </button>
@@ -1185,7 +1185,7 @@ export default function VocabularyPage() {
                     </td>
                     <td className="p-4 text-blue-600 font-bold hidden md:table-cell">{item.pinyin}</td>
                     <td className="p-4 text-slate-800 hidden md:table-cell">{item.vietnamese}</td>
-                    <td className="p-4 min-w-[240px]">
+                    <td className="p-4 min-w-[240px] whitespace-normal">
                       {item.example_hanzi ? (
                         <div className="flex items-start gap-1.5">
                           <div className="space-y-1">
@@ -1236,7 +1236,7 @@ export default function VocabularyPage() {
           right navtab. */}
       {isCategoryModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-5 sm:p-6 relative max-h-[calc(100dvh-2rem)] overflow-y-auto">
             <button
               onClick={() => setIsCategoryModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
@@ -1569,7 +1569,7 @@ export default function VocabularyPage() {
       {/* IMPORT DATE PICKER MODAL */}
       {isImportModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-5 sm:p-6 relative max-h-[calc(100dvh-2rem)] overflow-y-auto">
             <button
               onClick={() => setIsImportModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"
@@ -1612,7 +1612,7 @@ export default function VocabularyPage() {
       {/* BULK DELETE CONFIRM MODAL */}
       {isBulkDeleteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-5 sm:p-6 relative max-h-[calc(100dvh-2rem)] overflow-y-auto">
             <button
               onClick={() => setIsBulkDeleteModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"

@@ -266,7 +266,7 @@ export default function ExercisesPage() {
       {/* SOURCE PICKER MODAL — shown when a date mixes "Từ Vựng Tự Học" and "Từ Vựng Khác" */}
       {pickerDate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="cartoon-panel bg-white w-full max-w-sm p-6 relative">
+          <div className="cartoon-panel bg-white w-full max-w-sm p-5 sm:p-6 relative max-h-[calc(100dvh-2rem)] overflow-y-auto">
             <button
               onClick={() => setPickerDate(null)}
               className="absolute top-4 right-4 p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50"

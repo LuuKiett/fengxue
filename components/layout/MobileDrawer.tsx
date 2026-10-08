@@ -39,14 +39,14 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`md:hidden fixed inset-0 z-[60] bg-slate-900/50 transition-opacity duration-300 ${
+        className={`lg:hidden fixed inset-0 z-[60] bg-slate-900/50 transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
       {/* Drawer panel, slides in from the left */}
       <aside
-        className={`md:hidden fixed top-0 left-0 bottom-0 z-[70] w-72 max-w-[85vw] bg-white shadow-2xl transition-transform duration-300 ease-out flex flex-col ${
+        className={`lg:hidden fixed top-0 left-0 bottom-0 z-[70] w-72 max-w-[85vw] bg-white shadow-2xl transition-transform duration-300 ease-out flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

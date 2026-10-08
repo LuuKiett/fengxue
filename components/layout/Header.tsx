@@ -132,7 +132,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   return (
     <header
-      className="sticky top-0 z-30 flex items-center justify-between px-6 py-3.5 bg-white border-b border-slate-200"
+      className="sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 bg-white border-b border-slate-200"
       style={{
         boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
       }}
@@ -141,7 +141,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       <div className="flex items-center gap-2.5">
         <button
           onClick={onMenuClick}
-          className="md:hidden -ml-1 p-1.5 rounded-xl hover:bg-slate-50 text-slate-500 flex-shrink-0"
+          className="lg:hidden -ml-1 p-1.5 rounded-xl hover:bg-slate-50 text-slate-500 flex-shrink-0"
           aria-label="Mở menu"
         >
           <Menu className="w-5 h-5" />

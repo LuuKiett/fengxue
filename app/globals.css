@@ -38,11 +38,23 @@ body {
 
 /* Bump the root font size on desktop viewports so every rem-based Tailwind text
    utility (text-xs, text-sm, ...) scales up together — the UI was designed/tuned
-   for mobile and read too small on PC. Mobile/tablet sizing is untouched. */
+   for mobile and read too small on PC. Mobile/tablet sizing is untouched.
+   Stepped (17px → 18px) so small laptops / iPad landscape (1024-1279px), which
+   also carry the fixed sidebar, don't get cramped by the full bump. */
 @media (min-width: 1024px) {
+  html {
+    font-size: 17px;
+  }
+}
+@media (min-width: 1280px) {
   html {
     font-size: 18px;
   }
+}
+
+/* Never let a stray wide element create a sideways page scroll on phones. */
+html, body {
+  overflow-x: clip;
 }
 
 /* ============================================================
