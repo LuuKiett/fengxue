@@ -19,6 +19,8 @@ import {
   Keyboard,
   Trophy,
   Layers,
+  XCircle,
+  AlertTriangle,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -42,6 +44,13 @@ interface TopicInfo {
   label: string
   icon: string
   learnedFlashcard: number
+  // learnedFlashcard minus words currently flagged "Không Biết" on the flashcard row —
+  // the pool Nối Từ draws from (same "known pool" rule as /review-dictionary/textbook).
+  knownFlashcard: number
+  // Flashcard Biết/Không Biết tracking, read off the mode='flashcard' progress row's
+  // unknown_word_ids/unknown_resolved_count (same columns fill_in uses, migration 0021).
+  unknownCount: number
+  unknownResolvedCount: number
   learnedMatching: number
   learnedFillIn: number
   // Words answered incorrectly/left incomplete on a Điền Từ submit — the "Điền Từ
@@ -65,10 +74,25 @@ interface TopicWord {
 interface ProgressRow {
   word_order: string[]
   current_index: number
+  unknown_word_ids?: string[] | null
 }
 
 function getLearnedIds(progress: ProgressRow | null): string[] {
   return progress ? progress.word_order.slice(0, progress.current_index) : []
+}
+
+// Words reviewed via Flashcard minus whatever's currently flagged "Không Biết".
+function getKnownIds(progress: ProgressRow | null): string[] {
+  if (!progress) return []
+  const unknownSet = new Set(progress.unknown_word_ids || [])
+  return getLearnedIds(progress).filter((id) => !unknownSet.has(id))
+}
+
+// Pool a non-flashcard mode draws from: Nối Từ only uses words marked "Biết";
+// Điền Từ uses every word reviewed in Flashcard (Biết + Không Biết), same split as
+// /textbook so fill-in's max still reaches the topic's full size.
+function getModePoolIds(flashcardProgress: ProgressRow | null, mode: StudyMode): string[] {
+  return mode === 'matching' ? getKnownIds(flashcardProgress) : getLearnedIds(flashcardProgress)
 }
 
 // How many words are already "learned" in a given mode, and the size of the pool
@@ -79,7 +103,7 @@ function modeLearnedCount(info: TopicInfo, mode: StudyMode): number {
   return mode === 'flashcard' ? info.learnedFlashcard : mode === 'matching' ? info.learnedMatching : info.learnedFillIn
 }
 function modePoolTotal(info: TopicInfo, mode: StudyMode): number {
-  return mode === 'flashcard' ? info.total : info.learnedFlashcard
+  return mode === 'flashcard' ? info.total : mode === 'matching' ? info.knownFlashcard : info.learnedFlashcard
 }
 const MODE_VERB: Record<StudyMode, string> = { flashcard: 'học', matching: 'nối', fill_in: 'điền' }
 const MODE_LEARNED_LABEL: Record<StudyMode, string> = { flashcard: 'Đã học', matching: 'Đã nối', fill_in: 'Đã điền' }
@@ -184,6 +208,9 @@ export default function VocabularyByTopicPage() {
   // contract) and reset to false at the top of startTopic/startGroupReview, the only
   // other functions that load a fresh session.
   const [fillInUnknownReviewMode, setFillInUnknownReviewMode] = useState(false)
+  // True only for a "Học Từ Không Biết" flashcard session — a dead-end draw from the
+  // topic's flashcard-row unknown_word_ids. Always paired with reviewMode=true.
+  const [unknownReviewMode, setUnknownReviewMode] = useState(false)
   // Whether this session should auto-chain forward (flashcard -> matching -> fill_in).
   // Only true when the user entered via "Flashcard"; direct "Nối Từ"/"Điền Từ" entry
   // only drills that single mode's own backlog.
@@ -239,6 +266,12 @@ export default function VocabularyByTopicPage() {
   const fillInUnknownResolvedRef = useRef<number>(0)
   const [fillInUnknownRemaining, setFillInUnknownRemaining] = useState(0)
 
+  // Live copy of the active topic's mode='flashcard' unknown_word_ids/
+  // unknown_resolved_count, mutated + persisted on every Biết/Không Biết tap.
+  const unknownIdsRef = useRef<string[]>([])
+  const unknownResolvedRef = useRef<number>(0)
+  const [unknownRemaining, setUnknownRemaining] = useState(0)
+
   async function loadTopicInfosForLevel(lvl: string) {
     setLoading(true)
     try {
@@ -268,9 +301,16 @@ export default function VocabularyByTopicPage() {
 
       const progressByTopicMode: Record<string, Record<string, number>> = {}
       const fillInUnknownByTopic: Record<string, { count: number; resolved: number }> = {}
+      const unknownByTopic: Record<string, { count: number; resolved: number }> = {}
       for (const p of progressRows || []) {
         if (!progressByTopicMode[p.topic_key]) progressByTopicMode[p.topic_key] = {}
         progressByTopicMode[p.topic_key][p.mode] = p.current_index
+        if (p.mode === 'flashcard') {
+          unknownByTopic[p.topic_key] = {
+            count: (p.unknown_word_ids || []).length,
+            resolved: p.unknown_resolved_count || 0,
+          }
+        }
         if (p.mode === 'fill_in') {
           fillInUnknownByTopic[p.topic_key] = {
             count: (p.unknown_word_ids || []).length,
@@ -284,7 +324,10 @@ export default function VocabularyByTopicPage() {
         topicKeys.map((topicKey) => {
           const total = counts[topicKey].total
           const learnedFlashcard = Math.min(progressByTopicMode[topicKey]?.['flashcard'] || 0, total)
-          const learnedMatching = Math.min(progressByTopicMode[topicKey]?.['matching'] || 0, learnedFlashcard)
+          const unknownCount = Math.min(unknownByTopic[topicKey]?.count || 0, learnedFlashcard)
+          const unknownResolvedCount = unknownByTopic[topicKey]?.resolved || 0
+          const knownFlashcard = learnedFlashcard - unknownCount
+          const learnedMatching = Math.min(progressByTopicMode[topicKey]?.['matching'] || 0, knownFlashcard)
           const learnedFillIn = Math.min(progressByTopicMode[topicKey]?.['fill_in'] || 0, learnedFlashcard)
           const fillInUnknownCount = Math.min(fillInUnknownByTopic[topicKey]?.count || 0, learnedFillIn)
           const fillInUnknownResolvedCount = fillInUnknownByTopic[topicKey]?.resolved || 0
@@ -294,6 +337,9 @@ export default function VocabularyByTopicPage() {
             label: counts[topicKey].label,
             icon: counts[topicKey].icon,
             learnedFlashcard,
+            knownFlashcard,
+            unknownCount,
+            unknownResolvedCount,
             learnedMatching,
             learnedFillIn,
             fillInUnknownCount,
@@ -320,6 +366,7 @@ export default function VocabularyByTopicPage() {
     setLearnStyleTopicKey(null)
     setReviewMode(false)
     setFillInUnknownReviewMode(false)
+    setUnknownReviewMode(false)
     // Selected topic keys were checked against this level's topic list — a topic_key
     // string can repeat across levels (e.g. "home-living" exists at both A1 and A2),
     // so a stale selection would otherwise silently carry over to the wrong level.
@@ -332,13 +379,29 @@ export default function VocabularyByTopicPage() {
   async function fetchProgressRow(userId: string, topicKey: string, mode: StudyMode): Promise<ProgressRow | null> {
     const { data } = await supabase
       .from('topic_vocabulary_progress')
-      .select('word_order, current_index')
+      .select('word_order, current_index, unknown_word_ids')
       .eq('user_id', userId)
       .eq('level', level)
       .eq('topic_key', topicKey)
       .eq('mode', mode)
       .maybeSingle()
     return data
+  }
+
+  // Populates unknownIdsRef/unknownResolvedRef/unknownRemaining from the topic's
+  // mode='flashcard' row — called whenever any flashcard session starts.
+  async function loadFlashcardUnknownState(userId: string, topicKey: string) {
+    const { data } = await supabase
+      .from('topic_vocabulary_progress')
+      .select('unknown_word_ids, unknown_resolved_count')
+      .eq('user_id', userId)
+      .eq('level', level)
+      .eq('topic_key', topicKey)
+      .eq('mode', 'flashcard')
+      .maybeSingle()
+    unknownIdsRef.current = data?.unknown_word_ids || []
+    unknownResolvedRef.current = data?.unknown_resolved_count || 0
+    setUnknownRemaining(unknownIdsRef.current.length)
   }
 
   // Populates fillInUnknownIdsRef/fillInUnknownResolvedRef/fillInUnknownRemaining from
@@ -358,22 +421,24 @@ export default function VocabularyByTopicPage() {
     setFillInUnknownRemaining(fillInUnknownIdsRef.current.length)
   }
 
-  async function startTopic(topicKey: string, mode: StudyMode, size: number, isReview: boolean = false) {
+  async function startTopic(topicKey: string, mode: StudyMode, size: number, isReview: boolean = false, isUnknownReview: boolean = false) {
     setLoading(true)
     setStageSize(size)
     setActiveTopicKey(topicKey)
     setActiveMode(mode)
-    setReviewMode(isReview)
+    setReviewMode(isReview || isUnknownReview)
+    setUnknownReviewMode(isUnknownReview)
     setFillInUnknownReviewMode(false)
-    setChainMode(!isReview && mode === 'flashcard')
+    setChainMode(!isReview && !isUnknownReview && mode === 'flashcard')
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       if (mode === 'fill_in') await loadFillInUnknownState(user.id, topicKey)
+      if (mode === 'flashcard') await loadFlashcardUnknownState(user.id, topicKey)
 
-      if (isReview) {
+      if (isReview || isUnknownReview) {
         const progress = await fetchProgressRow(user.id, topicKey, mode)
-        const learnedIds = getLearnedIds(progress)
+        const learnedIds = isUnknownReview ? (progress?.unknown_word_ids || []) : getLearnedIds(progress)
         if (learnedIds.length === 0) { setLoading(false); return }
         const shuffled = shuffleArray(learnedIds)
         await loadStage(topicKey, mode, shuffled, 0, learnedIds.length, size)
@@ -404,7 +469,7 @@ export default function VocabularyByTopicPage() {
               { user_id: user.id, level, topic_key: topicKey, mode: 'flashcard', word_order: wordOrder, current_index: 0 },
               { onConflict: 'user_id,level,topic_key,mode' }
             )
-            .select('word_order, current_index')
+            .select('word_order, current_index, unknown_word_ids')
             .single()
           progress = upserted
         }
@@ -412,9 +477,10 @@ export default function VocabularyByTopicPage() {
         await loadStage(topicKey, 'flashcard', progress.word_order, progress.current_index, allIds.length, size)
       } else {
         // Matching and Fill-in both draw independently from words already learned via
-        // Flashcard — Fill-in is not gated behind completing Matching first.
+        // Flashcard — Fill-in is not gated behind completing Matching first. Matching
+        // excludes words still flagged "Không Biết" (see getModePoolIds).
         const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
-        const learnedIds = getLearnedIds(parentProgress)
+        const learnedIds = getModePoolIds(parentProgress, mode)
         if (learnedIds.length === 0) { setLoading(false); return }
 
         const thisProgress = await fetchProgressRow(user.id, topicKey, mode)
@@ -539,21 +605,13 @@ export default function VocabularyByTopicPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return false
 
-      const { data: progress } = await supabase
-        .from('topic_vocabulary_progress')
-        .select('word_order, current_index')
-        .eq('user_id', user.id)
-        .eq('level', level)
-        .eq('topic_key', topicKey)
-        .eq('mode', mode)
-        .maybeSingle()
+      const progress = await fetchProgressRow(user.id, topicKey, mode)
 
       let finalIndex = 0
       let finalOrderLength = 0
 
-      if (!progress) {
-        // Initialize progress if it doesn't exist (e.g. during chainMode)
-        if (mode === 'flashcard') {
+      if (mode === 'flashcard') {
+        if (!progress) {
           const allWords = await fetchAllRows<{ id: string }>((from, to) =>
             supabase
               .from('topic_vocabulary')
@@ -563,8 +621,7 @@ export default function VocabularyByTopicPage() {
               .order('order_index', { ascending: true })
               .range(from, to)
           )
-          const allIds = allWords.map((w) => w.id)
-          const wordOrder = shuffleArray(allIds)
+          const wordOrder = shuffleArray(allWords.map((w) => w.id))
           const { data: upserted } = await supabase
             .from('topic_vocabulary_progress')
             .upsert(
@@ -573,50 +630,59 @@ export default function VocabularyByTopicPage() {
             )
             .select('word_order, current_index')
             .single()
-          
+
           if (upserted) {
             finalIndex = upserted.current_index
             finalOrderLength = upserted.word_order.length
           }
         } else {
-          const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
-          const learnedIds = getLearnedIds(parentProgress)
-          const stageWordIds = stageWords.map((w) => w.id)
-          const remainingIds = learnedIds.filter((id) => !stageWordIds.includes(id))
-          const wordOrder = [...stageWordIds, ...shuffleArray(remainingIds)]
-          
-          const { data: upserted } = await supabase
+          const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
+          await supabase
             .from('topic_vocabulary_progress')
-            .upsert(
-              { user_id: user.id, level, topic_key: topicKey, mode, word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
-              { onConflict: 'user_id,level,topic_key,mode' }
-            )
-            .select('word_order, current_index')
-            .single()
+            .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .eq('level', level)
+            .eq('topic_key', topicKey)
+            .eq('mode', mode)
 
-          if (upserted) {
-            finalIndex = upserted.current_index
-            finalOrderLength = upserted.word_order.length
-          }
+          finalIndex = newIndex
+          finalOrderLength = progress.word_order.length
         }
       } else {
-        const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
-        await supabase
+        // Matching/fill_in: reconcile word_order against the live flashcard pool + this
+        // stage's own word ids instead of capping current_index+count at whatever
+        // word_order already held — a 2nd+ Flashcard->Nối Từ->Điền Từ chain batch's
+        // words are never in an older, already-consumed row (same fix as /textbook,
+        // see KNOWLEDGE.md "progress silently not saved on the 2nd+ chain batch").
+        const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
+        const poolIds = getModePoolIds(parentProgress, mode)
+        const stageWordIds = stageWords.map((w) => w.id)
+        const previouslyDone = progress
+          ? progress.word_order.slice(0, progress.current_index).filter((id) => poolIds.includes(id))
+          : []
+        const newCompletedIds = [...previouslyDone, ...stageWordIds.filter((id) => !previouslyDone.includes(id))]
+        const remainingIds = poolIds.filter((id) => !newCompletedIds.includes(id))
+        const wordOrder = [...newCompletedIds, ...shuffleArray(remainingIds)]
+
+        const { data: upserted } = await supabase
           .from('topic_vocabulary_progress')
-          .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-          .eq('user_id', user.id)
-          .eq('level', level)
-          .eq('topic_key', topicKey)
-          .eq('mode', mode)
-        
-        finalIndex = newIndex
-        finalOrderLength = progress.word_order.length
+          .upsert(
+            { user_id: user.id, level, topic_key: topicKey, mode, word_order: wordOrder, current_index: newCompletedIds.length, updated_at: new Date().toISOString() },
+            { onConflict: 'user_id,level,topic_key,mode' }
+          )
+          .select('word_order, current_index')
+          .single()
+
+        if (upserted) {
+          finalIndex = upserted.current_index
+          finalOrderLength = upserted.word_order.length
+        }
       }
 
       setTopicInfos((prev) =>
         prev.map((t) => {
           if (t.topicKey !== topicKey) return t
-          if (mode === 'flashcard') return { ...t, learnedFlashcard: finalIndex }
+          if (mode === 'flashcard') return { ...t, learnedFlashcard: finalIndex, knownFlashcard: finalIndex - t.unknownCount }
           if (mode === 'matching') return { ...t, learnedMatching: finalIndex }
           return { ...t, learnedFillIn: finalIndex }
         })
@@ -629,13 +695,64 @@ export default function VocabularyByTopicPage() {
     }
   }
 
-  const handleFlashNext = () => {
+  // Persists the live unknownIdsRef/unknownResolvedRef to the topic's flashcard row
+  // immediately — each Biết/Không Biết tap is a discrete save.
+  const persistUnknownState = async (topicKey: string, newIds: string[], newResolved: number) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      await supabase
+        .from('topic_vocabulary_progress')
+        .update({ unknown_word_ids: newIds, unknown_resolved_count: newResolved, updated_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('level', level)
+        .eq('topic_key', topicKey)
+        .eq('mode', 'flashcard')
+
+      setTopicInfos((prev) =>
+        prev.map((t) =>
+          t.topicKey === topicKey
+            ? { ...t, unknownCount: newIds.length, unknownResolvedCount: newResolved, knownFlashcard: t.learnedFlashcard - newIds.length }
+            : t
+        )
+      )
+    } catch (err) {
+      console.error('Lỗi khi lưu trạng thái từ chưa biết:', err)
+    }
+  }
+
+  const advanceFlash = () => {
     setIsFlipped(false)
     if (flashIdx < stageWords.length - 1) {
       setFlashIdx(flashIdx + 1)
     } else {
       finishFlashcardStage()
     }
+  }
+
+  // Group sessions mix several topics under the '__group__' sentinel, so there's no
+  // single progress row to write Biết/Không Biết into — they just advance there.
+  const canTrackUnknown = !!activeTopicKey && !groupSessionActive
+
+  const handleMarkKnown = () => {
+    const word = stageWords[flashIdx]
+    if (canTrackUnknown && word && unknownIdsRef.current.includes(word.id)) {
+      unknownIdsRef.current = unknownIdsRef.current.filter((id) => id !== word.id)
+      unknownResolvedRef.current += 1
+      setUnknownRemaining(unknownIdsRef.current.length)
+      persistUnknownState(activeTopicKey!, unknownIdsRef.current, unknownResolvedRef.current)
+    }
+    advanceFlash()
+  }
+
+  const handleMarkUnknown = () => {
+    const word = stageWords[flashIdx]
+    if (canTrackUnknown && word && !unknownReviewMode && !unknownIdsRef.current.includes(word.id)) {
+      unknownIdsRef.current = [...unknownIdsRef.current, word.id]
+      setUnknownRemaining(unknownIdsRef.current.length)
+      persistUnknownState(activeTopicKey!, unknownIdsRef.current, unknownResolvedRef.current)
+    }
+    advanceFlash()
   }
 
   const finishFlashcardStage = async () => {
@@ -648,11 +765,19 @@ export default function VocabularyByTopicPage() {
       return
     }
     await persistProgressAdvance('flashcard', activeTopicKey, stageWords.length)
-    setMatchingRound(0)
-    setMatchingType('hanzi_pinyin')
-    prepareMatchingRound(0)
-    setCurrentStageMode('matching')
-    setStep('matching')
+    // Words just marked "Không Biết" skip the chained Nối Từ/Điền Từ for this batch.
+    const knownWords = stageWords.filter((w) => !unknownIdsRef.current.includes(w.id))
+    if (knownWords.length === 0) {
+      setTopicFullyComplete(false)
+      setStep('complete')
+    } else {
+      setStageWords(knownWords)
+      setMatchingRound(0)
+      setMatchingType('hanzi_pinyin')
+      setRoundVocabs(knownWords.slice(0, ITEMS_PER_ROUND))
+      setCurrentStageMode('matching')
+      setStep('matching')
+    }
     progressAdvancedRef.current = false
   }
 
@@ -783,7 +908,7 @@ export default function VocabularyByTopicPage() {
 
       if (activeMode !== 'flashcard') {
         const parentProgress = await fetchProgressRow(user.id, activeTopicKey, 'flashcard')
-        const learnedIds = getLearnedIds(parentProgress)
+        const learnedIds = getModePoolIds(parentProgress, activeMode)
         const thisProgress = await fetchProgressRow(user.id, activeTopicKey, activeMode)
 
         if (thisProgress) {
@@ -809,6 +934,7 @@ export default function VocabularyByTopicPage() {
         }
       }
 
+      if (activeMode === 'flashcard') await loadFlashcardUnknownState(user.id, activeTopicKey)
       const { data: progress } = await supabase
         .from('topic_vocabulary_progress')
         .select('word_order, current_index')
@@ -838,7 +964,7 @@ export default function VocabularyByTopicPage() {
         wordOrder = shuffleArray(allWords.map((w) => w.id))
       } else {
         const parentProgress = await fetchProgressRow(user.id, topicKey, 'flashcard')
-        wordOrder = shuffleArray(getLearnedIds(parentProgress))
+        wordOrder = shuffleArray(getModePoolIds(parentProgress, mode))
       }
 
       await supabase
@@ -851,12 +977,17 @@ export default function VocabularyByTopicPage() {
             mode,
             word_order: wordOrder,
             current_index: 0,
-            ...(mode === 'fill_in' ? { unknown_word_ids: [], unknown_resolved_count: 0 } : {}),
+            ...(mode === 'fill_in' || mode === 'flashcard' ? { unknown_word_ids: [], unknown_resolved_count: 0 } : {}),
             updated_at: new Date().toISOString(),
           },
           { onConflict: 'user_id,level,topic_key,mode' }
         )
 
+      if (mode === 'flashcard') {
+        unknownIdsRef.current = []
+        unknownResolvedRef.current = 0
+        setUnknownRemaining(0)
+      }
       if (mode === 'fill_in') {
         fillInUnknownIdsRef.current = []
         fillInUnknownResolvedRef.current = 0
@@ -866,7 +997,7 @@ export default function VocabularyByTopicPage() {
       setTopicInfos((prev) =>
         prev.map((t) => {
           if (t.topicKey !== topicKey) return t
-          if (mode === 'flashcard') return { ...t, learnedFlashcard: 0, learnedMatching: 0, learnedFillIn: 0 }
+          if (mode === 'flashcard') return { ...t, learnedFlashcard: 0, knownFlashcard: 0, unknownCount: 0, unknownResolvedCount: 0, learnedMatching: 0, learnedFillIn: 0 }
           if (mode === 'matching') return { ...t, learnedMatching: 0 }
           return { ...t, learnedFillIn: 0, fillInUnknownCount: 0, fillInUnknownResolvedCount: 0 }
         })
@@ -883,6 +1014,7 @@ export default function VocabularyByTopicPage() {
     setLoading(true)
     setGroupSizeStep(false)
     setFillInUnknownReviewMode(false)
+    setUnknownReviewMode(false)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
@@ -955,6 +1087,8 @@ export default function VocabularyByTopicPage() {
     ? 0
     : fillInUnknownReviewMode
     ? info.fillInUnknownCount
+    : unknownReviewMode
+    ? info.unknownCount
     : reviewMode
     ? modeLearnedCount(info, activeMode)
     : modePoolTotal(info, activeMode) - modeLearnedCount(info, activeMode)
@@ -1154,7 +1288,7 @@ export default function VocabularyByTopicPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {topicInfos.map((t) => {
                     const pctFlash = t.total ? (t.learnedFlashcard / t.total) * 100 : 0
-                    const pctMatch = t.learnedFlashcard ? (t.learnedMatching / t.learnedFlashcard) * 100 : 0
+                    const pctMatch = t.knownFlashcard ? (t.learnedMatching / t.knownFlashcard) * 100 : 0
                     const pctFillIn = t.learnedFlashcard ? (t.learnedFillIn / t.learnedFlashcard) * 100 : 0
                     const bothDone = t.total > 0 && t.learnedFillIn >= t.total
                     const isSelectedForGroup = selectedGroupTopics.includes(t.topicKey)
@@ -1200,7 +1334,7 @@ export default function VocabularyByTopicPage() {
                             <ProgressRing percent={pctFlash} />
                             <BookOpen className="w-3 h-3 text-slate-400" />
                           </div>
-                          <div className="flex flex-col items-center gap-0.5" title={`Nối Từ: ${t.learnedMatching}/${t.learnedFlashcard}`}>
+                          <div className="flex flex-col items-center gap-0.5" title={`Nối Từ: ${t.learnedMatching}/${t.knownFlashcard}`}>
                             <ProgressRing percent={pctMatch} />
                             <Puzzle className="w-3 h-3 text-slate-400" />
                           </div>
@@ -1209,6 +1343,14 @@ export default function VocabularyByTopicPage() {
                             <Keyboard className="w-3 h-3 text-slate-400" />
                           </div>
                         </div>
+                        {(t.unknownCount > 0 || t.unknownResolvedCount > 0) && (
+                          <p className="text-[10px] font-bold text-amber-600 pt-1 border-t border-slate-100">
+                            {t.unknownCount} từ chưa biết
+                            <span className="text-slate-400 font-semibold">
+                              {' '}· đã ôn lại {t.unknownResolvedCount}/{t.unknownResolvedCount + t.unknownCount}
+                            </span>
+                          </p>
+                        )}
                         {(t.fillInUnknownCount > 0 || t.fillInUnknownResolvedCount > 0) && (
                           <p className="text-[10px] font-bold text-amber-600 pt-1 border-t border-slate-100">
                             {t.fillInUnknownCount} từ điền chưa xong
@@ -1237,6 +1379,8 @@ export default function VocabularyByTopicPage() {
                 <p className="text-slate-500 text-xs font-semibold max-w-sm mx-auto">
                   {fillInUnknownReviewMode
                     ? 'Bạn không còn từ nào chưa điền đúng trong chủ đề này.'
+                    : unknownReviewMode
+                    ? 'Bạn không còn từ nào bị đánh dấu "không biết" trong chủ đề này.'
                     : reviewMode
                     ? `Bạn chưa ${MODE_VERB[activeMode]} từ nào để ôn tập.`
                     : activeMode === 'matching'
@@ -1262,18 +1406,20 @@ export default function VocabularyByTopicPage() {
 
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 shrink-0">
-                  {React.createElement(reviewMode ? RotateCcw : MODE_META[activeMode].icon, { className: 'w-5 h-5' })}
+                  {React.createElement(unknownReviewMode ? AlertTriangle : reviewMode ? RotateCcw : MODE_META[activeMode].icon, { className: 'w-5 h-5' })}
                 </div>
                 <div>
                   <h4 className="font-black text-slate-800 text-lg flex items-center gap-2">
                     {info?.icon} {info?.label} — Số từ mỗi đợt
                     <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 whitespace-nowrap">
-                      {fillInUnknownReviewMode ? 'Điền Từ Chưa Xong' : reviewMode ? `${MODE_META[activeMode].label} · Ôn tập` : MODE_META[activeMode].label}
+                      {fillInUnknownReviewMode ? 'Điền Từ Chưa Xong' : unknownReviewMode ? 'Từ Không Biết' : reviewMode ? `${MODE_META[activeMode].label} · Ôn tập` : MODE_META[activeMode].label}
                     </span>
                   </h4>
                   <p className="text-xs text-slate-500 font-semibold">
                     {fillInUnknownReviewMode
                       ? 'Chọn số từ muốn ôn tập lại trong số các từ bạn đã điền sai hoặc chưa xong.'
+                      : unknownReviewMode
+                      ? 'Ôn lại các từ bạn đã đánh dấu "Không Biết" — chọn Biết để từ đó không hiện lại nữa.'
                       : reviewMode
                       ? `Chọn số từ muốn ôn tập lại trong số các từ bạn đã ${MODE_VERB[activeMode]} xong.`
                       : activeMode === 'flashcard'
@@ -1287,15 +1433,19 @@ export default function VocabularyByTopicPage() {
                 <div className="grid grid-cols-2 gap-2 text-center">
                   <div>
                     <span className="block text-[10px] font-bold text-slate-400 uppercase leading-normal">
-                      {fillInUnknownReviewMode ? 'Đã ôn lại xong' : reviewMode ? `${MODE_LEARNED_LABEL[activeMode]} (có thể ôn)` : MODE_LEARNED_LABEL[activeMode]}
+                      {fillInUnknownReviewMode || unknownReviewMode ? 'Đã ôn lại xong' : reviewMode ? `${MODE_LEARNED_LABEL[activeMode]} (có thể ôn)` : MODE_LEARNED_LABEL[activeMode]}
                     </span>
                     <span className="text-sm font-black text-slate-700">
-                      {fillInUnknownReviewMode ? (info?.fillInUnknownResolvedCount ?? 0) : info ? modeLearnedCount(info, activeMode) : 0} từ
+                      {fillInUnknownReviewMode
+                        ? (info?.fillInUnknownResolvedCount ?? 0)
+                        : unknownReviewMode
+                        ? (info?.unknownResolvedCount ?? 0)
+                        : info ? modeLearnedCount(info, activeMode) : 0} từ
                     </span>
                   </div>
                   <div>
                     <span className="block text-[10px] font-bold text-emerald-500 uppercase leading-normal">
-                      {fillInUnknownReviewMode ? 'Còn chưa xong' : reviewMode ? 'Có thể ôn tập' : 'Có thể học'}
+                      {fillInUnknownReviewMode ? 'Còn chưa xong' : unknownReviewMode ? 'Còn chưa biết' : reviewMode ? 'Có thể ôn tập' : 'Có thể học'}
                     </span>
                     <span className="text-sm font-black text-emerald-600">{remaining} từ</span>
                   </div>
@@ -1371,7 +1521,7 @@ export default function VocabularyByTopicPage() {
                   if (fillInUnknownReviewMode) {
                     startFillInUnknownReview(topicKey, size)
                   } else {
-                    startTopic(topicKey, activeMode, size, reviewMode)
+                    startTopic(topicKey, activeMode, size, reviewMode && !unknownReviewMode, unknownReviewMode)
                   }
                 }}
                 className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
@@ -1415,6 +1565,7 @@ export default function VocabularyByTopicPage() {
                           setActiveMode(m)
                           setReviewMode(false)
                           setFillInUnknownReviewMode(false)
+                          setUnknownReviewMode(false)
                           setPendingTopicKey(modeSelectInfo.topicKey)
                           setModeSelectTopicKey(null)
                           const rem = modePoolTotal(modeSelectInfo, m) - modeLearnedCount(modeSelectInfo, m)
@@ -1429,6 +1580,53 @@ export default function VocabularyByTopicPage() {
                       </button>
                     )
                   })}
+                </div>
+                {/* Retry pools, same entry points as /review-dictionary's mode modal. */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    disabled={modeSelectInfo.unknownCount === 0}
+                    onClick={() => {
+                      setActiveMode('flashcard')
+                      setReviewMode(true)
+                      setUnknownReviewMode(true)
+                      setFillInUnknownReviewMode(false)
+                      setPendingTopicKey(modeSelectInfo.topicKey)
+                      setModeSelectTopicKey(null)
+                      setStageSizeChoice(Math.min(Math.max(modeSelectInfo.unknownCount, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <AlertTriangle className="w-8 h-8 mx-auto text-amber-500" />
+                    <p className="font-black text-slate-700 text-sm">Học Từ Không Biết</p>
+                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                      {modeSelectInfo.unknownCount > 0
+                        ? `Ôn lại ${modeSelectInfo.unknownCount} từ đã đánh dấu "không biết"`
+                        : 'Chưa có từ nào bị đánh dấu "không biết"'}
+                    </p>
+                  </button>
+                  <button
+                    disabled={modeSelectInfo.fillInUnknownCount === 0}
+                    onClick={() => {
+                      setActiveMode('fill_in')
+                      setReviewMode(true)
+                      setUnknownReviewMode(false)
+                      setFillInUnknownReviewMode(true)
+                      setPendingTopicKey(modeSelectInfo.topicKey)
+                      setModeSelectTopicKey(null)
+                      setStageSizeChoice(Math.min(Math.max(modeSelectInfo.fillInUnknownCount, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <Keyboard className="w-8 h-8 mx-auto text-amber-500" />
+                    <p className="font-black text-slate-700 text-sm">Điền Từ Chưa Xong</p>
+                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                      {modeSelectInfo.fillInUnknownCount > 0
+                        ? `Ôn lại ${modeSelectInfo.fillInUnknownCount} từ đã điền sai hoặc chưa xong`
+                        : 'Chưa có từ nào bị điền sai/chưa xong'}
+                    </p>
+                  </button>
                 </div>
                 <button
                   onClick={() => setModeSelectTopicKey(null)}
@@ -1466,6 +1664,7 @@ export default function VocabularyByTopicPage() {
                           setActiveMode(learnStyleMode)
                           setReviewMode(false)
                           setFillInUnknownReviewMode(false)
+                          setUnknownReviewMode(false)
                           setPendingTopicKey(learnStyleInfo.topicKey)
                           setLearnStyleTopicKey(null)
                           setStageSizeChoice(Math.min(Math.max(newRemaining, 1), DEFAULT_STAGE_SIZE))
@@ -1487,6 +1686,7 @@ export default function VocabularyByTopicPage() {
                       setActiveMode(learnStyleMode)
                       setReviewMode(true)
                       setFillInUnknownReviewMode(false)
+                      setUnknownReviewMode(false)
                       setPendingTopicKey(learnStyleInfo.topicKey)
                       setLearnStyleTopicKey(null)
                       setStageSizeChoice(Math.min(Math.max(learned, 1), DEFAULT_STAGE_SIZE))
@@ -1500,6 +1700,30 @@ export default function VocabularyByTopicPage() {
                       {modeLearnedCount(learnStyleInfo, learnStyleMode)} từ đã {MODE_VERB[learnStyleMode]}
                     </p>
                   </button>
+                  {learnStyleMode === 'flashcard' && (
+                    <button
+                      disabled={learnStyleInfo.unknownCount === 0}
+                      onClick={() => {
+                        setActiveMode('flashcard')
+                        setReviewMode(true)
+                        setUnknownReviewMode(true)
+                        setFillInUnknownReviewMode(false)
+                        setPendingTopicKey(learnStyleInfo.topicKey)
+                        setLearnStyleTopicKey(null)
+                        setStageSizeChoice(Math.min(Math.max(learnStyleInfo.unknownCount, 1), DEFAULT_STAGE_SIZE))
+                        setCustomStageSize('')
+                      }}
+                      className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 sm:col-span-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <AlertTriangle className="w-8 h-8 mx-auto text-amber-500" />
+                      <p className="font-black text-slate-700 text-sm">Học Từ Không Biết</p>
+                      <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                        {learnStyleInfo.unknownCount > 0
+                          ? `Ôn lại ${learnStyleInfo.unknownCount} từ đã đánh dấu "không biết"`
+                          : 'Chưa có từ nào bị đánh dấu "không biết"'}
+                      </p>
+                    </button>
+                  )}
                   {learnStyleMode === 'fill_in' && (
                     <button
                       disabled={(learnStyleInfo.fillInUnknownCount ?? 0) === 0}
@@ -1507,6 +1731,7 @@ export default function VocabularyByTopicPage() {
                         const fillInUnknownN = learnStyleInfo.fillInUnknownCount ?? 0
                         setActiveMode('fill_in')
                         setReviewMode(true)
+                        setUnknownReviewMode(false)
                         setFillInUnknownReviewMode(true)
                         setPendingTopicKey(learnStyleInfo.topicKey)
                         setLearnStyleTopicKey(null)
@@ -1587,13 +1812,15 @@ export default function VocabularyByTopicPage() {
           <div className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
-                <BookOpen className="w-4 h-4" />
+                {unknownReviewMode ? <AlertTriangle className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
               </div>
               <span className="font-extrabold text-sm text-slate-500 uppercase">
-                {groupSessionActive ? `🗂️ Ôn Tập ${selectedGroupTopics.length} Chủ Đề` : `${activeTopicInfo?.icon} ${activeTopicInfo?.label}`} · Đợt {stageNumber}/{totalStages} · {reviewMode ? 'Ôn Tập' : 'Flashcard'}
+                {unknownReviewMode
+                  ? `${activeTopicInfo?.icon} ${activeTopicInfo?.label} · Ôn Tập Từ Không Biết`
+                  : `${groupSessionActive ? `🗂️ Ôn Tập ${selectedGroupTopics.length} Chủ Đề` : `${activeTopicInfo?.icon} ${activeTopicInfo?.label}`} · Đợt ${stageNumber}/${totalStages} · ${reviewMode ? 'Ôn Tập' : 'Flashcard'}`}
               </span>
             </div>
-            <button onClick={() => { setStep('select'); setReviewMode(false); setGroupSessionActive(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
+            <button onClick={() => { setStep('select'); setReviewMode(false); setUnknownReviewMode(false); setGroupSessionActive(false) }} className="cursor-pointer font-extrabold text-xs text-red-500 hover:underline">
               Thoát
             </button>
           </div>
@@ -1641,8 +1868,19 @@ export default function VocabularyByTopicPage() {
             <button onClick={() => setIsFlipped(!isFlipped)} className="cartoon-btn cartoon-btn-secondary px-5 py-3 text-sm">
               Lật Thẻ
             </button>
-            <button onClick={handleFlashNext} className="cartoon-btn px-5 py-3 text-sm flex items-center gap-2">
-              {flashIdx === stageWords.length - 1 ? (reviewMode ? 'Hoàn Thành Ôn Tập' : 'Chuyển Sang Nối Từ') : 'Tiếp theo'} <ArrowRight className="w-4 h-4" />
+          </div>
+          <div className="flex justify-center items-center gap-3 max-w-lg mx-auto">
+            <button
+              onClick={handleMarkUnknown}
+              className="cartoon-btn cartoon-btn-danger px-5 py-3 text-sm flex items-center gap-2 flex-1 justify-center"
+            >
+              <XCircle className="w-4 h-4" /> Không Biết
+            </button>
+            <button
+              onClick={handleMarkKnown}
+              className="cartoon-btn cartoon-btn-success px-5 py-3 text-sm flex items-center gap-2 flex-1 justify-center"
+            >
+              <CheckCircle className="w-4 h-4" /> Biết
             </button>
           </div>
         </div>
@@ -1696,7 +1934,7 @@ export default function VocabularyByTopicPage() {
         <div className="space-y-6">
           <div className="cartoon-card bg-white p-8 text-center space-y-6 animate-float max-w-md mx-auto">
             <div className="w-20 h-20 bg-emerald-100 rounded-full shadow-md flex items-center justify-center text-emerald-500 mx-auto">
-              {reviewMode ? <RotateCcw className="w-12 h-12" /> : topicFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
+              {unknownReviewMode ? <AlertTriangle className="w-12 h-12" /> : reviewMode ? <RotateCcw className="w-12 h-12" /> : topicFullyComplete ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
             </div>
 
             <div className="space-y-2">
@@ -1708,6 +1946,10 @@ export default function VocabularyByTopicPage() {
                   ? fillInUnknownRemaining > 0
                     ? `Còn ${fillInUnknownRemaining} từ vẫn chưa điền đúng trong chủ đề ${activeTopicInfo?.label}.`
                     : `Bạn đã điền đúng hết các từ "chưa xong" trong chủ đề ${activeTopicInfo?.label}! 🎉`
+                  : unknownReviewMode
+                  ? unknownRemaining > 0
+                    ? `Còn ${unknownRemaining} từ vẫn chưa biết trong chủ đề ${activeTopicInfo?.label}.`
+                    : `Bạn đã học hết các từ "chưa biết" trong chủ đề ${activeTopicInfo?.label}! 🎉`
                   : groupSessionActive
                   ? `Bạn đã ôn tập lại các từ đã học bằng Flashcard trong ${selectedGroupTopics.length} chủ đề đã chọn.`
                   : reviewMode
@@ -1723,7 +1965,7 @@ export default function VocabularyByTopicPage() {
 
             {reviewMode ? (
               <div className="flex flex-col gap-2">
-                {(!fillInUnknownReviewMode || fillInUnknownRemaining > 0) && (
+                {(fillInUnknownReviewMode ? fillInUnknownRemaining > 0 : unknownReviewMode ? unknownRemaining > 0 : true) && (
                   <button
                     onClick={() =>
                       groupSessionActive
@@ -1731,6 +1973,8 @@ export default function VocabularyByTopicPage() {
                         : activeTopicKey &&
                           (fillInUnknownReviewMode
                             ? startFillInUnknownReview(activeTopicKey, stageSize)
+                            : unknownReviewMode
+                            ? startTopic(activeTopicKey, 'flashcard', stageSize, false, true)
                             : startTopic(activeTopicKey, activeMode, stageSize, true))
                     }
                     className="cartoon-btn w-full py-3 text-sm flex items-center justify-center gap-2"
@@ -1743,6 +1987,7 @@ export default function VocabularyByTopicPage() {
                     setStep('select')
                     setReviewMode(false)
                     setFillInUnknownReviewMode(false)
+                    setUnknownReviewMode(false)
                     setGroupSessionActive(false)
                     if (groupSessionActive) {
                       setGroupPickMode(false)

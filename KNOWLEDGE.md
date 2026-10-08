@@ -1732,7 +1732,24 @@ so users didn't find them. A "Row 1b" was added under the 3 mode cards in the le
 detail view with both retry buttons (disabled when their pool is empty), using the
 exact same state setters as the sub-modal entries (`activeMode` + `reviewMode=true`
 + `unknownReviewMode=true` → size chooser → `startLessonMode(..., true, true)`). No
-logic/schema change.
+logic/schema change. The identical Row 1b was added to `/full-dictionary`'s level
+detail view (not yet to its twin `/tocfl-dictionary`).
+
+## Biết/Không Biết added to `/vocabulary-by-topic` Flashcard
+
+Previously the only one of the Flashcard pages without it. Reuses the existing
+`unknown_word_ids`/`unknown_resolved_count` columns (migration 0021, previously only
+used on the `fill_in` row) on the topic's `mode='flashcard'` row — no migration.
+Mirrors `/textbook` exactly: `unknownIdsRef`/`persistUnknownState` per tap,
+`unknownReviewMode` + `startTopic(..., isReview, isUnknownReview)` for "Học Từ Không
+Biết", chain skips just-marked-unknown words, Nối Từ pool = known only
+(`getModePoolIds`/`knownFlashcard`), Điền Từ pool = all reviewed. Entry points: the
+per-topic mode-select modal now has "Học Từ Không Biết"/"Điền Từ Chưa Xong" tiles
+(like `/review-dictionary`), plus the Flashcard New-vs-Review sub-modal. Group
+("Ôn Tập Nhóm Chủ Đề") sessions show Biết/Không Biết but don't persist them — there's
+no single topic row under the `'__group__'` sentinel. The 2nd+-chain-batch
+`persistProgressAdvance` reconcile fix from `/textbook` was ported here at the same
+time (still missing on `/full-dictionary`/`/tocfl-dictionary`).
 
 ---
 
