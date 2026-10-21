@@ -1,14 +1,17 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import { shuffleArray } from '@/lib/utils/shuffle'
 import { sortTopicKeys } from '@/lib/utils/topicVocabulary'
+import { stripTones } from '@/lib/utils/pinyin'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
 import Flashcard from '@/components/learn/Flashcard'
 import MatchingExercise from '@/components/exercises/MatchingExercise'
 import FillInExercise, { type FillInResult } from '@/components/exercises/FillInExercise'
+import Pagination from '@/components/ui/Pagination'
+import WordCardList from '@/components/dictionary/WordCardList'
 import {
   ArrowLeft,
   ArrowRight,
@@ -21,6 +24,7 @@ import {
   Layers,
   XCircle,
   AlertTriangle,
+  Search,
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -35,6 +39,7 @@ const LEVEL_LABELS: Record<string, string> = {
 const STAGE_SIZE_PRESETS = [10, 20, 30, 50]
 const DEFAULT_STAGE_SIZE = 50
 const ITEMS_PER_ROUND = 15
+const TABLE_PAGE_SIZE = 24
 
 type StudyMode = 'flashcard' | 'matching' | 'fill_in'
 
@@ -69,6 +74,10 @@ interface TopicWord {
   example_hanzi: string | null
   example_pinyin: string | null
   example_vietnamese: string | null
+}
+
+interface TopicTableWord extends TopicWord {
+  pos: string | null
 }
 
 interface ProgressRow {
@@ -190,7 +199,14 @@ export default function VocabularyByTopicPage() {
   const [loading, setLoading] = useState(true)
 
   // Topic clicked but mode not chosen yet — shows the Flashcard/Nối Từ/Điền Từ modal.
+  // Topic currently open in the detail view (mode cards + full word list, same layout
+  // as /textbook's lesson screen). Clicking a topic card opens this instead of a modal.
   const [modeSelectTopicKey, setModeSelectTopicKey] = useState<string | null>(null)
+  // Full word list for the open topic (Row 2 of the detail view).
+  const [tableWords, setTableWords] = useState<TopicTableWord[]>([])
+  const [tableLoading, setTableLoading] = useState(false)
+  const [tableSearch, setTableSearch] = useState('')
+  const [tablePage, setTablePage] = useState(1)
   // A mode chosen for a topic that already has learned words in that same mode —
   // shows the "học mới" / "Ôn Tập Từ Đã Học" sub-modal for whichever mode this is.
   const [learnStyleTopicKey, setLearnStyleTopicKey] = useState<string | null>(null)
@@ -358,6 +374,35 @@ export default function VocabularyByTopicPage() {
     loadTopicInfosForLevel(level)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [level])
+
+  async function loadTableForTopic(lvl: string, topicKey: string) {
+    setTableLoading(true)
+    setTableWords([])
+    try {
+      const data = await fetchAllRows<TopicTableWord>((from, to) =>
+        supabase
+          .from('topic_vocabulary')
+          .select('id, hanzi, pinyin, vietnamese, pos, example_hanzi, example_pinyin, example_vietnamese')
+          .eq('level', lvl)
+          .eq('topic_key', topicKey)
+          .order('order_index', { ascending: true })
+          .order('id', { ascending: true })
+          .range(from, to)
+      )
+      setTableWords(data)
+    } catch (err) {
+      console.error('Lỗi khi tải từ vựng:', err)
+    } finally {
+      setTableLoading(false)
+    }
+  }
+
+  const openTopicDetail = (topicKey: string) => {
+    setModeSelectTopicKey(topicKey)
+    setTableSearch('')
+    setTablePage(1)
+    loadTableForTopic(level, topicKey)
+  }
 
   const handleSelectLevel = (lvl: string) => {
     setLevel(lvl)
@@ -1094,6 +1139,23 @@ export default function VocabularyByTopicPage() {
     : modePoolTotal(info, activeMode) - modeLearnedCount(info, activeMode)
 
   const modeSelectInfo = topicInfos.find((t) => t.topicKey === modeSelectTopicKey)
+
+  const isSearchingTable = tableSearch.trim().length > 0
+  const filteredTableWords = useMemo(() => {
+    if (!isSearchingTable) return tableWords
+    const q = tableSearch.trim().toLowerCase()
+    const qToneless = stripTones(q)
+    return tableWords.filter(
+      (w) =>
+        w.hanzi.includes(tableSearch.trim()) ||
+        w.vietnamese.toLowerCase().includes(q) ||
+        stripTones(w.pinyin).includes(qToneless) ||
+        (w.example_vietnamese || '').toLowerCase().includes(q)
+    )
+  }, [tableWords, tableSearch, isSearchingTable])
+
+  const tableTotalPages = Math.max(1, Math.ceil(filteredTableWords.length / TABLE_PAGE_SIZE))
+  const tablePageWords = filteredTableWords.slice((tablePage - 1) * TABLE_PAGE_SIZE, tablePage * TABLE_PAGE_SIZE)
   const learnStyleInfo = topicInfos.find((t) => t.topicKey === learnStyleTopicKey)
   const activeTopicInfo = topicInfos.find((t) => t.topicKey === activeTopicKey)
 
@@ -1223,6 +1285,163 @@ export default function VocabularyByTopicPage() {
                 </>
               )}
             </div>
+          ) : !pendingTopicKey && modeSelectTopicKey && modeSelectInfo ? (
+            <div className="space-y-5">
+              <button
+                onClick={() => setModeSelectTopicKey(null)}
+                className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn chủ đề
+              </button>
+
+              <div className="flex items-center gap-3">
+                <div className="text-4xl leading-none shrink-0">{modeSelectInfo.icon}</div>
+                <div className="min-w-0">
+                  <h4 className="font-black text-slate-800 text-lg leading-snug">{modeSelectInfo.label}</h4>
+                  <p className="text-xs text-slate-400 font-bold">{level} · {modeSelectInfo.total} từ</p>
+                </div>
+              </div>
+
+              {/* Row 1: Flashcard / Nối Từ / Điền Từ */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                {(['flashcard', 'matching', 'fill_in'] as StudyMode[]).map((m) => {
+                  const meta = MODE_META[m]
+                  const Icon = meta.icon
+                  const learned = modeLearnedCount(modeSelectInfo, m)
+                  const poolTotal = modePoolTotal(modeSelectInfo, m)
+                  const pct = poolTotal ? (learned / poolTotal) * 100 : 0
+                  return (
+                    <button
+                      key={m}
+                      onClick={() => {
+                        // Any mode on a topic that already has learned words *in that
+                        // same mode*: ask "new words" vs "review learned words" first,
+                        // instead of assuming new-words-only (see learnStyleTopicKey
+                        // modal below) — otherwise a topic fully drilled in this mode
+                        // has an empty "new words" pool and nothing to do.
+                        if (modeLearnedCount(modeSelectInfo, m) > 0) {
+                          setLearnStyleMode(m)
+                          setLearnStyleTopicKey(modeSelectInfo.topicKey)
+                          return
+                        }
+                        setActiveMode(m)
+                        setReviewMode(false)
+                        setFillInUnknownReviewMode(false)
+                        setUnknownReviewMode(false)
+                        setPendingTopicKey(modeSelectInfo.topicKey)
+                        const rem = modePoolTotal(modeSelectInfo, m) - modeLearnedCount(modeSelectInfo, m)
+                        setStageSizeChoice(Math.min(Math.max(rem, 1), DEFAULT_STAGE_SIZE))
+                        setCustomStageSize('')
+                      }}
+                      className="cartoon-card cursor-pointer p-2.5 sm:p-4 bg-white text-center space-y-1.5 sm:space-y-2 min-w-0"
+                    >
+                      <Icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto text-blue-500" />
+                      <p className="font-black text-slate-700 text-xs sm:text-sm">{meta.label}</p>
+                      <p className="hidden sm:block text-[11px] text-slate-400 font-semibold leading-snug">{meta.desc}</p>
+                      <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 pt-1">
+                        <ProgressRing percent={pct} />
+                        <span className="text-[11px] font-bold text-slate-500">{learned}/{poolTotal}</span>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+
+                {/* Row 1b: retry pools (same entry points as /review-dictionary's mode modal). */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    disabled={modeSelectInfo.unknownCount === 0}
+                    onClick={() => {
+                      setActiveMode('flashcard')
+                      setReviewMode(true)
+                      setUnknownReviewMode(true)
+                      setFillInUnknownReviewMode(false)
+                      setPendingTopicKey(modeSelectInfo.topicKey)
+                      setStageSizeChoice(Math.min(Math.max(modeSelectInfo.unknownCount, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <AlertTriangle className="w-8 h-8 mx-auto text-amber-500" />
+                    <p className="font-black text-slate-700 text-sm">Học Từ Không Biết</p>
+                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                      {modeSelectInfo.unknownCount > 0
+                        ? `Ôn lại ${modeSelectInfo.unknownCount} từ đã đánh dấu "không biết"`
+                        : 'Chưa có từ nào bị đánh dấu "không biết"'}
+                    </p>
+                  </button>
+                  <button
+                    disabled={modeSelectInfo.fillInUnknownCount === 0}
+                    onClick={() => {
+                      setActiveMode('fill_in')
+                      setReviewMode(true)
+                      setUnknownReviewMode(false)
+                      setFillInUnknownReviewMode(true)
+                      setPendingTopicKey(modeSelectInfo.topicKey)
+                      setStageSizeChoice(Math.min(Math.max(modeSelectInfo.fillInUnknownCount, 1), DEFAULT_STAGE_SIZE))
+                      setCustomStageSize('')
+                    }}
+                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <Keyboard className="w-8 h-8 mx-auto text-amber-500" />
+                    <p className="font-black text-slate-700 text-sm">Điền Từ Chưa Xong</p>
+                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
+                      {modeSelectInfo.fillInUnknownCount > 0
+                        ? `Ôn lại ${modeSelectInfo.fillInUnknownCount} từ đã điền sai hoặc chưa xong`
+                        : 'Chưa có từ nào bị điền sai/chưa xong'}
+                    </p>
+                  </button>
+                </div>
+
+              {/* Row 2: full word list for this topic (same WordCardList as /textbook) */}
+              <div className="space-y-3">
+                <div className="cartoon-card p-3 bg-white flex items-center gap-2">
+                  <Search className="w-5 h-5 text-slate-400 shrink-0" />
+                  <input
+                    type="text"
+                    value={tableSearch}
+                    onChange={(e) => { setTableSearch(e.target.value); setTablePage(1) }}
+                    placeholder="Tra cứu theo Hán tự, Pinyin hoặc nghĩa tiếng Việt..."
+                    className="flex-1 outline-none font-bold text-base bg-transparent"
+                  />
+                </div>
+
+                <div className="overflow-hidden">
+                  {tableLoading ? (
+                    <div className="p-12 text-center">
+                      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="font-bold text-slate-500">Đang tải từ vựng...</p>
+                    </div>
+                  ) : tablePageWords.length === 0 ? (
+                    <div className="p-12 text-center space-y-4">
+                      <span className="text-6xl animate-float inline-block">📖</span>
+                      <h3 className="text-xl font-extrabold text-slate-700">
+                        {isSearchingTable ? 'Không tìm thấy từ nào phù hợp' : 'Chưa có dữ liệu từ vựng cho chủ đề này'}
+                      </h3>
+                    </div>
+                  ) : (
+                    <WordCardList
+                      startIndex={(tablePage - 1) * TABLE_PAGE_SIZE}
+                      words={tablePageWords.map((w) => ({
+                        id: w.id,
+                        hanzi: w.hanzi,
+                        pinyin: w.pinyin,
+                        vietnamese: w.vietnamese,
+                        pos: w.pos,
+                        examples:
+                          w.example_hanzi && w.example_vietnamese
+                            ? [{ hanzi: w.example_hanzi, pinyin: w.example_pinyin || '', vietnamese: w.example_vietnamese }]
+                            : [],
+                      }))}
+                    />
+                  )}
+                </div>
+
+                {!tableLoading && filteredTableWords.length > 0 && (
+                  <Pagination currentPage={tablePage} totalPages={tableTotalPages} onPageChange={setTablePage} />
+                )}
+              </div>
+            </div>
           ) : !pendingTopicKey ? (
             <>
               {/* Level tabs */}
@@ -1302,7 +1521,7 @@ export default function VocabularyByTopicPage() {
                             )
                             return
                           }
-                          setModeSelectTopicKey(t.topicKey)
+                          openTopicDetail(t.topicKey)
                         }}
                         className={`cartoon-card cursor-pointer p-4 bg-white text-left space-y-3 relative ${
                           groupPickMode && isSelectedForGroup ? 'ring-2 ring-blue-400 border-blue-300' : ''
@@ -1371,7 +1590,7 @@ export default function VocabularyByTopicPage() {
                 onClick={() => setPendingTopicKey(null)}
                 className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1 mx-auto"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn chủ đề
+                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại
               </button>
               <div className="py-6 space-y-3">
                 <span className="text-4xl block">⚠️</span>
@@ -1401,7 +1620,7 @@ export default function VocabularyByTopicPage() {
                 onClick={() => setPendingTopicKey(null)}
                 className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại chọn chủ đề
+                <ArrowLeft className="w-3.5 h-3.5" /> Quay lại
               </button>
 
               <div className="flex items-center gap-3">
@@ -1528,113 +1747,6 @@ export default function VocabularyByTopicPage() {
               >
                 Bắt Đầu Học <ArrowRight className="w-4 h-4" />
               </button>
-            </div>
-          )}
-
-          {modeSelectTopicKey && modeSelectInfo && (
-            <div
-              className="fixed inset-0 bg-black/40 z-[999] flex items-center justify-center p-4"
-              onClick={() => setModeSelectTopicKey(null)}
-            >
-              <div
-                className="cartoon-panel bg-white p-5 sm:p-6 max-w-lg w-full space-y-4 max-h-[calc(100dvh-2rem)] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <h4 className="font-black text-slate-800 text-lg text-center">
-                  {modeSelectInfo.icon} {modeSelectInfo.label} — Chọn Chế Độ Học
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {(['flashcard', 'matching', 'fill_in'] as StudyMode[]).map((m) => {
-                    const meta = MODE_META[m]
-                    const Icon = meta.icon
-                    return (
-                      <button
-                        key={m}
-                        onClick={() => {
-                          // Any mode on a topic that already has learned words *in that
-                          // same mode*: ask "new words" vs "review learned words" first,
-                          // instead of assuming new-words-only (see learnStyleTopicKey
-                          // modal below) — otherwise a topic fully drilled in this mode
-                          // has an empty "new words" pool and nothing to do.
-                          if (modeLearnedCount(modeSelectInfo, m) > 0) {
-                            setLearnStyleMode(m)
-                            setLearnStyleTopicKey(modeSelectInfo.topicKey)
-                            setModeSelectTopicKey(null)
-                            return
-                          }
-                          setActiveMode(m)
-                          setReviewMode(false)
-                          setFillInUnknownReviewMode(false)
-                          setUnknownReviewMode(false)
-                          setPendingTopicKey(modeSelectInfo.topicKey)
-                          setModeSelectTopicKey(null)
-                          const rem = modePoolTotal(modeSelectInfo, m) - modeLearnedCount(modeSelectInfo, m)
-                          setStageSizeChoice(Math.min(Math.max(rem, 1), DEFAULT_STAGE_SIZE))
-                          setCustomStageSize('')
-                        }}
-                        className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5"
-                      >
-                        <Icon className="w-8 h-8 mx-auto text-blue-500" />
-                        <p className="font-black text-slate-700 text-sm">{meta.label}</p>
-                        <p className="text-[11px] text-slate-400 font-semibold leading-snug">{meta.desc}</p>
-                      </button>
-                    )
-                  })}
-                </div>
-                {/* Retry pools, same entry points as /review-dictionary's mode modal. */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <button
-                    disabled={modeSelectInfo.unknownCount === 0}
-                    onClick={() => {
-                      setActiveMode('flashcard')
-                      setReviewMode(true)
-                      setUnknownReviewMode(true)
-                      setFillInUnknownReviewMode(false)
-                      setPendingTopicKey(modeSelectInfo.topicKey)
-                      setModeSelectTopicKey(null)
-                      setStageSizeChoice(Math.min(Math.max(modeSelectInfo.unknownCount, 1), DEFAULT_STAGE_SIZE))
-                      setCustomStageSize('')
-                    }}
-                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    <AlertTriangle className="w-8 h-8 mx-auto text-amber-500" />
-                    <p className="font-black text-slate-700 text-sm">Học Từ Không Biết</p>
-                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
-                      {modeSelectInfo.unknownCount > 0
-                        ? `Ôn lại ${modeSelectInfo.unknownCount} từ đã đánh dấu "không biết"`
-                        : 'Chưa có từ nào bị đánh dấu "không biết"'}
-                    </p>
-                  </button>
-                  <button
-                    disabled={modeSelectInfo.fillInUnknownCount === 0}
-                    onClick={() => {
-                      setActiveMode('fill_in')
-                      setReviewMode(true)
-                      setUnknownReviewMode(false)
-                      setFillInUnknownReviewMode(true)
-                      setPendingTopicKey(modeSelectInfo.topicKey)
-                      setModeSelectTopicKey(null)
-                      setStageSizeChoice(Math.min(Math.max(modeSelectInfo.fillInUnknownCount, 1), DEFAULT_STAGE_SIZE))
-                      setCustomStageSize('')
-                    }}
-                    className="cartoon-card cursor-pointer p-4 bg-white text-center space-y-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    <Keyboard className="w-8 h-8 mx-auto text-amber-500" />
-                    <p className="font-black text-slate-700 text-sm">Điền Từ Chưa Xong</p>
-                    <p className="text-[11px] text-slate-400 font-semibold leading-snug">
-                      {modeSelectInfo.fillInUnknownCount > 0
-                        ? `Ôn lại ${modeSelectInfo.fillInUnknownCount} từ đã điền sai hoặc chưa xong`
-                        : 'Chưa có từ nào bị điền sai/chưa xong'}
-                    </p>
-                  </button>
-                </div>
-                <button
-                  onClick={() => setModeSelectTopicKey(null)}
-                  className="cursor-pointer text-xs font-bold text-slate-400 hover:text-slate-600 block mx-auto"
-                >
-                  Hủy
-                </button>
-              </div>
             </div>
           )}
 
@@ -1997,7 +2109,7 @@ export default function VocabularyByTopicPage() {
                   }}
                   className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
                 >
-                  Quay Lại Chọn Chủ Đề
+                  {modeSelectTopicKey ? 'Quay Lại Chủ Đề' : 'Quay Lại Chọn Chủ Đề'}
                 </button>
               </div>
             ) : topicFullyComplete ? (
@@ -2012,7 +2124,7 @@ export default function VocabularyByTopicPage() {
                   onClick={() => { setStep('select'); loadTopicInfosForLevel(level) }}
                   className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
                 >
-                  Quay Lại Chọn Chủ Đề
+                  {modeSelectTopicKey ? 'Quay Lại Chủ Đề' : 'Quay Lại Chọn Chủ Đề'}
                 </button>
               </div>
             ) : (
@@ -2024,7 +2136,7 @@ export default function VocabularyByTopicPage() {
                   onClick={() => { setStep('select'); loadTopicInfosForLevel(level) }}
                   className="cartoon-btn cartoon-btn-secondary w-full py-3 text-sm"
                 >
-                  Quay Lại Chọn Chủ Đề
+                  {modeSelectTopicKey ? 'Quay Lại Chủ Đề' : 'Quay Lại Chọn Chủ Đề'}
                 </button>
               </div>
             )}

@@ -1751,6 +1751,21 @@ no single topic row under the `'__group__'` sentinel. The 2nd+-chain-batch
 `persistProgressAdvance` reconcile fix from `/textbook` was ported here at the same
 time (still missing on `/full-dictionary`/`/tocfl-dictionary`).
 
+## `/vocabulary-by-topic` topic detail view (word list like `/textbook`)
+
+Clicking a topic card no longer opens the mode-select **modal** — it opens an inline
+detail view (same layout as `/textbook`'s lesson screen): Row 1 = Flashcard/Nối Từ/
+Điền Từ cards with per-mode progress rings, Row 1b = "Học Từ Không Biết"/"Điền Từ Chưa
+Xong" retry buttons, Row 2 = the topic's full word list via the shared `WordCardList`
+(search + `Pagination`, 24/page, ordered by `order_index`). The old modal's button
+handlers were moved over verbatim (minus `setModeSelectTopicKey(null)`) —
+`modeSelectTopicKey` now means "topic whose detail view is open", and it is kept set
+while the size chooser / a session runs, so "Quay lại" on the size chooser and "Quay
+Lại Chủ Đề" on the completion screen land back on that topic's detail view, not the
+grid. The New-vs-Review `learnStyleTopicKey` sub-modal is unchanged. Group review
+("Chọn Nhóm Chủ Đề") is still only on the grid; in group-pick mode a card click toggles
+selection instead of opening the detail view.
+
 ---
 
 **Rule for future sessions:** when you finish a task in this repo, update this file
