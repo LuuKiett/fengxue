@@ -12,6 +12,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import { shuffleArray } from '@/lib/utils/shuffle'
+import { mergeCompletedWordOrder } from '@/lib/utils/progressMerge'
 import { stripTones } from '@/lib/utils/pinyin'
 import { TEXTBOOK_BOOKS, TEXTBOOK_LESSONS, lessonsForBook, type TextbookSource } from '@/lib/utils/textbookLessons'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
@@ -597,7 +598,9 @@ export default function TextbookPage() {
     setStep(mode)
   }
 
-  const persistProgressAdvance = async (mode: StudyMode, lessonId: number, count: number): Promise<boolean> => {
+  // `doneIds` (Matching/Điền Từ only): the words actually completed this session —
+  // every stage word for Matching, only the correctly-filled ones for Điền Từ.
+  const persistProgressAdvance = async (mode: StudyMode, lessonId: number, count: number, doneIds?: string[]): Promise<boolean> => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return false
@@ -665,19 +668,16 @@ export default function TextbookPage() {
         // — see KNOWLEDGE.md's "Điền Từ/Nối Từ progress not saving on later chain
         // batches" note).
         const parentProgress = await fetchProgressRow(user.id, lessonId, 'flashcard')
-        const learnedIds = getModePoolIds(parentProgress, mode)
-        const stageWordIds = stageWords.map((w) => w.id)
-        const previouslyDone: string[] = progress
-          ? progress.word_order.slice(0, progress.current_index).filter((id: string) => learnedIds.includes(id))
-          : []
-        const newCompletedIds = [...previouslyDone, ...stageWordIds.filter((id) => !previouslyDone.includes(id))]
-        const remainingIds = learnedIds.filter((id) => !newCompletedIds.includes(id))
-        const wordOrder = [...newCompletedIds, ...shuffleArray(remainingIds)]
+        const { wordOrder, currentIndex } = mergeCompletedWordOrder(
+          progress,
+          getModePoolIds(parentProgress, mode),
+          doneIds ?? stageWords.map((w) => w.id)
+        )
 
         const { data: upserted } = await supabase
           .from('textbook_vocab_progress')
           .upsert(
-            { user_id: user.id, lesson_id: lessonId, mode, word_order: wordOrder, current_index: newCompletedIds.length, updated_at: new Date().toISOString() },
+            { user_id: user.id, lesson_id: lessonId, mode, word_order: wordOrder, current_index: currentIndex, updated_at: new Date().toISOString() },
             { onConflict: 'user_id,lesson_id,mode' }
           )
           .select('word_order, current_index')
@@ -898,13 +898,18 @@ export default function TextbookPage() {
     progressAdvancedRef.current = true
 
     if (reviewMode) {
+      // Review sessions don't advance stages, but a word filled in correctly here
+      // (e.g. an "Điền Từ Chưa Xong" retry) still counts as learned in Điền Từ.
+      if (result.correctIds.length > 0) await persistProgressAdvance('fill_in', selectedLessonId, 0, result.correctIds)
       setLessonFullyComplete(false)
       setStep('complete')
       progressAdvancedRef.current = false
       return
     }
 
-    const fullyComplete = await persistProgressAdvance('fill_in', selectedLessonId, stageWords.length)
+    // Only correctly-filled words count as learned; wrong/unanswered ones stay in the
+    // remaining pool (and the "Điền Từ Chưa Xong" pool) until answered right.
+    const fullyComplete = await persistProgressAdvance('fill_in', selectedLessonId, stageWords.length, result.correctIds)
     setLessonFullyComplete(fullyComplete)
     setStep('complete')
     if (fullyComplete) triggerGrandConfetti()

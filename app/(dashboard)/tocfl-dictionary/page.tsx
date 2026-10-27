@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import { shuffleArray } from '@/lib/utils/shuffle'
+import { mergeCompletedWordOrder } from '@/lib/utils/progressMerge'
 import { stripTones } from '@/lib/utils/pinyin'
 import { sortLevels, LEVEL_ORDER } from '@/lib/utils/dictionaryLevels'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
@@ -492,7 +493,10 @@ export default function TocflDictionaryPage() {
     setStep(mode)
   }
 
-  const persistProgressAdvance = async (mode: StudyMode, lvl: string, count: number): Promise<boolean> => {
+  // `doneIds` (Matching/Điền Từ only): the words actually completed this session —
+  // every stage word for Matching, only the correctly-filled ones for Điền Từ — so a
+  // word is recorded as learned in that mode only once it's really been done right.
+  const persistProgressAdvance = async (mode: StudyMode, lvl: string, count: number, doneIds?: string[]): Promise<boolean> => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return false
@@ -508,9 +512,8 @@ export default function TocflDictionaryPage() {
       let finalIndex = 0
       let finalOrderLength = 0
 
-      if (!progress) {
-        // Initialize progress if it doesn't exist (e.g. during chainMode)
-        if (mode === 'flashcard') {
+      if (mode === 'flashcard') {
+        if (!progress) {
           const allWords = await fetchAllRows<{ id: string }>((from, to) =>
             supabase
               .from('tocfl8000_words')
@@ -519,8 +522,7 @@ export default function TocflDictionaryPage() {
               .order('order_index', { ascending: true })
               .range(from, to)
           )
-          const allIds = allWords.map((w) => w.id)
-          const wordOrder = shuffleArray(allIds)
+          const wordOrder = shuffleArray(allWords.map((w) => w.id))
           const { data: upserted } = await supabase
             .from('tocfl8000_progress')
             .upsert(
@@ -529,49 +531,50 @@ export default function TocflDictionaryPage() {
             )
             .select('word_order, current_index')
             .single()
-          
           if (upserted) {
             finalIndex = upserted.current_index
             finalOrderLength = upserted.word_order.length
           }
         } else {
-          const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
-          const learnedIds = getKnownIds(parentProgress)
-          const stageWordIds = stageWords.map((w) => w.id)
-          const remainingIds = learnedIds.filter((id) => !stageWordIds.includes(id))
-          const wordOrder = [...stageWordIds, ...shuffleArray(remainingIds)]
-          
-          const { data: upserted } = await supabase
+          const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
+          await supabase
             .from('tocfl8000_progress')
-            .upsert(
-              { user_id: user.id, level: lvl, mode, word_order: wordOrder, current_index: count, updated_at: new Date().toISOString() },
-              { onConflict: 'user_id,level,mode' }
-            )
-            .select('word_order, current_index')
-            .single()
-
-          if (upserted) {
-            finalIndex = upserted.current_index
-            finalOrderLength = upserted.word_order.length
-          }
+            .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .eq('level', lvl)
+            .eq('mode', mode)
+          finalIndex = newIndex
+          finalOrderLength = progress.word_order.length
         }
       } else {
-        const newIndex = Math.min(progress.current_index + count, progress.word_order.length)
-        await supabase
+        // Matching/fill_in: always reconcile against the live known-in-flashcard pool
+        // (see mergeCompletedWordOrder) — a 2nd+ chained batch is NOT already present
+        // in an older row's word_order, so the old `current_index + count` cap
+        // silently dropped it (same bug /textbook fixed earlier).
+        const parentProgress = await fetchProgressRow(user.id, lvl, 'flashcard')
+        const { wordOrder, currentIndex } = mergeCompletedWordOrder(
+          progress,
+          getKnownIds(parentProgress),
+          doneIds ?? stageWords.map((w) => w.id)
+        )
+        const { data: upserted } = await supabase
           .from('tocfl8000_progress')
-          .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-          .eq('user_id', user.id)
-          .eq('level', lvl)
-          .eq('mode', mode)
-        
-        finalIndex = newIndex
-        finalOrderLength = progress.word_order.length
+          .upsert(
+            { user_id: user.id, level: lvl, mode, word_order: wordOrder, current_index: currentIndex, updated_at: new Date().toISOString() },
+            { onConflict: 'user_id,level,mode' }
+          )
+          .select('word_order, current_index')
+          .single()
+        if (upserted) {
+          finalIndex = upserted.current_index
+          finalOrderLength = upserted.word_order.length
+        }
       }
 
       setLevelInfos((prev) =>
         prev.map((l) => {
           if (l.level !== lvl) return l
-          if (mode === 'flashcard') return { ...l, learnedFlashcard: finalIndex }
+          if (mode === 'flashcard') return { ...l, learnedFlashcard: finalIndex, knownFlashcard: finalIndex - l.unknownCount }
           if (mode === 'matching') return { ...l, learnedMatching: finalIndex }
           return { ...l, learnedFillIn: finalIndex }
         })
@@ -777,13 +780,18 @@ export default function TocflDictionaryPage() {
     progressAdvancedRef.current = true
 
     if (reviewMode) {
+      // Review sessions don't advance stages, but a word filled in correctly here
+      // (e.g. an "Điền Từ Chưa Xong" retry) still counts as learned in Điền Từ.
+      if (result.correctIds.length > 0) await persistProgressAdvance('fill_in', selectedLevel, 0, result.correctIds)
       setLevelFullyComplete(false)
       setStep('complete')
       progressAdvancedRef.current = false
       return
     }
 
-    const fullyComplete = await persistProgressAdvance('fill_in', selectedLevel, stageWords.length)
+    // Only correctly-filled words count as learned; wrong/unanswered ones stay in the
+    // remaining pool (and the "Điền Từ Chưa Xong" pool) until answered right.
+    const fullyComplete = await persistProgressAdvance('fill_in', selectedLevel, stageWords.length, result.correctIds)
     setLevelFullyComplete(fullyComplete)
     setStep('complete')
     if (fullyComplete) triggerGrandConfetti()

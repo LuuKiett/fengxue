@@ -1559,13 +1559,8 @@ option look exhausted and pushing the student into the review dead-end. Now upda
 `knownFlashcard: finalIndex - l.unknownCount` alongside `learnedFlashcard`, matching the
 same formula `loadLessonInfos`/`persistUnknownState` already use.
 
-**Not yet ported to the 3 sibling pages that share this exact `persistProgressAdvance`
-shape** (`/full-dictionary`, `/tocfl-dictionary`, `/vocabulary-by-topic`) — confirmed via
-grep that all 3 have the identical `Math.min(progress.current_index + count,
-progress.word_order.length)` line and the identical missing-`knownFlashcard`-update gap,
-so they very likely have the same latent bug for any lesson/level/topic large enough to
-need more than one Flashcard→Matching→Điền Từ chain batch. Apply the same fix there if
-this is reported again on those pages.
+**Now ported to every sibling page** — see "Nối Từ/Điền Từ progress = words actually
+done right" below.
 
 ## `/textbook` Flashcard now studies in dictionary order, not shuffled
 
@@ -1765,6 +1760,31 @@ Lại Chủ Đề" on the completion screen land back on that topic's detail vie
 grid. The New-vs-Review `learnStyleTopicKey` sub-modal is unchanged. Group review
 ("Chọn Nhóm Chủ Đề") is still only on the grid; in group-pick mode a card click toggles
 selection instead of opening the detail view.
+
+
+## Nối Từ/Điền Từ progress = words actually done right (`lib/utils/progressMerge.ts`)
+
+Bug report: after Flashcard, Điền Từ results "didn't save" on the dictionary pages.
+Cause: `/full-dictionary` and `/tocfl-dictionary` still had the 2nd+-chain-batch bug
+(`current_index + count` capped at an old, already-exhausted `word_order`), see the
+`/textbook` note above. Per explicit user request the mechanism was also changed:
+
+- **Matching/fill_in progress on all 5 pages** (`/review-dictionary` fill_in,
+  `/full-dictionary`, `/tocfl-dictionary`, `/vocabulary-by-topic`, `/textbook`) now goes
+  through the shared `mergeCompletedWordOrder(prevRow, poolIds, doneIds)` helper:
+  `word_order = [prior completed prefix ∩ pool] + [doneIds ∩ pool] + shuffled rest`,
+  `current_index = completed count`. Always reconciled against the freshly-fetched
+  flashcard pool, so chained batches can never be dropped.
+- **Điền Từ only records `result.correctIds` as learned** (previously the whole stage
+  advanced regardless of correctness). Wrong/unanswered words stay in the remainder, so
+  they reappear in later stages, and they're still queued in "Điền Từ Chưa Xong".
+  Matching passes every stage word (a round only finishes once all are matched).
+- **Review submits also save correct Điền Từ answers** (`persistProgressAdvance(...,
+  0, correctIds)` in the `reviewMode` branch; `/review-dictionary`'s
+  `handleFillInUnknownReviewSubmit`), so fixing a word via "Điền Từ Chưa Xong" marks it
+  learned. Skipped for `/vocabulary-by-topic` group sessions (no single topic row).
+- `/full-dictionary`/`/tocfl-dictionary`/`/review-dictionary` flashcard advance now also
+  updates `knownFlashcard` in local state (same gap `/textbook` fixed earlier).
 
 ---
 

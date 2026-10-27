@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { shuffleArray } from '@/lib/utils/shuffle'
+import { mergeCompletedWordOrder } from '@/lib/utils/progressMerge'
 import { sortLevels, LEVEL_ORDER } from '@/lib/utils/dictionaryLevels'
 import { fetchAllRows } from '@/lib/utils/supabasePagination'
 import { ensureProfile } from '@/lib/utils/ensureProfile'
@@ -561,12 +562,15 @@ export default function ReviewDictionaryPage() {
 
   // Persists progress as soon as the flashcards for this stage are finished, so the
   // words are marked "done" and won't repeat even if the user exits during matching.
-  const persistProgressAdvance = async () => {
-    if (!activeLevel || progressAdvancedRef.current) return
+  // `fillInDoneIds` (Điền Từ only): the words filled in correctly this submit — only
+  // those are recorded as learned; wrong/unanswered ones stay in the remaining pool.
+  // Returns whether the level is now fully complete in the active mode.
+  const persistProgressAdvance = async (fillInDoneIds?: string[]): Promise<boolean> => {
+    if (!activeLevel || progressAdvancedRef.current) return levelFullyComplete
     progressAdvancedRef.current = true
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) return false
 
       const { data: progress } = await supabase
         .from('dictionary_progress')
@@ -576,17 +580,43 @@ export default function ReviewDictionaryPage() {
         .eq('mode', activeMode)
         .single()
 
-      if (!progress) return
+      if (!progress) return false
 
-      const newIndex = Math.min(progress.current_index + stageWords.length, progress.word_order.length)
-      await supabase
-        .from('dictionary_progress')
-        .update({ current_index: newIndex, updated_at: new Date().toISOString() })
-        .eq('user_id', user.id)
-        .eq('level', activeLevel)
-        .eq('mode', activeMode)
+      let newIndex: number
+      let orderLength: number
+      if (activeMode === 'fill_in') {
+        const { data: flashcardProgress } = await supabase
+          .from('dictionary_progress')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('level', activeLevel)
+          .eq('mode', 'flashcard')
+          .maybeSingle()
+        const { wordOrder, currentIndex } = mergeCompletedWordOrder(
+          progress,
+          getKnownIds(flashcardProgress),
+          fillInDoneIds ?? stageWords.map((w) => w.id)
+        )
+        await supabase
+          .from('dictionary_progress')
+          .update({ word_order: wordOrder, current_index: currentIndex, updated_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('level', activeLevel)
+          .eq('mode', 'fill_in')
+        newIndex = currentIndex
+        orderLength = wordOrder.length
+      } else {
+        newIndex = Math.min(progress.current_index + stageWords.length, progress.word_order.length)
+        orderLength = progress.word_order.length
+        await supabase
+          .from('dictionary_progress')
+          .update({ current_index: newIndex, updated_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('level', activeLevel)
+          .eq('mode', activeMode)
+      }
 
-      const fullyComplete = newIndex >= progress.word_order.length
+      const fullyComplete = newIndex >= orderLength
       setLevelFullyComplete(fullyComplete)
 
       setLevelInfos((prev) =>
@@ -594,12 +624,14 @@ export default function ReviewDictionaryPage() {
           l.level === activeLevel
             ? activeMode === 'fill_in'
               ? { ...l, learnedFillIn: newIndex }
-              : { ...l, learnedFlashcard: newIndex }
+              : { ...l, learnedFlashcard: newIndex, knownFlashcard: newIndex - l.unknownCount }
             : l
         )
       )
+      return fullyComplete
     } catch (err) {
       console.error('Lỗi khi lưu tiến độ:', err)
+      return false
     }
   }
 
@@ -731,13 +763,13 @@ export default function ReviewDictionaryPage() {
     }
   }
 
-  const finishStage = async () => {
+  const finishStage = async (fillInDoneIds?: string[]) => {
     // Progress was already persisted right after the flashcards finished (see
     // persistProgressAdvance) — this just shows the results screen. Call it again
     // defensively in case flashcards were somehow skipped (it's a no-op if already done).
-    await persistProgressAdvance()
+    const fullyComplete = await persistProgressAdvance(fillInDoneIds)
     setStep('complete')
-    if (levelFullyComplete) triggerGrandConfetti()
+    if (fullyComplete) triggerGrandConfetti()
   }
 
   // Wired as FillInExercise's onComplete for the normal (non-review) Điền Từ flow:
@@ -762,7 +794,7 @@ export default function ReviewDictionaryPage() {
     fillInUnknownResolvedRef.current = resolved
     setFillInUnknownRemaining(ids.length)
     await persistFillInUnknownState(ids, resolved)
-    await finishStage()
+    await finishStage(result.correctIds)
   }
 
   // Wired as FillInExercise's onComplete during a fill-in "Điền Từ Chưa Xong" review
@@ -782,6 +814,9 @@ export default function ReviewDictionaryPage() {
     fillInUnknownResolvedRef.current = resolved
     setFillInUnknownRemaining(ids.length)
     await persistFillInUnknownState(ids, resolved)
+    // Words answered correctly on retry now count as learned in Điền Từ too (they were
+    // left out of the completed prefix when first answered wrong).
+    if (result.correctIds.length > 0) await persistProgressAdvance(result.correctIds)
     setStep('complete')
   }
 
