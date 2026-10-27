@@ -1782,7 +1782,14 @@ Cause: `/full-dictionary` and `/tocfl-dictionary` still had the 2nd+-chain-batch
 - **Review submits also save correct Điền Từ answers** (`persistProgressAdvance(...,
   0, correctIds)` in the `reviewMode` branch; `/review-dictionary`'s
   `handleFillInUnknownReviewSubmit`), so fixing a word via "Điền Từ Chưa Xong" marks it
-  learned. Skipped for `/vocabulary-by-topic` group sessions (no single topic row).
+  learned.
+- **`/vocabulary-by-topic` group sessions ("Ôn Tập Nhóm Chủ Đề") now save too**: bug
+  report "điền xong thì reset về 0" — group Nối Từ/Điền Từ used to write nothing (the
+  `'__group__'` sentinel has no row). `startGroupReview` now records each picked word's
+  `topic_key` in `groupWordTopicRef`, and `persistGroupResult(mode, correct, incorrect)`
+  splits results per topic → `persistProgressAdvance(mode, topic, 0, correct)` (+ for
+  fill_in, merges that topic's "Điền Từ Chưa Xong" pool). Group Flashcard still doesn't
+  persist Biết/Không Biết.
 - `/full-dictionary`/`/tocfl-dictionary`/`/review-dictionary` flashcard advance now also
   updates `knownFlashcard` in local state (same gap `/textbook` fixed earlier).
 

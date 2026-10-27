@@ -259,8 +259,8 @@ export default function VocabularyByTopicPage() {
   // Cross-topic "Ôn Tập Nhóm Chủ Đề" — lets a student pick several topics at once and
   // review a random shuffle of words already learned via Flashcard across all of them,
   // in whichever of the 3 study modes they pick. Fully separate from the per-topic flow
-  // above: it never touches `topic_vocabulary_progress` (same "review, no persistence"
-  // contract as the single-topic `reviewMode` above), it just reuses reviewMode=true +
+  // above: it doesn't advance any Flashcard progress (Nối Từ/Điền Từ results are saved
+  // per word's own topic via persistGroupResult), it just reuses reviewMode=true +
   // chainMode=false + the existing stageWords/flashIdx/matchingRound state and the same
   // Flashcard/MatchingExercise/FillInExercise rendering, with `activeTopicKey` set to a
   // sentinel ('__group__') so the existing reviewMode guards (`if (!activeTopicKey)
@@ -273,6 +273,9 @@ export default function VocabularyByTopicPage() {
   const [groupStageSizeChoice, setGroupStageSizeChoice] = useState<number>(DEFAULT_STAGE_SIZE)
   const [groupCustomStageSize, setGroupCustomStageSize] = useState('')
   const [groupSessionActive, setGroupSessionActive] = useState(false)
+  // wordId -> topic_key for the current group session, so Nối Từ/Điền Từ results can
+  // be saved back into each word's own topic progress rows (see persistGroupResult).
+  const groupWordTopicRef = useRef<Record<string, string>>({})
 
   const progressAdvancedRef = useRef(false)
 
@@ -859,6 +862,13 @@ export default function VocabularyByTopicPage() {
     progressAdvancedRef.current = true
 
     if (reviewMode) {
+      if (groupSessionActive) {
+        try {
+          await persistGroupResult('matching', stageWords.map((w) => w.id), [])
+        } catch (err) {
+          console.error('Lỗi khi lưu tiến độ ôn tập nhóm:', err)
+        }
+      }
       setTopicFullyComplete(false)
       setStep('complete')
       progressAdvancedRef.current = false
@@ -909,8 +919,60 @@ export default function VocabularyByTopicPage() {
     }
   }
 
+  // Group sessions span several topics: split this session's results by each word's
+  // own topic and save them into that topic's matching/fill_in progress (+ the fill_in
+  // "Điền Từ Chưa Xong" pool), exactly like a single-topic session would.
+  const persistGroupResult = async (mode: 'matching' | 'fill_in', correctIds: string[], incorrectIds: string[]) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const wordTopic = groupWordTopicRef.current
+    const topics = [...new Set([...correctIds, ...incorrectIds].map((id) => wordTopic[id]).filter(Boolean))]
+    for (const topicKey of topics) {
+      const correct = correctIds.filter((id) => wordTopic[id] === topicKey)
+      const incorrect = incorrectIds.filter((id) => wordTopic[id] === topicKey)
+      // Upserts the row (creating it if needed) before the unknown-pool update below.
+      await persistProgressAdvance(mode, topicKey, 0, correct)
+      if (mode !== 'fill_in') continue
+
+      const { data: row } = await supabase
+        .from('topic_vocabulary_progress')
+        .select('unknown_word_ids, unknown_resolved_count')
+        .eq('user_id', user.id)
+        .eq('level', level)
+        .eq('topic_key', topicKey)
+        .eq('mode', 'fill_in')
+        .maybeSingle()
+      let ids: string[] = row?.unknown_word_ids || []
+      let resolved = row?.unknown_resolved_count || 0
+      for (const id of correct) {
+        if (ids.includes(id)) {
+          ids = ids.filter((x) => x !== id)
+          resolved += 1
+        }
+      }
+      for (const id of incorrect) {
+        if (!ids.includes(id)) ids = [...ids, id]
+      }
+      await persistFillInUnknownState(topicKey, ids, resolved)
+    }
+  }
+
   const handleFillInSubmit = async (result: FillInResult) => {
     if (!activeTopicKey) return
+
+    if (groupSessionActive) {
+      if (progressAdvancedRef.current) return
+      progressAdvancedRef.current = true
+      try {
+        await persistGroupResult('fill_in', result.correctIds, result.incorrectIds)
+      } catch (err) {
+        console.error('Lỗi khi lưu tiến độ ôn tập nhóm:', err)
+      }
+      setTopicFullyComplete(false)
+      setStep('complete')
+      progressAdvancedRef.current = false
+      return
+    }
 
     let ids = fillInUnknownIdsRef.current
     let resolved = fillInUnknownResolvedRef.current
@@ -1085,11 +1147,16 @@ export default function VocabularyByTopicPage() {
       const pickedIds = shuffleArray(allLearnedIds).slice(0, size)
       const { data: wordsData } = await supabase
         .from('topic_vocabulary')
-        .select('id, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
+        .select('id, topic_key, hanzi, pinyin, vietnamese, example_hanzi, example_pinyin, example_vietnamese')
         .in('id', pickedIds)
 
       const byId: Record<string, TopicWord> = {}
-      for (const w of wordsData || []) byId[w.id] = w
+      const wordTopic: Record<string, string> = {}
+      for (const { topic_key, ...w } of wordsData || []) {
+        byId[w.id] = w
+        wordTopic[w.id] = topic_key
+      }
+      groupWordTopicRef.current = wordTopic
       const ordered = shuffleArray(pickedIds.map((id) => byId[id]).filter(Boolean))
 
       setStageWords(ordered)
